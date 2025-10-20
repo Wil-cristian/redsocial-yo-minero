@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../shared/models/user.dart';
 import '../core/theme/colors.dart';
-import '../core/theme/glass_card.dart';
+import '../core/auth/auth_service.dart';
 
 class EditProfilePage extends StatefulWidget {
   final User user;
@@ -33,7 +33,6 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   // Form data
   ExperienceLevel _experienceLevel = ExperienceLevel.beginner;
   List<MiningSpecialization> _selectedSpecializations = [];
-  List<String> _languages = [];
   List<String> _interests = [];
   DateTime? _birthDate;
   
@@ -62,7 +61,6 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
     
     _experienceLevel = user.experienceLevel;
     _selectedSpecializations = List.from(user.specializations);
-    _languages = List.from(user.languages);
     _interests = List.from(user.interests);
     _birthDate = user.birthDate;
   }
@@ -71,161 +69,357 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Editar Perfil'),
-        elevation: 0,
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
-          indicatorColor: Colors.white,
-          tabs: const [
-            Tab(text: 'Básico', icon: Icon(Icons.person)),
-            Tab(text: 'Profesional', icon: Icon(Icons.work)),
-            Tab(text: 'Ubicación', icon: Icon(Icons.location_on)),
-            Tab(text: 'Preferencias', icon: Icon(Icons.settings)),
-          ],
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            expandedHeight: 280,
+            floating: false,
+            pinned: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.save, color: Colors.white),
+                  onPressed: _saveProfile,
+                ),
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColors.primary,
+                      AppColors.primary.withValues(alpha: 0.8),
+                      AppColors.primaryContainer,
+                    ],
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    // Decorative circles
+                    Positioned(
+                      top: -50,
+                      right: -50,
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withValues(alpha: 0.1),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: -100,
+                      left: -100,
+                      child: Container(
+                        width: 300,
+                        height: 300,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withValues(alpha: 0.05),
+                        ),
+                      ),
+                    ),
+                    // Content
+                    Positioned(
+                      bottom: 80,
+                      left: 0,
+                      right: 0,
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: _selectAvatar,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.white.withValues(alpha: 0.3),
+                                        Colors.white.withValues(alpha: 0.1),
+                                      ],
+                                    ),
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: Colors.white.withValues(alpha: 0.2),
+                                    backgroundImage: widget.user.avatarUrl != null 
+                                      ? NetworkImage(widget.user.avatarUrl!) 
+                                      : null,
+                                    child: widget.user.avatarUrl == null 
+                                      ? const Icon(Icons.person, size: 50, color: Colors.white)
+                                      : null,
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(alpha: 0.2),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: const Icon(
+                                      Icons.camera_alt,
+                                      color: AppColors.primary,
+                                      size: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Editar Perfil',
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Actualiza tu información personal',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Colors.white.withValues(alpha: 0.9),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(50),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
+                child: TabBar(
+                  controller: _tabController,
+                  labelColor: AppColors.primary,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: AppColors.primary,
+                  indicatorWeight: 3,
+                  tabs: const [
+                    Tab(text: 'Básico', icon: Icon(Icons.person_outline, size: 20)),
+                    Tab(text: 'Profesional', icon: Icon(Icons.work_outline, size: 20)),
+                    Tab(text: 'Ubicación', icon: Icon(Icons.location_on_outlined, size: 20)),
+                    Tab(text: 'Extras', icon: Icon(Icons.tune, size: 20)),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+        body: Container(
+          color: Colors.white,
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildBasicInfoTab(),
+              _buildProfessionalTab(),
+              _buildLocationTab(),
+              _buildPreferencesTab(),
+            ],
+          ),
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildBasicInfoTab(),
-          _buildProfessionalTab(),
-          _buildLocationTab(),
-          _buildPreferencesTab(),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _saveProfile,
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.save),
-        label: const Text('Guardar'),
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            colors: [
+              AppColors.primary,
+              AppColors.primary.withValues(alpha: 0.8),
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.3),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: FloatingActionButton.extended(
+          onPressed: _saveProfile,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          icon: const Icon(Icons.save, color: Colors.white),
+          label: const Text('Guardar Cambios', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        ),
       ),
     );
   }
 
   Widget _buildBasicInfoTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          // Avatar section
-          GlassCard(
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: AppColors.primaryContainer,
-                  backgroundImage: widget.user.avatarUrl != null 
-                    ? NetworkImage(widget.user.avatarUrl!) 
-                    : null,
-                  child: widget.user.avatarUrl == null 
-                    ? Icon(Icons.person, size: 50, color: AppColors.primary)
-                    : null,
-                ),
-                const SizedBox(height: 12),
-                ElevatedButton.icon(
-                  onPressed: _selectAvatar,
-                  icon: const Icon(Icons.camera_alt),
-                  label: const Text('Cambiar Foto'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryContainer,
-                    foregroundColor: AppColors.primary,
-                  ),
+          // Personal Information Section
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white,
+                  AppColors.primaryContainer.withValues(alpha: 0.1),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
                 ),
               ],
             ),
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Basic info form
-          GlassCard(
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Información Personal',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(Icons.person_outline, color: Colors.white, size: 24),
+                    ),
+                    const SizedBox(width: 16),
+                    Text(
+                      'Información Personal',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
                 
-                _buildTextField(
+                _buildElegantTextField(
                   controller: _nameController,
                   label: 'Nombre completo',
-                  icon: Icons.person_outline,
+                  icon: Icons.badge_outlined,
                 ),
                 
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 
-                _buildTextField(
+                _buildElegantTextField(
                   controller: _bioController,
                   label: 'Biografía',
                   icon: Icons.edit_note,
-                  maxLines: 3,
-                  hint: 'Cuéntanos sobre ti...',
+                  maxLines: 4,
+                  hint: 'Cuéntanos sobre ti, tus experiencias y objetivos...',
                 ),
                 
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 
-                _buildTextField(
+                _buildElegantTextField(
                   controller: _phoneController,
                   label: 'Teléfono',
                   icon: Icons.phone_outlined,
                   keyboardType: TextInputType.phone,
                 ),
                 
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 
-                // Birth date picker
-                ListTile(
-                  leading: Icon(Icons.cake_outlined, color: AppColors.primary),
-                  title: Text(_birthDate != null 
-                    ? 'Fecha de nacimiento: ${_birthDate!.day}/${_birthDate!.month}/${_birthDate!.year}'
-                    : 'Seleccionar fecha de nacimiento'),
-                  trailing: const Icon(Icons.arrow_forward_ios),
+                // Birth date picker with elegant design
+                GestureDetector(
                   onTap: _selectBirthDate,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: AppColors.outline.withValues(alpha: 0.3)),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade50,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.grey.shade200),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(Icons.cake_outlined, color: AppColors.primary, size: 20),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Fecha de nacimiento',
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                _birthDate != null 
+                                  ? '${_birthDate!.day}/${_birthDate!.month}/${_birthDate!.year}'
+                                  : 'Seleccionar fecha',
+                                style: TextStyle(
+                                  color: _birthDate != null ? Colors.black87 : Colors.grey.shade500,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(Icons.chevron_right, color: Colors.grey.shade400),
+                      ],
+                    ),
                   ),
-                ),
-                
-                const SizedBox(height: 16),
-                
-                // Languages selector
-                Text(
-                  'Idiomas',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  children: ['Español', 'Inglés', 'Portugués', 'Francés'].map((lang) {
-                    final isSelected = _languages.contains(lang.toLowerCase());
-                    return FilterChip(
-                      label: Text(lang),
-                      selected: isSelected,
-                      onSelected: (selected) {
-                        setState(() {
-                          if (selected) {
-                            _languages.add(lang.toLowerCase());
-                          } else {
-                            _languages.remove(lang.toLowerCase());
-                          }
-                        });
-                      },
-                    );
-                  }).toList(),
                 ),
               ],
             ),
@@ -237,115 +431,217 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
 
   Widget _buildProfessionalTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          GlassCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Información Profesional',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                
-                _buildTextField(
-                  controller: _professionController,
-                  label: 'Profesión',
-                  icon: Icons.work_outline,
-                  hint: 'ej. Ingeniero de Minas',
-                ),
-                
-                const SizedBox(height: 16),
-                
-                _buildTextField(
-                  controller: _companyController,
-                  label: 'Empresa',
-                  icon: Icons.business_outlined,
-                ),
-                
-                const SizedBox(height: 16),
-                
-                _buildTextField(
-                  controller: _jobTitleController,
-                  label: 'Cargo',
-                  icon: Icons.badge_outlined,
-                ),
-                
-                const SizedBox(height: 16),
-                
-                _buildTextField(
-                  controller: _websiteController,
-                  label: 'Sitio web',
-                  icon: Icons.language_outlined,
-                  hint: 'https://...',
-                ),
-                
-                const SizedBox(height: 16),
-                
-                // Experience level dropdown
-                DropdownButtonFormField<ExperienceLevel>(
-                  value: _experienceLevel,
-                  decoration: InputDecoration(
-                    labelText: 'Nivel de experiencia',
-                    prefixIcon: Icon(Icons.trending_up_outlined, color: AppColors.primary),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  items: ExperienceLevel.values.map((level) {
-                    return DropdownMenuItem(
-                      value: level,
-                      child: Text(_getExperienceLevelText(level)),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _experienceLevel = value;
-                      });
-                    }
-                  },
+          // Professional Information Section
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white,
+                  AppColors.primaryContainer.withValues(alpha: 0.1),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
                 ),
               ],
             ),
-          ),
-          
-          const SizedBox(height: 16),
-          
-          // Mining specializations
-          GlassCard(
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Especializaciones Mineras',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(Icons.work_outline, color: Colors.white, size: 24),
+                    ),
+                    const SizedBox(width: 16),
+                    Text(
+                      'Información Profesional',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                
+                _buildElegantTextField(
+                  controller: _professionController,
+                  label: 'Profesión',
+                  icon: Icons.badge_outlined,
+                  hint: 'ej. Ingeniero de Minas',
+                ),
+                
+                const SizedBox(height: 20),
+                
+                _buildElegantTextField(
+                  controller: _companyController,
+                  label: 'Empresa',
+                  icon: Icons.business_outlined,
+                  hint: 'ej. MinCorp S.A.',
+                ),
+                
+                const SizedBox(height: 20),
+                
+                _buildElegantTextField(
+                  controller: _jobTitleController,
+                  label: 'Cargo',
+                  icon: Icons.assignment_ind_outlined,
+                  hint: 'ej. Jefe de Operaciones',
+                ),
+                
+                const SizedBox(height: 20),
+                
+                _buildElegantTextField(
+                  controller: _websiteController,
+                  label: 'Sitio Web',
+                  icon: Icons.language,
+                  hint: 'ej. www.miempresa.com',
+                  keyboardType: TextInputType.url,
+                ),
+                
+                const SizedBox(height: 24),
+                
+                // Experience Level Selector
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(Icons.trending_up, color: AppColors.primary, size: 20),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            'Nivel de Experiencia',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      ...ExperienceLevel.values.map((level) => Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        child: RadioListTile<ExperienceLevel>(
+                          value: level,
+                          groupValue: _experienceLevel,
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() {
+                                _experienceLevel = value;
+                              });
+                            }
+                          },
+                          title: Text(
+                            _getExperienceLevelText(level),
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          activeColor: AppColors.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      )),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: MiningSpecialization.values.map((spec) {
-                    final isSelected = _selectedSpecializations.contains(spec);
-                    return FilterChip(
-                      label: Text(_getSpecializationText(spec)),
-                      selected: isSelected,
-                      onSelected: (selected) {
-                        setState(() {
-                          if (selected) {
-                            _selectedSpecializations.add(spec);
-                          } else {
-                            _selectedSpecializations.remove(spec);
-                          }
-                        });
-                      },
-                    );
-                  }).toList(),
+                
+                const SizedBox(height: 24),
+                
+                // Specializations Section
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(Icons.science_outlined, color: AppColors.primary, size: 20),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            'Especializaciones',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: MiningSpecialization.values.map((spec) {
+                          final isSelected = _selectedSpecializations.contains(spec);
+                          return FilterChip(
+                            label: Text(_getSpecializationText(spec)),
+                            selected: isSelected,
+                            onSelected: (selected) {
+                              setState(() {
+                                if (selected) {
+                                  _selectedSpecializations.add(spec);
+                                } else {
+                                  _selectedSpecializations.remove(spec);
+                                }
+                              });
+                            },
+                            backgroundColor: Colors.white,
+                            selectedColor: AppColors.primary.withValues(alpha: 0.2),
+                            checkmarkColor: AppColors.primary,
+                            labelStyle: TextStyle(
+                              color: isSelected ? AppColors.primary : Colors.grey.shade700,
+                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -357,71 +653,116 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
 
   Widget _buildLocationTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          GlassCard(
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white,
+                  AppColors.primaryContainer.withValues(alpha: 0.1),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Ubicación',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                
-                _buildTextField(
-                  controller: _addressController,
-                  label: 'Dirección',
-                  icon: Icons.home_outlined,
-                  maxLines: 2,
-                ),
-                
-                const SizedBox(height: 16),
-                
                 Row(
                   children: [
-                    Expanded(
-                      child: _buildTextField(
-                        controller: _cityController,
-                        label: 'Ciudad',
-                        icon: Icons.location_city_outlined,
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
                       ),
+                      child: const Icon(Icons.location_on_outlined, color: Colors.white, size: 24),
                     ),
                     const SizedBox(width: 16),
-                    Expanded(
-                      child: _buildTextField(
-                        controller: _stateController,
-                        label: 'Estado/Región',
-                        icon: Icons.map_outlined,
+                    Text(
+                      'Ubicación',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 24),
                 
-                const SizedBox(height: 16),
+                _buildElegantTextField(
+                  controller: _addressController,
+                  label: 'Dirección',
+                  icon: Icons.home_outlined,
+                  maxLines: 2,
+                  hint: 'Dirección completa de tu residencia',
+                ),
                 
-                _buildTextField(
+                const SizedBox(height: 20),
+                
+                _buildElegantTextField(
+                  controller: _cityController,
+                  label: 'Ciudad',
+                  icon: Icons.location_city_outlined,
+                ),
+                
+                const SizedBox(height: 20),
+                
+                _buildElegantTextField(
+                  controller: _stateController,
+                  label: 'Estado/Región',
+                  icon: Icons.map_outlined,
+                ),
+                
+                const SizedBox(height: 20),
+                
+                _buildElegantTextField(
                   controller: _countryController,
                   label: 'País',
                   icon: Icons.public_outlined,
                 ),
                 
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
                 
                 // Get current location button
-                SizedBox(
+                Container(
                   width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [AppColors.primaryContainer, AppColors.primaryContainer.withValues(alpha: 0.7)],
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   child: ElevatedButton.icon(
                     onPressed: _getCurrentLocation,
-                    icon: const Icon(Icons.my_location),
-                    label: const Text('Usar ubicación actual'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryContainer,
-                      foregroundColor: AppColors.primary,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    icon: Icon(Icons.my_location, color: AppColors.primary),
+                    label: Text(
+                      'Usar ubicación actual',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -435,51 +776,93 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
 
   Widget _buildPreferencesTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          GlassCard(
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white,
+                  AppColors.primaryContainer.withValues(alpha: 0.1),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Intereses',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(Icons.tune, color: Colors.white, size: 24),
+                    ),
+                    const SizedBox(width: 16),
+                    Text(
+                      'Intereses y Preferencias',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
                 
                 Text(
                   'Selecciona tus áreas de interés para recibir sugerencias personalizadas',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textSecondary,
+                    color: Colors.grey.shade600,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 20),
                 
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    'seguridad', 'maquinaria', 'geología', 'topografía', 
-                    'procesamiento', 'medio ambiente', 'logística', 'tecnología',
-                    'mantenimiento', 'capacitación', 'innovación', 'sustentabilidad'
+                    'Seguridad Minera', 'Maquinaria Pesada', 'Geología', 'Topografía', 
+                    'Procesamiento', 'Medio Ambiente', 'Logística', 'Tecnología',
+                    'Mantenimiento', 'Capacitación', 'Innovación', 'Sustentabilidad',
+                    'Perforación', 'Voladura', 'Metalurgia', 'Gestión de Proyectos'
                   ].map((interest) {
-                    final isSelected = _interests.contains(interest);
+                    final isSelected = _interests.contains(interest.toLowerCase());
                     return FilterChip(
-                      label: Text(interest.substring(0, 1).toUpperCase() + interest.substring(1)),
+                      label: Text(interest),
                       selected: isSelected,
                       onSelected: (selected) {
                         setState(() {
                           if (selected) {
-                            _interests.add(interest);
+                            _interests.add(interest.toLowerCase());
                           } else {
-                            _interests.remove(interest);
+                            _interests.remove(interest.toLowerCase());
                           }
                         });
                       },
+                      backgroundColor: Colors.white,
+                      selectedColor: AppColors.primary.withValues(alpha: 0.2),
+                      checkmarkColor: AppColors.primary,
+                      labelStyle: TextStyle(
+                        color: isSelected ? AppColors.primary : Colors.grey.shade700,
+                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                      ),
                     );
                   }).toList(),
                 ),
@@ -491,7 +874,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
     );
   }
 
-  Widget _buildTextField({
+  Widget _buildElegantTextField({
     required TextEditingController controller,
     required String label,
     required IconData icon,
@@ -499,22 +882,45 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
     int maxLines = 1,
     TextInputType? keyboardType,
   }) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        prefixIcon: Icon(icon, color: AppColors.primary),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: TextFormField(
+        controller: controller,
+        maxLines: maxLines,
+        keyboardType: keyboardType,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.primary, width: 2),
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          prefixIcon: Container(
+            margin: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: AppColors.primary, size: 20),
+          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          labelStyle: TextStyle(
+            color: Colors.grey.shade600,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+          hintStyle: TextStyle(
+            color: Colors.grey.shade400,
+            fontSize: 14,
+          ),
         ),
       ),
-      maxLines: maxLines,
-      keyboardType: keyboardType,
     );
   }
 
@@ -563,9 +969,13 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   }
 
   void _selectAvatar() {
-    // TODO: Implement image picker
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Función de selección de avatar en desarrollo')),
+      SnackBar(
+        content: const Text('Función de selección de avatar en desarrollo'),
+        backgroundColor: AppColors.primary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
     );
   }
 
@@ -575,6 +985,16 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
       initialDate: _birthDate ?? DateTime.now().subtract(const Duration(days: 365 * 25)),
       firstDate: DateTime(1950),
       lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+              primary: AppColors.primary,
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     
     if (picked != null) {
@@ -585,18 +1005,47 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   }
 
   void _getCurrentLocation() {
-    // TODO: Implement geolocation
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Función de geolocalización en desarrollo')),
+      SnackBar(
+        content: const Text('Función de geolocalización en desarrollo'),
+        backgroundColor: AppColors.primary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
     );
   }
 
   void _saveProfile() {
-    // TODO: Implement save functionality
+    // Update the current user using AuthService
+    final updatedUser = widget.user.copyWith(
+      name: _nameController.text.trim(),
+      bio: _bioController.text.trim().isNotEmpty ? _bioController.text.trim() : null,
+      phone: _phoneController.text.trim().isNotEmpty ? _phoneController.text.trim() : null,
+      profession: _professionController.text.trim().isNotEmpty ? _professionController.text.trim() : null,
+      company: _companyController.text.trim().isNotEmpty ? _companyController.text.trim() : null,
+      jobTitle: _jobTitleController.text.trim().isNotEmpty ? _jobTitleController.text.trim() : null,
+      website: _websiteController.text.trim().isNotEmpty ? _websiteController.text.trim() : null,
+      experienceLevel: _experienceLevel,
+      specializations: _selectedSpecializations,
+      interests: _interests,
+      birthDate: _birthDate,
+    );
+    
+    AuthService.instance.updateUser((_) => updatedUser);
+    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Perfil guardado exitosamente'),
+        content: Row(
+          children: [
+            Icon(Icons.check_circle, color: Colors.white),
+            const SizedBox(width: 12),
+            Text('¡Perfil actualizado exitosamente!'),
+          ],
+        ),
         backgroundColor: AppColors.success,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 2),
       ),
     );
     

@@ -13,6 +13,7 @@ class GlassCard extends StatelessWidget {
   final double opacity;
   final Border? border;
   final List<BoxShadow>? shadows;
+  final VoidCallback? onTap;
 
   const GlassCard({
     super.key,
@@ -25,11 +26,12 @@ class GlassCard extends StatelessWidget {
     this.opacity = 0.7,
     this.border,
     this.shadows,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    Widget content = Container(
       margin: margin,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
@@ -67,6 +69,15 @@ class GlassCard extends StatelessWidget {
         ),
       ),
     );
+
+    if (onTap != null) {
+      return GestureDetector(
+        onTap: onTap,
+        child: content,
+      );
+    }
+
+    return content;
   }
 }
 

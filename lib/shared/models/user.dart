@@ -1,7 +1,48 @@
 import 'dart:math' as math;
 import 'post.dart';
 
+// Legacy enum - mantener para compatibilidad
 enum UserRole { admin, vendor, customer }
+
+// Nuevo sistema de tipos de cuenta
+enum AccountType {
+  individual,  // 👤 Persona independiente - minero, técnico, ingeniero independiente
+  worker,      // � Trabajador empleado - depende de una empresa
+  company      // 🏢 Empresa minera, corporación - puede tener trabajadores
+}
+
+// Roles dentro de empresas
+enum CompanyRole {
+  owner,            // Dueño de la empresa
+  manager,          // Gerente/administrador
+  customer_service, // Atención al cliente
+  content_manager,  // Encargado de publicaciones
+  employee          // Empleado regular
+}
+
+// Información de grupo/empresa
+class OrganizationInfo {
+  final String? organizationName;     // Nombre del grupo/empresa
+  final String? organizationId;       // ID de la organización
+  final List<String> memberIds;       // IDs de miembros (para grupos)
+  final CompanyRole? companyRole;     // Rol en empresa (si aplica)
+  final String? department;           // Departamento (si aplica)
+  final List<String> permissions;     // Permisos específicos
+  
+  const OrganizationInfo({
+    this.organizationName,
+    this.organizationId,
+    this.memberIds = const [],
+    this.companyRole,
+    this.department,
+    this.permissions = const [],
+  });
+
+  // Getters de conveniencia
+  bool get canManageContent => permissions.contains('manage_content') || companyRole == CompanyRole.content_manager || companyRole == CompanyRole.owner;
+  bool get canManageMembers => permissions.contains('manage_members') || companyRole == CompanyRole.manager || companyRole == CompanyRole.owner;
+  bool get canViewAnalytics => permissions.contains('view_analytics') || companyRole == CompanyRole.manager || companyRole == CompanyRole.owner;
+}
 
 enum VerificationStatus { none, pending, verified }
 
@@ -201,7 +242,12 @@ class User {
   final String username;
   final String email;
   final String name;
-  final UserRole role;
+  
+  // Sistema de roles híbrido
+  final UserRole role;              // Legacy - mantener compatibilidad
+  final AccountType accountType;    // Nuevo sistema principal
+  final OrganizationInfo? organizationInfo; // Info de grupo/empresa
+  
   final String? avatarUrl;
   final String? phone;
   final String? bio;
@@ -247,7 +293,12 @@ class User {
     required this.username,
     required this.email,
     required this.name,
+    
+    // Sistema de roles híbrido
     this.role = UserRole.customer,
+    this.accountType = AccountType.individual,
+    this.organizationInfo,
+    
     this.avatarUrl,
     this.phone,
     this.bio,
@@ -420,4 +471,88 @@ class User {
         lastActiveAt: lastActiveAt ?? this.lastActiveAt,
         isOnline: isOnline ?? this.isOnline,
       );
+
+  // ==================== NUEVO SISTEMA DE ROLES ====================
+  
+  /// Retorna el nombre de display según el tipo de cuenta
+  String get accountDisplayName {
+    switch (accountType) {
+      case AccountType.individual:
+        return name;
+      case AccountType.worker:
+        return name; // Los trabajadores usan su nombre personal
+      case AccountType.company:
+        return organizationInfo?.organizationName ?? name;
+    }
+  }
+
+  /// Retorna el icono apropiado para el tipo de cuenta
+  String get accountIcon {
+    switch (accountType) {
+      case AccountType.individual:
+        return '👤';
+      case AccountType.worker:
+        return '�';
+      case AccountType.company:
+        return '🏢';
+    }
+  }
+
+  /// Indica si el usuario puede gestionar contenido
+  bool get canManageContent {
+    // Admin siempre puede
+    if (role == UserRole.admin) return true;
+    
+    // Individuales siempre pueden gestionar su propio contenido
+    if (accountType == AccountType.individual) return true;
+    
+    // Para grupos y empresas, depende de los permisos
+    return organizationInfo?.canManageContent ?? false;
+  }
+
+  /// Indica si el usuario puede gestionar miembros
+  bool get canManageMembers {
+    if (role == UserRole.admin) return true;
+    return organizationInfo?.canManageMembers ?? false;
+  }
+
+  /// Indica si el usuario puede ver analytics
+  bool get canViewAnalytics {
+    if (role == UserRole.admin) return true;
+    return organizationInfo?.canViewAnalytics ?? false;
+  }
+
+  /// Retorna el rol de display para mostrar en la UI
+  String get displayRole {
+    if (accountType == AccountType.company && organizationInfo?.companyRole != null) {
+      switch (organizationInfo!.companyRole!) {
+        case CompanyRole.owner:
+          return 'Propietario';
+        case CompanyRole.manager:
+          return 'Gerente';
+        case CompanyRole.customer_service:
+          return 'Atención al Cliente';
+        case CompanyRole.content_manager:
+          return 'Gestor de Contenido';
+        case CompanyRole.employee:
+          return 'Empleado';
+      }
+    }
+    
+    switch (accountType) {
+      case AccountType.individual:
+        return profession ?? 'Minero Independiente';
+      case AccountType.worker:
+        return 'Trabajador en ${organizationInfo?.organizationName ?? "Empresa"}';
+      case AccountType.company:
+        return 'Empresa';
+    }
+  }
+
+  /// Indica si es una cuenta verificada (basado en el tipo y otros factores)
+  bool get isVerifiedAccount {
+    return verificationStatus == VerificationStatus.verified ||
+           (accountType == AccountType.company && ratingCount > 10) ||
+           (accountType == AccountType.worker && organizationInfo != null);
+  }
 }

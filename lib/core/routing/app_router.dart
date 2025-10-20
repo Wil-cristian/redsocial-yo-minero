@@ -7,10 +7,12 @@ import '../../products_page.dart';
 import '../../services_page.dart';
 import '../../groups_page.dart';
 import '../../group_detail_page.dart';
-import '../../profile_page.dart';
+// import '../../profile_page.dart';
 import '../../post_detail_page.dart';
 import '../../product_detail_page.dart';
 import '../../service_detail_page.dart';
+import '../../manage_services_page.dart';
+import '../../manage_products_page.dart';
 import '../auth/auth_service.dart';
 
 /// Centralized route names
@@ -27,12 +29,14 @@ class AppRoutes {
   static const postDetail = '/post';
   static const productDetail = '/product';
   static const serviceDetail = '/service';
+  static const manageServices = '/manage-services';
+  static const manageProducts = '/manage-products';
 }
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AppRoutes.home:
-      return MaterialPageRoute(builder: (_) => const HomePage());
+      return MaterialPageRoute(builder: (_) => HomePage());
     case AppRoutes.login:
       return MaterialPageRoute(builder: (_) => const LoginPage());
     case AppRoutes.main:
@@ -55,10 +59,10 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.profile:
       final user = AuthService.instance.currentUser;
       if (user == null) {
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(builder: (_) => HomePage());
       }
       return MaterialPageRoute(
-          builder: (_) => ProfilePage(user: user, posts: const []));
+          builder: (_) => HomePage()); // ProfilePage(user: user, posts: const [])
     case AppRoutes.postDetail:
       if (settings.arguments == null) {
         return _error('Post no proporcionado');
@@ -79,6 +83,10 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (_) =>
               ServiceDetailPage(service: settings.arguments as dynamic));
+    case AppRoutes.manageServices:
+      return MaterialPageRoute(builder: (_) => const ManageServicesPage());
+    case AppRoutes.manageProducts:
+      return MaterialPageRoute(builder: (_) => const ManageProductsPage());
     default:
       return null;
   }

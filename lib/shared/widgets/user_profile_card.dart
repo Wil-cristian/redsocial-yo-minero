@@ -7,6 +7,7 @@ import '../../core/theme/glass_card.dart';
 class UserProfileCard extends StatelessWidget {
   final User user;
   final VoidCallback? onTap;
+  final VoidCallback? onPhoneTap;
   final bool showDistance;
   final double? distanceKm;
   final bool showRating;
@@ -17,6 +18,7 @@ class UserProfileCard extends StatelessWidget {
     super.key,
     required this.user,
     this.onTap,
+    this.onPhoneTap,
     this.showDistance = false,
     this.distanceKm,
     this.showRating = true,
@@ -46,7 +48,7 @@ class UserProfileCard extends StatelessWidget {
                 ? NetworkImage(user.avatarUrl!) 
                 : null,
               child: user.avatarUrl == null 
-                ? Icon(Icons.person, size: 30, color: AppColors.primary)
+                ? const Icon(Icons.person, size: 30, color: AppColors.primary)
                 : null,
             ),
             
@@ -73,7 +75,7 @@ class UserProfileCard extends StatelessWidget {
                         Container(
                           width: 8,
                           height: 8,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: AppColors.success,
                             shape: BoxShape.circle,
                           ),
@@ -85,7 +87,7 @@ class UserProfileCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       user.profession!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 14,
                       ),
@@ -96,12 +98,12 @@ class UserProfileCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Row(
                       children: [
-                        Icon(Icons.business, size: 14, color: AppColors.textSecondary),
+                        const Icon(Icons.business, size: 14, color: AppColors.textSecondary),
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
                             user.company!,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: AppColors.textSecondary,
                               fontSize: 12,
                             ),
@@ -124,11 +126,11 @@ class UserProfileCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.success, width: 1),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.verified, size: 14, color: AppColors.success),
-                    const SizedBox(width: 4),
+                    SizedBox(width: 4),
                     Text(
                       'Verificado',
                       style: TextStyle(
@@ -148,12 +150,12 @@ class UserProfileCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              Icon(Icons.location_on, size: 14, color: AppColors.textSecondary),
+              const Icon(Icons.location_on, size: 14, color: AppColors.textSecondary),
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
                   _getLocationText(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 12,
                   ),
@@ -164,15 +166,40 @@ class UserProfileCard extends StatelessWidget {
           ),
         ],
         
+        // Phone number
+        if (user.phone != null && user.phone!.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          GestureDetector(
+            onTap: onPhoneTap,
+            child: Row(
+              children: [
+                const Icon(Icons.phone, size: 14, color: AppColors.primary),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    user.phone!,
+                    style: TextStyle(
+                      color: onPhoneTap != null ? AppColors.primary : AppColors.textSecondary,
+                      fontSize: 12,
+                      decoration: onPhoneTap != null ? TextDecoration.underline : null,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+        
         // Experience level
         const SizedBox(height: 8),
         Row(
           children: [
-            Icon(Icons.trending_up, size: 14, color: AppColors.primary),
+            const Icon(Icons.trending_up, size: 14, color: AppColors.primary),
             const SizedBox(width: 4),
             Text(
               _getExperienceLevelText(user.experienceLevel),
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppColors.primary,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
@@ -182,7 +209,7 @@ class UserProfileCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 '${user.yearsOfExperience} años',
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 12,
                 ),
@@ -196,7 +223,7 @@ class UserProfileCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              Icon(Icons.star, size: 14, color: Colors.amber),
+              const Icon(Icons.star, size: 14, color: Colors.amber),
               const SizedBox(width: 4),
               Text(
                 user.ratingAvg.toStringAsFixed(1),
@@ -208,7 +235,7 @@ class UserProfileCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 '(${user.ratingCount} reviews)',
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 11,
                 ),
@@ -216,7 +243,7 @@ class UserProfileCard extends StatelessWidget {
               const Spacer(),
               Text(
                 '${user.completedJobsCount} trabajos',
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 11,
                 ),
@@ -240,7 +267,7 @@ class UserProfileCard extends StatelessWidget {
                 ),
                 child: Text(
                   _getSpecializationText(spec),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.primary,
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
@@ -256,7 +283,7 @@ class UserProfileCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             user.bio!,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.textSecondary,
               fontSize: 13,
             ),
@@ -279,7 +306,7 @@ class UserProfileCard extends StatelessWidget {
             ? NetworkImage(user.avatarUrl!) 
             : null,
           child: user.avatarUrl == null 
-            ? Icon(Icons.person, size: 20, color: AppColors.primary)
+            ? const Icon(Icons.person, size: 20, color: AppColors.primary)
             : null,
         ),
         
@@ -303,13 +330,13 @@ class UserProfileCard extends StatelessWidget {
                     ),
                   ),
                   if (user.verificationStatus == VerificationStatus.verified)
-                    Icon(Icons.verified, size: 16, color: AppColors.success),
+                    const Icon(Icons.verified, size: 16, color: AppColors.success),
                   if (user.isOnline) ...[
                     const SizedBox(width: 4),
                     Container(
                       width: 6,
                       height: 6,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: AppColors.success,
                         shape: BoxShape.circle,
                       ),
@@ -321,7 +348,7 @@ class UserProfileCard extends StatelessWidget {
               if (user.profession != null)
                 Text(
                   user.profession!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 12,
                   ),
@@ -331,7 +358,7 @@ class UserProfileCard extends StatelessWidget {
               if (showRating && user.ratingCount > 0)
                 Row(
                   children: [
-                    Icon(Icons.star, size: 12, color: Colors.amber),
+                    const Icon(Icons.star, size: 12, color: Colors.amber),
                     const SizedBox(width: 2),
                     Text(
                       user.ratingAvg.toStringAsFixed(1),
@@ -344,7 +371,7 @@ class UserProfileCard extends StatelessWidget {
                     if (showDistance && distanceKm != null)
                       Text(
                         '• ${distanceKm!.toStringAsFixed(1)} km',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 11,
                         ),
@@ -453,7 +480,9 @@ class UserSuggestionsList extends StatelessWidget {
             itemCount: users.length,
             itemBuilder: (context, index) {
               final user = users[index];
-              final distance = currentUser?.location?.distanceTo(user.location);
+              final distance = currentUser?.location != null && user.location != null 
+                  ? currentUser!.location!.distanceTo(user.location!)
+                  : null;
               
               return Container(
                 width: 280,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'core/auth/authentication_service.dart';
+import 'user_type_selection_page.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,11 +14,78 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
-  void _login() {
-    final email = _emailController.text;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Intento de login para $email')),
+  Future<void> _login() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor ingresa email y contraseña'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final result = await AuthenticationService.instance.login(
+        emailOrUsername: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+
+        if (result.isSuccess && result.userData != null) {
+          // Login exitoso
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('¡Bienvenido, ${result.userData!['name']}!'),
+              backgroundColor: AppColors.success,
+            ),
+          );
+          
+          // Navegar al home con el usuario logueado
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage(currentUser: result.userData)),
+          );
+        } else {
+          // Error de login
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result.errorMessage ?? 'Error al iniciar sesión'),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error inesperado: $e'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    }
+  }
+
+  void _goToRegister() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const UserTypeSelectionPage()),
     );
   }
 
@@ -69,8 +139,34 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: _login,
-              child: const Text('Iniciar sesión'),
+              onPressed: _isLoading ? null : _login,
+              child: _isLoading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : const Text('Iniciar sesión'),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('¿No tienes cuenta? '),
+                TextButton(
+                  onPressed: _goToRegister,
+                  child: const Text(
+                    'Crear cuenta',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -245,78 +245,141 @@ class _CommunityPageState extends State<CommunityPage> {
     }
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        title: Text('Comunidad', style: Theme.of(context).textTheme.titleLarge),
-        backgroundColor: Colors.transparent,
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(Icons.groups, color: Colors.white, size: 20),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'Comunidad',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.primary,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.white,
         elevation: 0,
+        shadowColor: Colors.black.withValues(alpha: 0.1),
+        surfaceTintColor: Colors.white,
         actions: [
-          IconButton(
-            icon: Icon(Icons.add_circle_outline,
-                color: Theme.of(context).colorScheme.onSurface, size: 28),
-            tooltip: 'Nueva publicación',
-            onPressed: _openCreatePost,
-          )
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
+              ),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primary.withValues(alpha: 0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 24),
+              tooltip: 'Nueva publicación',
+              onPressed: _openCreatePost,
+            ),
+          ),
         ],
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.search, color: Colors.grey[400], size: 20),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Buscar publicaciones...',
-                        hintStyle: TextStyle(color: Colors.grey[400]),
-                        border: InputBorder.none,
-                      ),
-                      onChanged: (v) => setState(() => _query = v),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                ChoiceChip(
-                  label: const Text('Recientes'),
-                  selected: _sort == PostSort.recent,
-                  onSelected: (s) {
-                    if (s) setState(() => _sort = PostSort.recent);
-                  },
+          // Enhanced Search Section
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
                 ),
-                const SizedBox(width: 8),
-                ChoiceChip(
-                  label: const Text('Populares'),
-                  selected: _sort == PostSort.popular,
-                  onSelected: (s) {
-                    if (s) setState(() => _sort = PostSort.popular);
-                  },
+              ],
+            ),
+            child: Column(
+              children: [
+                // Search Bar
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Buscar en la comunidad...',
+                      hintStyle: TextStyle(color: Colors.grey.shade500),
+                      prefixIcon: Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(Icons.search, color: AppColors.primary, size: 20),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    ),
+                    onChanged: (v) => setState(() => _query = v),
+                  ),
+                ),
+                
+                const SizedBox(height: 16),
+                
+                // Filter Chips
+                Row(
+                  children: [
+                    _buildFilterChip(
+                      'Recientes',
+                      Icons.schedule,
+                      _sort == PostSort.recent,
+                      () => setState(() => _sort = PostSort.recent),
+                    ),
+                    const SizedBox(width: 12),
+                    _buildFilterChip(
+                      'Populares',
+                      Icons.trending_up,
+                      _sort == PostSort.popular,
+                      () => setState(() => _sort = PostSort.popular),
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '${list.length} posts',
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 8),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -486,6 +549,53 @@ class _CommunityPageState extends State<CommunityPage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildFilterChip(String label, IconData icon, bool selected, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          gradient: selected
+              ? LinearGradient(
+                  colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
+                )
+              : null,
+          color: selected ? null : Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: selected ? AppColors.primary : Colors.grey.shade300,
+          ),
+          boxShadow: selected ? [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ] : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: selected ? Colors.white : Colors.grey.shade600,
+              size: 16,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: selected ? Colors.white : Colors.grey.shade700,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -666,6 +776,53 @@ class _PostCard extends StatelessWidget {
               ],
             ),
           ],
+      ),
+    );
+  }
+
+  Widget _buildFilterChip(String label, IconData icon, bool selected, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          gradient: selected
+              ? LinearGradient(
+                  colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
+                )
+              : null,
+          color: selected ? null : Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: selected ? AppColors.primary : Colors.grey.shade300,
+          ),
+          boxShadow: selected ? [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ] : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: selected ? Colors.white : Colors.grey.shade600,
+              size: 16,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: selected ? Colors.white : Colors.grey.shade700,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
