@@ -1,0 +1,22 @@
+name: yominero
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you want to publish to pub.dev
+
+environment:
+  sdk: ">=2.17.0 <4.0.0" # Keep Dart 2 compatibility for now; raise to 3.x later
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  get_it: ^7.6.0
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

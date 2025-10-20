@@ -1,0 +1,40 @@
+modules = ["web", "cpp-clang14", "c-clang14", "python-3.11"]
+[agent]
+expertMode = true
+
+[nix]
+channel = "stable-25_05"
+packages = ["unzip"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Flutter Web App"
+
+[[workflows.workflow]]
+name = "Flutter Web App"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3 -m http.server 5000 --bind 0.0.0.0 --directory build/web"
+waitForPort = 5000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["python3", "-m", "http.server", "5000", "--bind", "0.0.0.0", "--directory", "build/web"]
+build = ["bash", "-c", "export PATH=\"$HOME/flutter/bin:$PATH\" && flutter build web --release"]
