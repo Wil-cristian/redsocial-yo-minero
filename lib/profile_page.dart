@@ -4,6 +4,8 @@ import 'core/auth/auth_service.dart';
 import 'package:yominero/shared/models/post.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/colors.dart';
+import 'edit_profile_page.dart';
+import 'shared/widgets/user_profile_card.dart';
 
 /// Simple profile page that displays basic user information and a list
 /// of the user's posts. Selecting a post navigates to its detail page.
@@ -62,39 +64,36 @@ class _ProfilePageState extends State<ProfilePage> {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          Center(
-            child: CircleAvatar(
-              radius: 40,
-              backgroundColor:
-                  AppColors.secondaryContainer.withValues(alpha: .55),
-              backgroundImage: _user.avatarUrl != null
-                  ? NetworkImage(_user.avatarUrl!)
-                  : null,
-              child: _user.avatarUrl == null
-                  ? Text(_user.username.substring(0, 1).toUpperCase(),
-                      style: const TextStyle(
-                          fontSize: 32, fontWeight: FontWeight.bold))
-                  : null,
-            ),
+          // User profile card section
+          UserProfileCard(
+            user: _user,
+            showDistance: false,
+            showRating: true,
+            showSpecializations: true,
+            compact: false,
           ),
+          
           const SizedBox(height: 16),
-          Text(_user.name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              )),
-          Text(_user.email),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Chip(label: Text(_user.role.name)),
-              if (_user.phone != null) ...[
-                const SizedBox(width: 8),
-                const Icon(Icons.phone, size: 16),
-                const SizedBox(width: 4),
-                Text(_user.phone!),
-              ]
-            ],
+          
+          // Edit profile button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EditProfilePage(user: _user),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.edit),
+              label: const Text('Editar Perfil'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+            ),
           ),
           if (_user.bio != null) ...[
             const SizedBox(height: 12),
