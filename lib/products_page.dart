@@ -165,9 +165,9 @@ class _ProductsPageState extends State<ProductsPage> {
                 ),
                 const SizedBox(height: 16),
                 // Title
-                Text(
+                const Text(
                   'Productos',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -253,8 +253,8 @@ class _ProductsPageState extends State<ProductsPage> {
                 border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
               child: IconButton(
-                icon: const Icon(Icons.menu, color: Colors.white),
-                onPressed: () => Scaffold.of(context).openDrawer(),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ),
             actions: [
@@ -433,7 +433,7 @@ class _ProductsPageState extends State<ProductsPage> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [AppColors.secondary, AppColors.primary],
                 ),
                 borderRadius: BorderRadius.circular(12),
@@ -487,7 +487,7 @@ class _ProductsPageState extends State<ProductsPage> {
           ),
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [AppColors.secondary, AppColors.primary],
               ),
               borderRadius: BorderRadius.circular(12),
@@ -544,7 +544,7 @@ class _ProductsPageState extends State<ProductsPage> {
           children: [
             const Icon(Icons.check_circle, color: Colors.white),
             const SizedBox(width: 8),
-            Text('Producto "${name}" publicado exitosamente!'),
+            Text('Producto "$name" publicado exitosamente!'),
           ],
         ),
         backgroundColor: AppColors.success,
@@ -727,7 +727,7 @@ class _ProductCard extends StatelessWidget {
                               ),
                               if (product.isAuthorVerified) ...[
                                 const SizedBox(width: 2),
-                                Icon(
+                                const Icon(
                                   Icons.verified,
                                   size: 12,
                                   color: AppColors.success,
@@ -739,10 +739,10 @@ class _ProductCard extends StatelessWidget {
                             const SizedBox(height: 2),
                             Row(
                               children: [
-                                Icon(Icons.star, size: 10, color: Colors.amber),
+                                const Icon(Icons.star, size: 10, color: Colors.amber),
                                 const SizedBox(width: 2),
                                 Text(
-                                  '${product.authorRating.toStringAsFixed(1)}',
+                                  product.authorRating.toStringAsFixed(1),
                                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                     color: Colors.grey[600],
                                     fontSize: 9,

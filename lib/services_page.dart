@@ -137,9 +137,9 @@ class _ServicesPageState extends State<ServicesPage>
                 ),
                 const SizedBox(height: 16),
                 // Title
-                Text(
+                const Text(
                   'Servicios',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -223,8 +223,8 @@ class _ServicesPageState extends State<ServicesPage>
                 border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
               child: IconButton(
-                icon: const Icon(Icons.menu, color: Colors.white),
-                onPressed: () => Scaffold.of(context).openDrawer(),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ),
             actions: [
@@ -533,7 +533,7 @@ class _ServicesPageState extends State<ServicesPage>
                         ),
                         child: Text(
                           tag,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: AppColors.primary,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
@@ -599,7 +599,7 @@ class _ServicesPageState extends State<ServicesPage>
                                 ),
                                 if (service.isAuthorVerified) ...[
                                   const SizedBox(width: 4),
-                                  Icon(
+                                  const Icon(
                                     Icons.verified,
                                     size: 16,
                                     color: AppColors.success,
@@ -611,7 +611,7 @@ class _ServicesPageState extends State<ServicesPage>
                               const SizedBox(height: 2),
                               Row(
                                 children: [
-                                  Icon(Icons.star, size: 14, color: Colors.amber),
+                                  const Icon(Icons.star, size: 14, color: Colors.amber),
                                   const SizedBox(width: 2),
                                   Text(
                                     '${service.authorRating.toStringAsFixed(1)} (${service.authorReviewCount})',
@@ -628,7 +628,7 @@ class _ServicesPageState extends State<ServicesPage>
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [AppColors.secondary, AppColors.primary],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -647,12 +647,12 @@ class _ServicesPageState extends State<ServicesPage>
                             borderRadius: BorderRadius.circular(12),
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              child: Row(
+                              child: const Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(Icons.chat, color: Colors.white, size: 16),
-                                  const SizedBox(width: 4),
-                                  const Text(
+                                  Icon(Icons.chat, color: Colors.white, size: 16),
+                                  SizedBox(width: 4),
+                                  Text(
                                     'Contactar',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -788,7 +788,7 @@ class _ServicesPageState extends State<ServicesPage>
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [AppColors.primary, AppColors.secondary],
                 ),
                 borderRadius: BorderRadius.circular(12),
@@ -860,7 +860,7 @@ class _ServicesPageState extends State<ServicesPage>
           ),
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [AppColors.primary, AppColors.secondary],
               ),
               borderRadius: BorderRadius.circular(12),
@@ -923,7 +923,7 @@ class _ServicesPageState extends State<ServicesPage>
           children: [
             const Icon(Icons.check_circle, color: Colors.white),
             const SizedBox(width: 8),
-            Text('Servicio "${name}" publicado exitosamente!'),
+            Text('Servicio "$name" publicado exitosamente!'),
           ],
         ),
         backgroundColor: AppColors.success,

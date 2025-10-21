@@ -59,14 +59,16 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     if (_userData == null) {
-      return const Center(child: CircularProgressIndicator());
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
     final typeInfo = _getUserTypeInfo();
 
-    return Container(
-      color: AppColors.background,
-      child: NestedScrollView(
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
             expandedHeight: 280,
@@ -74,17 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
             pinned: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
-            leading: Container(
-              margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
+            automaticallyImplyLeading: false,
             actions: [
               Container(
                 margin: const EdgeInsets.all(8),

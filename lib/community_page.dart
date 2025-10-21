@@ -294,9 +294,9 @@ class _CommunityPageState extends State<CommunityPage> {
                 ),
                 const SizedBox(height: 16),
                 // Title
-                Text(
+                const Text(
                   'Comunidad',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -393,8 +393,8 @@ class _CommunityPageState extends State<CommunityPage> {
                 border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
               child: IconButton(
-                icon: const Icon(Icons.menu, color: Colors.white),
-                onPressed: () => Scaffold.of(context).openDrawer(),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ),
             actions: [
@@ -452,7 +452,7 @@ class _CommunityPageState extends State<CommunityPage> {
                           color: AppColors.primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Icon(Icons.search, color: AppColors.primary, size: 20),
+                        child: const Icon(Icons.search, color: AppColors.primary, size: 20),
                       ),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -488,7 +488,7 @@ class _CommunityPageState extends State<CommunityPage> {
                       ),
                       child: Text(
                         '${list.length} posts',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColors.primary,
                           fontWeight: FontWeight.w600,
                           fontSize: 12,

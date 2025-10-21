@@ -65,24 +65,20 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          backgroundColor: Colors.white,
-          elevation: 1,
-          title: const Text(
-            'Notificaciones',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 1,
+        title: const Text(
+          'Notificaciones',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
-            onPressed: () => Navigator.pop(context),
-          ),
-          actions: [
-            PopupMenuButton<String>(
+        ),
+        automaticallyImplyLeading: false,
+        actions: [
+          PopupMenuButton<String>(
               onSelected: (value) {
                 if (value == 'mark_all_read') {
                   setState(() {
@@ -142,18 +138,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
           ],
         ),
 
-        // Body
-        Expanded(
-          child: notifications.isEmpty
-              ? _buildEmptyState()
-              : ListView.builder(
-                  itemCount: notifications.length,
-                  itemBuilder: (context, index) {
-                    return _buildNotificationItem(notifications[index], index);
-                  },
-                ),
-        ),
-      ],
+      // Body
+      body: notifications.isEmpty
+          ? _buildEmptyState()
+          : ListView.builder(
+              itemCount: notifications.length,
+              itemBuilder: (context, index) {
+                return _buildNotificationItem(notifications[index], index);
+              },
+            ),
     );
   }
 

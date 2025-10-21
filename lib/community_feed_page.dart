@@ -160,41 +160,28 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          title: const Text('Muro Comunitario'),
-          backgroundColor: DashboardColors.primary,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          leading: Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Muro Comunitario'),
+        backgroundColor: DashboardColors.primary,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () => _showSearchDialog(),
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () => _showSearchDialog(),
-            ),
-            IconButton(
-              icon: const Icon(Icons.notifications_none),
-              onPressed: () => _showComingSoon('Notificaciones del muro'),
-            ),
-          ],
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              // Crear nuevo post
-              Container(
+          IconButton(
+            icon: const Icon(Icons.notifications_none),
+            onPressed: () => _showComingSoon('Notificaciones del muro'),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          // Crear nuevo post
+          Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -245,22 +232,20 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 ),
               ),
 
-              // Lista de posts
-              Expanded(
-                child: _filteredPosts.isEmpty
-                    ? _buildEmptyState()
-                    : ListView.builder(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        itemCount: _filteredPosts.length,
-                        itemBuilder: (context, index) {
-                          return _buildPostCard(_filteredPosts[index]);
-                        },
-                      ),
-              ),
-            ],
+          // Lista de posts
+          Expanded(
+            child: _filteredPosts.isEmpty
+                ? _buildEmptyState()
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    itemCount: _filteredPosts.length,
+                    itemBuilder: (context, index) {
+                      return _buildPostCard(_filteredPosts[index]);
+                    },
+                  ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

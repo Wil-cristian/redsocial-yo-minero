@@ -96,10 +96,7 @@ class _HomePageState extends State<HomePage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, size: 20),
-                    onPressed: () {},
-                  ),
+                  const SizedBox(width: 40), // Espacio para mantener el balance visual
                   Row(
                     children: [
                       IconButton(
@@ -292,10 +289,7 @@ class _HomePageState extends State<HomePage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, size: 20),
-                    onPressed: () {},
-                  ),
+                  const SizedBox(width: 40), // Espacio para mantener el balance visual
                   Row(
                     children: [
                       IconButton(
@@ -487,10 +481,7 @@ class _HomePageState extends State<HomePage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, size: 20),
-                    onPressed: () {},
-                  ),
+                  const SizedBox(width: 40), // Espacio para mantener el balance visual
                   Row(
                     children: [
                       IconButton(

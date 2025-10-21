@@ -231,9 +231,9 @@ class _GroupsPageState extends State<GroupsPage> {
                 ),
                 const SizedBox(height: 16),
                 // Title
-                Text(
+                const Text(
                   'Grupos',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -318,8 +318,8 @@ class _GroupsPageState extends State<GroupsPage> {
                 border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
               child: IconButton(
-                icon: const Icon(Icons.menu, color: Colors.white),
-                onPressed: () => Scaffold.of(context).openDrawer(),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ),
             actions: [
