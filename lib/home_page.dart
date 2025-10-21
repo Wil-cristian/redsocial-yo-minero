@@ -87,10 +87,8 @@ class _HomePageState extends State<HomePage>
     final user = widget.currentUser;
     final userName = user?['name'] ?? 'Usuario';
     
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Column(
           children: [
             // Header con saludo y opciones
             Padding(
@@ -275,8 +273,7 @@ class _HomePageState extends State<HomePage>
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
   /// Dashboard para trabajadores (empleados de empresa)
@@ -286,10 +283,8 @@ class _HomePageState extends State<HomePage>
     final orgInfo = user?['organizationInfo'] as Map<String, dynamic>?;
     final companyName = orgInfo?['companyName'] ?? 'Tu Empresa';
     
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Column(
           children: [
             // Header con saludo y opciones
             Padding(
@@ -474,8 +469,7 @@ class _HomePageState extends State<HomePage>
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
   /// Dashboard para empresas (organizaciones)
@@ -484,10 +478,8 @@ class _HomePageState extends State<HomePage>
     final orgInfo = user?['organizationInfo'] as Map<String, dynamic>?;
     final companyName = orgInfo?['companyName'] ?? 'Tu Empresa';
     
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Column(
           children: [
             // Header con saludo y opciones
             Padding(
@@ -660,8 +652,7 @@ class _HomePageState extends State<HomePage>
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
 
