@@ -165,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20).copyWith(bottom: 120),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               _buildInfoCard(),

@@ -144,7 +144,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
       body: notifications.isEmpty
           ? _buildEmptyState()
           : ListView.builder(
-              padding: const EdgeInsets.only(bottom: 100),
               itemCount: notifications.length,
               itemBuilder: (context, index) {
                 return _buildNotificationItem(notifications[index], index);

@@ -176,8 +176,7 @@ class _HomePageState extends State<HomePage>
             // Grid de opciones
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16)
-                    .copyWith(bottom: 100),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
                     // Primera fila
@@ -388,8 +387,7 @@ class _HomePageState extends State<HomePage>
             // Grid de opciones
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16)
-                    .copyWith(bottom: 100),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
                     // Primera fila
@@ -575,8 +573,7 @@ class _HomePageState extends State<HomePage>
             // Grid de opciones
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16)
-                    .copyWith(bottom: 100),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
                     // Primera fila

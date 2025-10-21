@@ -248,8 +248,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
             child: _filteredPosts.isEmpty
                 ? _buildEmptyState()
                 : ListView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 8)
-                        .copyWith(bottom: 100),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
                     itemCount: _filteredPosts.length,
                     itemBuilder: (context, index) {
                       return _buildPostCard(_filteredPosts[index]);
