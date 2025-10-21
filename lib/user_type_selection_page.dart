@@ -3,7 +3,7 @@ import 'core/theme/colors.dart';
 import 'shared/models/user.dart';
 import 'core/auth/authentication_service.dart';
 import 'register_page.dart';
-import 'home_page.dart';
+import 'main_navigation_shell.dart';
 
 class UserTypeSelectionPage extends StatefulWidget {
   const UserTypeSelectionPage({super.key});
@@ -133,7 +133,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
             // Botón cancelar
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text(
+              child: const Text(
                 'Cancelar',
                 style: TextStyle(color: AppColors.textSecondary),
               ),
@@ -234,7 +234,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
         // Navegar directo al home
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => HomePage(currentUser: result.userData)),
+          MaterialPageRoute(builder: (context) => MainNavigationShell(currentUser: result.userData)),
           (route) => false,
         );
       } else {

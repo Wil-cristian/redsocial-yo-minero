@@ -47,36 +47,56 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: DashboardColors.primary,
-        unselectedItemColor: Colors.grey[400],
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        currentIndex: _selectedIndex,
-        onTap: _onNavTap,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Inicio',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              offset: const Offset(0, -2),
+              blurRadius: 8,
+            ),
+          ],
+        ),
+        child: SafeArea(
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            selectedItemColor: DashboardColors.primary,
+            unselectedItemColor: Colors.grey[400],
+            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            currentIndex: _selectedIndex,
+            onTap: _onNavTap,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home),
+                label: 'Inicio',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.dynamic_feed),
+                activeIcon: Icon(Icons.dynamic_feed),
+                label: 'Muro',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline),
+                activeIcon: Icon(Icons.person),
+                label: 'Perfil',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.bolt_outlined),
+                activeIcon: Icon(Icons.bolt),
+                label: 'Notif',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings_outlined),
+                activeIcon: Icon(Icons.settings),
+                label: 'Config',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dynamic_feed),
-            label: 'Muro',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Perfil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bolt_outlined),
-            label: 'Notificaciones',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            label: 'Configuración',
-          ),
-        ],
+        ),
       ),
     );
   }

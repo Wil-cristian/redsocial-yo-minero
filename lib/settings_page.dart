@@ -31,26 +31,28 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        title: const Text(
-          'Configuración',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+    return Column(
+      children: [
+        AppBar(
+          backgroundColor: Colors.white,
+          elevation: 1,
+          title: const Text(
+            'Configuración',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
+            onPressed: () => Navigator.pop(context),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
+
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
             // Sección de perfil
             Container(
               color: Colors.white,
@@ -315,7 +317,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Switch(
             value: value,
             onChanged: enabled ? onChanged : null,
-            activeColor: DashboardColors.primary,
+            activeThumbColor: DashboardColors.primary,
           ),
         ],
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
 import 'core/auth/authentication_service.dart';
 import 'user_type_selection_page.dart';
-import 'home_page.dart';
+import 'main_navigation_shell.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
           // Navegar al home con el usuario logueado
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomePage(currentUser: result.userData)),
+            MaterialPageRoute(builder: (context) => MainNavigationShell(currentUser: result.userData)),
           );
         } else {
           // Error de login

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
 import 'shared/models/user.dart';
 import 'core/auth/authentication_service.dart';
-import 'home_page.dart';
+import 'main_navigation_shell.dart';
 
 class RegisterPage extends StatefulWidget {
   final AccountType accountType;
@@ -148,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage>
           // Navegar al home con el usuario creado
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => HomePage(currentUser: result.userData)),
+            MaterialPageRoute(builder: (context) => MainNavigationShell(currentUser: result.userData)),
             (route) => false,
           );
         } else {
@@ -493,7 +493,7 @@ class _RegisterPageState extends State<RegisterPage>
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: AppColors.textSecondary,
           fontSize: 14,
         ),
@@ -511,7 +511,7 @@ class _RegisterPageState extends State<RegisterPage>
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.outline,
             width: 1,
           ),
@@ -525,14 +525,14 @@ class _RegisterPageState extends State<RegisterPage>
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.error,
             width: 1,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.error,
             width: 2,
           ),

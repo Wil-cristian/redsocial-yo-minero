@@ -160,103 +160,107 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Muro Comunitario'),
-        backgroundColor: DashboardColors.primary,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        leading: Container(
-          margin: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => _showSearchDialog(),
-          ),
-          IconButton(
-            icon: const Icon(Icons.notifications_none),
-            onPressed: () => _showComingSoon('Notificaciones del muro'),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Crear nuevo post
-          Container(
-            padding: const EdgeInsets.all(16),
+    return Column(
+      children: [
+        AppBar(
+          title: const Text('Muro Comunitario'),
+          backgroundColor: DashboardColors.primary,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          leading: Container(
+            margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(bottom: BorderSide(color: Colors.grey[200]!, width: 1)),
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
             ),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: DashboardColors.primary.withValues(alpha: 0.2),
-                  child: const Icon(Icons.person, color: Colors.white),
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () => _showSearchDialog(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.notifications_none),
+              onPressed: () => _showComingSoon('Notificaciones del muro'),
+            ),
+          ],
+        ),
+        Expanded(
+          child: Column(
+            children: [
+              // Crear nuevo post
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border(bottom: BorderSide(color: Colors.grey[200]!, width: 1)),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _showCreatePostDialog(),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Text(
-                        '¿Qué quieres compartir?',
-                        style: TextStyle(color: Colors.grey[600]),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: DashboardColors.primary.withValues(alpha: 0.2),
+                      child: const Icon(Icons.person, color: Colors.white),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _showCreatePostDialog(),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Text(
+                            '¿Qué quieres compartir?',
+                            style: TextStyle(color: Colors.grey[600]),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
 
-          // Filtros
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                _buildFilterChip('Todos', 0),
-                const SizedBox(width: 8),
-                _buildFilterChip('Ventas 🛍️', 1),
-                const SizedBox(width: 8),
-                _buildFilterChip('Preguntas ❓', 2),
-                const SizedBox(width: 8),
-                _buildFilterChip('Servicios 🔧', 3),
-              ],
-            ),
-          ),
+              // Filtros
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Row(
+                  children: [
+                    _buildFilterChip('Todos', 0),
+                    const SizedBox(width: 8),
+                    _buildFilterChip('Ventas 🛍️', 1),
+                    const SizedBox(width: 8),
+                    _buildFilterChip('Preguntas ❓', 2),
+                    const SizedBox(width: 8),
+                    _buildFilterChip('Servicios 🔧', 3),
+                  ],
+                ),
+              ),
 
-          // Lista de posts
-          Expanded(
-            child: _filteredPosts.isEmpty
-                ? _buildEmptyState()
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    itemCount: _filteredPosts.length,
-                    itemBuilder: (context, index) {
-                      return _buildPostCard(_filteredPosts[index]);
-                    },
-                  ),
+              // Lista de posts
+              Expanded(
+                child: _filteredPosts.isEmpty
+                    ? _buildEmptyState()
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        itemCount: _filteredPosts.length,
+                        itemBuilder: (context, index) {
+                          return _buildPostCard(_filteredPosts[index]);
+                        },
+                      ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

@@ -65,90 +65,95 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        title: const Text(
-          'Notificaciones',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+    return Column(
+      children: [
+        AppBar(
+          backgroundColor: Colors.white,
+          elevation: 1,
+          title: const Text(
+            'Notificaciones',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              if (value == 'mark_all_read') {
-                setState(() {
-                  for (var notif in notifications) {
-                    notif['read'] = true;
-                  }
-                });
-              } else if (value == 'clear_all') {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('Limpiar notificaciones'),
-                    content: const Text('¿Estás seguro de que deseas eliminar todas las notificaciones?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Cancelar'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            notifications.clear();
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Limpiar', style: TextStyle(color: Colors.red)),
-                      ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
+            onPressed: () => Navigator.pop(context),
+          ),
+          actions: [
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                if (value == 'mark_all_read') {
+                  setState(() {
+                    for (var notif in notifications) {
+                      notif['read'] = true;
+                    }
+                  });
+                } else if (value == 'clear_all') {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Limpiar notificaciones'),
+                      content: const Text('¿Estás seguro de que deseas eliminar todas las notificaciones?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Cancelar'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              notifications.clear();
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Limpiar', style: TextStyle(color: Colors.red)),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 'mark_all_read',
+                  child: Row(
+                    children: [
+                      Icon(Icons.done_all, size: 20),
+                      SizedBox(width: 12),
+                      Text('Marcar todo como leído'),
                     ],
                   ),
-                );
-              }
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'mark_all_read',
-                child: Row(
-                  children: [
-                    Icon(Icons.done_all, size: 20),
-                    SizedBox(width: 12),
-                    Text('Marcar todo como leído'),
-                  ],
                 ),
-              ),
-              const PopupMenuDivider(),
-              const PopupMenuItem(
-                value: 'clear_all',
-                child: Row(
-                  children: [
-                    Icon(Icons.delete_outline, size: 20, color: Colors.red),
-                    SizedBox(width: 12),
-                    Text('Limpiar todo', style: TextStyle(color: Colors.red)),
-                  ],
+                const PopupMenuDivider(),
+                const PopupMenuItem(
+                  value: 'clear_all',
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete_outline, size: 20, color: Colors.red),
+                      SizedBox(width: 12),
+                      Text('Limpiar todo', style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: notifications.isEmpty
-          ? _buildEmptyState()
-          : ListView.builder(
-              itemCount: notifications.length,
-              itemBuilder: (context, index) {
-                return _buildNotificationItem(notifications[index], index);
-              },
+              ],
             ),
+          ],
+        ),
+
+        // Body
+        Expanded(
+          child: notifications.isEmpty
+              ? _buildEmptyState()
+              : ListView.builder(
+                  itemCount: notifications.length,
+                  itemBuilder: (context, index) {
+                    return _buildNotificationItem(notifications[index], index);
+                  },
+                ),
+        ),
+      ],
     );
   }
 
@@ -242,7 +247,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             Container(
                               width: 8,
                               height: 8,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: DashboardColors.primary,
                                 shape: BoxShape.circle,
                               ),
