@@ -49,6 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: 100),
         child: Column(
           children: [
             // Sección de perfil

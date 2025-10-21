@@ -44,43 +44,66 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: _buildBottomNavigation(),
+    return Stack(
+      children: [
+        // Contenido de la página actual
+        _pages[_selectedIndex],
+        
+        // Barra de navegación fija en la parte inferior
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: _buildBottomNavigation(),
+        ),
+      ],
     );
   }
 
   Widget _buildBottomNavigation() {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
-      selectedItemColor: DashboardColors.primary,
-      unselectedItemColor: Colors.grey[400],
-      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-      currentIndex: _selectedIndex,
-      onTap: _onNavTap,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: 'Inicio',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.dynamic_feed),
-          label: 'Muro',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
-          label: 'Perfil',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.bolt_outlined),
-          label: 'Notificaciones',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings_outlined),
-          label: 'Configuración',
-        ),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        selectedItemColor: DashboardColors.primary,
+        unselectedItemColor: Colors.grey[400],
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        currentIndex: _selectedIndex,
+        onTap: _onNavTap,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dynamic_feed),
+            label: 'Muro',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Perfil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bolt_outlined),
+            label: 'Notificaciones',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings_outlined),
+            label: 'Configuración',
+          ),
+        ],
+      ),
     );
   }
 }
