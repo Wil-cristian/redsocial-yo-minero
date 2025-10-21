@@ -340,7 +340,7 @@ class IntelligentSuggestionEngine {
         .length;
     
     if (commonSpecs > 0) {
-      reasons.add('${commonSpecs} especialización${commonSpecs > 1 ? 'es' : ''} en común');
+      reasons.add('$commonSpecs especialización${commonSpecs > 1 ? 'es' : ''} en común');
     }
     
     if (currentUser.location != null && suggestedUser.location != null) {
@@ -403,7 +403,7 @@ class IntelligentSuggestionEngine {
         .length;
     
     if (hasSpecs > 0) {
-      reasons.add('Tiene ${hasSpecs} especialización${hasSpecs > 1 ? 'es' : ''} requerida${hasSpecs > 1 ? 's' : ''}');
+      reasons.add('Tiene $hasSpecs especialización${hasSpecs > 1 ? 'es' : ''} requerida${hasSpecs > 1 ? 's' : ''}');
     }
     
     if (candidate.yearsOfExperience >= 5) {

@@ -72,67 +72,220 @@ class _ServicesPageState extends State<ServicesPage>
     }
   }
 
+  Widget _buildServicesHeaderContent() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.primary,
+            AppColors.primary.withValues(alpha: 0.8),
+            AppColors.secondary.withValues(alpha: 0.9),
+          ],
+        ),
+      ),
+      child: Stack(
+        children: [
+          // Decorative elements
+          Positioned(
+            top: 50,
+            right: -35,
+            child: Container(
+              width: 110,
+              height: 110,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.1),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 140,
+            left: -20,
+            child: Container(
+              width: 75,
+              height: 75,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.05),
+              ),
+            ),
+          ),
+          // Main content
+          Positioned(
+            left: 24,
+            right: 24,
+            bottom: 40,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Services icon
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  ),
+                  child: const Icon(
+                    Icons.build_circle,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Title
+                Text(
+                  'Servicios',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // Subtitle
+                Text(
+                  'Ofrece tus habilidades, encuentra expertos',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Stats row
+                Row(
+                  children: [
+                    _buildServiceStatChip('${_services.length}', 'Servicios'),
+                    const SizedBox(width: 12),
+                    _buildServiceStatChip('${_suggestedRequests.length}', 'Sugerencias'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceStatChip(String value, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: Text('Servicios', style: Theme.of(context).textTheme.titleLarge),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        bottom: TabBar(
+      backgroundColor: AppColors.background,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            expandedHeight: 280,
+            floating: false,
+            pinned: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white),
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              ),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.only(right: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 24),
+                  tooltip: 'Publicar servicio',
+                  onPressed: _showCreateServiceDialog,
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.refresh, color: Colors.white),
+                  onPressed: () {
+                    setState(() => _computeMatches());
+                  },
+                ),
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: _buildServicesHeaderContent(),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(50),
+              child: Container(
+                color: Colors.white,
+                child: TabBar(
+                  controller: _tabController,
+                  labelColor: AppColors.primary,
+                  unselectedLabelColor: AppColors.textSecondary,
+                  indicatorColor: AppColors.primary,
+                  indicatorWeight: 3,
+                  tabs: const [
+                    Tab(text: 'Mis Servicios'),
+                    Tab(text: 'Solicitudes para mí'),
+                    Tab(text: 'Oportunidades'),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+        body: TabBarView(
           controller: _tabController,
-          labelColor: AppColors.primary,
-          tabs: const [
-            Tab(text: 'Mis Servicios'),
-            Tab(text: 'Solicitudes para mí'),
-            Tab(text: 'Oportunidades'),
+          children: [
+            _buildMyServices(),
+            _buildMatchList(_suggestedRequests, emptyLabel: 'Sin sugerencias'),
+            _buildMatchList(_opportunities, emptyLabel: 'Sin oportunidades'),
           ],
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh,
-                color: Theme.of(context).colorScheme.onSurface),
-            onPressed: () {
-              setState(() => _computeMatches());
-            },
-          )
-        ],
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildMyServices(),
-          _buildMatchList(_suggestedRequests, emptyLabel: 'Sin sugerencias'),
-          _buildMatchList(_opportunities, emptyLabel: 'Sin oportunidades'),
-        ],
-      ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.primary, AppColors.secondary],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: FloatingActionButton.extended(
-          onPressed: _showCreateServiceDialog,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          icon: const Icon(Icons.add, color: Colors.white),
-          label: const Text(
-            'Publicar Servicio',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
         ),
       ),
     );

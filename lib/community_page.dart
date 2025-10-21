@@ -229,6 +229,137 @@ class _CommunityPageState extends State<CommunityPage> {
     );
   }
 
+  Widget _buildCommunityHeaderContent() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.primary,
+            AppColors.primary.withValues(alpha: 0.8),
+            AppColors.secondary.withValues(alpha: 0.9),
+          ],
+        ),
+      ),
+      child: Stack(
+        children: [
+          // Decorative elements
+          Positioned(
+            top: 40,
+            right: -20,
+            child: Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.1),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 120,
+            left: -30,
+            child: Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.05),
+              ),
+            ),
+          ),
+          // Main content
+          Positioned(
+            left: 24,
+            right: 24,
+            bottom: 40,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Community icon
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  ),
+                  child: const Icon(
+                    Icons.groups,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Title
+                Text(
+                  'Comunidad',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // Subtitle
+                Text(
+                  'Conecta, comparte y descubre oportunidades',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Stats row
+                Row(
+                  children: [
+                    _buildStatChip('${_posts.length}', 'Publicaciones'),
+                    const SizedBox(width: 12),
+                    _buildStatChip('${_suggestions.length}', 'Sugerencias'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatChip(String value, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final list = _filteredSorted();
@@ -245,59 +376,48 @@ class _CommunityPageState extends State<CommunityPage> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
+      backgroundColor: AppColors.background,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            expandedHeight: 280,
+            floating: false,
+            pinned: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: Container(
+              margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white),
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              ),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
                 ),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(Icons.groups, color: Colors.white, size: 20),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              'Comunidad',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary,
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        shadowColor: Colors.black.withValues(alpha: 0.1),
-        surfaceTintColor: Colors.white,
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
-              ),
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
+                child: IconButton(
+                  icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 24),
+                  tooltip: 'Nueva publicación',
+                  onPressed: _openCreatePost,
                 ),
-              ],
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 24),
-              tooltip: 'Nueva publicación',
-              onPressed: _openCreatePost,
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: _buildCommunityHeaderContent(),
             ),
           ),
         ],
-      ),
-      body: Column(
+        body: Column(
         children: [
           // Enhanced Search Section
           Container(
@@ -433,6 +553,7 @@ class _CommunityPageState extends State<CommunityPage> {
             ),
           ),
         ],
+        ),
       ),
     );
   }
@@ -776,53 +897,6 @@ class _PostCard extends StatelessWidget {
               ],
             ),
           ],
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(String label, IconData icon, bool selected, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          gradient: selected
-              ? LinearGradient(
-                  colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
-                )
-              : null,
-          color: selected ? null : Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: selected ? AppColors.primary : Colors.grey.shade300,
-          ),
-          boxShadow: selected ? [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ] : null,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: selected ? Colors.white : Colors.grey.shade600,
-              size: 16,
-            ),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                color: selected ? Colors.white : Colors.grey.shade700,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

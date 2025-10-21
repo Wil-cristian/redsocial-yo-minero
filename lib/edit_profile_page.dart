@@ -88,19 +88,6 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
-            actions: [
-              Container(
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.save, color: Colors.white),
-                  onPressed: _saveProfile,
-                ),
-              ),
-            ],
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: BoxDecoration(

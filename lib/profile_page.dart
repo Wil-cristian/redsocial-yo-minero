@@ -6,6 +6,7 @@ import 'messages_page.dart';
 import 'products_page.dart';
 import 'services_page.dart';
 import 'edit_profile_page.dart';
+import 'suggestions_page.dart';
 import 'shared/models/user.dart';
 import 'login_page.dart';
 
@@ -66,118 +67,170 @@ class _ProfilePageState extends State<ProfilePage> {
     final typeInfo = _getUserTypeInfo();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mi Perfil'),
-        backgroundColor: typeInfo['color'],
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () => _editProfile(),
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () => _showSettings(),
+      backgroundColor: AppColors.background,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            expandedHeight: 280,
+            floating: false,
+            pinned: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.white),
+                  onPressed: () => _editProfile(),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.settings, color: Colors.white),
+                  onPressed: () => _showSettings(),
+                ),
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      typeInfo['color'],
+                      typeInfo['color'].withOpacity(0.8),
+                      typeInfo['color'].withOpacity(0.6),
+                    ],
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    // Decorative circles
+                    Positioned(
+                      top: 50,
+                      right: -50,
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.1),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: -30,
+                      left: -30,
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.05),
+                        ),
+                      ),
+                    ),
+                    // Profile content
+                    Positioned(
+                      bottom: 50,
+                      left: 24,
+                      right: 24,
+                      child: _buildProfileHeaderContent(typeInfo),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              typeInfo['color'],
-              typeInfo['color'].withOpacity(0.1),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              _buildInfoCard(),
+              const SizedBox(height: 20),
+              _buildStatsCard(typeInfo),
+              const SizedBox(height: 20),
+              _buildActionsCard(),
             ],
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                _buildProfileHeader(typeInfo),
-                const SizedBox(height: 20),
-                _buildInfoCard(),
-                const SizedBox(height: 20),
-                _buildStatsCard(typeInfo),
-                const SizedBox(height: 20),
-                _buildActionsCard(),
-              ],
-            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildProfileHeader(Map<String, dynamic> typeInfo) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+  Widget _buildProfileHeaderContent(Map<String, dynamic> typeInfo) {
+    return Row(
+      children: [
+        CircleAvatar(
+          radius: 40,
+          backgroundColor: Colors.white.withOpacity(0.2),
+          child: Icon(
+            typeInfo['icon'],
+            size: 40,
+            color: Colors.white,
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: typeInfo['color'].withOpacity(0.1),
-            child: Icon(
-              typeInfo['icon'],
-              size: 40,
-              color: typeInfo['color'],
-            ),
-          ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _userData!['name'] ?? 'Usuario',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+        ),
+        const SizedBox(width: 20),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _userData!['name'] ?? 'Usuario',
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  typeInfo['title'],
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: typeInfo['color'].withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    typeInfo['title'],
-                    style: TextStyle(
-                      color: typeInfo['color'],
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                    ),
-                  ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '@${_userData!['username'] ?? _userData!['email']?.split('@')[0] ?? 'usuario'}',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.white.withOpacity(0.8),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  '@',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -368,13 +421,26 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Expanded(
                 child: _buildActionButton(
+                  Icons.auto_awesome,
+                  'IA Sugerencias',
+                  userColor,
+                  _openSuggestions,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildActionButton(
                   Icons.shopping_cart,
                   'Productos',
                   userColor,
                   _openProducts,
                 ),
               ),
-              const SizedBox(width: 12),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
               Expanded(
                 child: _buildActionButton(
                   Icons.build,
@@ -382,6 +448,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   userColor,
                   _openServices,
                 ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Container(), // Placeholder para mantener simetría
               ),
             ],
           ),
@@ -501,6 +571,15 @@ class _ProfilePageState extends State<ProfilePage> {
       context,
       MaterialPageRoute(
         builder: (context) => const ServicesPage(),
+      ),
+    );
+  }
+
+  void _openSuggestions() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SuggestionsPage(currentUser: widget.currentUser),
       ),
     );
   }

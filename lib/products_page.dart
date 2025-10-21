@@ -100,61 +100,185 @@ class _ProductsPageState extends State<ProductsPage> {
     return list;
   }
 
+  Widget _buildProductsHeaderContent() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.primary,
+            AppColors.primary.withValues(alpha: 0.8),
+            AppColors.secondary.withValues(alpha: 0.9),
+          ],
+        ),
+      ),
+      child: Stack(
+        children: [
+          // Decorative elements
+          Positioned(
+            top: 60,
+            right: -40,
+            child: Container(
+              width: 140,
+              height: 140,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.1),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 130,
+            left: -25,
+            child: Container(
+              width: 90,
+              height: 90,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.05),
+              ),
+            ),
+          ),
+          // Main content
+          Positioned(
+            left: 24,
+            right: 24,
+            bottom: 40,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Products icon
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  ),
+                  child: const Icon(
+                    Icons.shopping_bag,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Title
+                Text(
+                  'Productos',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // Subtitle
+                Text(
+                  'Encuentra todo lo que necesitas para tu trabajo',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Stats row
+                Row(
+                  children: [
+                    _buildProductStatChip('${_allProducts.length}', 'Productos'),
+                    const SizedBox(width: 12),
+                    _buildProductStatChip('${_categories.length - 1}', 'Categorías'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProductStatChip(String value, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final filtered = this.filtered;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: CustomScrollView(
-        slivers: [
+      backgroundColor: AppColors.background,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            expandedHeight: 200,
+            expandedHeight: 280,
             floating: false,
             pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.white.withValues(alpha: 0.9),
-                      Colors.white.withValues(alpha: 0.7),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: const Text(
-                  'Productos',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
-              background: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      AppColors.primary.withValues(alpha: 0.1),
-                      AppColors.secondary.withValues(alpha: 0.05),
-                    ],
-                  ),
-                ),
+              child: IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white),
+                onPressed: () => Scaffold.of(context).openDrawer(),
               ),
             ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 24),
+                  tooltip: 'Publicar producto',
+                  onPressed: _showCreateProductDialog,
+                ),
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: _buildProductsHeaderContent(),
+            ),
           ),
+        ],
+        body: CustomScrollView(
+          slivers: [
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -289,34 +413,7 @@ class _ProductsPageState extends State<ProductsPage> {
             ),
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
-        ],
-      ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.secondary, AppColors.primary],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.secondary.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
           ],
-        ),
-        child: FloatingActionButton.extended(
-          onPressed: _showCreateProductDialog,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          icon: const Icon(Icons.add, color: Colors.white),
-          label: const Text(
-            'Publicar Producto',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
         ),
       ),
     );

@@ -166,23 +166,183 @@ class _GroupsPageState extends State<GroupsPage> {
     }
   }
 
+  Widget _buildGroupsHeaderContent() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.primary,
+            AppColors.primary.withValues(alpha: 0.8),
+            AppColors.secondary.withValues(alpha: 0.9),
+          ],
+        ),
+      ),
+      child: Stack(
+        children: [
+          // Decorative elements
+          Positioned(
+            top: 50,
+            right: -30,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.1),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 120,
+            left: -20,
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.05),
+              ),
+            ),
+          ),
+          // Main content
+          Positioned(
+            left: 24,
+            right: 24,
+            bottom: 40,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Groups icon
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  ),
+                  child: const Icon(
+                    Icons.group_work,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Title
+                Text(
+                  'Grupos',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // Subtitle
+                Text(
+                  'Encuentra tu tribu, comparte intereses',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Stats row
+                Row(
+                  children: [
+                    _buildGroupStatChip('${_groups.length}', 'Grupos'),
+                    const SizedBox(width: 12),
+                    _buildGroupStatChip('${_suggested.length}', 'Sugerencias'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGroupStatChip(String value, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final groups = _filtered;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Grupos', style: Theme.of(context).textTheme.titleLarge),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add_circle_outline),
-            onPressed: _openCreateGroup,
-            tooltip: 'Nuevo grupo',
-          )
+      backgroundColor: AppColors.background,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            expandedHeight: 280,
+            floating: false,
+            pinned: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white),
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              ),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 24),
+                  tooltip: 'Nuevo grupo',
+                  onPressed: _openCreateGroup,
+                ),
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: _buildGroupsHeaderContent(),
+            ),
+          ),
         ],
-      ),
-      body: Column(
+        body: Column(
         children: [
           if (_suggested.isNotEmpty) ...[
             Padding(
@@ -461,6 +621,7 @@ class _GroupsPageState extends State<GroupsPage> {
             ),
           ),
         ],
+        ),
       ),
     );
   }
