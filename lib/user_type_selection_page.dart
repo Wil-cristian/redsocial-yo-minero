@@ -84,7 +84,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
               height: 4,
               margin: const EdgeInsets.only(bottom: 24),
               decoration: BoxDecoration(
-                color: AppColors.textSecondary.withOpacity(0.3),
+                color: AppColors.textSecondary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -159,16 +159,16 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          border: Border.all(color: color.withOpacity(0.2)),
+          border: Border.all(color: color.withValues(alpha: 0.2)),
           borderRadius: BorderRadius.circular(16),
-          color: color.withOpacity(0.05),
+          color: color.withValues(alpha: 0.05),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, color: color, size: 24),
@@ -325,10 +325,10 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.15),
+                          color: Colors.white.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.3),
+                            color: Colors.white.withValues(alpha: 0.3),
                             width: 1,
                           ),
                         ),
@@ -355,7 +355,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           height: 1.4,
                         ),
                       ),
@@ -471,17 +471,17 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                 decoration: BoxDecoration(
                   color: isSelected 
                       ? Colors.white
-                      : Colors.white.withOpacity(0.15),
+                      : Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                     color: isSelected 
                         ? color
-                        : Colors.white.withOpacity(0.3),
+                        : Colors.white.withValues(alpha: 0.3),
                     width: isSelected ? 3 : 1,
                   ),
                   boxShadow: isSelected ? [
                     BoxShadow(
-                      color: color.withOpacity(0.3),
+                      color: color.withValues(alpha: 0.3),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -493,8 +493,8 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: isSelected 
-                            ? color.withOpacity(0.1)
-                            : Colors.white.withOpacity(0.2),
+                            ? color.withValues(alpha: 0.1)
+                            : Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Icon(
@@ -523,7 +523,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                               fontSize: 14,
                               color: isSelected 
                                   ? Colors.grey[600]
-                                  : Colors.white.withOpacity(0.8),
+                                  : Colors.white.withValues(alpha: 0.8),
                               height: 1.3,
                             ),
                           ),
@@ -532,7 +532,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                     ),
                     Icon(
                       isSelected ? Icons.check_circle : Icons.arrow_forward_ios,
-                      color: isSelected ? color : Colors.white.withOpacity(0.7),
+                      color: isSelected ? color : Colors.white.withValues(alpha: 0.7),
                       size: isSelected ? 28 : 20,
                     ),
                   ],

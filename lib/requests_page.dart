@@ -101,6 +101,18 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
         backgroundColor: userColor,
         foregroundColor: Colors.white,
         elevation: 0,
+        leading: Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
@@ -128,7 +140,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              userColor.withOpacity(0.1),
+              userColor.withValues(alpha: 0.1),
               Colors.grey[50]!,
             ],
           ),
@@ -209,7 +221,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           Icon(
             icon,
             size: 80,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 24),
           Text(
@@ -224,7 +236,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           Text(
             subtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary.withOpacity(0.7),
+              color: AppColors.textSecondary.withValues(alpha: 0.7),
             ),
             textAlign: TextAlign.center,
           ),
@@ -243,7 +255,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -255,7 +267,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: userColor.withOpacity(0.05),
+              color: userColor.withValues(alpha: 0.05),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             ),
             child: Row(
@@ -263,7 +275,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: userColor.withOpacity(0.1),
+                    color: userColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
@@ -397,7 +409,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
@@ -432,7 +444,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

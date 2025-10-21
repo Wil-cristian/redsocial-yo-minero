@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
-import 'core/suggestions/intelligent_suggestion_engine.dart';
-import 'shared/models/user.dart';
-import 'shared/models/post.dart';
 
 class SuggestionsPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -49,7 +46,6 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
   }
 
   void _generateSmartSuggestions() {
-    final userName = widget.currentUser?['name'] ?? 'Usuario';
     final userType = _userType;
     
     // Generar comentarios inteligentes basados en el perfil
@@ -180,6 +176,18 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
         backgroundColor: userColor,
         foregroundColor: Colors.white,
         elevation: 0,
+        leading: Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -217,7 +225,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              userColor.withOpacity(0.05),
+              userColor.withValues(alpha: 0.05),
               Colors.grey[50]!,
             ],
           ),
@@ -283,7 +291,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -299,7 +307,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: userColor.withOpacity(0.1),
+                    color: userColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -322,7 +330,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: _getRelevanceColor(comment['relevance']).withOpacity(0.1),
+                    color: _getRelevanceColor(comment['relevance']).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -356,9 +364,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.info.withOpacity(0.05),
+                color: AppColors.info.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.info.withOpacity(0.2)),
+                border: Border.all(color: AppColors.info.withValues(alpha: 0.2)),
               ),
               child: Row(
                 children: [
@@ -421,7 +429,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -437,7 +445,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.success.withOpacity(0.1),
+                    color: AppColors.success.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -509,9 +517,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: userColor.withOpacity(0.05),
+                color: userColor.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: userColor.withOpacity(0.2)),
+                border: Border.all(color: userColor.withValues(alpha: 0.2)),
               ),
               child: Row(
                 children: [
@@ -574,7 +582,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -589,7 +597,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundColor: _getTypeColor(user['type']).withOpacity(0.2),
+                  backgroundColor: _getTypeColor(user['type']).withValues(alpha: 0.2),
                   child: Text(
                     user['avatar'],
                     style: TextStyle(
@@ -631,7 +639,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.success.withOpacity(0.1),
+                    color: AppColors.success.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -669,7 +677,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: userColor.withOpacity(0.1),
+                    color: userColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
@@ -687,9 +695,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.info.withOpacity(0.05),
+                color: AppColors.info.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColors.info.withOpacity(0.2)),
+                border: Border.all(color: AppColors.info.withValues(alpha: 0.2)),
               ),
               child: Row(
                 children: [

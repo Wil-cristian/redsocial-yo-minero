@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../home_page.dart';
-import '../../main.dart';
 import '../../login_page.dart';
+import '../../main_app.dart';
+import '../../profile_page.dart';
 import '../../community_page.dart';
 import '../../products_page.dart';
 import '../../services_page.dart';
@@ -13,7 +14,13 @@ import '../../product_detail_page.dart';
 import '../../service_detail_page.dart';
 import '../../manage_services_page.dart';
 import '../../manage_products_page.dart';
-import '../auth/auth_service.dart';
+import '../../company_employees_page.dart';
+import '../../company_projects_page.dart';
+import '../../company_metrics_page.dart';
+import '../../company_resources_page.dart';
+import '../../company_requested_services_page.dart';
+import '../../company_requested_products_page.dart';
+import '../auth/authentication_service.dart';
 
 /// Centralized route names
 class AppRoutes {
@@ -31,6 +38,12 @@ class AppRoutes {
   static const serviceDetail = '/service';
   static const manageServices = '/manage-services';
   static const manageProducts = '/manage-products';
+  static const companyEmployees = '/company-employees';
+  static const companyProjects = '/company-projects';
+  static const companyMetrics = '/company-metrics';
+  static const companyResources = '/company-resources';
+  static const companyRequestedServices = '/company-requested-services';
+  static const companyRequestedProducts = '/company-requested-products';
 }
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -57,12 +70,12 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           builder: (_) =>
               GroupDetailPage(group: settings.arguments as dynamic));
     case AppRoutes.profile:
-      final user = AuthService.instance.currentUser;
+  final user = AuthenticationService.instance.currentUser;
       if (user == null) {
         return MaterialPageRoute(builder: (_) => HomePage());
       }
       return MaterialPageRoute(
-          builder: (_) => HomePage()); // ProfilePage(user: user, posts: const [])
+          builder: (_) => ProfilePage(currentUser: user));
     case AppRoutes.postDetail:
       if (settings.arguments == null) {
         return _error('Post no proporcionado');
@@ -87,6 +100,30 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const ManageServicesPage());
     case AppRoutes.manageProducts:
       return MaterialPageRoute(builder: (_) => const ManageProductsPage());
+    case AppRoutes.companyEmployees:
+      final user = AuthenticationService.instance.currentUser;
+      return MaterialPageRoute(
+          builder: (_) => CompanyEmployeesPage(currentUser: user));
+    case AppRoutes.companyProjects:
+      final user = AuthenticationService.instance.currentUser;
+      return MaterialPageRoute(
+          builder: (_) => CompanyProjectsPage(currentUser: user));
+    case AppRoutes.companyMetrics:
+      final user = AuthenticationService.instance.currentUser;
+      return MaterialPageRoute(
+          builder: (_) => CompanyMetricsPage(currentUser: user));
+    case AppRoutes.companyResources:
+      final user = AuthenticationService.instance.currentUser;
+      return MaterialPageRoute(
+          builder: (_) => CompanyResourcesPage(currentUser: user));
+    case AppRoutes.companyRequestedServices:
+      final user = AuthenticationService.instance.currentUser;
+      return MaterialPageRoute(
+          builder: (_) => CompanyRequestedServicesPage(currentUser: user));
+    case AppRoutes.companyRequestedProducts:
+      final user = AuthenticationService.instance.currentUser;
+      return MaterialPageRoute(
+          builder: (_) => CompanyRequestedProductsPage(currentUser: user));
     default:
       return null;
   }

@@ -189,8 +189,8 @@ class _RegisterPageState extends State<RegisterPage>
             end: Alignment.bottomRight,
             colors: [
               _accountTypeColor,
-              _accountTypeColor.withOpacity(0.8),
-              AppColors.primary.withOpacity(0.6),
+              _accountTypeColor.withValues(alpha: 0.8),
+              AppColors.primary.withValues(alpha: 0.6),
             ],
           ),
         ),
@@ -216,7 +216,7 @@ class _RegisterPageState extends State<RegisterPage>
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Icon(
@@ -242,7 +242,7 @@ class _RegisterPageState extends State<RegisterPage>
                               'Completa tu información',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withValues(alpha: 0.9),
                               ),
                             ),
                           ],
@@ -270,7 +270,7 @@ class _RegisterPageState extends State<RegisterPage>
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 20,
                             offset: const Offset(0, -5),
                           ),
@@ -433,7 +433,7 @@ class _RegisterPageState extends State<RegisterPage>
                                     backgroundColor: _accountTypeColor,
                                     foregroundColor: Colors.white,
                                     elevation: 8,
-                                    shadowColor: _accountTypeColor.withOpacity(0.4),
+                                    shadowColor: _accountTypeColor.withValues(alpha: 0.4),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16),
                                     ),

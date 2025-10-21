@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'core/theme/colors.dart';
 import 'core/auth/authentication_service.dart';
+import 'core/theme/dashboard_colors.dart';
 import 'products_page.dart';
 import 'services_page.dart';
 import 'community_page.dart';
@@ -8,6 +8,11 @@ import 'groups_page.dart';
 import 'profile_page.dart';
 import 'messages_page.dart';
 import 'login_page.dart';
+import 'notifications_page.dart';
+import 'settings_page.dart';
+import 'cart_favorites_page.dart';
+import 'shared/widgets/dashboard_grid_item.dart';
+import 'community_feed_page.dart';
 
 /// Home adaptativo que muestra diferentes interfaces según el tipo de usuario.
 /// - Individual: Dashboard personal con proyectos y oportunidades
@@ -30,6 +35,7 @@ class _HomePageState extends State<HomePage>
   
   late AnimationController _fadeController;
   late AnimationController _scaleController;
+  int _selectedBottomIndex = 0;
 
   @override
   void initState() {
@@ -82,228 +88,197 @@ class _HomePageState extends State<HomePage>
   Widget _buildIndividualDashboard(BuildContext context) {
     final user = widget.currentUser;
     final userName = user?['name'] ?? 'Usuario';
-    final accountType = user?['accountType'] ?? 'individual';
-    final userTypeInfo = _getUserTypeInfo(accountType);
     
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text('¡Hola, $userName!'),
-        backgroundColor: const Color(0xFF6C63FF),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.chat_bubble_outline),
-            onPressed: () => _openMessages(context),
-          ),
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {},
-          ),
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.person_outline),
-            onSelected: (value) {
-              switch (value) {
-                case 'profile':
-                  _showUserProfile(context);
-                  break;
-                case 'logout':
-                  _logout(context);
-                  break;
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'profile',
-                child: Row(
-                  children: [
-                    Icon(Icons.person, color: Colors.grey[700]),
-                    const SizedBox(width: 12),
-                    const Text('Mi Perfil'),
-                  ],
-                ),
-              ),
-              const PopupMenuDivider(),
-              PopupMenuItem(
-                value: 'logout',
-                child: Row(
-                  children: [
-                    Icon(Icons.logout, color: Colors.red[700]),
-                    const SizedBox(width: 12),
-                    const Text('Cerrar Sesión'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      backgroundColor: Colors.white,
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Tarjeta de bienvenida personalizada
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFF6C63FF), Color(0xFF5A52E3)],
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF6C63FF).withValues(alpha: 0.3),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            // Header con saludo y opciones
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios, size: 20),
+                    onPressed: () {},
+                  ),
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Icon(
-                          userTypeInfo['icon'],
-                          color: Colors.white,
-                          size: 24,
-                        ),
+                      IconButton(
+                        icon: const Icon(Icons.search, size: 20),
+                        onPressed: () {},
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              userName,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                      Stack(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.shopping_bag_outlined, size: 20),
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CartFavoritesPage(),
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              userTypeInfo['title'],
-                              style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.8),
-                                fontSize: 14,
+                          ),
+                          Positioned(
+                            right: 4,
+                            top: 4,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: DashboardColors.primary,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: const Text(
+                                '2',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      // Chip del tipo de usuario
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.3),
-                            width: 1,
-                          ),
-                        ),
-                        child: Text(
-                          userTypeInfo['label'],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                      IconButton(
+                        icon: const Icon(Icons.menu, size: 20),
+                        onPressed: () => _showDashboardMenu(context),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    userTypeInfo['description'],
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.9),
-                      fontSize: 14,
-                    ),
-                  ),
                 ],
+              ),
+            ),
+            
+            // Greeting
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Hola, $userName',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
               ),
             ),
             
             const SizedBox(height: 24),
             
-            // Secciones de funcionalidades
-            Text(
-              'Oportunidades',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[800],
+            // Grid de opciones
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    // Primera fila
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Proyectos',
+                            icon: Icons.work,
+                            backgroundColor: DashboardColors.cardOrangeBg,
+                            iconColor: DashboardColors.cardOrange,
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ProductsPage()),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Servicios',
+                            icon: Icons.engineering,
+                            isHighlighted: true,
+                            backgroundColor: DashboardColors.cardPurple,
+                            iconColor: DashboardColors.cardPurple,
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ServicesPage()),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Segunda fila
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Comunidad',
+                            icon: Icons.group,
+                            backgroundColor: DashboardColors.cardGreenBg,
+                            iconColor: DashboardColors.cardGreen,
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const CommunityPage()),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Grupos',
+                            icon: Icons.group_work,
+                            backgroundColor: DashboardColors.cardBlueBg,
+                            iconColor: DashboardColors.cardBlue,
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const GroupsPage()),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Tercera fila
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Mensajes',
+                            icon: Icons.mail_outline,
+                            backgroundColor: DashboardColors.cardPinkBg,
+                            iconColor: DashboardColors.cardPink,
+                            onTap: () => _openMessages(context),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Perfil',
+                            icon: Icons.person,
+                            backgroundColor: DashboardColors.cardYellowBg,
+                            iconColor: DashboardColors.cardYellow,
+                            onTap: () => _showUserProfile(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                  ],
+                ),
               ),
-            ),
-            
-            const SizedBox(height: 16),
-            
-            // Grid de funcionalidades
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              children: [
-                _buildFeatureCard(
-                  context,
-                  'Proyectos',
-                  Icons.construction,
-                  const Color(0xFF4ECDC4),
-                  'Encuentra proyectos mineros',
-                  () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ProductsPage(),
-                  )),
-                ),
-                _buildFeatureCard(
-                  context,
-                  'Servicios',
-                  Icons.engineering,
-                  const Color(0xFF45B7D1),
-                  'Ofrece tus servicios',
-                  () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ServicesPage(),
-                  )),
-                ),
-                _buildFeatureCard(
-                  context,
-                  'Comunidad',
-                  Icons.people,
-                  const Color(0xFFFF6B6B),
-                  'Conecta con otros',
-                  () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CommunityPage(),
-                  )),
-                ),
-                _buildFeatureCard(
-                  context,
-                  'Grupos',
-                  Icons.group_work,
-                  const Color(0xFF4ECDC4),
-                  'Únete a grupos',
-                  () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => GroupsPage(),
-                  )),
-                ),
-              ],
             ),
           ],
         ),
       ),
+      bottomNavigationBar: _buildBottomNavigation(context),
     );
   }
 
@@ -311,564 +286,542 @@ class _HomePageState extends State<HomePage>
   Widget _buildWorkerDashboard(BuildContext context) {
     final user = widget.currentUser;
     final userName = user?['name'] ?? 'Usuario';
-    final accountType = user?['accountType'] ?? 'worker';
-    final userTypeInfo = _getUserTypeInfo(accountType);
     final orgInfo = user?['organizationInfo'] as Map<String, dynamic>?;
     final companyName = orgInfo?['companyName'] ?? 'Tu Empresa';
     
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text('¡Hola, $userName!'),
-        backgroundColor: const Color(0xFF4ECDC4),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {},
-          ),
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.person_outline),
-            onSelected: (value) {
-              switch (value) {
-                case 'profile':
-                  _showUserProfile(context);
-                  break;
-                case 'logout':
-                  _logout(context);
-                  break;
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'profile',
-                child: Row(
-                  children: [
-                    Icon(Icons.person, color: Colors.grey[700]),
-                    const SizedBox(width: 12),
-                    const Text('Mi Perfil'),
-                  ],
-                ),
-              ),
-              const PopupMenuDivider(),
-              PopupMenuItem(
-                value: 'logout',
-                child: Row(
-                  children: [
-                    Icon(Icons.logout, color: Colors.red[700]),
-                    const SizedBox(width: 12),
-                    const Text('Cerrar Sesión'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      backgroundColor: Colors.white,
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Tarjeta de empleado
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFF4ECDC4), Color(0xFF44A08D)],
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF4ECDC4).withValues(alpha: 0.3),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            // Header con saludo y opciones
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios, size: 20),
+                    onPressed: () {},
+                  ),
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Icon(
-                          userTypeInfo['icon'],
-                          color: Colors.white,
-                          size: 24,
-                        ),
+                      IconButton(
+                        icon: const Icon(Icons.search, size: 20),
+                        onPressed: () {},
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              userName,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              userTypeInfo['title'],
-                              style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.8),
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Chip del tipo de usuario
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.3),
-                            width: 1,
-                          ),
-                        ),
-                        child: Text(
-                          userTypeInfo['label'],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  if (companyName != 'Tu Empresa') ...[
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
+                      Stack(
                         children: [
-                          Icon(
-                            Icons.business,
-                            color: Colors.white.withValues(alpha: 0.9),
-                            size: 16,
+                          IconButton(
+                            icon: const Icon(Icons.shopping_bag_outlined, size: 20),
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CartFavoritesPage(),
+                              ),
+                            ),
                           ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Empresa: $companyName',
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.9),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
+                          Positioned(
+                            right: 4,
+                            top: 4,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: DashboardColors.primary,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: const Text(
+                                '2',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-                  Text(
-                    userTypeInfo['description'],
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.9),
-                      fontSize: 14,
-                    ),
+                      IconButton(
+                        icon: const Icon(Icons.menu, size: 20),
+                        onPressed: () => _showDashboardMenu(context),
+                      ),
+                    ],
                   ),
                 ],
+              ),
+            ),
+            
+            // Greeting
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hola, $userName',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      'Empleado de: $companyName',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             
             const SizedBox(height: 24),
             
-            Text(
-              'Panel de Empleado',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[800],
+            // Grid de opciones
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    // Primera fila
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Tareas',
+                            icon: Icons.assignment,
+                            backgroundColor: DashboardColors.cardTealBg,
+                            iconColor: DashboardColors.cardTeal,
+                            onTap: () {},
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Reportes',
+                            icon: Icons.bar_chart,
+                            isHighlighted: true,
+                            backgroundColor: DashboardColors.cardWorkerGreen,
+                            iconColor: DashboardColors.cardWorkerGreen,
+                            onTap: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Segunda fila
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Equipo',
+                            icon: Icons.people,
+                            backgroundColor: DashboardColors.cardIndigoBg,
+                            iconColor: DashboardColors.cardIndigo,
+                            onTap: () {},
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Capacitación',
+                            icon: Icons.school,
+                            backgroundColor: DashboardColors.cardWorkerPinkBg,
+                            iconColor: DashboardColors.cardWorkerPink,
+                            onTap: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Tercera fila
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Mensajes',
+                            icon: Icons.mail_outline,
+                            backgroundColor: DashboardColors.cardOrange2Bg,
+                            iconColor: DashboardColors.cardOrange2,
+                            onTap: () => _openMessages(context),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Perfil',
+                            icon: Icons.person,
+                            backgroundColor: DashboardColors.cardWorkerPurpleBg,
+                            iconColor: DashboardColors.cardWorkerPurple,
+                            onTap: () => _showUserProfile(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                  ],
+                ),
               ),
-            ),
-            
-            const SizedBox(height: 16),
-            
-            // Funcionalidades de trabajador
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              children: [
-                _buildFeatureCard(
-                  context,
-                  'Tareas',
-                  Icons.assignment,
-                  const Color(0xFF4ECDC4),
-                  'Gestiona tus tareas',
-                  () {},
-                ),
-                _buildFeatureCard(
-                  context,
-                  'Reportes',
-                  Icons.bar_chart,
-                  const Color(0xFF45B7D1),
-                  'Reportes de trabajo',
-                  () {},
-                ),
-                _buildFeatureCard(
-                  context,
-                  'Equipo',
-                  Icons.people,
-                  const Color(0xFFFF6B6B),
-                  'Tu equipo de trabajo',
-                  () {},
-                ),
-                _buildFeatureCard(
-                  context,
-                  'Capacitación',
-                  Icons.school,
-                  const Color(0xFF96CEB4),
-                  'Cursos y entrenamientos',
-                  () {},
-                ),
-              ],
             ),
           ],
         ),
       ),
+      bottomNavigationBar: _buildBottomNavigation(context),
     );
   }
 
   /// Dashboard para empresas (organizaciones)
   Widget _buildCompanyDashboard(BuildContext context) {
     final user = widget.currentUser;
-    final userName = user?['name'] ?? 'Usuario';
-    final accountType = user?['accountType'] ?? 'company';
-    final userTypeInfo = _getUserTypeInfo(accountType);
     final orgInfo = user?['organizationInfo'] as Map<String, dynamic>?;
-    final companyName = orgInfo?['companyName'] ?? userName;
+    final companyName = orgInfo?['companyName'] ?? 'Tu Empresa';
     
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text(companyName),
-        backgroundColor: const Color(0xFF45B7D1),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {},
-          ),
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.business),
-            onSelected: (value) {
-              switch (value) {
-                case 'profile':
-                  _showUserProfile(context);
-                  break;
-                case 'logout':
-                  _logout(context);
-                  break;
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'profile',
-                child: Row(
-                  children: [
-                    Icon(Icons.person, color: Colors.grey[700]),
-                    const SizedBox(width: 12),
-                    const Text('Mi Perfil'),
-                  ],
-                ),
-              ),
-              const PopupMenuDivider(),
-              PopupMenuItem(
-                value: 'logout',
-                child: Row(
-                  children: [
-                    Icon(Icons.logout, color: Colors.red[700]),
-                    const SizedBox(width: 12),
-                    const Text('Cerrar Sesión'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      backgroundColor: Colors.white,
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Tarjeta de empresa
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFF45B7D1), Color(0xFF2980B9)],
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF45B7D1).withValues(alpha: 0.3),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            // Header con saludo y opciones
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios, size: 20),
+                    onPressed: () {},
+                  ),
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Icon(
-                          userTypeInfo['icon'],
-                          color: Colors.white,
-                          size: 24,
-                        ),
+                      IconButton(
+                        icon: const Icon(Icons.search, size: 20),
+                        onPressed: () {},
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              companyName,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                      Stack(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.shopping_bag_outlined, size: 20),
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CartFavoritesPage(),
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              userTypeInfo['title'],
-                              style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.8),
-                                fontSize: 14,
+                          ),
+                          Positioned(
+                            right: 4,
+                            top: 4,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: DashboardColors.primary,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: const Text(
+                                '2',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      // Chip del tipo de usuario
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.3),
-                            width: 1,
-                          ),
-                        ),
-                        child: Text(
-                          userTypeInfo['label'],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                      IconButton(
+                        icon: const Icon(Icons.menu, size: 20),
+                        onPressed: () => _showDashboardMenu(context),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    userTypeInfo['description'],
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.9),
-                      fontSize: 14,
-                    ),
-                  ),
                 ],
+              ),
+            ),
+            
+            // Greeting
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  companyName,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
               ),
             ),
             
             const SizedBox(height: 24),
             
-            Text(
-              'Gestión Empresarial',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[800],
+            // Grid de opciones
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    // Primera fila
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Empleados',
+                            icon: Icons.people_alt,
+                            backgroundColor: DashboardColors.cardDarkBlueBg,
+                            iconColor: DashboardColors.cardDarkBlue,
+                            onTap: () => Navigator.pushNamed(context, '/company-employees'),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Proyectos',
+                            icon: Icons.folder_open,
+                            isHighlighted: true,
+                            backgroundColor: DashboardColors.cardBluePurple,
+                            iconColor: DashboardColors.cardBluePurple,
+                            onTap: () => Navigator.pushNamed(context, '/company-projects'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Segunda fila
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Métricas',
+                            icon: Icons.analytics,
+                            backgroundColor: DashboardColors.cardCompanyPinkBg,
+                            iconColor: DashboardColors.cardCompanyPink,
+                            onTap: () => Navigator.pushNamed(context, '/company-metrics'),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Recursos',
+                            icon: Icons.inventory,
+                            backgroundColor: DashboardColors.cardDarkGreenBg,
+                            iconColor: DashboardColors.cardDarkGreen,
+                            onTap: () => Navigator.pushNamed(context, '/company-resources'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Tercera fila
+                    Row(
+                      children: [
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Servicios',
+                            icon: Icons.engineering,
+                            backgroundColor: DashboardColors.cardCompanyOrangeBg,
+                            iconColor: DashboardColors.cardCompanyOrange,
+                            onTap: () => Navigator.pushNamed(context, '/company-requested-services'),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: DashboardGridItem(
+                            label: 'Productos',
+                            icon: Icons.inventory_2,
+                            backgroundColor: DashboardColors.cardCompanyPurpleBg,
+                            iconColor: DashboardColors.cardCompanyPurple,
+                            onTap: () => Navigator.pushNamed(context, '/company-requested-products'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                  ],
+                ),
               ),
             ),
-            
-            const SizedBox(height: 16),
-            
-            // Funcionalidades de empresa
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              children: [
-                _buildFeatureCard(
+          ],
+        ),
+      ),
+      bottomNavigationBar: _buildBottomNavigation(context),
+    );
+  }
+
+  /// Construye la barra de navegación inferior
+  Widget _buildBottomNavigation(BuildContext context) {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
+      selectedItemColor: DashboardColors.primary,
+      unselectedItemColor: Colors.grey[400],
+      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+      currentIndex: _selectedBottomIndex,
+      onTap: (index) {
+        setState(() {
+          _selectedBottomIndex = index;
+        });
+        
+        switch (index) {
+          case 0:
+            // Inicio - ya está aquí
+            break;
+          case 1:
+            // Muro Comunitario
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CommunityFeedPage(currentUser: widget.currentUser),
+              ),
+            );
+            break;
+          case 2:
+            // Perfil
+            _showUserProfile(context);
+            break;
+          case 3:
+            // Notificaciones
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NotificationsPage(currentUser: widget.currentUser),
+              ),
+            );
+            break;
+          case 4:
+            // Configuración
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SettingsPage(currentUser: widget.currentUser),
+              ),
+            );
+            break;
+        }
+      },
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined),
+          label: 'Inicio',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.dynamic_feed),
+          label: 'Muro',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_outline),
+          label: 'Perfil',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.bolt_outlined),
+          label: 'Notificaciones',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings_outlined),
+          label: 'Configuración',
+        ),
+      ],
+    );
+  }
+
+  /// Muestra el menú del dashboard
+  void _showDashboardMenu(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Header del menú
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ListTile(
+              leading: const Icon(Icons.person, color: Colors.blue),
+              title: const Text('Mi Perfil'),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.pop(context);
+                _showUserProfile(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.notifications, color: Colors.orange),
+              title: const Text('Notificaciones'),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
                   context,
-                  'Empleados',
-                  Icons.people_alt,
-                  const Color(0xFF45B7D1),
-                  'Gestiona tu equipo',
-                  () {},
-                ),
-                _buildFeatureCard(
+                  MaterialPageRoute(
+                    builder: (context) => NotificationsPage(currentUser: widget.currentUser),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings, color: Colors.grey),
+              title: const Text('Configuración'),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
                   context,
-                  'Proyectos',
-                  Icons.folder_open,
-                  const Color(0xFF4ECDC4),
-                  'Administra proyectos',
-                  () {},
-                ),
-                _buildFeatureCard(
-                  context,
-                  'Métricas',
-                  Icons.analytics,
-                  const Color(0xFFFF6B6B),
-                  'Análisis y reportes',
-                  () {},
-                ),
-                _buildFeatureCard(
-                  context,
-                  'Recursos',
-                  Icons.inventory,
-                  const Color(0xFF96CEB4),
-                  'Gestión de recursos',
-                  () {},
-                ),
-              ],
+                  MaterialPageRoute(
+                    builder: (context) => SettingsPage(currentUser: widget.currentUser),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.help, color: Colors.purple),
+              title: const Text('Ayuda y soporte'),
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: const Text('Cerrar Sesión', style: TextStyle(color: Colors.red)),
+              onTap: () {
+                Navigator.pop(context);
+                _logout(context);
+              },
             ),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildFeatureCard(
-    BuildContext context,
-    String title,
-    IconData icon,
-    Color color,
-    String description,
-    VoidCallback onTap,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    icon,
-                    color: color,
-                    size: 32,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[800],
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey[600],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Obtiene la información de tipo de usuario según el accountType
-  Map<String, dynamic> _getUserTypeInfo(String accountType) {
-    switch (accountType) {
-      case 'individual':
-        return {
-          'icon': Icons.person,
-          'title': 'Minero Individual',
-          'label': 'Individual',
-          'description': 'Profesional minero independiente especializado en exploración y proyectos personales',
-        };
-      case 'worker':
-        return {
-          'icon': Icons.engineering,
-          'title': 'Trabajador Minero',
-          'label': 'Empleado',
-          'description': 'Trabajador especializado vinculado a empresa minera',
-        };
-      case 'company':
-        return {
-          'icon': Icons.business,
-          'title': 'Empresa Minera',
-          'label': 'Empresa',
-          'description': 'Organización dedicada a operaciones y proyectos mineros',
-        };
-      default:
-        return {
-          'icon': Icons.person,
-          'title': 'Usuario Minero',
-          'label': 'General',
-          'description': 'Miembro de la comunidad minera',
-        };
-    }
   }
 
   /// Navega al perfil del usuario actual

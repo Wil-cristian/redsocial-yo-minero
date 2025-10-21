@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'chat_detail_page.dart';
+import 'group_chat_page.dart';
 
 class MessagesPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -133,6 +135,18 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
         backgroundColor: userColor,
         foregroundColor: Colors.white,
         elevation: 0,
+        leading: Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -166,7 +180,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              userColor.withOpacity(0.05),
+              userColor.withValues(alpha: 0.05),
               Colors.grey[50]!,
             ],
           ),
@@ -235,7 +249,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 4,
             offset: const Offset(0, 1),
           ),
@@ -247,7 +261,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
           children: [
             CircleAvatar(
               radius: 24,
-              backgroundColor: _getTypeColor(conversation['type']).withOpacity(0.2),
+              backgroundColor: _getTypeColor(conversation['type']).withValues(alpha: 0.2),
               child: Text(
                 conversation['avatar'],
                 style: TextStyle(
@@ -339,7 +353,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 4,
             offset: const Offset(0, 1),
           ),
@@ -349,7 +363,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: CircleAvatar(
           radius: 24,
-          backgroundColor: AppColors.info.withOpacity(0.2),
+          backgroundColor: AppColors.info.withValues(alpha: 0.2),
           child: Icon(
             Icons.group,
             color: AppColors.info,
@@ -440,7 +454,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
           Icon(
             icon,
             size: 80,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 24),
           Text(
@@ -455,7 +469,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
           Text(
             subtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary.withOpacity(0.7),
+              color: AppColors.textSecondary.withValues(alpha: 0.7),
             ),
             textAlign: TextAlign.center,
           ),
@@ -500,33 +514,25 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
   }
 
   void _openChat(Map<String, dynamic> conversation) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Chat con ${conversation['name']}'),
-        content: const Text('La funcionalidad de chat estará disponible próximamente.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Entendido'),
-          ),
-        ],
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatDetailPage(
+          conversation: conversation,
+          currentUser: widget.currentUser,
+        ),
       ),
     );
   }
 
   void _openGroupChat(Map<String, dynamic> group) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Grupo: ${group['name']}'),
-        content: const Text('La funcionalidad de chat grupal estará disponible próximamente.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Entendido'),
-          ),
-        ],
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GroupChatPage(
+          group: group,
+          currentUser: widget.currentUser,
+        ),
       ),
     );
   }
