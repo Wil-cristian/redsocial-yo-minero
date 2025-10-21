@@ -12,7 +12,6 @@ import 'notifications_page.dart';
 import 'settings_page.dart';
 import 'cart_favorites_page.dart';
 import 'shared/widgets/dashboard_grid_item.dart';
-import 'community_feed_page.dart';
 
 /// Home adaptativo que muestra diferentes interfaces según el tipo de usuario.
 /// - Individual: Dashboard personal con proyectos y oportunidades
@@ -35,7 +34,6 @@ class _HomePageState extends State<HomePage>
   
   late AnimationController _fadeController;
   late AnimationController _scaleController;
-  int _selectedBottomIndex = 0;
 
   @override
   void initState() {
@@ -278,7 +276,6 @@ class _HomePageState extends State<HomePage>
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigation(context),
     );
   }
 
@@ -478,7 +475,6 @@ class _HomePageState extends State<HomePage>
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigation(context),
     );
   }
 
@@ -665,85 +661,9 @@ class _HomePageState extends State<HomePage>
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigation(context),
     );
   }
 
-  /// Construye la barra de navegación inferior
-  Widget _buildBottomNavigation(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
-      selectedItemColor: DashboardColors.primary,
-      unselectedItemColor: Colors.grey[400],
-      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-      currentIndex: _selectedBottomIndex,
-      onTap: (index) {
-        setState(() {
-          _selectedBottomIndex = index;
-        });
-        
-        switch (index) {
-          case 0:
-            // Inicio - ya está aquí
-            break;
-          case 1:
-            // Muro Comunitario
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CommunityFeedPage(currentUser: widget.currentUser),
-              ),
-            );
-            break;
-          case 2:
-            // Perfil
-            _showUserProfile(context);
-            break;
-          case 3:
-            // Notificaciones
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NotificationsPage(currentUser: widget.currentUser),
-              ),
-            );
-            break;
-          case 4:
-            // Configuración
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SettingsPage(currentUser: widget.currentUser),
-              ),
-            );
-            break;
-        }
-      },
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: 'Inicio',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.dynamic_feed),
-          label: 'Muro',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
-          label: 'Perfil',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.bolt_outlined),
-          label: 'Notificaciones',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings_outlined),
-          label: 'Configuración',
-        ),
-      ],
-    );
-  }
 
   /// Muestra el menú del dashboard
   void _showDashboardMenu(BuildContext context) {

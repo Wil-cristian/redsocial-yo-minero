@@ -4,7 +4,7 @@ import 'core/di/locator.dart';
 import 'core/auth/authentication_service.dart';
 import 'core/theme/theme.dart';
 import 'login_page.dart';
-import 'home_page.dart';
+import 'main_navigation_shell.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,9 +41,9 @@ class AuthWrapper extends StatelessWidget {
           ? Future.value(AuthenticationService.instance.currentUser)
           : null,
       builder: (context, snapshot) {
-        // Si hay un usuario logueado, mostrar el home con el usuario
+        // Si hay un usuario logueado, mostrar el navigation shell con todas las pantallas
         if (AuthenticationService.instance.isLoggedIn) {
-          return HomePage(currentUser: AuthenticationService.instance.currentUser);
+          return MainNavigationShell(currentUser: AuthenticationService.instance.currentUser);
         }
         
         // Si no hay usuario logueado, mostrar login
