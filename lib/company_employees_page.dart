@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
 import 'employee_chat_page.dart';
+import 'create_employee_credentials_page.dart';
 
 class CompanyEmployeesPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -110,9 +111,26 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
           ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _showAddEmployeeDialog(),
+          Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.person_add, color: Colors.white),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CreateEmployeeCredentialsPage(
+                      currentUser: widget.currentUser,
+                    ),
+                  ),
+                );
+              },
+              tooltip: 'Crear Credenciales de Empleado',
+            ),
           ),
         ],
       ),
@@ -391,13 +409,13 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                           ),
                         ),
                         const PopupMenuDivider(),
-                        PopupMenuItem(
+                        const PopupMenuItem(
                           value: 'delete',
                           child: Row(
                             children: [
                               Icon(Icons.delete, size: 16, color: Colors.red),
-                              const SizedBox(width: 8),
-                              const Text('Eliminar', style: TextStyle(color: Colors.red)),
+                              SizedBox(width: 8),
+                              Text('Eliminar', style: TextStyle(color: Colors.red)),
                             ],
                           ),
                         ),
@@ -462,64 +480,6 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showAddEmployeeDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Agregar Empleado'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Nombre',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Puesto',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Empleado agregado exitosamente')),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF45B7D1),
-            ),
-            child: const Text('Agregar'),
-          ),
-        ],
       ),
     );
   }
@@ -640,7 +600,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
-              value: priority,
+              initialValue: priority,
               decoration: InputDecoration(
                 labelText: 'Prioridad',
                 border: OutlineInputBorder(

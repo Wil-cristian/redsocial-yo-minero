@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/auth/authentication_service.dart';
+import 'core/auth/employee_roles.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'products_page.dart';
 import 'services_page.dart';
@@ -273,12 +274,22 @@ class _HomePageState extends State<HomePage>
       );
   }
 
-  /// Dashboard para trabajadores (empleados de empresa)
+  /// Dashboard para trabajadores (empleados de empresa) - Específico por ROL
   Widget _buildWorkerDashboard(BuildContext context) {
     final user = widget.currentUser;
     final userName = user?['name'] ?? 'Usuario';
     final orgInfo = user?['organizationInfo'] as Map<String, dynamic>?;
     final companyName = orgInfo?['companyName'] ?? 'Tu Empresa';
+    final roleId = orgInfo?['roleId'] as String?;
+    final department = orgInfo?['department'] as String?;
+    
+    // Obtener el rol del empleado
+    final role = roleId != null ? EmployeeRoles.getById(roleId) : null;
+    final roleName = role?.name ?? 'Empleado';
+    // Convertir color hexadecimal (#RRGGBB) a Color
+    final roleColor = role != null 
+        ? Color(int.parse(role.color.replaceFirst('#', '0xFF')))
+        : const Color(0xFF4ECDC4);
     
     return SafeArea(
       child: Column(
@@ -296,43 +307,6 @@ class _HomePageState extends State<HomePage>
                         icon: const Icon(Icons.search, size: 20),
                         onPressed: () {},
                       ),
-                      Stack(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.shopping_bag_outlined, size: 20),
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const CartFavoritesPage(),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 4,
-                            top: 4,
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: DashboardColors.primary,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
-                              ),
-                              child: const Text(
-                                '2',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                       IconButton(
                         icon: const Icon(Icons.menu, size: 20),
                         onPressed: () => _showDashboardMenu(context),
@@ -343,128 +317,308 @@ class _HomePageState extends State<HomePage>
               ),
             ),
             
-            // Greeting
+            // Greeting con rol y empresa
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Hola, $userName',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hola, $userName',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                    Text(
-                      'Empleado de: $companyName',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: roleColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: roleColor.withValues(alpha: 0.3)),
+                        ),
+                        child: Text(
+                          roleName,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: roleColor,
+                          ),
+                        ),
                       ),
+                      if (department != null) ...[
+                        const SizedBox(width: 8),
+                        Text(
+                          '• $department',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    companyName,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             
             const SizedBox(height: 24),
             
-            // Grid de opciones
+            // Grid de opciones - Específico por rol
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    // Primera fila
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Tareas',
-                            icon: Icons.assignment,
-                            backgroundColor: DashboardColors.cardTealBg,
-                            iconColor: DashboardColors.cardTeal,
-                            onTap: () {},
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Reportes',
-                            icon: Icons.bar_chart,
-                            isHighlighted: true,
-                            backgroundColor: DashboardColors.cardWorkerGreen,
-                            iconColor: DashboardColors.cardWorkerGreen,
-                            onTap: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    
-                    // Segunda fila
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Equipo',
-                            icon: Icons.people,
-                            backgroundColor: DashboardColors.cardIndigoBg,
-                            iconColor: DashboardColors.cardIndigo,
-                            onTap: () {},
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Capacitación',
-                            icon: Icons.school,
-                            backgroundColor: DashboardColors.cardWorkerPinkBg,
-                            iconColor: DashboardColors.cardWorkerPink,
-                            onTap: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    
-                    // Tercera fila
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Mensajes',
-                            icon: Icons.mail_outline,
-                            backgroundColor: DashboardColors.cardOrange2Bg,
-                            iconColor: DashboardColors.cardOrange2,
-                            onTap: () => _openMessages(context),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Perfil',
-                            icon: Icons.person,
-                            backgroundColor: DashboardColors.cardWorkerPurpleBg,
-                            iconColor: DashboardColors.cardWorkerPurple,
-                            onTap: () => _showUserProfile(context),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                  ],
-                ),
+                child: _buildRoleSpecificGrid(context, roleId, role),
               ),
             ),
           ],
         ),
       );
   }
+
+  /// Grid específico según el rol del empleado
+  Widget _buildRoleSpecificGrid(BuildContext context, String? roleId, EmployeeRole? role) {
+    // Si no hay rol, mostrar opciones básicas
+    if (role == null || roleId == null) {
+      return _buildBasicWorkerGrid(context);
+    }
+
+    // Grid personalizado según el rol
+    switch (roleId) {
+      case 'ceo':
+        return _buildCEOGrid(context);
+      case 'operations':
+        return _buildOperationsGrid(context);
+      case 'finance':
+        return _buildFinanceGrid(context);
+      case 'hr':
+        return _buildHRGrid(context);
+      case 'sales':
+        return _buildSalesGrid(context);
+      case 'supervisor':
+        return _buildSupervisorGrid(context);
+      case 'technician':
+        return _buildTechnicianGrid(context);
+      case 'administrative':
+        return _buildAdministrativeGrid(context);
+      default:
+        return _buildBasicWorkerGrid(context);
+    }
+  }
+
+  // Grid para CEO - Acceso total
+  Widget _buildCEOGrid(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Métricas',
+                icon: Icons.analytics,
+                isHighlighted: true,
+                backgroundColor: DashboardColors.cardWorkerGreen,
+                iconColor: DashboardColors.cardWorkerGreen,
+                onTap: () {},
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Empleados',
+                icon: Icons.people,
+                backgroundColor: DashboardColors.cardIndigoBg,
+                iconColor: DashboardColors.cardIndigo,
+                onTap: () {},
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Proyectos',
+                icon: Icons.folder_open,
+                backgroundColor: DashboardColors.cardTealBg,
+                iconColor: DashboardColors.cardTeal,
+                onTap: () {},
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Finanzas',
+                icon: Icons.attach_money,
+                backgroundColor: DashboardColors.cardPurpleBg,
+                iconColor: DashboardColors.cardPurple,
+                onTap: () {},
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Recursos',
+                icon: Icons.inventory_2,
+                backgroundColor: DashboardColors.cardYellowBg,
+                iconColor: DashboardColors.cardYellow,
+                onTap: () {},
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Mensajes',
+                icon: Icons.mail_outline,
+                backgroundColor: DashboardColors.cardPinkBg,
+                iconColor: DashboardColors.cardPink,
+                onTap: () => _openMessages(context),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 32),
+      ],
+    );
+  }
+
+  // Grid para Técnico - Acceso limitado
+  Widget _buildTechnicianGrid(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Mis Tareas',
+                icon: Icons.assignment,
+                isHighlighted: true,
+                backgroundColor: DashboardColors.cardWorkerGreen,
+                iconColor: DashboardColors.cardWorkerGreen,
+                onTap: () {},
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Reportar',
+                icon: Icons.report,
+                backgroundColor: DashboardColors.cardOrange2Bg,
+                iconColor: DashboardColors.cardOrange2,
+                onTap: () {},
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Capacitación',
+                icon: Icons.school,
+                backgroundColor: DashboardColors.cardWorkerPinkBg,
+                iconColor: DashboardColors.cardWorkerPink,
+                onTap: () {},
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Perfil',
+                icon: Icons.person,
+                backgroundColor: DashboardColors.cardWorkerPurpleBg,
+                iconColor: DashboardColors.cardWorkerPurple,
+                onTap: () => _showUserProfile(context),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 32),
+      ],
+    );
+  }
+
+  // Grid básico para trabajadores sin rol específico
+  Widget _buildBasicWorkerGrid(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Tareas',
+                icon: Icons.assignment,
+                backgroundColor: DashboardColors.cardTealBg,
+                iconColor: DashboardColors.cardTeal,
+                onTap: () {},
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Reportes',
+                icon: Icons.bar_chart,
+                backgroundColor: DashboardColors.cardWorkerGreen,
+                iconColor: DashboardColors.cardWorkerGreen,
+                onTap: () {},
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Mensajes',
+                icon: Icons.mail_outline,
+                backgroundColor: DashboardColors.cardPinkBg,
+                iconColor: DashboardColors.cardPink,
+                onTap: () => _openMessages(context),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: DashboardGridItem(
+                label: 'Perfil',
+                icon: Icons.person,
+                backgroundColor: DashboardColors.cardYellowBg,
+                iconColor: DashboardColors.cardYellow,
+                onTap: () => _showUserProfile(context),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 32),
+      ],
+    );
+  }
+
+  // Grids simplificados para otros roles (reutilizan grids base)
+  Widget _buildOperationsGrid(BuildContext context) => _buildCEOGrid(context); // Acceso similar a CEO
+  Widget _buildFinanceGrid(BuildContext context) => _buildCEOGrid(context);
+  Widget _buildHRGrid(BuildContext context) => _buildCEOGrid(context);
+  Widget _buildSalesGrid(BuildContext context) => _buildBasicWorkerGrid(context);
+  Widget _buildSupervisorGrid(BuildContext context) => _buildBasicWorkerGrid(context);
+  Widget _buildAdministrativeGrid(BuildContext context) => _buildBasicWorkerGrid(context);
 
   /// Dashboard para empresas (organizaciones)
   Widget _buildCompanyDashboard(BuildContext context) {

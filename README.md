@@ -1,6 +1,39 @@
-# YoMinero
+# YoMinero - Red Social Minera
 
-Aplicación Flutter modularizada con capas simples (features/domain/data) y paleta semántica.
+Aplicación Flutter modularizada con capas simples (features/domain/data) y paleta semántica. Sistema completo de roles y permisos para empleados.
+
+## 🔑 Credenciales de Prueba
+
+Las siguientes cuentas de prueba están precargadas en la aplicación para testing:
+
+### 🏢 Cuenta de Empresa (Admin)
+- **Email:** `empresa@test.com`
+- **Password:** `test123`
+- **Tipo:** Company
+- **Funcionalidad:** Puede crear empleados con roles específicos
+
+### 👔 Empleado CEO (Primer Login)
+- **Email:** `maria.gerente@test.com`
+- **Password:** `test123`
+- **Rol:** CEO / Director General
+- **Departamento:** Gerencia General
+- **⚠️ Importante:** Debe cambiar contraseña en el primer inicio de sesión
+- **Dashboard:** Acceso completo (Métricas, Empleados, Proyectos, Finanzas, Recursos, Mensajes)
+
+### 👷 Empleado Técnico
+- **Email:** `carlos.tecnico@test.com`
+- **Password:** `test123`
+- **Rol:** Técnico
+- **Departamento:** Operaciones - Zona Norte
+- **Dashboard:** Acceso limitado (Mis Tareas, Reportar, Capacitación, Perfil)
+
+### 🧑 Usuario Individual
+- **Email:** `juan@test.com`
+- **Password:** `test123`
+- **Tipo:** Individual
+- **Dashboard:** Vista de minero independiente
+
+---
 
 ## Arquitectura
 - core/: tema, routing, auth y localizador sencillo.

@@ -167,9 +167,68 @@ class AuthenticationService {
       // Guardar nueva contraseña
       await _savePasswordHash(_currentUser!['id'] as String, newPassword);
       
+      // Actualizar flag de cambio de contraseña si existe
+      if (_currentUser!['mustChangePassword'] == true) {
+        _currentUser!['mustChangePassword'] = false;
+        await UserStorageService.updateUser(_currentUser!);
+      }
+      
       return AuthResult.success(_currentUser!);
     } catch (e) {
       return AuthResult.error('Error al cambiar contraseña: ${e.toString()}');
+    }
+  }
+
+  /// Crear credenciales de empleado (solo para empresas)
+  Future<AuthResult> createEmployeeCredentials({
+    required String companyId,
+    required String employeeName,
+    required String employeeEmail,
+    required String tempPassword,
+    required String roleId,
+    String? department,
+  }) async {
+    try {
+      // Validar que el email no exista
+      final existing = await UserStorageService.findUserByEmail(employeeEmail);
+      if (existing != null) {
+        return AuthResult.error('El email ya está registrado');
+      }
+
+      // Crear usuario empleado
+      final employeeData = {
+        'id': _generateUserId(),
+        'name': employeeName,
+        'username': employeeEmail.split('@')[0], // Usar email como username por defecto
+        'email': employeeEmail,
+        'accountType': 'worker',
+        'organizationInfo': {
+          'companyId': companyId,
+          'roleId': roleId,
+          'department': department,
+          'companyRole': 'employee',
+        },
+        'mustChangePassword': true, // Forzar cambio de contraseña
+        'bio': '',
+        'profileImageUrl': null,
+        'isVerified': false,
+        'followersCount': 0,
+        'followingCount': 0,
+        'createdAt': DateTime.now().toIso8601String(),
+      };
+
+      // Guardar usuario
+      final success = await UserStorageService.saveUser(employeeData);
+      if (!success) {
+        return AuthResult.error('Error al crear empleado');
+      }
+
+      // Guardar contraseña temporal
+      await _savePasswordHash(employeeData['id'] as String, tempPassword);
+
+      return AuthResult.success(employeeData);
+    } catch (e) {
+      return AuthResult.error('Error al crear empleado: ${e.toString()}');
     }
   }
 
@@ -211,7 +270,7 @@ class AuthenticationService {
 
   /// Hash simple de contraseña (para demo)
   String _hashPassword(String password) {
-    return base64Encode(utf8.encode(password + 'salt_yominero'));
+    return base64Encode(utf8.encode('${password}salt_yominero'));
   }
 }
 

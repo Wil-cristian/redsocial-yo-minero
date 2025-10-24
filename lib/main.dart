@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'core/routing/app_router.dart';
 import 'core/di/locator.dart';
 import 'core/auth/authentication_service.dart';
+import 'core/auth/test_accounts.dart';
 import 'core/theme/theme.dart';
 import 'login_page.dart';
 import 'main_navigation_shell.dart';
@@ -12,6 +13,9 @@ void main() async {
   
   // Inicializar el servicio de autenticación
   await AuthenticationService.instance.initialize();
+  
+  // TESTING: Crear cuentas de prueba (comentar en producción)
+  createTestAccounts();
   
   runApp(const MyApp());
 }

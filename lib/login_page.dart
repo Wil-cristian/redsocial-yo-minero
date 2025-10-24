@@ -3,6 +3,7 @@ import 'core/theme/colors.dart';
 import 'core/auth/authentication_service.dart';
 import 'user_type_selection_page.dart';
 import 'main_navigation_shell.dart';
+import 'change_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -51,11 +52,24 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
           
-          // Navegar al home con el usuario logueado
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MainNavigationShell(currentUser: result.userData)),
-          );
+          // Verificar si debe cambiar contraseña (empleado en primer login)
+          if (result.userData!['mustChangePassword'] == true) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChangePasswordPage(
+                  currentUser: result.userData!,
+                  isFirstLogin: true,
+                ),
+              ),
+            );
+          } else {
+            // Navegar al home con el usuario logueado
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MainNavigationShell(currentUser: result.userData)),
+            );
+          }
         } else {
           // Error de login
           ScaffoldMessenger.of(context).showSnackBar(

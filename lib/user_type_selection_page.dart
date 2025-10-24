@@ -388,16 +388,15 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                           
                           const SizedBox(height: 20),
                           
-                          _buildAccountTypeCard(
-                            type: AccountType.worker,
-                            title: 'Trabajador',
-                            subtitle: 'Para empleados que trabajan en una empresa',
-                            icon: Icons.engineering,
-                            color: const Color(0xFF4ECDC4),
-                            delay: 200,
-                          ),
-                          
-                          const SizedBox(height: 20),
+                          // Nota: El tipo "worker" solo se crea desde el panel de empresa
+                          // _buildAccountTypeCard(
+                          //   type: AccountType.worker,
+                          //   title: 'Trabajador',
+                          //   subtitle: 'Para empleados que trabajan en una empresa',
+                          //   icon: Icons.engineering,
+                          //   color: const Color(0xFF4ECDC4),
+                          //   delay: 200,
+                          // ),
                           
                           _buildAccountTypeCard(
                             type: AccountType.company,
@@ -405,7 +404,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                             subtitle: 'Para organizaciones mineras y corporaciones',
                             icon: Icons.business,
                             color: const Color(0xFF45B7D1),
-                            delay: 400,
+                            delay: 200,
                           ),
                         ],
                       ),
