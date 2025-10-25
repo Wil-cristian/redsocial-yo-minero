@@ -17,7 +17,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   final _repo = sl<PostRepository>();
   List<Post> _posts = [];
   bool _isLoading = true;
-  int _selectedFilter = 0; // 0: Todos, 1: Ventas, 2: Preguntas, 3: Servicios
+  int _selectedFilter = 0; // 0: Todos, 1: Productos, 2: Servicios, 3: Preguntas, 4: Noticias, 5: Encuestas, 6: Ofertas
 
   @override
   void initState() {
@@ -41,12 +41,18 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
 
   List<Post> get _filteredPosts {
     switch (_selectedFilter) {
-      case 1: // Ventas
-        return _posts.where((p) => p.type == PostType.offer).toList();
-      case 2: // Preguntas
+      case 1: // Productos
+        return _posts.where((p) => p.type == PostType.product).toList();
+      case 2: // Servicios
+        return _posts.where((p) => p.type == PostType.service).toList();
+      case 3: // Preguntas
         return _posts.where((p) => p.type == PostType.request).toList();
-      case 3: // Servicios
-        return _posts.where((p) => p.type == PostType.offer && p.serviceName != null).toList();
+      case 4: // Noticias
+        return _posts.where((p) => p.type == PostType.news).toList();
+      case 5: // Encuestas
+        return _posts.where((p) => p.type == PostType.poll).toList();
+      case 6: // Ofertas
+        return _posts.where((p) => p.type == PostType.offer).toList();
       default: // Todos
         return _posts;
     }
@@ -204,7 +210,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
             ),
           ),
 
-          // Filtros de categoría (Todos, Ventas, Preguntas, Servicios)
+          // Filtros de categoría
           SliverToBoxAdapter(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -213,11 +219,17 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 children: [
                   _buildCategoryChip('Todos', 0, Icons.grid_view),
                   const SizedBox(width: 8),
-                  _buildCategoryChip('Ventas', 1, Icons.shopping_bag),
+                  _buildCategoryChip('Productos', 1, Icons.shopping_bag),
                   const SizedBox(width: 8),
-                  _buildCategoryChip('Preguntas', 2, Icons.help),
+                  _buildCategoryChip('Servicios', 2, Icons.work),
                   const SizedBox(width: 8),
-                  _buildCategoryChip('Servicios', 3, Icons.work),
+                  _buildCategoryChip('Preguntas', 3, Icons.help),
+                  const SizedBox(width: 8),
+                  _buildCategoryChip('Noticias', 4, Icons.article),
+                  const SizedBox(width: 8),
+                  _buildCategoryChip('Encuestas', 5, Icons.poll),
+                  const SizedBox(width: 8),
+                  _buildCategoryChip('Ofertas', 6, Icons.local_offer),
                 ],
               ),
             ),
@@ -391,8 +403,29 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
 
           const SizedBox(height: 16),
 
-          // Imagen si existe
-          if (post.imageUrl != null && post.type != PostType.poll)
+          // Producto (Product)
+          if (post.type == PostType.product)
+            _buildProductCard(post),
+
+          // Noticia (News)
+          if (post.type == PostType.news)
+            _buildNewsCard(post),
+
+          // Servicio (Service)
+          if (post.type == PostType.service)
+            _buildServiceCard(post),
+
+          // Pregunta/Solicitud (Request) - Tipo Stack Overflow
+          if (post.type == PostType.request)
+            _buildQuestionCard(post),
+
+          // Imagen si existe (excepto para poll, product, news, service y request que tienen su propia sección)
+          if (post.imageUrl != null && 
+              post.type != PostType.poll && 
+              post.type != PostType.product && 
+              post.type != PostType.news &&
+              post.type != PostType.service &&
+              post.type != PostType.request)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ClipRRect(
@@ -472,141 +505,302 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
-        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.grey.shade50,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade200),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.white,
+              DashboardColors.cardOrange.withOpacity(0.05),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: DashboardColors.cardOrange.withOpacity(0.3),
+            width: 2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: DashboardColors.cardOrange.withOpacity(0.1),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Icon(Icons.poll, size: 20, color: DashboardColors.cardOrange),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Encuesta${post.pollAllowMultiple == true ? ' (Opción múltiple)' : ''}',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade700,
-                    ),
-                  ),
-                ),
-                if (post.pollEndsAt != null)
+            // Header de la encuesta
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: DashboardColors.cardOrange.withOpacity(0.1),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+              ),
+              child: Row(
+                children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: pollEnded ? Colors.red.shade50 : Colors.blue.shade50,
+                      color: DashboardColors.cardOrange,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(
-                      pollEnded ? 'Finalizada' : _getTimeRemaining(post.pollEndsAt!),
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: pollEnded ? Colors.red.shade700 : Colors.blue.shade700,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    child: const Icon(Icons.poll, size: 20, color: Colors.white),
                   ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            
-            // Opciones de la encuesta
-            ...post.pollOptions!.asMap().entries.map((entry) {
-              final optionIndex = entry.key;
-              final optionText = entry.value;
-              final votes = pollVotes[optionIndex.toString()] ?? 0;
-              final percentage = totalVotes > 0 ? (votes / totalVotes * 100) : 0.0;
-
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: InkWell(
-                  onTap: pollEnded ? null : () => _voteOnPoll(post, optionIndex),
-                  borderRadius: BorderRadius.circular(8),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: votes > 0 ? DashboardColors.cardOrange.withOpacity(0.3) : Colors.grey.shade300,
-                        width: votes > 0 ? 2 : 1,
-                      ),
-                    ),
-                    child: Stack(
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Barra de progreso
-                        if (totalVotes > 0)
-                          Positioned.fill(
-                            child: FractionallySizedBox(
-                              alignment: Alignment.centerLeft,
-                              widthFactor: percentage / 100,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: DashboardColors.cardOrange.withOpacity(0.15),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                              ),
+                        Text(
+                          'Encuesta',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                        if (post.pollAllowMultiple == true)
+                          Text(
+                            'Opción múltiple permitida',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey.shade600,
                             ),
                           ),
-                        
-                        // Contenido de la opción
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                optionText,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: votes > 0 ? FontWeight.w600 : FontWeight.normal,
-                                  color: Colors.grey.shade800,
-                                ),
-                              ),
-                            ),
-                            if (totalVotes > 0) ...[
-                              Text(
-                                '${percentage.toStringAsFixed(1)}%',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: DashboardColors.cardOrange,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '$votes ${votes == 1 ? 'voto' : 'votos'}',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
                       ],
                     ),
                   ),
-                ),
-              );
-            }).toList(),
-
-            // Total de votos
-            if (totalVotes > 0)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  '$totalVotes ${totalVotes == 1 ? 'voto total' : 'votos totales'}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
+                  if (post.pollEndsAt != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: pollEnded ? Colors.red : Colors.green,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            pollEnded ? Icons.lock_clock : Icons.timer_outlined,
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            pollEnded ? 'Cerrada' : _getTimeRemaining(post.pollEndsAt!),
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
               ),
+            ),
+            
+            // Opciones de la encuesta
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  ...post.pollOptions!.asMap().entries.map((entry) {
+                    final optionIndex = entry.key;
+                    final optionText = entry.value;
+                    final votes = pollVotes[optionIndex.toString()] ?? 0;
+                    final percentage = totalVotes > 0 ? (votes / totalVotes * 100) : 0.0;
+                    final isWinning = totalVotes > 0 && votes > 0 && votes == pollVotes.values.reduce((a, b) => a > b ? a : b);
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: pollEnded ? null : () => _voteOnPoll(post, optionIndex),
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: isWinning 
+                                    ? DashboardColors.cardOrange 
+                                    : Colors.grey.shade300,
+                                width: isWinning ? 2 : 1,
+                              ),
+                              boxShadow: [
+                                if (isWinning)
+                                  BoxShadow(
+                                    color: DashboardColors.cardOrange.withOpacity(0.2),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                              ],
+                            ),
+                            child: Stack(
+                              children: [
+                                // Barra de progreso con gradiente
+                                if (totalVotes > 0)
+                                  Positioned.fill(
+                                    child: FractionallySizedBox(
+                                      alignment: Alignment.centerLeft,
+                                      widthFactor: percentage / 100,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: isWinning
+                                                ? [
+                                                    DashboardColors.cardOrange.withOpacity(0.3),
+                                                    DashboardColors.cardOrange.withOpacity(0.1),
+                                                  ]
+                                                : [
+                                                    Colors.grey.shade200,
+                                                    Colors.grey.shade100,
+                                                  ],
+                                          ),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                
+                                // Contenido de la opción
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                  child: Row(
+                                    children: [
+                                      // Letra o número de opción
+                                      Container(
+                                        width: 32,
+                                        height: 32,
+                                        decoration: BoxDecoration(
+                                          color: isWinning 
+                                              ? DashboardColors.cardOrange 
+                                              : Colors.grey.shade400,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            String.fromCharCode(65 + optionIndex), // A, B, C, D...
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: Text(
+                                          optionText,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: isWinning ? FontWeight.bold : FontWeight.w500,
+                                            color: Colors.grey.shade800,
+                                          ),
+                                        ),
+                                      ),
+                                      if (totalVotes > 0) ...[
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              '${percentage.toStringAsFixed(0)}%',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: isWinning 
+                                                    ? DashboardColors.cardOrange 
+                                                    : Colors.grey.shade700,
+                                              ),
+                                            ),
+                                            Text(
+                                              '$votes ${votes == 1 ? 'voto' : 'votos'}',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: Colors.grey.shade600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        if (isWinning) ...[
+                                          const SizedBox(width: 8),
+                                          Icon(
+                                            Icons.emoji_events,
+                                            color: DashboardColors.cardOrange,
+                                            size: 20,
+                                          ),
+                                        ],
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+
+                  // Total de votos y mensaje
+                  if (totalVotes > 0)
+                    Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: DashboardColors.cardOrange.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.how_to_vote, size: 16, color: DashboardColors.cardOrange),
+                          const SizedBox(width: 8),
+                          Text(
+                            '$totalVotes ${totalVotes == 1 ? 'persona ha votado' : 'personas han votado'}',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey.shade700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    Container(
+                      margin: const EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.touch_app, size: 16, color: Colors.blue.shade700),
+                          const SizedBox(width: 8),
+                          Text(
+                            '¡Sé el primero en votar!',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.blue.shade700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -633,6 +827,163 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
     }
   }
 
+  Widget _buildProductCard(Post post) {
+    final hasImages = post.productImages != null && post.productImages!.isNotEmpty;
+    final price = post.productPrice ?? 0.0;
+    final currency = post.productCurrency ?? 'USD';
+    final stock = post.productStock ?? 0;
+    final condition = post.productCondition ?? 'Nuevo';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: DashboardColors.cardOrange.withOpacity(0.2), width: 2),
+          boxShadow: [
+            BoxShadow(
+              color: DashboardColors.cardOrange.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Carrusel de imágenes o placeholder
+            hasImages
+                ? _buildImageCarousel(post.productImages!)
+                : _buildImagePlaceholder(),
+
+            // Información del producto
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Precio y condición
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              currency == 'USD' ? '\$$price' : '$currency $price',
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: DashboardColors.cardOrange,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: condition == 'Nuevo' ? Colors.green.shade50 : Colors.blue.shade50,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    condition,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: condition == 'Nuevo' ? Colors.green.shade700 : Colors.blue.shade700,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Icon(
+                                  stock > 0 ? Icons.check_circle : Icons.cancel,
+                                  size: 16,
+                                  color: stock > 0 ? Colors.green : Colors.red,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  stock > 0 ? '$stock disponibles' : 'Sin stock',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: stock > 0 ? Colors.green.shade700 : Colors.red.shade700,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Botones de acción
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: stock > 0 ? () => _addToCart(post) : null,
+                          icon: const Icon(Icons.shopping_cart, size: 20),
+                          label: const Text('Agregar al carrito'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: DashboardColors.cardOrange,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: 0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      OutlinedButton.icon(
+                        onPressed: () => _viewProductDetails(post),
+                        icon: const Icon(Icons.remove_red_eye_outlined, size: 20),
+                        label: const Text('Detalles'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: DashboardColors.cardOrange,
+                          side: BorderSide(color: DashboardColors.cardOrange),
+                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _addToCart(Post post) {
+    // TODO: Implementar agregar al carrito
+    print('🛒 Agregando producto ${post.id} al carrito');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${post.title} agregado al carrito'),
+        backgroundColor: DashboardColors.cardOrange,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _viewProductDetails(Post post) {
+    // TODO: Navegar a ProductDetailPage
+    print('👁️ Viendo detalles del producto ${post.id}');
+    Navigator.pushNamed(context, '/product-detail', arguments: post);
+  }
+
   String _getTimeAgo(DateTime dt) {
     final diff = DateTime.now().difference(dt);
     if (diff.inDays > 365) return '${(diff.inDays / 365).floor()} años';
@@ -642,4 +993,1054 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
     if (diff.inMinutes > 0) return '${diff.inMinutes}m';
     return 'Ahora';
   }
+
+  // Carrusel de imágenes con indicadores
+  Widget _buildImageCarousel(List<String> images) {
+    return _ImageCarousel(images: images);
+  }
+
+  // Widget de noticia tipo artículo
+  Widget _buildNewsCard(Post post) {
+    final hasCoverImage = post.newsCoverImage != null && post.newsCoverImage!.isNotEmpty;
+    final source = post.newsSource ?? 'Fuente desconocida';
+    final author = post.newsAuthor;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.blue.shade200, width: 2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.blue.withOpacity(0.1),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Imagen de portada
+            if (hasCoverImage)
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+                child: Stack(
+                  children: [
+                    Image.network(
+                      post.newsCoverImage!,
+                      width: double.infinity,
+                      height: 200,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        height: 200,
+                        color: Colors.grey.shade200,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.broken_image, size: 64, color: Colors.grey.shade400),
+                            const SizedBox(height: 8),
+                            Text('Error al cargar imagen', style: TextStyle(color: Colors.grey.shade600)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // Badge de "NOTICIA"
+                    Positioned(
+                      top: 12,
+                      left: 12,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.blue.shade700, Colors.blue.shade500],
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.article, size: 14, color: Colors.white),
+                            const SizedBox(width: 4),
+                            Text(
+                              'NOTICIA',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            // Contenido de la noticia
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Badge de fuente/autor
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.blue.shade200),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.newspaper, size: 14, color: Colors.blue.shade700),
+                            const SizedBox(width: 4),
+                            Text(
+                              source,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.blue.shade700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (author != null && author.isNotEmpty) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.person, size: 14, color: Colors.grey.shade700),
+                              const SizedBox(width: 4),
+                              Text(
+                                author,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Título con estilo de artículo
+                  if (post.title.isNotEmpty)
+                    Text(
+                      post.title,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade900,
+                        height: 1.3,
+                      ),
+                    ),
+
+                  if (post.content.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      post.content,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey.shade700,
+                        height: 1.5,
+                      ),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+
+                  const SizedBox(height: 12),
+
+                  // Botón "Leer más"
+                  InkWell(
+                    onTap: () {
+                      // TODO: Navegar a página de detalle de noticia
+                      print('📰 Leer noticia completa: ${post.id}');
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.blue.shade600, Colors.blue.shade700],
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Leer más',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(Icons.arrow_forward, size: 16, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Widget de servicio profesional
+  Widget _buildServiceCard(Post post) {
+    final serviceName = post.serviceName ?? post.title;
+    final tags = post.serviceTags ?? [];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.purple.shade50,
+              Colors.white,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: Colors.purple.shade300,
+            width: 2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.purple.withOpacity(0.15),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header del servicio
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.purple.shade600, Colors.purple.shade700],
+                ),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.room_service,
+                      size: 24,
+                      color: Colors.purple.shade700,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'SERVICIO PROFESIONAL',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.9),
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          serviceName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.white.withOpacity(0.3)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.star, size: 14, color: Colors.amber.shade300),
+                        const SizedBox(width: 4),
+                        Text(
+                          '4.8',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Contenido del servicio
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Descripción del servicio
+                  if (post.content.isNotEmpty)
+                    Text(
+                      post.content,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey.shade700,
+                        height: 1.5,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
+                  // Tags/Categorías
+                  if (tags.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: tags.map((tag) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.purple.shade100,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.purple.shade300),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.label,
+                                size: 14,
+                                color: Colors.purple.shade700,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                tag,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.purple.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+
+                  const SizedBox(height: 16),
+
+                  // Características del servicio
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.purple.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        _buildServiceFeature(
+                          Icons.verified_user,
+                          'Profesional verificado',
+                          Colors.green,
+                        ),
+                        const SizedBox(height: 8),
+                        _buildServiceFeature(
+                          Icons.schedule,
+                          'Disponibilidad inmediata',
+                          Colors.blue,
+                        ),
+                        const SizedBox(height: 8),
+                        _buildServiceFeature(
+                          Icons.workspace_premium,
+                          'Garantía de calidad',
+                          Colors.amber,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Botones de acción
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            print('📞 Contactar servicio: ${post.id}');
+                          },
+                          icon: const Icon(Icons.phone, size: 18),
+                          label: const Text('Contactar'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.purple.shade600,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            print('ℹ️ Ver detalles servicio: ${post.id}');
+                          },
+                          icon: Icon(Icons.info_outline, size: 18, color: Colors.purple.shade700),
+                          label: Text(
+                            'Detalles',
+                            style: TextStyle(color: Colors.purple.shade700),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            side: BorderSide(color: Colors.purple.shade600, width: 2),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Helper para características del servicio
+  Widget _buildServiceFeature(IconData icon, String text, Color color) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, size: 16, color: color),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade700,
+            ),
+          ),
+        ),
+        Icon(Icons.check_circle, size: 18, color: color),
+      ],
+    );
+  }
+
+  // Widget de pregunta tipo Stack Overflow
+  Widget _buildQuestionCard(Post post) {
+    final requiredTags = post.requiredTags ?? [];
+    final answersCount = post.comments; // Usamos comments como respuestas
+    final hasAcceptedAnswer = answersCount > 0; // Simulamos si tiene respuesta aceptada
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.orange.shade200, width: 2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.orange.withOpacity(0.1),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header con badge de pregunta
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.orange.shade50, Colors.white],
+                ),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.help_outline,
+                      size: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'PREGUNTA',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange.shade700,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
+                  // Badge de estado
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: hasAcceptedAnswer ? Colors.green : Colors.orange.shade100,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          hasAcceptedAnswer ? Icons.check_circle : Icons.help_outline,
+                          size: 14,
+                          color: hasAcceptedAnswer ? Colors.white : Colors.orange.shade700,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          hasAcceptedAnswer ? 'Resuelta' : 'Sin resolver',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: hasAcceptedAnswer ? Colors.white : Colors.orange.shade700,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Contenido de la pregunta
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Título de la pregunta
+                  Text(
+                    post.title,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade900,
+                      height: 1.3,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Contenido/descripción
+                  Text(
+                    post.content,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey.shade700,
+                      height: 1.5,
+                    ),
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  // Tags/categorías
+                  if (requiredTags.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: requiredTags.map((tag) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.orange.shade50,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.orange.shade300),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.label, size: 12, color: Colors.orange.shade700),
+                              const SizedBox(width: 4),
+                              Text(
+                                tag,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.orange.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+
+                  // Estadísticas de la pregunta
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildQuestionStat(
+                          Icons.visibility_outlined,
+                          '${post.likes * 5}',
+                          'Vistas',
+                          Colors.blue,
+                        ),
+                        Container(width: 1, height: 30, color: Colors.grey.shade300),
+                        _buildQuestionStat(
+                          Icons.chat_bubble_outline,
+                          '$answersCount',
+                          'Respuestas',
+                          Colors.green,
+                        ),
+                        Container(width: 1, height: 30, color: Colors.grey.shade300),
+                        _buildQuestionStat(
+                          Icons.favorite_border,
+                          '${post.likes}',
+                          'Útil',
+                          Colors.red,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Botón de responder
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        print('💬 Responder pregunta: ${post.id}');
+                      },
+                      icon: const Icon(Icons.reply, size: 18),
+                      label: const Text('Responder pregunta'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Helper para estadísticas de pregunta
+  Widget _buildQuestionStat(IconData icon, String value, String label, Color color) {
+    return Column(
+      children: [
+        Icon(icon, size: 20, color: color),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade800,
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11,
+            color: Colors.grey.shade600,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Placeholder cuando no hay imágenes
+  Widget _buildImagePlaceholder() {
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+      child: SizedBox(
+        height: 250,
+        child: Container(
+          color: Colors.grey.shade100,
+          child: Stack(
+          children: [
+            // Patrón de cuadros
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _CheckerboardPainter(),
+            ),
+          ),
+          // Icono central
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.image_outlined,
+                  size: 80,
+                  color: Colors.grey.shade300,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Sin imágenes',
+                  style: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      ),
+      ),
+    );
+  }
+}
+
+// Widget de carrusel de imágenes con estado
+class _ImageCarousel extends StatefulWidget {
+  final List<String> images;
+
+  const _ImageCarousel({required this.images});
+
+  @override
+  State<_ImageCarousel> createState() => _ImageCarouselState();
+}
+
+class _ImageCarouselState extends State<_ImageCarousel> {
+  late PageController _pageController;
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int page) {
+    setState(() {
+      _currentPage = page;
+    });
+  }
+
+  void _nextPage() {
+    if (_currentPage < widget.images.length - 1) {
+      _pageController.animateToPage(
+        _currentPage + 1,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void _previousPage() {
+    if (_currentPage > 0) {
+      _pageController.animateToPage(
+        _currentPage - 1,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+      child: SizedBox(
+        height: 250,
+        child: Stack(
+          children: [
+            PageView.builder(
+              controller: _pageController,
+              onPageChanged: _onPageChanged,
+              itemCount: widget.images.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Image.network(
+                    widget.images[index],
+                    width: double.infinity,
+                    height: 250,
+                    fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                    color: Colors.grey.shade200,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                        color: DashboardColors.cardOrange,
+                      ),
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey.shade200,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.broken_image, size: 64, color: Colors.grey.shade400),
+                      const SizedBox(height: 8),
+                      Text('Error al cargar', style: TextStyle(color: Colors.grey.shade600)),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          
+          // Botones de navegación (flechas)
+          if (widget.images.length > 1) ...[
+            // Flecha izquierda
+            if (_currentPage > 0)
+              Positioned(
+                left: 16,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: _previousPage,
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 8,
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.chevron_left,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            // Flecha derecha
+            if (_currentPage < widget.images.length - 1)
+              Positioned(
+                right: 16,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: _nextPage,
+                      borderRadius: BorderRadius.circular(30),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 8,
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+          
+          // Indicadores de página (puntos)
+          if (widget.images.length > 1)
+            Positioned(
+              bottom: 12,
+              left: 0,
+              right: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(widget.images.length, (index) {
+                  return AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    width: _currentPage == index ? 12 : 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: _currentPage == index
+                          ? DashboardColors.cardOrange
+                          : Colors.white.withOpacity(0.6),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ),
+          // Contador en la esquina superior derecha
+          if (widget.images.length > 1)
+            Positioned(
+              top: 12,
+              right: 12,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  '${_currentPage + 1}/${widget.images.length}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+      ),
+    );
+  }
+}
+
+// Painter para el patrón de cuadros
+class _CheckerboardPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = Colors.grey.shade200;
+    const squareSize = 20.0;
+
+    for (double x = 0; x < size.width; x += squareSize) {
+      for (double y = 0; y < size.height; y += squareSize) {
+        if (((x / squareSize) + (y / squareSize)) % 2 == 0) {
+          canvas.drawRect(
+            Rect.fromLTWH(x, y, squareSize, squareSize),
+            paint,
+          );
+        }
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
