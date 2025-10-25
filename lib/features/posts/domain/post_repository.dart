@@ -20,13 +20,28 @@ abstract class PostRepository {
     double? budgetAmount,
     String? budgetCurrency,
     DateTime? deadline,
-    // offer specific
+    // offer/service specific
     String? serviceName,
     List<String>? serviceTags,
     double? pricingFrom,
     double? pricingTo,
     String? pricingUnit,
     String? availability,
+    // product specific
+    List<String>? productImages,
+    double? productPrice,
+    String? productCurrency,
+    int? productStock,
+    String? productCondition,
+    // news specific
+    String? newsSource,
+    String? newsAuthor,
+    String? newsCoverImage,
+    // poll specific
+    List<String>? pollOptions,
+    Map<String, int>? pollVotes,
+    bool? pollAllowMultiple,
+    DateTime? pollEndsAt,
   });
 
   /// Returns true if like was applied, false if user had already liked.

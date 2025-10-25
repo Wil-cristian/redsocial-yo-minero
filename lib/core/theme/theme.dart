@@ -1,104 +1,111 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'colors.dart';
+import 'dashboard_colors.dart';
 
 final ThemeData yoMineroTheme = _buildTheme();
 
 ThemeData _buildTheme() {
   final base = ThemeData(useMaterial3: true, brightness: Brightness.light);
   final scheme = ColorScheme.fromSeed(
-    seedColor: AppColors.primary,
+    seedColor: DashboardColors.gold,
     brightness: Brightness.light,
-    primary: AppColors.primary,
+    primary: DashboardColors.gold,
   ).copyWith(
-    primary: AppColors.primary,
-    primaryContainer: AppColors.primaryContainer,
-    secondary: AppColors.secondary,
-    secondaryContainer: AppColors.secondaryContainer,
-    surface: AppColors.surface,
-    error: AppColors.error,
-    onPrimary: AppColors.white,
-    onSecondary: AppColors.onColor(AppColors.secondary),
-    onSurface: AppColors.textPrimary,
-    onError: AppColors.white,
+    primary: DashboardColors.gold,
+    primaryContainer: DashboardColors.goldLight,
+    secondary: DashboardColors.emerald,
+    secondaryContainer: DashboardColors.emeraldLight,
+    surface: DashboardColors.white,
+    background: DashboardColors.white,
+    error: DashboardColors.error,
+    onPrimary: DashboardColors.charcoal,
+    onSecondary: DashboardColors.white,
+    onSurface: DashboardColors.charcoal,
+    onBackground: DashboardColors.charcoal,
+    onError: DashboardColors.white,
   );
 
   return base.copyWith(
     colorScheme: scheme,
-    scaffoldBackgroundColor: AppColors.background,
-    primaryColor: AppColors.primary,
+    scaffoldBackgroundColor: DashboardColors.white,
+    primaryColor: DashboardColors.gold,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.primary,
-      foregroundColor: AppColors.white,
+      backgroundColor: DashboardColors.white,
+      foregroundColor: DashboardColors.charcoal,
       elevation: 0,
-      shadowColor: AppColors.primary.withValues(alpha: 0.3),
+      shadowColor: DashboardColors.gray200,
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
       ),
-      titleTextStyle: const TextStyle(
-        color: AppColors.white,
+      titleTextStyle: TextStyle(
+        color: DashboardColors.charcoal,
         fontSize: 20,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.15,
       ),
+      iconTheme: IconThemeData(
+        color: DashboardColors.charcoal,
+      ),
     ),
     textTheme: base.textTheme.copyWith(
-      bodyLarge:
-          base.textTheme.bodyLarge?.copyWith(color: AppColors.textPrimary),
-      bodyMedium:
-          base.textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
+      bodyLarge: base.textTheme.bodyLarge?.copyWith(
+        color: DashboardColors.charcoal,
+      ),
+      bodyMedium: base.textTheme.bodyMedium?.copyWith(
+        color: DashboardColors.gray700,
+      ),
       titleLarge: base.textTheme.titleLarge?.copyWith(
-        color: AppColors.textPrimary,
+        color: DashboardColors.charcoal,
         fontWeight: FontWeight.bold,
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.white,
+        backgroundColor: DashboardColors.gold,
+        foregroundColor: DashboardColors.charcoal,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         elevation: 2,
-        shadowColor: AppColors.primary.withValues(alpha: 0.4),
+        shadowColor: DashboardColors.goldShadow,
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.surface,
+      fillColor: DashboardColors.gray50,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.outline, width: .8),
+        borderSide: BorderSide(color: DashboardColors.gray300, width: 1),
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.outline, width: .8),
+        borderSide: BorderSide(color: DashboardColors.gray300, width: 1),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.primary, width: 1.2),
+        borderSide: BorderSide(color: DashboardColors.gold, width: 2),
       ),
     ),
     chipTheme: ChipThemeData(
-      backgroundColor: AppColors.secondaryContainer,
-      selectedColor: AppColors.primary,
-      labelStyle: const TextStyle(color: AppColors.textPrimary),
+      backgroundColor: DashboardColors.gray100,
+      selectedColor: DashboardColors.goldLight,
+      labelStyle: TextStyle(color: DashboardColors.charcoal),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     ),
-    snackBarTheme: const SnackBarThemeData(
-      backgroundColor: AppColors.primary,
-      contentTextStyle: TextStyle(color: AppColors.white),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: DashboardColors.charcoal,
+      contentTextStyle: TextStyle(color: DashboardColors.white),
     ),
     cardTheme: CardThemeData(
-      color: AppColors.surface,
+      color: DashboardColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 0,
-      shadowColor: AppColors.primary.withValues(alpha: 0.1),
+      shadowColor: DashboardColors.gray300,
       margin: const EdgeInsets.all(8),
     ),
-    dividerColor: AppColors.outline,
-    iconTheme: const IconThemeData(color: AppColors.textSecondary),
+    dividerColor: DashboardColors.gray200,
+    iconTheme: IconThemeData(color: DashboardColors.gray700),
   );
 }
 

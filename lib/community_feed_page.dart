@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'core/theme/dashboard_colors.dart';
+import 'core/theme/premium_widgets.dart';
 import 'core/di/locator.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'features/posts/domain/post_repository.dart';
@@ -419,12 +420,17 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           if (post.type == PostType.request)
             _buildQuestionCard(post),
 
-          // Imagen si existe (excepto para poll, product, news, service y request que tienen su propia sección)
+          // Oferta laboral/comercial (Offer)
+          if (post.type == PostType.offer)
+            _buildOfferCard(post),
+
+          // Imagen si existe (excepto para tipos con widget personalizado)
           if (post.imageUrl != null && 
               post.type != PostType.poll && 
               post.type != PostType.product && 
               post.type != PostType.news &&
               post.type != PostType.service &&
+              post.type != PostType.offer &&
               post.type != PostType.request)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -835,133 +841,106 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
     final condition = post.productCondition ?? 'Nuevo';
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: DashboardColors.cardOrange.withOpacity(0.2), width: 2),
-          boxShadow: [
-            BoxShadow(
-              color: DashboardColors.cardOrange.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: PremiumWidgets.productCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Carrusel de imágenes o placeholder
-            hasImages
-                ? _buildImageCarousel(post.productImages!)
-                : _buildImagePlaceholder(),
+            // Carrusel de imágenes con badge flotante
+            Stack(
+              children: [
+                hasImages
+                    ? _buildImageCarousel(post.productImages!)
+                    : _buildImagePlaceholder(),
+                // Badge "PRODUCTO" premium
+                Positioned(
+                  top: 12,
+                  right: 12,
+                  child: PremiumWidgets.premiumBadge(
+                    label: 'PRODUCTO',
+                    icon: Icons.star,
+                    gradientColors: [
+                      DashboardColors.gold,
+                      DashboardColors.goldLight,
+                      DashboardColors.goldDark,
+                    ],
+                  ),
+                ),
+              ],
+            ),
 
-            // Información del producto
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Precio y condición
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  // Información del producto
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white,
+                          const Color(0xFFFFFAF0).withOpacity(0.3),
+                        ],
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Precio premium con badges y efectos brillantes
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              currency == 'USD' ? '\$$price' : '$currency $price',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: DashboardColors.cardOrange,
+                            // Precio con efectos brillantes (shimmer + pulse)
+                            PremiumWidgets.shimmerEffect(
+                              child: PremiumWidgets.pulsingBorder(
+                                color: DashboardColors.gold,
+                                child: PremiumWidgets.priceContainer(
+                                  price: price.toString(),
+                                  currency: currency,
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 4),
                             Row(
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: condition == 'Nuevo' ? Colors.green.shade50 : Colors.blue.shade50,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: Text(
-                                    condition,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: condition == 'Nuevo' ? Colors.green.shade700 : Colors.blue.shade700,
-                                    ),
-                                  ),
+                                PremiumWidgets.conditionBadge(
+                                  condition: condition,
                                 ),
                                 const SizedBox(width: 8),
-                                Icon(
-                                  stock > 0 ? Icons.check_circle : Icons.cancel,
-                                  size: 16,
-                                  color: stock > 0 ? Colors.green : Colors.red,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  stock > 0 ? '$stock disponibles' : 'Sin stock',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: stock > 0 ? Colors.green.shade700 : Colors.red.shade700,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                                PremiumWidgets.stockBadge(stock: stock),
                               ],
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
 
-                  const SizedBox(height: 16),
+                        const SizedBox(height: 16),
 
-                  // Botones de acción
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: stock > 0 ? () => _addToCart(post) : null,
-                          icon: const Icon(Icons.shopping_cart, size: 20),
-                          label: const Text('Agregar al carrito'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: DashboardColors.cardOrange,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                        // Botones de acción premium
+                        Row(
+                          children: [
+                            Expanded(
+                              // Botón dorado con efectos brillantes
+                              child: PremiumWidgets.shimmerEffect(
+                                duration: const Duration(seconds: 3),
+                                child: PremiumWidgets.goldButton(
+                                  label: 'Agregar al carrito',
+                                  icon: Icons.shopping_cart,
+                                  onPressed: stock > 0 ? () => _addToCart(post) : () {},
+                                ),
+                              ),
                             ),
-                            elevation: 0,
-                          ),
+                            const SizedBox(width: 8),
+                            PremiumWidgets.iconButton(
+                              icon: Icons.visibility,
+                              onPressed: () => _viewProductDetails(post),
+                              color: DashboardColors.gold,
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      OutlinedButton.icon(
-                        onPressed: () => _viewProductDetails(post),
-                        icon: const Icon(Icons.remove_red_eye_outlined, size: 20),
-                        label: const Text('Detalles'),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: DashboardColors.cardOrange,
-                          side: BorderSide(color: DashboardColors.cardOrange),
-                          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
         ),
-      ),
     );
   }
 
@@ -1742,6 +1721,433 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           ),
         ),
       ],
+    );
+  }
+
+  // Widget de oferta laboral/comercial
+  Widget _buildOfferCard(Post post) {
+    final serviceName = post.serviceName ?? post.title;
+    final tags = post.serviceTags ?? [];
+    final pricingFrom = post.pricingFrom;
+    final pricingTo = post.pricingTo;
+    final availability = post.availability ?? 'Disponible';
+    
+    // Simulación de deadline y plazas (en producción vendría de metadata)
+    final deadline = post.deadline ?? DateTime.now().add(const Duration(days: 15));
+    final daysLeft = deadline.difference(DateTime.now()).inDays;
+    final hoursLeft = deadline.difference(DateTime.now()).inHours;
+    final interested = post.likes * 3; // Simulación de interesados
+    final maxSlots = 10; // Plazas máximas
+    final availableSlots = maxSlots - (interested % maxSlots);
+    
+    // Determinar urgencia
+    final isUrgent = daysLeft <= 3;
+    final isNew = post.createdAt.isAfter(DateTime.now().subtract(const Duration(days: 2)));
+    final isHot = interested > 10;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              isUrgent ? Colors.orange.shade50 : Colors.green.shade50,
+              Colors.white,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isUrgent ? Colors.orange.shade300 : Colors.green.shade300,
+            width: 2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: (isUrgent ? Colors.orange : Colors.green).withOpacity(0.2),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header de la oferta
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: isUrgent 
+                      ? [Colors.orange.shade600, Colors.orange.shade700]
+                      : [Colors.green.shade600, Colors.green.shade700],
+                ),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          Icons.local_offer,
+                          size: 24,
+                          color: isUrgent ? Colors.orange.shade700 : Colors.green.shade700,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'OFERTA',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.9),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                                if (isNew) ...[
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Text(
+                                      'NUEVO',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                                if (isHot) ...[
+                                  const SizedBox(width: 8),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(Icons.local_fire_department, size: 10, color: Colors.white),
+                                        SizedBox(width: 2),
+                                        Text(
+                                          'POPULAR',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              serviceName,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Botón anclar/guardar
+                      Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            print('📌 Anclar oferta: ${post.id}');
+                          },
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Icon(
+                              Icons.bookmark_border,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  
+                  // Estadísticas en el header
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      // Tiempo restante
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                isUrgent ? Icons.warning_amber : Icons.access_time,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  daysLeft > 0 
+                                      ? '$daysLeft ${daysLeft == 1 ? 'día' : 'días'} restantes'
+                                      : '$hoursLeft horas restantes',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      // Interesados
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.people, size: 16, color: Colors.white),
+                            const SizedBox(width: 6),
+                            Text(
+                              '$interested interesados',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            // Contenido de la oferta
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Alerta de plazas limitadas
+                  if (availableSlots <= 3)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.red.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.red.shade300),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.warning, color: Colors.red.shade700, size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              '¡Solo quedan $availableSlots ${availableSlots == 1 ? 'plaza' : 'plazas'} disponibles!',
+                              style: TextStyle(
+                                color: Colors.red.shade700,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  // Descripción
+                  if (post.content.isNotEmpty)
+                    Text(
+                      post.content,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey.shade700,
+                        height: 1.5,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
+                  // Rango de precio si existe
+                  if (pricingFrom != null || pricingTo != null) ...[
+                    const SizedBox(height: 16),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.green.shade200),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.attach_money, size: 24, color: Colors.green.shade700),
+                          const SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Compensación',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                pricingFrom != null && pricingTo != null
+                                    ? '\$${pricingFrom.toStringAsFixed(0)} - \$${pricingTo.toStringAsFixed(0)}'
+                                    : pricingFrom != null
+                                        ? 'Desde \$${pricingFrom.toStringAsFixed(0)}'
+                                        : 'Hasta \$${pricingTo!.toStringAsFixed(0)}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+
+                  // Tags/Categorías
+                  if (tags.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: tags.map((tag) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.green.shade300),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.label,
+                                size: 14,
+                                color: Colors.green.shade700,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                tag,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.green.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+
+                  const SizedBox(height: 16),
+
+                  // Botones de acción
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            print('✅ Aplicar a oferta: ${post.id}');
+                          },
+                          icon: const Icon(Icons.send, size: 18),
+                          label: Text(isUrgent ? '¡Aplicar Ya!' : 'Aplicar'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isUrgent ? Colors.orange.shade600 : Colors.green.shade600,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 2,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      OutlinedButton(
+                        onPressed: () {
+                          print('ℹ️ Ver detalles oferta: ${post.id}');
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                          side: BorderSide(color: Colors.green.shade600, width: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Icon(Icons.info_outline, size: 20, color: Colors.green.shade700),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

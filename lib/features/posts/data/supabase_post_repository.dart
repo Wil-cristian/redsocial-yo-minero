@@ -47,6 +47,21 @@ class SupabasePostRepository implements PostRepository {
     double? pricingTo,
     String? pricingUnit,
     String? availability,
+    // Campos de producto
+    List<String>? productImages,
+    double? productPrice,
+    String? productCurrency,
+    int? productStock,
+    String? productCondition,
+    // Campos de noticia
+    String? newsSource,
+    String? newsAuthor,
+    String? newsCoverImage,
+    // Campos de encuesta
+    List<String>? pollOptions,
+    Map<String, int>? pollVotes,
+    bool? pollAllowMultiple,
+    DateTime? pollEndsAt,
   }) async {
     try {
       // Obtener ID del usuario autenticado
@@ -61,31 +76,79 @@ class SupabasePostRepository implements PostRepository {
         throw Exception('Usuario no autenticado');
       }
 
-      // Preparar datos del post
-      final postData = {
-        'author_id': currentUser.id,
-        'title': title,
-        'content': content,
-        'type': type.toString().split('.').last, // 'community', 'request', 'offer', etc
-        'tags': tags,
-        'categories': categories,
-        // NO incluir likes_count - la tabla usa un COUNT desde post_likes
-        // Campos específicos de request
-        if (type == PostType.request) ...{
+      // Construir objeto metadata según el tipo de post
+      Map<String, dynamic> metadata = {};
+      List<String>? images;
+
+      // Campos específicos de request
+      if (type == PostType.request) {
+        metadata = {
           'required_tags': requiredTags ?? [],
           'budget_amount': budgetAmount,
           'budget_currency': budgetCurrency ?? 'USD',
           'deadline': deadline?.toIso8601String(),
-        },
-        // Campos específicos de offer
-        if (type == PostType.offer) ...{
+        };
+      }
+      // Campos específicos de offer
+      else if (type == PostType.offer) {
+        metadata = {
           'service_name': serviceName,
           'service_tags': serviceTags ?? [],
           'pricing_from': pricingFrom,
           'pricing_to': pricingTo,
           'pricing_unit': pricingUnit,
           'availability': availability,
-        },
+        };
+      }
+      // Campos específicos de producto
+      else if (type == PostType.product) {
+        metadata = {
+          'price': productPrice,
+          'currency': productCurrency ?? 'USD',
+          'stock': productStock,
+          'condition': productCondition,
+        };
+        images = productImages; // Imágenes en columna separada
+      }
+      // Campos específicos de servicio
+      else if (type == PostType.service) {
+        metadata = {
+          'service_name': serviceName,
+          'service_tags': serviceTags ?? [],
+          'pricing_from': pricingFrom,
+          'pricing_to': pricingTo,
+          'pricing_unit': pricingUnit,
+          'availability': availability,
+        };
+      }
+      // Campos específicos de noticia
+      else if (type == PostType.news) {
+        metadata = {
+          'source': newsSource,
+          'author': newsAuthor,
+        };
+        images = newsCoverImage != null ? [newsCoverImage] : null; // Cover en columna images[]
+      }
+      // Campos específicos de encuesta
+      else if (type == PostType.poll) {
+        metadata = {
+          'options': pollOptions ?? [],
+          'votes': pollVotes ?? {},
+          'allow_multiple': pollAllowMultiple ?? false,
+          'ends_at': pollEndsAt?.toIso8601String(),
+        };
+      }
+
+      // Preparar datos del post con la nueva estructura
+      final postData = {
+        'author_id': currentUser.id,
+        'title': title,
+        'content': content,
+        'type': type.toString().split('.').last,
+        'tags': tags,
+        'categories': categories,
+        'metadata': metadata, // JSONB con data específica del tipo
+        if (images != null && images.isNotEmpty) 'images': images, // Columna TEXT[]
       };
 
       // Insertar en Supabase
@@ -167,12 +230,21 @@ class SupabasePostRepository implements PostRepository {
 
   /// Mapea un JSON de Supabase a un objeto Post
   Post _mapToPost(Map<String, dynamic> json) {
+    // Extraer metadata JSONB
+    final metadata = json['metadata'] as Map<String, dynamic>? ?? {};
+    final postType = _parsePostType(json['type'] as String?);
+    
+    // Extraer images de la columna TEXT[]
+    final images = json['images'] != null 
+        ? List<String>.from(json['images']) 
+        : null;
+    
     return Post(
       id: json['id'] as String,
       authorId: json['author_id'] as String,
       title: json['title'] as String,
       content: json['content'] as String,
-      type: _parsePostType(json['type'] as String?),
+      type: postType,
       tags: List<String>.from(json['tags'] ?? []),
       categories: List<String>.from(json['categories'] ?? []),
       likes: json['likes_count'] as int? ?? 0,
@@ -183,24 +255,80 @@ class SupabasePostRepository implements PostRepository {
           : null,
       imageUrl: json['image_url'] as String?,
       active: json['active'] as bool? ?? true,
-      // Campos de request
-      requiredTags: json['required_tags'] != null 
-          ? List<String>.from(json['required_tags']) 
+      
+      // ========== Campos de REQUEST desde metadata ==========
+      requiredTags: postType == PostType.request 
+          ? List<String>.from(metadata['required_tags'] ?? []) 
           : null,
-      budgetAmount: json['budget_amount'] as double?,
-      budgetCurrency: json['budget_currency'] as String?,
-      deadline: json['deadline'] != null 
-          ? DateTime.parse(json['deadline'] as String) 
+      budgetAmount: postType == PostType.request 
+          ? (metadata['budget_amount'] as num?)?.toDouble()
           : null,
-      // Campos de offer
-      serviceName: json['service_name'] as String?,
-      serviceTags: json['service_tags'] != null 
-          ? List<String>.from(json['service_tags']) 
+      budgetCurrency: postType == PostType.request 
+          ? metadata['budget_currency'] as String?
           : null,
-      pricingFrom: json['pricing_from'] as double?,
-      pricingTo: json['pricing_to'] as double?,
-      pricingUnit: json['pricing_unit'] as String?,
-      availability: json['availability'] as String?,
+      deadline: postType == PostType.request && metadata['deadline'] != null
+          ? DateTime.parse(metadata['deadline'] as String) 
+          : null,
+      
+      // ========== Campos de OFFER/SERVICE desde metadata ==========
+      serviceName: (postType == PostType.offer || postType == PostType.service)
+          ? metadata['service_name'] as String?
+          : null,
+      serviceTags: (postType == PostType.offer || postType == PostType.service)
+          ? List<String>.from(metadata['service_tags'] ?? []) 
+          : null,
+      pricingFrom: (postType == PostType.offer || postType == PostType.service)
+          ? (metadata['pricing_from'] as num?)?.toDouble()
+          : null,
+      pricingTo: (postType == PostType.offer || postType == PostType.service)
+          ? (metadata['pricing_to'] as num?)?.toDouble()
+          : null,
+      pricingUnit: (postType == PostType.offer || postType == PostType.service)
+          ? metadata['pricing_unit'] as String?
+          : null,
+      availability: (postType == PostType.offer || postType == PostType.service)
+          ? metadata['availability'] as String?
+          : null,
+      
+      // ========== Campos de PRODUCT desde metadata E IMAGES[] ==========
+      productImages: postType == PostType.product ? images : null, // ← De columna images[]
+      productPrice: postType == PostType.product 
+          ? (metadata['price'] as num?)?.toDouble()
+          : null,
+      productCurrency: postType == PostType.product 
+          ? metadata['currency'] as String?
+          : null,
+      productStock: postType == PostType.product 
+          ? metadata['stock'] as int?
+          : null,
+      productCondition: postType == PostType.product 
+          ? metadata['condition'] as String?
+          : null,
+      
+      // ========== Campos de NEWS desde metadata E IMAGES[] ==========
+      newsSource: postType == PostType.news 
+          ? metadata['source'] as String?
+          : null,
+      newsAuthor: postType == PostType.news 
+          ? metadata['author'] as String?
+          : null,
+      newsCoverImage: postType == PostType.news && images != null && images.isNotEmpty
+          ? images.first  // ← Primera imagen de columna images[]
+          : null,
+      
+      // ========== Campos de POLL desde metadata ==========
+      pollOptions: postType == PostType.poll 
+          ? List<String>.from(metadata['options'] ?? [])
+          : null,
+      pollVotes: postType == PostType.poll 
+          ? Map<String, int>.from(metadata['votes'] ?? {})
+          : null,
+      pollAllowMultiple: postType == PostType.poll 
+          ? metadata['allow_multiple'] as bool?
+          : null,
+      pollEndsAt: postType == PostType.poll && metadata['ends_at'] != null
+          ? DateTime.parse(metadata['ends_at'] as String)
+          : null,
     );
   }
 
@@ -210,6 +338,14 @@ class SupabasePostRepository implements PostRepository {
         return PostType.request;
       case 'offer':
         return PostType.offer;
+      case 'product':
+        return PostType.product;
+      case 'service':
+        return PostType.service;
+      case 'news':
+        return PostType.news;
+      case 'poll':
+        return PostType.poll;
       default:
         return PostType.community;
     }

@@ -22,6 +22,21 @@ class PostCreationSheet extends StatefulWidget {
     double? pricingTo,
     String? pricingUnit,
     String? availability,
+    // Product fields
+    List<String>? productImages,
+    double? productPrice,
+    String? productCurrency,
+    int? productStock,
+    String? productCondition,
+    // News fields
+    String? newsSource,
+    String? newsAuthor,
+    String? newsCoverImage,
+    // Poll fields
+    List<String>? pollOptions,
+    Map<String, int>? pollVotes,
+    bool? pollAllowMultiple,
+    DateTime? pollEndsAt,
   }) create;
   final String authorName;
   final PostCreatedCallback onCreated;
@@ -51,6 +66,10 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
   String _productCondition = 'nuevo';
   bool _submitting = false;
   
+  // Product images URLs
+  final List<String> _productImageUrls = [];
+  final _imageUrlCtrl = TextEditingController();
+  
   // Poll fields
   final List<TextEditingController> _pollOptionControllers = [
     TextEditingController(),
@@ -71,6 +90,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
     _productStockCtrl.dispose();
     _newsSourceCtrl.dispose();
     _newsAuthorCtrl.dispose();
+    _imageUrlCtrl.dispose();
     for (var ctrl in _pollOptionControllers) {
       ctrl.dispose();
     }
@@ -118,16 +138,41 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
             ? double.tryParse(_budgetCtrl.text)
             : null,
         budgetCurrency: _type == PostType.request ? 'USD' : null,
-        serviceName: _type == PostType.offer ? title : null,
-        serviceTags: _type == PostType.offer ? tags : null,
-        pricingFrom: _type == PostType.offer
+        serviceName: (_type == PostType.offer || _type == PostType.service) ? title : null,
+        serviceTags: (_type == PostType.offer || _type == PostType.service) ? tags : null,
+        pricingFrom: (_type == PostType.offer || _type == PostType.service)
             ? double.tryParse(_pricingFromCtrl.text)
             : null,
-        pricingTo: _type == PostType.offer
+        pricingTo: (_type == PostType.offer || _type == PostType.service)
             ? double.tryParse(_pricingToCtrl.text)
             : null,
-        pricingUnit: _type == PostType.offer ? 'unidad' : null,
-        availability: _type == PostType.offer ? 'Horario flexible' : null,
+        pricingUnit: (_type == PostType.offer || _type == PostType.service) ? 'unidad' : null,
+        availability: (_type == PostType.offer || _type == PostType.service) ? 'Horario flexible' : null,
+        // Campos de producto
+        productPrice: _type == PostType.product
+            ? double.tryParse(_productPriceCtrl.text)
+            : null,
+        productCurrency: _type == PostType.product ? 'USD' : null,
+        productStock: _type == PostType.product
+            ? int.tryParse(_productStockCtrl.text)
+            : null,
+        productCondition: _type == PostType.product ? _productCondition : null,
+        productImages: _type == PostType.product && _productImageUrls.isNotEmpty 
+            ? _productImageUrls 
+            : null,
+        // Campos de noticia
+        newsSource: _type == PostType.news ? _newsSourceCtrl.text.trim() : null,
+        newsAuthor: _type == PostType.news ? _newsAuthorCtrl.text.trim() : null,
+        newsCoverImage: _type == PostType.news ? null : null, // TODO: Implementar subida de imagen
+        // Campos de encuesta
+        pollOptions: _type == PostType.poll
+            ? _pollOptionControllers.map((c) => c.text.trim()).where((t) => t.isNotEmpty).toList()
+            : null,
+        pollVotes: _type == PostType.poll ? {} : null,
+        pollAllowMultiple: _type == PostType.poll ? _pollAllowMultiple : null,
+        pollEndsAt: _type == PostType.poll
+            ? DateTime.now().add(Duration(days: _pollDurationDays))
+            : null,
       );
       widget.onCreated(post);
       if (mounted) Navigator.pop(context);
@@ -138,6 +183,48 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
 
   void _show(String msg) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  void _showAddImageDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Agregar imagen'),
+        content: TextField(
+          controller: _imageUrlCtrl,
+          decoration: const InputDecoration(
+            labelText: 'URL de la imagen',
+            hintText: 'https://ejemplo.com/imagen.jpg',
+            border: OutlineInputBorder(),
+          ),
+          autofocus: true,
+          onSubmitted: (value) {
+            if (value.trim().isNotEmpty) {
+              setState(() => _productImageUrls.add(value.trim()));
+              _imageUrlCtrl.clear();
+              Navigator.pop(context);
+            }
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () {
+              final url = _imageUrlCtrl.text.trim();
+              if (url.isNotEmpty) {
+                setState(() => _productImageUrls.add(url));
+                _imageUrlCtrl.clear();
+                Navigator.pop(context);
+              }
+            },
+            child: const Text('Agregar'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -314,15 +401,51 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
               ),
               const SizedBox(height: 12),
               OutlinedButton.icon(
-                onPressed: () {
-                  // TODO: Abrir selector de imágenes
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Próximamente: agregar imágenes del producto')),
-                  );
-                },
+                onPressed: () => _showAddImageDialog(),
                 icon: const Icon(Icons.add_photo_alternate),
-                label: const Text('Agregar fotos del producto'),
+                label: Text('Agregar fotos del producto (${_productImageUrls.length})'),
               ),
+              if (_productImageUrls.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: _productImageUrls.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final url = entry.value;
+                    return Stack(
+                      children: [
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                            image: DecorationImage(
+                              image: NetworkImage(url),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: GestureDetector(
+                            onTap: () => setState(() => _productImageUrls.removeAt(index)),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.close, color: Colors.white, size: 20),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ],
             ],
             
             if (_type == PostType.news) ...[

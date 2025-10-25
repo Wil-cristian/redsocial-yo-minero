@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage>
     }
     
     // Mostrar interfaz específica según el tipo de usuario
-    final accountType = widget.currentUser!['accountType'] as String;
+    final accountType = (widget.currentUser!['accountType'] as String?) ?? 'individual';
     switch (accountType) {
       case 'individual':
         return _buildIndividualDashboard(context);
