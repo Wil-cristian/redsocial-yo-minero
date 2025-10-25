@@ -345,7 +345,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                               decoration: BoxDecoration(
                                 gradient: _isLiked 
-                                    ? LinearGradient(
+                                    ? const LinearGradient(
                                         colors: [AppColors.primary, AppColors.secondary],
                                       )
                                     : null,

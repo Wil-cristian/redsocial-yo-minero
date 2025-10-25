@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/routing/app_router.dart';
 import 'core/di/locator.dart';
-import 'core/auth/authentication_service.dart';
-import 'core/auth/test_accounts.dart';
+import 'core/supabase/supabase_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'core/theme/theme.dart';
+import 'core/theme/colors.dart';
 import 'login_page.dart';
 import 'main_navigation_shell.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupLocator();
+  
+  // Cargar variables de entorno
+  await dotenv.load(fileName: '.env');
+  
+  // Inicializar Supabase
+  await SupabaseService.instance.initialize();
   
   // Inicializar el servicio de autenticación
-  await AuthenticationService.instance.initialize();
+  await SupabaseAuthService.instance.initialize();
   
-  // TESTING: Crear cuentas de prueba (comentar en producción)
-  createTestAccounts();
+  // Configurar inyección de dependencias
+  setupLocator();
   
   runApp(const MyApp());
 }
@@ -40,14 +48,23 @@ class AuthWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<String, dynamic>?>(
-      future: AuthenticationService.instance.currentUser != null
-          ? Future.value(AuthenticationService.instance.currentUser)
-          : null,
+    return StreamBuilder<AuthState>(
+      stream: SupabaseService.instance.client.auth.onAuthStateChange,
       builder: (context, snapshot) {
-        // Si hay un usuario logueado, mostrar el navigation shell con todas las pantallas
-        if (AuthenticationService.instance.isLoggedIn) {
-          return MainNavigationShell(currentUser: AuthenticationService.instance.currentUser);
+        // Mostrar loading mientras se verifica la autenticación
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            body: Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            ),
+          );
+        }
+
+        // Si hay un usuario logueado, mostrar el navigation shell
+        if (snapshot.hasData && snapshot.data?.session != null) {
+          final userProfile = SupabaseAuthService.instance.currentUserProfile;
+          return MainNavigationShell(currentUser: userProfile);
         }
         
         // Si no hay usuario logueado, mostrar login

@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:yominero/core/auth/auth_service.dart';
 import 'package:yominero/core/groups/group_repository.dart';
-import 'package:yominero/features/posts/data/in_memory_post_repository.dart';
+import 'package:yominero/features/posts/data/supabase_post_repository.dart';
 import 'package:yominero/features/posts/domain/post_repository.dart';
 import 'package:yominero/features/products/data/in_memory_product_repository.dart';
 import 'package:yominero/features/products/domain/product_repository.dart';
@@ -13,8 +13,8 @@ final sl = GetIt.instance;
 void setupLocator() {
   if (sl.isRegistered<AuthService>()) return; // idempotent
   sl.registerLazySingleton<AuthService>(() => AuthService.instance);
-  // Register only in-memory repositories (DB integrations removed)
-  sl.registerLazySingleton<PostRepository>(() => InMemoryPostRepository());
+  // Usar Supabase para posts, in-memory para el resto
+  sl.registerLazySingleton<PostRepository>(() => SupabasePostRepository());
   sl.registerLazySingleton<ProductRepository>(
       () => InMemoryProductRepository());
   sl.registerLazySingleton<ServiceRepository>(

@@ -1,1262 +1,645 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'core/theme/dashboard_colors.dart';
+import 'core/di/locator.dart';
+import 'core/auth/supabase_auth_service.dart';
+import 'features/posts/domain/post_repository.dart';
+import 'features/posts/ui/post_creation_sheet.dart';
+import 'shared/models/post.dart';
 
 class CommunityFeedPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
-
-  const CommunityFeedPage({
-    super.key,
-    this.currentUser,
-  });
-
+  const CommunityFeedPage({super.key, this.currentUser});
   @override
   State<CommunityFeedPage> createState() => _CommunityFeedPageState();
 }
 
 class _CommunityFeedPageState extends State<CommunityFeedPage> {
-  late List<Map<String, dynamic>> _posts;
-  final TextEditingController _postController = TextEditingController();
+  final _repo = sl<PostRepository>();
+  List<Post> _posts = [];
+  bool _isLoading = true;
   int _selectedFilter = 0; // 0: Todos, 1: Ventas, 2: Preguntas, 3: Servicios
 
   @override
   void initState() {
     super.initState();
-    _initializePosts();
+    _loadPosts();
   }
 
-  void _initializePosts() {
-    _posts = [
-      {
-        'id': '1',
-        'author': 'Luis García',
-        'avatar': 'L',
-        'type': 'service', // service, product, question, info, post
-        'title': 'Servicio de Perforación Especializada',
-        'content': 'Ofrezco servicio de perforación con equipos de última generación. 25 años de experiencia en el sector minero. Presupuestos sin costo.',
-        'image': null,
-        'likes': 45,
-        'comments': 12,
-        'shares': 8,
-        'timestamp': '2 horas',
-        'liked': false,
-      },
-      {
-        'id': '2',
-        'author': 'María González',
-        'avatar': 'M',
-        'type': 'product',
-        'title': '💰 Se venden herramientas de minería premium',
-        'content': 'Martillos neumáticos, picos de tungsteno y equipos de seguridad. Precios competitivos. Envíos a todo el país.',
-        'image': null,
-        'likes': 78,
-        'comments': 23,
-        'shares': 15,
-        'timestamp': '4 horas',
-        'liked': false,
-        'price': '\$250.000 - \$890.000',
-      },
-      {
-        'id': '3',
-        'author': 'Carlos Minería S.A.S',
-        'avatar': 'C',
-        'type': 'info',
-        'title': '📢 Nuevas normativas de seguridad minera 2025',
-        'content': 'El gobierno ha expedido nuevas regulaciones sobre protección ambiental y seguridad laboral. Les compartimos el resumen ejecutivo con los cambios más importantes.',
-        'image': null,
-        'likes': 156,
-        'comments': 45,
-        'shares': 89,
-        'timestamp': '1 día',
-        'liked': false,
-      },
-      {
-        'id': '4',
-        'author': 'Juan Pérez',
-        'avatar': 'J',
-        'type': 'question',
-        'title': '❓ ¿Cuál es la mejor técnica de excavación para terrenos arcillosos?',
-        'content': 'Tengo un proyecto en una zona con suelo muy arcilloso y necesito saber cuál es la mejor técnica y equipo para este tipo de terreno. ¿Alguien tiene experiencia?',
-        'image': null,
-        'likes': 23,
-        'comments': 18,
-        'shares': 5,
-        'timestamp': '6 horas',
-        'liked': false,
-      },
-      {
-        'id': '5',
-        'author': 'Ana Rodríguez',
-        'avatar': 'A',
-        'type': 'post',
-        'title': 'Experiencia en el proyecto de exploración del norte',
-        'content': 'Hoy terminamos la primera fase del proyecto de exploración. El equipo trabajó excelentemente y pudimos superar las metas planteadas. ¡Gracias a todos los involucrados!',
-        'image': null,
-        'likes': 67,
-        'comments': 14,
-        'shares': 9,
-        'timestamp': '3 horas',
-        'liked': false,
-      },
-      {
-        'id': '6',
-        'author': 'Roberto Silva',
-        'avatar': 'R',
-        'type': 'product',
-        'title': '🔧 Se vende compresor industrial usado (buenas condiciones)',
-        'content': 'Compresor 500L con poco uso, totalmente funcional. Precio: \$450.000. Interesados contactar al privado.',
-        'image': null,
-        'likes': 34,
-        'comments': 8,
-        'shares': 3,
-        'timestamp': '8 horas',
-        'liked': false,
-        'price': '\$450.000',
-      },
-    ];
-  }
-
-  List<Map<String, dynamic>> get _filteredPosts {
-    if (_selectedFilter == 0) return _posts;
-    
-    final typeMap = {1: 'product', 2: 'question', 3: 'service'};
-    final filterType = typeMap[_selectedFilter];
-    
-    return _posts.where((post) => post['type'] == filterType).toList();
-  }
-
-  String _getPostTypeIcon(String type) {
-    switch (type) {
-      case 'product':
-        return '🛍️';
-      case 'service':
-        return '🔧';
-      case 'question':
-        return '❓';
-      case 'info':
-        return '📢';
-      case 'post':
-        return '📝';
-      default:
-        return '📌';
+  Future<void> _loadPosts() async {
+    setState(() => _isLoading = true);
+    try {
+      final posts = await _repo.getAll();
+      setState(() {
+        _posts = posts;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('❌ Error cargando posts: $e');
+      setState(() => _isLoading = false);
     }
   }
 
-  Color _getPostTypeColor(String type) {
-    switch (type) {
-      case 'product':
-        return DashboardColors.cardPurple;
-      case 'service':
-        return DashboardColors.cardTeal;
-      case 'question':
-        return DashboardColors.cardBlue;
-      case 'info':
-        return DashboardColors.cardOrange;
-      case 'post':
-        return DashboardColors.cardGreen;
+  List<Post> get _filteredPosts {
+    switch (_selectedFilter) {
+      case 1: // Ventas
+        return _posts.where((p) => p.type == PostType.offer).toList();
+      case 2: // Preguntas
+        return _posts.where((p) => p.type == PostType.request).toList();
+      case 3: // Servicios
+        return _posts.where((p) => p.type == PostType.offer && p.serviceName != null).toList();
+      default: // Todos
+        return _posts;
+    }
+  }
+
+  String _getPostTypeLabel(Post post) {
+    switch (post.type) {
+      case PostType.request:
+        return 'Pregunta';
+      case PostType.offer:
+        return post.serviceName != null ? 'Servicio' : 'Oferta';
+      case PostType.product:
+        return 'Producto';
+      case PostType.service:
+        return 'Servicio';
+      case PostType.news:
+        return 'Noticia';
+      case PostType.poll:
+        return 'Encuesta';
       default:
-        return DashboardColors.primary;
+        return 'Publicación';
+    }
+  }
+
+  IconData _getPostTypeIcon(Post post) {
+    switch (post.type) {
+      case PostType.request:
+        return Icons.help_outline;
+      case PostType.offer:
+        return Icons.local_offer;
+      case PostType.product:
+        return Icons.shopping_bag_outlined;
+      case PostType.service:
+        return Icons.work_outline;
+      case PostType.news:
+        return Icons.newspaper;
+      case PostType.poll:
+        return Icons.poll;
+      default:
+        return Icons.article_outlined;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Muro Comunitario'),
-        backgroundColor: DashboardColors.primary,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => _showSearchDialog(),
+      backgroundColor: DashboardColors.lightGray,
+      body: CustomScrollView(
+        slivers: [
+          // Header con gradiente
+          SliverToBoxAdapter(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [DashboardColors.cardOrange, DashboardColors.cardOrange.withOpacity(0.8)],
+                ),
+              ),
+              child: SafeArea(
+                bottom: false,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(Icons.people, color: Colors.white, size: 28),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 28),
+                            onPressed: () async {
+                              // Verificar si hay usuario autenticado
+                              final currentUser = SupabaseAuthService.instance.currentUser;
+                              if (currentUser == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Debes iniciar sesión para publicar')),
+                                );
+                                return;
+                              }
+
+                              // Obtener perfil del usuario
+                              final profile = await SupabaseAuthService.instance.currentUserProfile;
+                              final authorName = profile?['name'] ?? profile?['username'] ?? 'Usuario';
+
+                              // Mostrar el canvas de creación de posts
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                ),
+                                builder: (context) => PostCreationSheet(
+                                  create: _repo.create,
+                                  authorName: authorName,
+                                  onCreated: (post) {
+                                    _loadPosts(); // Recargar posts
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('✅ Publicación creada')),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      const Text('Comunidad', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
+                      const SizedBox(height: 8),
+                      const Text('Conecta, comparte y descubre oportunidades', style: TextStyle(fontSize: 14, color: Colors.white)),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          _buildStatChip('${_posts.length} Publicaciones'),
+                          const SizedBox(width: 12),
+                          _buildStatChip('0 Sugerencias'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
-          IconButton(
-            icon: const Icon(Icons.notifications_none),
-            onPressed: () => _showComingSoon('Notificaciones del muro'),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          // Crear nuevo post
-          Container(
-                padding: const EdgeInsets.all(16),
+
+          // Barra de búsqueda
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border(bottom: BorderSide(color: Colors.grey[200]!, width: 1)),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 2))],
                 ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: DashboardColors.primary.withValues(alpha: 0.2),
-                      child: const Icon(Icons.person, color: Colors.white),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => _showCreatePostDialog(),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Text(
-                            '¿Qué quieres compartir?',
-                            style: TextStyle(color: Colors.grey[600]),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Buscar en la comunidad...',
+                    prefixIcon: Icon(Icons.search, color: Colors.grey.shade400),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  ),
                 ),
               ),
+            ),
+          ),
 
-              // Filtros
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Row(
-                  children: [
-                    _buildFilterChip('Todos', 0),
-                    const SizedBox(width: 8),
-                    _buildFilterChip('Ventas 🛍️', 1),
-                    const SizedBox(width: 8),
-                    _buildFilterChip('Preguntas ❓', 2),
-                    const SizedBox(width: 8),
-                    _buildFilterChip('Servicios 🔧', 3),
-                  ],
-                ),
+          // Filtros de categoría (Todos, Ventas, Preguntas, Servicios)
+          SliverToBoxAdapter(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  _buildCategoryChip('Todos', 0, Icons.grid_view),
+                  const SizedBox(width: 8),
+                  _buildCategoryChip('Ventas', 1, Icons.shopping_bag),
+                  const SizedBox(width: 8),
+                  _buildCategoryChip('Preguntas', 2, Icons.help),
+                  const SizedBox(width: 8),
+                  _buildCategoryChip('Servicios', 3, Icons.work),
+                ],
               ),
+            ),
+          ),
+
+          const SliverToBoxAdapter(child: SizedBox(height: 16)),
+
+          // Contador de posts filtrados
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Icon(Icons.filter_list, size: 18, color: Colors.grey.shade600),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${_filteredPosts.length} resultados',
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 14, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
           // Lista de posts
-          Expanded(
-            child: _filteredPosts.isEmpty
-                ? _buildEmptyState()
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    itemCount: _filteredPosts.length,
-                    itemBuilder: (context, index) {
-                      return _buildPostCard(_filteredPosts[index]);
-                    },
-                  ),
-          ),
+          if (_isLoading)
+            const SliverFillRemaining(child: Center(child: CircularProgressIndicator()))
+          else if (_filteredPosts.isEmpty)
+            SliverFillRemaining(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.inbox_outlined, size: 64, color: Colors.grey.shade300),
+                    const SizedBox(height: 16),
+                    Text('No hay publicaciones', style: TextStyle(fontSize: 16, color: Colors.grey.shade600)),
+                    const SizedBox(height: 8),
+                    Text('Sé el primero en publicar', style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
+                  ],
+                ),
+              ),
+            )
+          else
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => _buildPostCard(_filteredPosts[index]),
+                childCount: _filteredPosts.length,
+              ),
+            ),
+
+          const SliverToBoxAdapter(child: SizedBox(height: 80)),
         ],
       ),
     );
   }
 
-  Widget _buildFilterChip(String label, int index) {
+  Widget _buildStatChip(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.3)),
+      ),
+      child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
+    );
+  }
+
+  Widget _buildCategoryChip(String label, int index, IconData icon) {
     final isSelected = _selectedFilter == index;
-    return FilterChip(
-      label: Text(label),
-      selected: isSelected,
-      onSelected: (selected) {
-        setState(() => _selectedFilter = index);
-      },
-      backgroundColor: Colors.grey[200],
-      selectedColor: DashboardColors.primary.withValues(alpha: 0.3),
-      labelStyle: TextStyle(
-        color: isSelected ? DashboardColors.primary : Colors.grey[700],
-        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-      ),
-    );
-  }
-
-  Widget _buildPostCard(Map<String, dynamic> post) {
-    final postType = post['type'] as String;
-    
-    // Mostrar diseño diferente según el tipo de post
-    switch (postType) {
-      case 'product':
-        return _buildProductCarousel(post);
-      case 'service':
-        return _buildServiceCard(post);
-      case 'question':
-        return _buildQuestionCard(post);
-      case 'info':
-        return _buildInfoCard(post);
-      default:
-        return _buildDefaultPostCard(post);
-    }
-  }
-
-  // Carrusel de productos (foto central grande, laterales pequeñas)
-  Widget _buildProductCarousel(Map<String, dynamic> post) {
-    final typeColor = _getPostTypeColor(post['type']);
-    final isLiked = post['liked'];
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          _buildPostHeader(post, typeColor),
-
-          // Carrusel de fotos
-          Container(
-            height: 220,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: PageView.builder(
-              itemCount: 3,
-              onPageChanged: (index) {},
-              itemBuilder: (context, index) {
-                final scale = index == 1 ? 1.0 : 0.85;
-                final opacity = index == 1 ? 1.0 : 0.7;
-                
-                return Transform.scale(
-                  scale: scale,
-                  child: Opacity(
-                    opacity: opacity,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: typeColor.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.image, size: 64, color: typeColor),
-                            const SizedBox(height: 12),
-                            Text(
-                              'Producto ${index + 1}',
-                              style: TextStyle(
-                                color: typeColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-
-          // Precio y contenido
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: typeColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'Precio: ${post['price']}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: typeColor,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  post['title'],
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  post['content'],
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[800],
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 16),
-          Divider(color: Colors.grey[200], height: 1),
-
-          // Botones de acción
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildActionButton(
-                  icon: isLiked ? Icons.favorite : Icons.favorite_border,
-                  label: 'Me gusta',
-                  color: isLiked ? Colors.red : Colors.grey[600]!,
-                  onTap: () {
-                    setState(() {
-                      post['liked'] = !isLiked;
-                      post['likes'] += isLiked ? -1 : 1;
-                    });
-                  },
-                ),
-                _buildActionButton(
-                  icon: Icons.shopping_cart_outlined,
-                  label: 'Comprar',
-                  color: typeColor,
-                  onTap: () => _showComingSoon('Carrito de compras'),
-                ),
-                _buildActionButton(
-                  icon: Icons.share_outlined,
-                  label: 'Compartir',
-                  color: Colors.grey[600]!,
-                  onTap: () => _showComingSoon('Compartir'),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Tarjeta de servicios interactiva con opciones
-  Widget _buildServiceCard(Map<String, dynamic> post) {
-    final typeColor = _getPostTypeColor(post['type']);
-    final isLiked = post['liked'];
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          _buildPostHeader(post, typeColor),
-
-          // Contenido principal
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  post['title'],
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  post['content'],
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[800],
-                    height: 1.6,
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // Grid de acciones interactivas
-                GridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  children: [
-                    _buildServiceActionTile(
-                      icon: Icons.chat,
-                      label: 'Preguntar',
-                      color: Colors.blue,
-                      onTap: () => _showCommentsDialog(post),
-                    ),
-                    _buildServiceActionTile(
-                      icon: Icons.phone,
-                      label: 'Llamar',
-                      color: Colors.green,
-                      onTap: () => _showComingSoon('Llamadas'),
-                    ),
-                    _buildServiceActionTile(
-                      icon: Icons.location_on,
-                      label: 'Ubicación',
-                      color: Colors.red,
-                      onTap: () => _showComingSoon('Mapa'),
-                    ),
-                    _buildServiceActionTile(
-                      icon: Icons.bookmark_border,
-                      label: 'Guardar',
-                      color: Colors.orange,
-                      onTap: () => _showComingSoon('Guardado'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 8),
-          Divider(color: Colors.grey[200], height: 1),
-
-          // Stats compactas
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${post['likes']} Me gusta',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                ),
-                _buildActionButton(
-                  icon: isLiked ? Icons.favorite : Icons.favorite_border,
-                  label: 'Me gusta',
-                  color: isLiked ? Colors.red : Colors.grey[600]!,
-                  onTap: () {
-                    setState(() {
-                      post['liked'] = !isLiked;
-                      post['likes'] += isLiked ? -1 : 1;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Tarjeta de preguntas
-  Widget _buildQuestionCard(Map<String, dynamic> post) {
-    final typeColor = _getPostTypeColor(post['type']);
-    final isLiked = post['liked'];
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: typeColor.withValues(alpha: 0.3), width: 2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          _buildPostHeader(post, typeColor),
-
-          // Contenido de pregunta
-          Container(
-            padding: const EdgeInsets.all(16),
-            color: typeColor.withValues(alpha: 0.05),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.help_outline, color: typeColor, size: 20),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        post['title'],
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: typeColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  post['content'],
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[800],
-                    height: 1.6,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 12),
-          Divider(color: Colors.grey[200], height: 1),
-
-          // Respuestas y acciones
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildActionButton(
-                  icon: Icons.comment,
-                  label: '${post['comments']} Respuestas',
-                  color: typeColor,
-                  onTap: () => _showCommentsDialog(post),
-                ),
-                _buildActionButton(
-                  icon: isLiked ? Icons.favorite : Icons.favorite_border,
-                  label: 'Útil',
-                  color: isLiked ? Colors.red : Colors.grey[600]!,
-                  onTap: () {
-                    setState(() {
-                      post['liked'] = !isLiked;
-                      post['likes'] += isLiked ? -1 : 1;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Tarjeta de información
-  Widget _buildInfoCard(Map<String, dynamic> post) {
-    final typeColor = _getPostTypeColor(post['type']);
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      decoration: BoxDecoration(
-        color: typeColor.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(16),
-        border: Border(
-          left: BorderSide(color: typeColor, width: 4),
+    return GestureDetector(
+      onTap: () => setState(() => _selectedFilter = index),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? DashboardColors.cardOrange : Colors.white,
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(color: isSelected ? DashboardColors.cardOrange : Colors.grey.shade300),
+          boxShadow: isSelected ? [BoxShadow(color: DashboardColors.cardOrange.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))] : [],
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18, color: isSelected ? Colors.white : Colors.grey.shade600),
+            const SizedBox(width: 8),
+            Text(label, style: TextStyle(color: isSelected ? Colors.white : Colors.grey.shade700, fontSize: 14, fontWeight: FontWeight.w600)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPostCard(Post post) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, 2))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header simplificado
+          // Header del post
           Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: typeColor.withValues(alpha: 0.2),
-                    shape: BoxShape.circle,
+                CircleAvatar(
+                  radius: 24,
+                  backgroundColor: DashboardColors.cardOrange.withOpacity(0.2),
+                  child: Text(
+                    post.authorId.substring(0, 1).toUpperCase(),
+                    style: TextStyle(color: DashboardColors.cardOrange, fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  child: Icon(Icons.info, color: typeColor, size: 20),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        post['author'],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                      Text(
-                        post['timestamp'],
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                      Text(post.authorId, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                      Row(
+                        children: [
+                          Icon(_getPostTypeIcon(post), size: 14, color: Colors.grey.shade600),
+                          const SizedBox(width: 4),
+                          Text(_getPostTypeLabel(post), style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                          const SizedBox(width: 8),
+                          Text('· ${_getTimeAgo(post.createdAt)}', style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                        ],
                       ),
                     ],
                   ),
                 ),
+                IconButton(icon: Icon(Icons.more_vert, color: Colors.grey.shade400), onPressed: () {}),
               ],
             ),
           ),
 
-          // Contenido
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  post['title'],
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  post['content'],
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[800],
-                    height: 1.6,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 16),
-          Divider(color: Colors.grey[200], height: 1),
-
-          // Stats
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildActionButton(
-                  icon: Icons.favorite_border,
-                  label: '${post['likes']} Me gusta',
-                  color: Colors.grey[600]!,
-                  onTap: () {},
-                ),
-                _buildActionButton(
-                  icon: Icons.share,
-                  label: 'Compartir',
-                  color: typeColor,
-                  onTap: () => _showComingSoon('Compartir'),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Tarjeta por defecto para posts normales
-  Widget _buildDefaultPostCard(Map<String, dynamic> post) {
-    final typeColor = _getPostTypeColor(post['type']);
-    final isLiked = post['liked'];
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildPostHeader(post, typeColor),
-
+          // Contenido del post
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (post['title'] != null)
-                  Text(
-                    post['title'],
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      height: 1.4,
-                    ),
+                Text(post.title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, height: 1.3)),
+                const SizedBox(height: 8),
+                Text(post.content, style: TextStyle(fontSize: 14, color: Colors.grey.shade700, height: 1.5)),
+                if (post.categories.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: post.categories.take(3).map((cat) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: DashboardColors.cardOrange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(cat, style: TextStyle(color: DashboardColors.cardOrange, fontSize: 12, fontWeight: FontWeight.w600)),
+                      );
+                    }).toList(),
                   ),
-                if (post['title'] != null) const SizedBox(height: 8),
-                Text(
-                  post['content'],
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[800],
-                    height: 1.5,
-                  ),
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                ],
               ],
             ),
           ),
 
           const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              '${post['likes']} Me gusta • ${post['comments']} Comentarios',
-              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-            ),
-          ),
 
-          const SizedBox(height: 12),
-          Divider(color: Colors.grey[200], height: 1),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildActionButton(
-                  icon: isLiked ? Icons.favorite : Icons.favorite_border,
-                  label: 'Me gusta',
-                  color: isLiked ? Colors.red : Colors.grey[600]!,
-                  onTap: () {
-                    setState(() {
-                      post['liked'] = !isLiked;
-                      post['likes'] += isLiked ? -1 : 1;
-                    });
-                  },
-                ),
-                _buildActionButton(
-                  icon: Icons.chat_bubble_outline,
-                  label: 'Comentar',
-                  color: Colors.grey[600]!,
-                  onTap: () => _showCommentsDialog(post),
-                ),
-                _buildActionButton(
-                  icon: Icons.share_outlined,
-                  label: 'Compartir',
-                  color: Colors.grey[600]!,
-                  onTap: () => _showComingSoon('Compartir'),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPostHeader(Map<String, dynamic> post, Color typeColor) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 24,
-            backgroundColor: typeColor.withValues(alpha: 0.2),
-            child: Text(
-              post['avatar'],
-              style: TextStyle(
-                color: typeColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      post['author'],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: typeColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        _getPostTypeIcon(post['type']),
-                        style: const TextStyle(fontSize: 10),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  post['timestamp'],
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
+          // Imagen si existe
+          if (post.imageUrl != null && post.type != PostType.poll)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  post.imageUrl!,
+                  width: double.infinity,
+                  height: 200,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: 200,
+                    color: Colors.grey.shade200,
+                    child: const Center(child: Icon(Icons.broken_image, size: 48)),
                   ),
                 ),
+              ),
+            ),
+
+          // Encuesta (Poll)
+          if (post.type == PostType.poll)
+            _buildPollCard(post),
+
+          const SizedBox(height: 16),
+
+          // Acciones (like, comentar, compartir)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                _buildActionButton(Icons.favorite_border, '${post.likes}', () async {
+                  try {
+                    await _repo.like(post.id);
+                    _loadPosts();
+                  } catch (e) {
+                    print('❌ Error al dar like: $e');
+                  }
+                }),
+                const SizedBox(width: 20),
+                _buildActionButton(Icons.chat_bubble_outline, '${post.comments}', () {}),
+                const SizedBox(width: 20),
+                _buildActionButton(Icons.share_outlined, 'Compartir', () {}),
               ],
             ),
-          ),
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              if (value == 'report') {
-                _showComingSoon('Reportar post');
-              }
-            },
-            itemBuilder: (BuildContext context) => [
-              const PopupMenuItem(
-                value: 'report',
-                child: Row(
-                  children: [
-                    Icon(Icons.flag_outlined, size: 18),
-                    SizedBox(width: 8),
-                    Text('Reportar'),
-                  ],
-                ),
-              ),
-            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildServiceActionTile(
-      {required IconData icon,
-      required String label,
-      required Color color,
-      required VoidCallback onTap}) {
-    return GestureDetector(
+  Widget _buildActionButton(IconData icon, String label, VoidCallback onTap) {
+    return InkWell(
       onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withValues(alpha: 0.3)),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-            ),
+            Icon(icon, size: 20, color: Colors.grey.shade600),
+            const SizedBox(width: 6),
+            Text(label, style: TextStyle(color: Colors.grey.shade700, fontSize: 13, fontWeight: FontWeight.w500)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildActionButton({
-    required IconData icon,
-    required String label,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: color, size: 20),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(fontSize: 11, color: color),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget _buildPollCard(Post post) {
+    if (post.pollOptions == null || post.pollOptions!.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.inbox_outlined,
-            size: 64,
-            color: Colors.grey[300],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'No hay posts aquí',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey[600],
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Sé el primero en compartir algo',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[500],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+    final pollVotes = post.pollVotes ?? {};
+    final totalVotes = pollVotes.values.fold<int>(0, (sum, votes) => sum + votes);
+    final pollEnded = post.pollEndsAt != null && DateTime.now().isAfter(post.pollEndsAt!);
 
-  void _showCreatePostDialog() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Crear nuevo post',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _postController,
-                maxLines: 5,
-                decoration: InputDecoration(
-                  hintText: '¿Qué quieres compartir?',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildPostTypeButton('Publicación', '📝', 'post'),
-                  _buildPostTypeButton('Vender', '🛍️', 'product'),
-                  _buildPostTypeButton('Pregunta', '❓', 'question'),
-                  _buildPostTypeButton('Servicio', '🔧', 'service'),
-                ],
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_postController.text.isNotEmpty) {
-                      setState(() {
-                        _posts.insert(0, {
-                          'id': '${_posts.length + 1}',
-                          'author': 'Tú',
-                          'avatar': 'U',
-                          'type': 'post',
-                          'title': null,
-                          'content': _postController.text,
-                          'image': null,
-                          'likes': 0,
-                          'comments': 0,
-                          'shares': 0,
-                          'timestamp': 'Ahora',
-                          'liked': false,
-                        });
-                      });
-                      _postController.clear();
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('¡Post publicado exitosamente!')),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: DashboardColors.primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  child: const Text('Publicar'),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPostTypeButton(String label, String emoji, String type) {
-    return Column(
-      children: [
-        Text(emoji, style: const TextStyle(fontSize: 24)),
-        const SizedBox(height: 4),
-        Text(label, style: const TextStyle(fontSize: 10)),
-      ],
-    );
-  }
-
-  void _showCommentsDialog(Map<String, dynamic> post) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => Container(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade50,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Comentarios',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                Icon(Icons.poll, size: 20, color: DashboardColors.cardOrange),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Encuesta${post.pollAllowMultiple == true ? ' (Opción múltiple)' : ''}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey.shade700,
+                    ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => Navigator.pop(context),
+                ),
+                if (post.pollEndsAt != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: pollEnded ? Colors.red.shade50 : Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      pollEnded ? 'Finalizada' : _getTimeRemaining(post.pollEndsAt!),
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: pollEnded ? Colors.red.shade700 : Colors.blue.shade700,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                ],
-              ),
+              ],
             ),
-            const Divider(),
-            Expanded(
-              child: ListView.builder(
-                itemCount: post['comments'],
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(height: 16),
+            
+            // Opciones de la encuesta
+            ...post.pollOptions!.asMap().entries.map((entry) {
+              final optionIndex = entry.key;
+              final optionText = entry.value;
+              final votes = pollVotes[optionIndex.toString()] ?? 0;
+              final percentage = totalVotes > 0 ? (votes / totalVotes * 100) : 0.0;
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: InkWell(
+                  onTap: pollEnded ? null : () => _voteOnPoll(post, optionIndex),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: votes > 0 ? DashboardColors.cardOrange.withOpacity(0.3) : Colors.grey.shade300,
+                        width: votes > 0 ? 2 : 1,
+                      ),
+                    ),
+                    child: Stack(
                       children: [
-                        CircleAvatar(
-                          radius: 16,
-                          backgroundColor: DashboardColors.primary.withValues(alpha: 0.2),
-                          child: const Icon(Icons.person, size: 12, color: Colors.white),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Usuario',
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        // Barra de progreso
+                        if (totalVotes > 0)
+                          Positioned.fill(
+                            child: FractionallySizedBox(
+                              alignment: Alignment.centerLeft,
+                              widthFactor: percentage / 100,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: DashboardColors.cardOrange.withOpacity(0.15),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Excelente publicación, me fue de mucha ayuda.',
-                                style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                            ),
+                          ),
+                        
+                        // Contenido de la opción
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                optionText,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: votes > 0 ? FontWeight.w600 : FontWeight.normal,
+                                  color: Colors.grey.shade800,
+                                ),
                               ),
-                              const SizedBox(height: 4),
+                            ),
+                            if (totalVotes > 0) ...[
                               Text(
-                                '2 horas',
-                                style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+                                '${percentage.toStringAsFixed(1)}%',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: DashboardColors.cardOrange,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '$votes ${votes == 1 ? 'voto' : 'votos'}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade600,
+                                ),
                               ),
                             ],
-                          ),
+                          ],
                         ),
                       ],
                     ),
-                  );
-                },
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 16,
-                    backgroundColor: DashboardColors.primary.withValues(alpha: 0.2),
-                    child: const Icon(Icons.person, size: 12, color: Colors.white),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Escribe un comentario...',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                      ),
-                    ),
+                ),
+              );
+            }).toList(),
+
+            // Total de votos
+            if (totalVotes > 0)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  '$totalVotes ${totalVotes == 1 ? 'voto total' : 'votos totales'}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade600,
+                    fontStyle: FontStyle.italic,
                   ),
-                ],
+                ),
               ),
-            ),
           ],
         ),
       ),
     );
   }
 
-  void _showSearchDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Buscar posts'),
-        content: TextField(
-          decoration: InputDecoration(
-            hintText: 'Busca por autor, tipo o contenido...',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
-          ),
-        ],
-      ),
-    );
+  String _getTimeRemaining(DateTime endTime) {
+    final diff = endTime.difference(DateTime.now());
+    if (diff.isNegative) return 'Finalizada';
+    if (diff.inDays > 0) return '${diff.inDays}d restantes';
+    if (diff.inHours > 0) return '${diff.inHours}h restantes';
+    if (diff.inMinutes > 0) return '${diff.inMinutes}m restantes';
+    return 'Finalizando';
   }
 
-  void _showComingSoon(String feature) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$feature - Próximamente')),
-    );
+  void _voteOnPoll(Post post, int optionIndex) async {
+    try {
+      // TODO: Implementar votación en el repositorio
+      print('📊 Votando opción $optionIndex en encuesta ${post.id}');
+      // await _repo.voteOnPoll(post.id, optionIndex);
+      // _loadPosts();
+    } catch (e) {
+      print('❌ Error al votar: $e');
+    }
   }
 
-  @override
-  void dispose() {
-    _postController.dispose();
-    super.dispose();
+  String _getTimeAgo(DateTime dt) {
+    final diff = DateTime.now().difference(dt);
+    if (diff.inDays > 365) return '${(diff.inDays / 365).floor()} años';
+    if (diff.inDays > 30) return '${(diff.inDays / 30).floor()} meses';
+    if (diff.inDays > 0) return '${diff.inDays}d';
+    if (diff.inHours > 0) return '${diff.inHours}h';
+    if (diff.inMinutes > 0) return '${diff.inMinutes}m';
+    return 'Ahora';
   }
 }

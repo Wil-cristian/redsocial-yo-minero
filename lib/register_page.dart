@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
 import 'shared/models/user.dart';
-import 'core/auth/authentication_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'main_navigation_shell.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -119,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage>
 
     try {
       // Registrar usuario usando el servicio de autenticación
-      final result = await AuthenticationService.instance.register(
+      final result = await SupabaseAuthService.instance.register(
         name: _nameController.text,
         username: _usernameController.text,
         email: _emailController.text,

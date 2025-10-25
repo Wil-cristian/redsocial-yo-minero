@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'core/auth/authentication_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'core/auth/employee_roles.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'products_page.dart';
 import 'services_page.dart';
-import 'community_page.dart';
+import 'community_feed_page.dart';
 import 'groups_page.dart';
 import 'profile_page.dart';
 import 'messages_page.dart';
@@ -219,7 +219,7 @@ class _HomePageState extends State<HomePage>
                             iconColor: DashboardColors.cardGreen,
                             onTap: () => Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const CommunityPage()),
+                              MaterialPageRoute(builder: (context) => CommunityFeedPage(currentUser: widget.currentUser)),
                             ),
                           ),
                         ),
@@ -915,7 +915,7 @@ class _HomePageState extends State<HomePage>
           ElevatedButton(
             onPressed: () async {
               // Cerrar sesión
-              await AuthenticationService.instance.logout();
+              await SupabaseAuthService.instance.logout();
               
               if (mounted) {
                 Navigator.of(context).pop(); // Cerrar dialog

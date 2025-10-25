@@ -374,7 +374,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                             color: AppColors.primary.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Icon(Icons.cake_outlined, color: AppColors.primary, size: 20),
+                          child: const Icon(Icons.cake_outlined, color: AppColors.primary, size: 20),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -525,7 +525,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                               color: AppColors.primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Icon(Icons.trending_up, color: AppColors.primary, size: 20),
+                            child: const Icon(Icons.trending_up, color: AppColors.primary, size: 20),
                           ),
                           const SizedBox(width: 12),
                           Text(
@@ -586,7 +586,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                               color: AppColors.primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Icon(Icons.science_outlined, color: AppColors.primary, size: 20),
+                            child: const Icon(Icons.science_outlined, color: AppColors.primary, size: 20),
                           ),
                           const SizedBox(width: 12),
                           Text(
@@ -743,8 +743,8 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    icon: Icon(Icons.my_location, color: AppColors.primary),
-                    label: Text(
+                    icon: const Icon(Icons.my_location, color: AppColors.primary),
+                    label: const Text(
                       'Usar ubicación actual',
                       style: TextStyle(
                         color: AppColors.primary,
@@ -1022,10 +1022,10 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
     
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Row(
+        content: const Row(
           children: [
             Icon(Icons.check_circle, color: Colors.white),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Text('¡Perfil actualizado exitosamente!'),
           ],
         ),

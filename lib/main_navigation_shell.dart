@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'home_page.dart';
-import 'community_feed_page.dart';
+import 'community_feed_page.dart';  // MURO conectado a Supabase
 import 'notifications_page.dart';
 import 'settings_page.dart';
 import 'profile_page.dart';
@@ -28,8 +28,8 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
   void initState() {
     super.initState();
     _pages = [
-      HomePage(currentUser: widget.currentUser),
-      CommunityFeedPage(currentUser: widget.currentUser),
+      HomePage(currentUser: widget.currentUser),  // Dashboard
+      CommunityFeedPage(currentUser: widget.currentUser),  // MURO conectado a Supabase
       ProfilePage(currentUser: widget.currentUser),
       NotificationsPage(currentUser: widget.currentUser),
       SettingsPage(currentUser: widget.currentUser),
@@ -75,9 +75,9 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                 label: 'Inicio',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.dynamic_feed),
-                activeIcon: Icon(Icons.dynamic_feed),
-                label: 'Muro',
+                icon: Icon(Icons.people_outline),
+                activeIcon: Icon(Icons.people),
+                label: 'Comunidad',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline),

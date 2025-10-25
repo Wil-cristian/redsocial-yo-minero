@@ -327,7 +327,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.calendar_today,
                       size: 16,
                       color: AppColors.textSecondary,
@@ -360,7 +360,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                       onPressed: () => _rejectRequest(request['id']),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.error,
-                        side: BorderSide(color: AppColors.error),
+                        side: const BorderSide(color: AppColors.error),
                       ),
                       child: const Text('Rechazar'),
                     ),

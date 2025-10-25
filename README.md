@@ -54,6 +54,3 @@ Ejemplo: `test/post_repository_test.dart` valida la lógica de likes únicos.
 2. Integrar gestor de estado (Provider, Riverpod) en lugar de locator manual.
 3. Persistencia real para likes y datos.
 4. Tests widget para navegación.
-# yominero
-
-A new Flutter project.

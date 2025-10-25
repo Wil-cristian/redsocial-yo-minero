@@ -101,7 +101,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [AppColors.primary, AppColors.secondary],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -169,7 +169,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 colors: [AppColors.primary, AppColors.secondary],
                               ),
                               borderRadius: BorderRadius.circular(16),
@@ -247,7 +247,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                                     ),
                                     borderRadius: BorderRadius.circular(16),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.add_circle_outline,
                                     size: 48,
                                     color: AppColors.primary,
@@ -365,7 +365,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [AppColors.primary, AppColors.secondary],
               ),
               borderRadius: BorderRadius.circular(25),
@@ -435,7 +435,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [AppColors.primary, AppColors.secondary],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -494,7 +494,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           color: AppColors.primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.edit,
                           size: 20,
                           color: AppColors.primary,

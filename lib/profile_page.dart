@@ -1,6 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
-import 'core/auth/authentication_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'requests_page.dart';
 import 'messages_page.dart';
 import 'products_page.dart';
@@ -20,8 +20,36 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Map<String, dynamic>? get _userData => widget.currentUser;
-  String get _userType => _userData?['accountType'] ?? 'individual';
+  Map<String, dynamic>? _userData;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    setState(() => _isLoading = true);
+    
+    // Primero intentar usar el usuario pasado por parámetro
+    if (widget.currentUser != null) {
+      setState(() {
+        _userData = widget.currentUser;
+        _isLoading = false;
+      });
+      return;
+    }
+    
+    // Si no hay usuario, obtenerlo del servicio de auth
+    final profile = SupabaseAuthService.instance.currentUserProfile;
+    setState(() {
+      _userData = profile;
+      _isLoading = false;
+    });
+  }
+  
+  String get _userType => _userData?['account_type'] ?? _userData?['accountType'] ?? 'individual';
   
   Map<String, dynamic> _getUserTypeInfo() {
     switch (_userType) {
@@ -58,9 +86,19 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_userData == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+    if (_isLoading || _userData == null) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(color: AppColors.primary),
+              SizedBox(height: 16),
+              Text('Cargando perfil...', style: TextStyle(color: AppColors.textSecondary)),
+            ],
+          ),
+        ),
       );
     }
 
@@ -472,13 +510,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _editProfile() {
-    // Crear un objeto User a partir de los datos actuales del usuario
-    final currentUserData = widget.currentUser;
-    if (currentUserData == null) return;
+    // Usar los datos cargados en _userData
+    if (_userData == null) return;
+    
+    final userData = _userData!; // Safe to use ! after null check
     
     // Convertir el tipo de cuenta
     AccountType accountType;
-    switch (currentUserData['accountType']) {
+    final accountTypeStr = userData['account_type'] ?? userData['accountType'] ?? 'individual';
+    switch (accountTypeStr) {
       case 'worker':
         accountType = AccountType.worker;
         break;
@@ -490,12 +530,14 @@ class _ProfilePageState extends State<ProfilePage> {
     }
     
     final user = User(
-      id: currentUserData['id'] ?? 'temp_id',
-      username: currentUserData['username'] ?? currentUserData['email'] ?? 'user',
-      email: currentUserData['email'] ?? '',
-      name: currentUserData['name'] ?? 'Usuario',
+      id: userData['id'] ?? 'temp_id',
+      username: userData['username'] ?? userData['email'] ?? 'user',
+      email: userData['email'] ?? '',
+      name: userData['name'] ?? 'Usuario',
       accountType: accountType,
       createdAt: DateTime.now(),
+      bio: userData['bio'],
+      location: userData['location'],
       // Valores por defecto para campos requeridos
       languages: const [],
       servicesOffered: const [],
@@ -522,7 +564,10 @@ class _ProfilePageState extends State<ProfilePage> {
       MaterialPageRoute(
         builder: (context) => EditProfilePage(user: user),
       ),
-    );
+    ).then((_) {
+      // Recargar datos después de editar
+      _loadUserData();
+    });
   }
 
   Color _getUserColor() {
@@ -637,7 +682,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ElevatedButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              await AuthenticationService.instance.logout();
+              await SupabaseAuthService.instance.logout();
               if (mounted) {
                 Navigator.pushAndRemoveUntil(
                   context,

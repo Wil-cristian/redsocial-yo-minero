@@ -16,7 +16,7 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> with TickerProviderStateMixin {
   bool _isFavorite = false;
   bool _inCart = false;
-  int _quantity = 1;
+  final int _quantity = 1;
   late AnimationController _cartAnimationController;
   late AnimationController _favoriteAnimationController;
 
@@ -368,7 +368,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [AppColors.secondary, AppColors.primary],
                   ),
                   borderRadius: BorderRadius.circular(20),

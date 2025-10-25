@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
-import 'core/auth/authentication_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'user_type_selection_page.dart';
 import 'main_navigation_shell.dart';
 import 'change_password_page.dart';
@@ -33,8 +33,8 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      final result = await AuthenticationService.instance.login(
-        emailOrUsername: _emailController.text,
+      final result = await SupabaseAuthService.instance.login(
+        email: _emailController.text,
         password: _passwordController.text,
       );
 

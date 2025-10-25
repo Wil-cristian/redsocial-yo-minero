@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
-import 'core/auth/authentication_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'main_navigation_shell.dart';
 
 /// Página para forzar cambio de contraseña en el primer login
@@ -46,7 +46,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       // En producción, aquí harías una llamada a Supabase para cambiar la contraseña
       // Por ahora, simulamos el cambio actualizando el usuario en localStorage
       
-      final result = await AuthenticationService.instance.changePassword(
+      final result = await SupabaseAuthService.instance.changePassword(
         currentPassword: _currentPasswordController.text,
         newPassword: _newPasswordController.text,
       );

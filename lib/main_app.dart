@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
-import 'community_page.dart';
+import 'community_feed_page.dart';
 import 'products_page.dart';
 import 'services_page.dart';
 import 'groups_page.dart';
@@ -23,7 +23,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
     super.initState();
     _pageController = PageController(initialPage: _selectedIndex);
     _pages = const [
-      CommunityPage(),
+      CommunityFeedPage(currentUser: null),
       GroupsPage(),
       ProductsPage(),
       ServicesPage(),
@@ -136,7 +136,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [AppColors.primary, AppColors.secondary],
                     ),
                     shape: BoxShape.circle,

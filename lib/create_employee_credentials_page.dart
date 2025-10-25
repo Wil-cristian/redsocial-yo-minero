@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:math';
 import 'core/theme/colors.dart';
 import 'core/auth/employee_roles.dart';
-import 'core/auth/authentication_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 
 /// Página para que la empresa cree credenciales para empleados
 class CreateEmployeeCredentialsPage extends StatefulWidget {
@@ -68,7 +68,7 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
       final username = _generateUsername(_nameController.text);
 
       // Crear empleado usando el servicio de autenticación
-      final result = await AuthenticationService.instance.createEmployeeCredentials(
+      final result = await SupabaseAuthService.instance.createEmployeeCredentials(
         companyId: companyId,
         employeeName: _nameController.text,
         employeeEmail: _emailController.text,

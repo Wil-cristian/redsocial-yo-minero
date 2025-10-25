@@ -370,12 +370,12 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
               ),
               child: Row(
                 children: [
-                  Icon(Icons.lightbulb_outline, color: AppColors.info, size: 16),
+                  const Icon(Icons.lightbulb_outline, color: AppColors.info, size: 16),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       'Post sugerido: ${comment['suggestedPost']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.info,
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
@@ -448,11 +448,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                     color: AppColors.success.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.trending_up, size: 14, color: AppColors.success),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Text(
                         'Oportunidad',
                         style: TextStyle(
@@ -467,7 +467,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                 const Spacer(),
                 Text(
                   'Confianza: ${(offer['confidence'] * 100).toInt()}%',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -644,7 +644,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                   ),
                   child: Text(
                     '${(user['compatibility'] * 100).toInt()}% match',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColors.success,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -701,12 +701,12 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
               ),
               child: Row(
                 children: [
-                  Icon(Icons.handshake, color: AppColors.info, size: 16),
+                  const Icon(Icons.handshake, color: AppColors.info, size: 16),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       user['potentialCollaboration'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.info,
                         fontSize: 13,
                         fontWeight: FontWeight.w500,

@@ -230,7 +230,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: DashboardColors.primary,
                           shape: BoxShape.circle,
                         ),

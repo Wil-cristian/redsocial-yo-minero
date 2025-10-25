@@ -331,8 +331,8 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
             value: progress,
             minHeight: 6,
             backgroundColor: Colors.grey[200],
-            valueColor: AlwaysStoppedAnimation<Color>(
-              const Color(0xFF45B7D1),
+            valueColor: const AlwaysStoppedAnimation<Color>(
+              Color(0xFF45B7D1),
             ),
           ),
         ),
@@ -509,7 +509,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
             value: usage,
             minHeight: 6,
             backgroundColor: Colors.grey[200],
-            valueColor: AlwaysStoppedAnimation<Color>(
+            valueColor: const AlwaysStoppedAnimation<Color>(
               Color(0xFF45B7D1),
             ),
           ),

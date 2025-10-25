@@ -43,8 +43,21 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
   final _budgetCtrl = TextEditingController();
   final _pricingFromCtrl = TextEditingController();
   final _pricingToCtrl = TextEditingController();
+  final _productPriceCtrl = TextEditingController();
+  final _productStockCtrl = TextEditingController();
+  final _newsSourceCtrl = TextEditingController();
+  final _newsAuthorCtrl = TextEditingController();
   PostType _type = PostType.community;
+  String _productCondition = 'nuevo';
   bool _submitting = false;
+  
+  // Poll fields
+  final List<TextEditingController> _pollOptionControllers = [
+    TextEditingController(),
+    TextEditingController(),
+  ];
+  bool _pollAllowMultiple = false;
+  int _pollDurationDays = 7;
 
   @override
   void dispose() {
@@ -54,6 +67,13 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
     _budgetCtrl.dispose();
     _pricingFromCtrl.dispose();
     _pricingToCtrl.dispose();
+    _productPriceCtrl.dispose();
+    _productStockCtrl.dispose();
+    _newsSourceCtrl.dispose();
+    _newsAuthorCtrl.dispose();
+    for (var ctrl in _pollOptionControllers) {
+      ctrl.dispose();
+    }
     super.dispose();
   }
 
@@ -151,15 +171,47 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
                     .titleMedium
                     ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
+            // Selector de tipo de post
             Wrap(
               spacing: 8,
-              children: PostType.values
-                  .map((t) => ChoiceChip(
-                        label: Text(t.name),
-                        selected: _type == t,
-                        onSelected: (_) => setState(() => _type = t),
-                      ))
-                  .toList(),
+              runSpacing: 8,
+              children: [
+                ChoiceChip(
+                  label: const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.article, size: 16), SizedBox(width: 4), Text('Post')]),
+                  selected: _type == PostType.community,
+                  onSelected: (_) => setState(() => _type = PostType.community),
+                ),
+                ChoiceChip(
+                  label: const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.help, size: 16), SizedBox(width: 4), Text('Pregunta')]),
+                  selected: _type == PostType.request,
+                  onSelected: (_) => setState(() => _type = PostType.request),
+                ),
+                ChoiceChip(
+                  label: const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.local_offer, size: 16), SizedBox(width: 4), Text('Oferta')]),
+                  selected: _type == PostType.offer,
+                  onSelected: (_) => setState(() => _type = PostType.offer),
+                ),
+                ChoiceChip(
+                  label: const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.shopping_bag, size: 16), SizedBox(width: 4), Text('Producto')]),
+                  selected: _type == PostType.product,
+                  onSelected: (_) => setState(() => _type = PostType.product),
+                ),
+                ChoiceChip(
+                  label: const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.work, size: 16), SizedBox(width: 4), Text('Servicio')]),
+                  selected: _type == PostType.service,
+                  onSelected: (_) => setState(() => _type = PostType.service),
+                ),
+                ChoiceChip(
+                  label: const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.newspaper, size: 16), SizedBox(width: 4), Text('Noticia')]),
+                  selected: _type == PostType.news,
+                  onSelected: (_) => setState(() => _type = PostType.news),
+                ),
+                ChoiceChip(
+                  label: const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.poll, size: 16), SizedBox(width: 4), Text('Encuesta')]),
+                  selected: _type == PostType.poll,
+                  onSelected: (_) => setState(() => _type = PostType.poll),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             TextField(
@@ -183,25 +235,34 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
                   labelText: 'Tags (separados por coma)',
                   border: OutlineInputBorder()),
             ),
+            
+            // Campos específicos por tipo
             if (_type == PostType.request) ...[
+              const SizedBox(height: 16),
+              const Text('💰 Detalles de la solicitud', style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 12),
               TextField(
                 controller: _budgetCtrl,
                 decoration: const InputDecoration(
-                    labelText: 'Presupuesto (USD)',
-                    border: OutlineInputBorder()),
+                    labelText: 'Presupuesto máximo (USD)',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.attach_money)),
                 keyboardType: TextInputType.number,
               ),
             ],
-            if (_type == PostType.offer) ...[
+            
+            if (_type == PostType.offer || _type == PostType.service) ...[
+              const SizedBox(height: 16),
+              Text(_type == PostType.service ? '🔧 Detalles del servicio' : '💼 Detalles de la oferta', style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 12),
               Row(children: [
                 Expanded(
                     child: TextField(
                   controller: _pricingFromCtrl,
                   decoration: const InputDecoration(
-                      labelText: 'Desde (precio)',
-                      border: OutlineInputBorder()),
+                      labelText: 'Precio desde',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.attach_money)),
                   keyboardType: TextInputType.number,
                 )),
                 const SizedBox(width: 12),
@@ -209,12 +270,158 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
                     child: TextField(
                   controller: _pricingToCtrl,
                   decoration: const InputDecoration(
-                      labelText: 'Hasta (precio)',
-                      border: OutlineInputBorder()),
+                      labelText: 'Precio hasta',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.attach_money)),
                   keyboardType: TextInputType.number,
                 )),
               ]),
             ],
+            
+            if (_type == PostType.product) ...[
+              const SizedBox(height: 16),
+              const Text('🛍️ Detalles del producto', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              Row(children: [
+                Expanded(flex: 2, child: TextField(
+                  controller: _productPriceCtrl,
+                  decoration: const InputDecoration(
+                      labelText: 'Precio',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.attach_money)),
+                  keyboardType: TextInputType.number,
+                )),
+                const SizedBox(width: 12),
+                Expanded(child: TextField(
+                  controller: _productStockCtrl,
+                  decoration: const InputDecoration(
+                      labelText: 'Stock',
+                      border: OutlineInputBorder()),
+                  keyboardType: TextInputType.number,
+                )),
+              ]),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                value: _productCondition,
+                decoration: const InputDecoration(
+                  labelText: 'Condición',
+                  border: OutlineInputBorder(),
+                ),
+                items: ['nuevo', 'usado - como nuevo', 'usado - buen estado', 'usado - regular']
+                    .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                    .toList(),
+                onChanged: (val) => setState(() => _productCondition = val ?? 'nuevo'),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () {
+                  // TODO: Abrir selector de imágenes
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Próximamente: agregar imágenes del producto')),
+                  );
+                },
+                icon: const Icon(Icons.add_photo_alternate),
+                label: const Text('Agregar fotos del producto'),
+              ),
+            ],
+            
+            if (_type == PostType.news) ...[
+              const SizedBox(height: 16),
+              const Text('📰 Detalles de la noticia', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _newsSourceCtrl,
+                decoration: const InputDecoration(
+                    labelText: 'Fuente',
+                    border: OutlineInputBorder(),
+                    hintText: 'Ej: MineroNews, El Tiempo'),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _newsAuthorCtrl,
+                decoration: const InputDecoration(
+                    labelText: 'Autor',
+                    border: OutlineInputBorder(),
+                    hintText: 'Nombre del autor o periodista'),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () {
+                  // TODO: Abrir selector de imagen
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Próximamente: agregar imagen de portada')),
+                  );
+                },
+                icon: const Icon(Icons.image),
+                label: const Text('Agregar imagen de portada'),
+              ),
+            ],
+            
+            if (_type == PostType.poll) ...[
+              const SizedBox(height: 16),
+              const Text('📊 Opciones de la encuesta', style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              ...List.generate(_pollOptionControllers.length, (index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _pollOptionControllers[index],
+                          decoration: InputDecoration(
+                            labelText: 'Opción ${index + 1}',
+                            border: const OutlineInputBorder(),
+                            prefixIcon: const Icon(Icons.radio_button_unchecked),
+                          ),
+                        ),
+                      ),
+                      if (_pollOptionControllers.length > 2)
+                        IconButton(
+                          icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
+                          onPressed: () {
+                            setState(() {
+                              _pollOptionControllers[index].dispose();
+                              _pollOptionControllers.removeAt(index);
+                            });
+                          },
+                        ),
+                    ],
+                  ),
+                );
+              }),
+              OutlinedButton.icon(
+                onPressed: () {
+                  setState(() {
+                    _pollOptionControllers.add(TextEditingController());
+                  });
+                },
+                icon: const Icon(Icons.add),
+                label: const Text('Agregar opción'),
+              ),
+              const SizedBox(height: 12),
+              SwitchListTile(
+                title: const Text('Permitir selección múltiple'),
+                subtitle: const Text('Los usuarios pueden elegir más de una opción'),
+                value: _pollAllowMultiple,
+                onChanged: (val) => setState(() => _pollAllowMultiple = val),
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<int>(
+                value: _pollDurationDays,
+                decoration: const InputDecoration(
+                  labelText: 'Duración de la encuesta',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.timer),
+                ),
+                items: [1, 3, 7, 14, 30].map((days) => DropdownMenuItem(
+                  value: days,
+                  child: Text('$days ${days == 1 ? 'día' : 'días'}'),
+                )).toList(),
+                onChanged: (val) => setState(() => _pollDurationDays = val ?? 7),
+              ),
+            ],
+            
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,

@@ -364,7 +364,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
         leading: CircleAvatar(
           radius: 24,
           backgroundColor: AppColors.info.withValues(alpha: 0.2),
-          child: Icon(
+          child: const Icon(
             Icons.group,
             color: AppColors.info,
             size: 20,
@@ -404,7 +404,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
             const SizedBox(height: 4),
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.people,
                   size: 14,
                   color: AppColors.textSecondary,

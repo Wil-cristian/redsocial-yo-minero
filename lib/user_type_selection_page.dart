@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
 import 'shared/models/user.dart';
-import 'core/auth/authentication_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'register_page.dart';
 import 'main_navigation_shell.dart';
 
@@ -220,7 +220,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
 
     try {
       // Crear un usuario básico con datos predeterminados
-      final result = await AuthenticationService.instance.register(
+      final result = await SupabaseAuthService.instance.register(
         username: 'usuario_${DateTime.now().millisecondsSinceEpoch}',
         email: 'temp_${DateTime.now().millisecondsSinceEpoch}@temp.com',
         password: 'temp123',

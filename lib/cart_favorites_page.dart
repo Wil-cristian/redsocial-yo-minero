@@ -239,7 +239,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
               color: DashboardColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(
+            child: const Icon(
               Icons.shopping_bag,
               color: DashboardColors.primary,
             ),

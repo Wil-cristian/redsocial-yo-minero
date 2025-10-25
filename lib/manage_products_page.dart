@@ -144,7 +144,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [AppColors.secondary, AppColors.primary],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -212,7 +212,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 colors: [AppColors.secondary, AppColors.primary],
                               ),
                               borderRadius: BorderRadius.circular(16),
@@ -290,7 +290,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                     ),
                                     borderRadius: BorderRadius.circular(16),
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.add_shopping_cart,
                                     size: 48,
                                     color: AppColors.secondary,
@@ -408,7 +408,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [AppColors.secondary, AppColors.primary],
               ),
               borderRadius: BorderRadius.circular(25),
@@ -498,10 +498,10 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                             product.imageUrl!,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) => 
-                              Icon(Icons.inventory_2, color: AppColors.secondary, size: 40),
+                              const Icon(Icons.inventory_2, color: AppColors.secondary, size: 40),
                           ),
                         )
-                      : Icon(Icons.inventory_2, color: AppColors.secondary, size: 40),
+                      : const Icon(Icons.inventory_2, color: AppColors.secondary, size: 40),
                   ),
                   
                   const SizedBox(width: 20),
@@ -528,7 +528,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                 color: AppColors.secondary.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.edit,
                                 size: 20,
                                 color: AppColors.secondary,

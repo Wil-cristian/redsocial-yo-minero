@@ -406,7 +406,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
+                              gradient: const LinearGradient(
                                 colors: [AppColors.success, AppColors.primary],
                               ),
                               borderRadius: BorderRadius.circular(10),

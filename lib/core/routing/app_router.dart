@@ -3,7 +3,7 @@ import '../../home_page.dart';
 import '../../login_page.dart';
 import '../../main_app.dart';
 import '../../profile_page.dart';
-import '../../community_page.dart';
+import '../../community_feed_page.dart';
 import '../../products_page.dart';
 import '../../services_page.dart';
 import '../../groups_page.dart';
@@ -20,7 +20,7 @@ import '../../company_metrics_page.dart';
 import '../../company_resources_page.dart';
 import '../../company_requested_services_page.dart';
 import '../../company_requested_products_page.dart';
-import '../auth/authentication_service.dart';
+import '../auth/supabase_auth_service.dart';
 
 /// Centralized route names
 class AppRoutes {
@@ -49,13 +49,13 @@ class AppRoutes {
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AppRoutes.home:
-      return MaterialPageRoute(builder: (_) => HomePage());
+      return MaterialPageRoute(builder: (_) => const HomePage());
     case AppRoutes.login:
       return MaterialPageRoute(builder: (_) => const LoginPage());
     case AppRoutes.main:
       return MaterialPageRoute(builder: (_) => const MainApp());
     case AppRoutes.community:
-      return MaterialPageRoute(builder: (_) => const CommunityPage());
+      return MaterialPageRoute(builder: (_) => const CommunityFeedPage(currentUser: null));
     case AppRoutes.products:
       return MaterialPageRoute(builder: (_) => const ProductsPage());
     case AppRoutes.services:
@@ -70,9 +70,9 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           builder: (_) =>
               GroupDetailPage(group: settings.arguments as dynamic));
     case AppRoutes.profile:
-  final user = AuthenticationService.instance.currentUser;
+  final user = SupabaseAuthService.instance.currentUserProfile;
       if (user == null) {
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) => const HomePage());
       }
       return MaterialPageRoute(
           builder: (_) => ProfilePage(currentUser: user));
@@ -101,27 +101,27 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.manageProducts:
       return MaterialPageRoute(builder: (_) => const ManageProductsPage());
     case AppRoutes.companyEmployees:
-      final user = AuthenticationService.instance.currentUser;
+      final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
           builder: (_) => CompanyEmployeesPage(currentUser: user));
     case AppRoutes.companyProjects:
-      final user = AuthenticationService.instance.currentUser;
+      final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
           builder: (_) => CompanyProjectsPage(currentUser: user));
     case AppRoutes.companyMetrics:
-      final user = AuthenticationService.instance.currentUser;
+      final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
           builder: (_) => CompanyMetricsPage(currentUser: user));
     case AppRoutes.companyResources:
-      final user = AuthenticationService.instance.currentUser;
+      final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
           builder: (_) => CompanyResourcesPage(currentUser: user));
     case AppRoutes.companyRequestedServices:
-      final user = AuthenticationService.instance.currentUser;
+      final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
           builder: (_) => CompanyRequestedServicesPage(currentUser: user));
     case AppRoutes.companyRequestedProducts:
-      final user = AuthenticationService.instance.currentUser;
+      final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
           builder: (_) => CompanyRequestedProductsPage(currentUser: user));
     default:

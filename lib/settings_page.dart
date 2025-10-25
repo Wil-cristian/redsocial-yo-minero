@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/dashboard_colors.dart';
-import 'core/auth/authentication_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'login_page.dart';
 
 /// Página de configuración del usuario
@@ -396,7 +396,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await AuthenticationService.instance.logout();
+              await SupabaseAuthService.instance.logout();
               if (mounted) {
                 Navigator.pushAndRemoveUntil(
                   context,

@@ -395,7 +395,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                           width: 60,
                           height: 60,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [AppColors.info, AppColors.primary],
                             ),
                             borderRadius: BorderRadius.circular(15),
@@ -459,7 +459,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [AppColors.info, AppColors.primary],
                   ),
                   borderRadius: BorderRadius.circular(20),
