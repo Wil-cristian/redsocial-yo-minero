@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/post.dart';
 import 'package:yominero/shared/models/service.dart';
 import 'core/theme/colors.dart';
+import 'core/theme/dashboard_colors.dart';
+import 'core/theme/rich_decorations.dart';
 import 'core/di/locator.dart';
 import 'core/auth/auth_service.dart';
 import 'core/matching/match_engine.dart';
@@ -406,295 +408,277 @@ class _ServicesPageState extends State<ServicesPage>
   Widget _buildBeautifulServiceCard(Service service, int index) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.white,
-              AppColors.primary.withValues(alpha: 0.02),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () => _showServiceDetails(service),
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header con información del servicio
-                  Row(
-                    children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              _getServiceColor(service.name),
-                              _getServiceColor(service.name).withValues(alpha: 0.7),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: _getServiceColor(service.name).withValues(alpha: 0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          _getServiceIcon(service.name),
-                          color: Colors.white,
-                          size: 28,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              service.name,
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              service.category ?? 'Servicio General',
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: AppColors.secondary,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [AppColors.success, AppColors.success.withValues(alpha: 0.8)],
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          service.rateDisplay,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  
-                  const SizedBox(height: 16),
-                  
-                  // Descripción
-                  Text(
-                    service.description,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey[700],
-                      height: 1.4,
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  
-                  // Tags si existen
-                  if (service.tags.isNotEmpty) ...[
-                    const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 4,
-                      children: service.tags.take(3).map((tag) => Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          tag,
-                          style: const TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )).toList(),
-                    ),
-                  ],
-                  
-                  const SizedBox(height: 16),
-                  
-                  // Información del autor
-                  Row(
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              AppColors.secondary.withValues(alpha: 0.8),
-                              AppColors.secondary.withValues(alpha: 0.6),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: service.authorAvatarUrl != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                service.authorAvatarUrl!,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : Center(
-                              child: Text(
-                                service.authorIcon,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  service.authorIcon,
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                                const SizedBox(width: 4),
-                                Flexible(
-                                  child: Text(
-                                    service.authorDisplayName,
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primary,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                if (service.isAuthorVerified) ...[
-                                  const SizedBox(width: 4),
-                                  const Icon(
-                                    Icons.verified,
-                                    size: 16,
-                                    color: AppColors.success,
-                                  ),
-                                ],
-                              ],
-                            ),
-                            if (service.authorRating > 0) ...[
-                              const SizedBox(height: 2),
-                              Row(
-                                children: [
-                                  const Icon(Icons.star, size: 14, color: Colors.amber),
-                                  const SizedBox(width: 2),
-                                  Text(
-                                    '${service.authorRating.toStringAsFixed(1)} (${service.authorReviewCount})',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Colors.grey[600],
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [AppColors.secondary, AppColors.primary],
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.secondary.withValues(alpha: 0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () => _contactAuthor(service),
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.chat, color: Colors.white, size: 16),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    'Contactar',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  
-                  // Información adicional
-                  if (service.location != null) ...[
-                    const SizedBox(height: 8),
+      child: RichDecorations.emeraldFacetsOverlay(
+        opacity: 0.15,
+        child: Container(
+          decoration: RichDecorations.emeraldGemCard(isElevated: true),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => _showServiceDetails(service),
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header con información del servicio
                     Row(
                       children: [
-                        Icon(Icons.location_on, size: 14, color: Colors.grey[600]),
-                        const SizedBox(width: 4),
-                        Text(
-                          service.location!,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.grey[600],
-                            fontSize: 11,
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                DashboardColors.emeraldLight,
+                                DashboardColors.emerald,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: DashboardColors.emerald.withValues(alpha: 0.4),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            _getServiceIcon(service.name),
+                            color: Colors.white,
+                            size: 28,
                           ),
                         ),
-                        const Spacer(),
-                        Text(
-                          service.timeAgo,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.grey[500],
-                            fontSize: 10,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                service.name,
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: DashboardColors.emeraldDeep,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                service.category ?? 'Servicio General',
+                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                  color: DashboardColors.emerald,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: RichDecorations.emeraldGemBadge(),
+                          child: Text(
+                            service.rateDisplay,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ],
                     ),
+                    
+                    const SizedBox(height: 16),
+                    
+                    // Descripción
+                    Text(
+                      service.description,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey[700],
+                        height: 1.4,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    
+                    // Tags si existen
+                    if (service.tags.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        children: service.tags.take(3).map((tag) => Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                DashboardColors.emeraldLight.withValues(alpha: 0.3),
+                                DashboardColors.emerald.withValues(alpha: 0.2),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: DashboardColors.emeraldGlow.withValues(alpha: 0.5),
+                              width: 1,
+                            ),
+                          ),
+                          child: Text(
+                            tag,
+                            style: TextStyle(
+                              color: DashboardColors.emeraldDeep,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )).toList(),
+                      ),
+                    ],
+                    
+                    const SizedBox(height: 16),
+                    
+                    // Información del autor
+                    Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                DashboardColors.emeraldGlow,
+                                DashboardColors.emeraldLight,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: DashboardColors.emeraldGlow.withValues(alpha: 0.5),
+                              width: 2,
+                            ),
+                          ),
+                          child: service.authorAvatarUrl != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(18),
+                                child: Image.network(
+                                  service.authorAvatarUrl!,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : Center(
+                                child: Text(
+                                  service.authorIcon,
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    service.authorIcon,
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Flexible(
+                                    child: Text(
+                                      service.authorDisplayName,
+                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: DashboardColors.emeraldDeep,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  if (service.isAuthorVerified) ...[
+                                    const SizedBox(width: 4),
+                                    Icon(
+                                      Icons.verified,
+                                      size: 16,
+                                      color: DashboardColors.emerald,
+                                    ),
+                                  ],
+                                ],
+                              ),
+                              if (service.authorRating > 0) ...[
+                                const SizedBox(height: 2),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.star, size: 14, color: Colors.amber),
+                                    const SizedBox(width: 2),
+                                    Text(
+                                      '${service.authorRating.toStringAsFixed(1)} (${service.authorReviewCount})',
+                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        color: Colors.grey[600],
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: RichDecorations.emeraldGemButton(),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => _contactAuthor(service),
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.chat, color: Colors.white, size: 16),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'Contactar',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    
+                    // Información adicional
+                    if (service.location != null) ...[
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                            Icon(Icons.location_on, size: 14, color: Colors.grey[600]),
+                          const SizedBox(width: 4),
+                          Text(
+                            service.location!,
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.grey[600],
+                              fontSize: 11,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            service.timeAgo,
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.grey[500],
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
           ),
@@ -956,17 +940,5 @@ class _ServicesPageState extends State<ServicesPage>
       return Icons.gavel_outlined;
     }
     return Icons.miscellaneous_services_outlined;
-  }
-
-  Color _getServiceColor(String serviceName) {
-    final lower = serviceName.toLowerCase();
-    if (lower.contains('topografía') || lower.contains('mapeo')) {
-      return AppColors.info;
-    } else if (lower.contains('mantenimiento')) {
-      return AppColors.success;
-    } else if (lower.contains('legal')) {
-      return AppColors.textSecondary;
-    }
-    return AppColors.primary;
   }
 }

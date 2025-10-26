@@ -123,6 +123,74 @@ class DashboardColors {
   );
 
   // ============================================
+  // 💎 ESMERALDA - Gema Tallada con Capas y Translucidez
+  // ============================================
+  
+  /// Esmeralda oscura profunda (base de la gema)
+  static const Color emeraldDeep = Color(0xFF00875A);
+  
+  /// Esmeralda principal (color medio de la gema)
+  static const Color emerald = Color(0xFF00D084);
+  
+  /// Esmeralda brillante (reflejos de luz)
+  static const Color emeraldLight = Color(0xFF4ADE80);
+  
+  /// Esmeralda muy clara (reflejos intensos)
+  static const Color emeraldGlow = Color(0xFF86EFAC);
+  
+  /// Esmeralda con tinte azul (profundidad)
+  static const Color emeraldTeal = Color(0xFF14B8A6);
+  
+  /// Esmeralda translúcida (para capas)
+  static const Color emeraldTranslucent = Color(0x80059669);
+  
+  /// Gradiente de esmeralda tallada (facetas de luz)
+  static const LinearGradient emeraldGemGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF86EFAC), // Reflejo superior brillante
+      Color(0xFF4ADE80), // Luz media
+      Color(0xFF00D084), // Centro de la gema
+      Color(0xFF059669), // Profundidad
+      Color(0xFF00875A), // Sombra profunda
+    ],
+    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
+  );
+  
+  /// Gradiente con efecto de facetas (tallado de gema)
+  static const LinearGradient emeraldFacetedGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFECFDF5), // Reflejo blanco-verde (faceta superior)
+      Color(0xFF86EFAC), // Verde claro brillante
+      Color(0xFF4ADE80), // Verde medio
+      Color(0xFF10B981), // Verde intenso
+      Color(0xFF00D084), // Esmeralda principal
+      Color(0xFF059669), // Verde profundo
+      Color(0xFF047857), // Verde oscuro
+      Color(0xFF065F46), // Sombra interior
+    ],
+    stops: [0.0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.85, 1.0],
+  );
+  
+  /// Gradiente radial de esmeralda (efecto de gema vista desde arriba)
+  static const RadialGradient emeraldRadialGradient = RadialGradient(
+    center: Alignment.topLeft,
+    radius: 1.5,
+    colors: [
+      Color(0xFFFFFFFF), // Reflejo blanco central
+      Color(0xFFECFDF5), // Verde casi blanco
+      Color(0xFF86EFAC), // Verde claro
+      Color(0xFF10B981), // Verde medio
+      Color(0xFF059669), // Verde profundo
+      Color(0xFF064E3B), // Verde muy oscuro (borde)
+    ],
+    stops: [0.0, 0.15, 0.35, 0.6, 0.85, 1.0],
+  );
+
+  // ============================================
   // PALETA DE SOPORTE VIBRANTE
   // ============================================
   
@@ -130,8 +198,6 @@ class DashboardColors {
   static const Color silver = Color(0xFFE8E8E8);
   static const Color bronze = Color(0xFFCD7F32);
   static const Color minerBlue = Color(0xFF2196F3);
-  static const Color emerald = Color(0xFF00D084);
-  static const Color emeraldLight = Color(0xFF4ADE80);
   
   // ============================================
   // COLORES DE ESTADO BRILLANTES

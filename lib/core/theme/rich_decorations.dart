@@ -568,4 +568,216 @@ class RichDecorations {
           : null,
     );
   }
+
+  // ============================================
+  // 💎 DECORACIONES DE GEMAS TALLADAS
+  // ============================================
+
+  /// Esmeralda tallada con efecto de facetas y translucidez
+  static BoxDecoration emeraldGemCard({bool isElevated = false}) {
+    return BoxDecoration(
+      gradient: DashboardColors.emeraldFacetedGradient,
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(
+        width: 2,
+        color: DashboardColors.emeraldGlow.withOpacity(0.6),
+      ),
+      boxShadow: [
+        // Sombra verde profunda (base de la gema)
+        BoxShadow(
+          color: DashboardColors.emeraldDeep.withOpacity(0.5),
+          offset: const Offset(0, 12),
+          blurRadius: 24,
+          spreadRadius: 2,
+        ),
+        // Sombra verde media (reflejo)
+        BoxShadow(
+          color: DashboardColors.emerald.withOpacity(0.3),
+          offset: const Offset(0, 6),
+          blurRadius: 12,
+          spreadRadius: 1,
+        ),
+        // Brillo superior translúcido
+        BoxShadow(
+          color: DashboardColors.emeraldGlow.withOpacity(0.4),
+          offset: const Offset(0, -2),
+          blurRadius: 8,
+          spreadRadius: 0,
+        ),
+        if (isElevated)
+          // Reflejo blanco brillante (faceta)
+          BoxShadow(
+            color: Colors.white.withOpacity(0.3),
+            offset: const Offset(-2, -2),
+            blurRadius: 6,
+            spreadRadius: 0,
+          ),
+      ],
+    );
+  }
+
+  /// Botón de esmeralda tallada con efecto 3D
+  static BoxDecoration emeraldGemButton({bool isPressed = false}) {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: isPressed
+            ? [
+                DashboardColors.emeraldDeep,
+                DashboardColors.emerald,
+                DashboardColors.emeraldLight,
+              ]
+            : [
+                DashboardColors.emeraldGlow,
+                DashboardColors.emeraldLight,
+                DashboardColors.emerald,
+                DashboardColors.emeraldDeep,
+              ],
+        stops: isPressed ? [0.0, 0.5, 1.0] : [0.0, 0.3, 0.7, 1.0],
+      ),
+      border: Border.all(
+        width: 2,
+        color: isPressed
+            ? DashboardColors.emeraldDeep.withOpacity(0.8)
+            : DashboardColors.emeraldGlow.withOpacity(0.9),
+      ),
+      boxShadow: isPressed
+          ? [
+              // Sombra reducida cuando está presionado
+              BoxShadow(
+                color: DashboardColors.emeraldDeep.withOpacity(0.3),
+                offset: const Offset(0, 2),
+                blurRadius: 4,
+              ),
+            ]
+          : [
+              // Sombra profunda verde
+              BoxShadow(
+                color: DashboardColors.emeraldDeep.withOpacity(0.6),
+                offset: const Offset(0, 8),
+                blurRadius: 16,
+                spreadRadius: 1,
+              ),
+              // Sombra media translúcida
+              BoxShadow(
+                color: DashboardColors.emeraldTranslucent,
+                offset: const Offset(0, 4),
+                blurRadius: 8,
+              ),
+              // Reflejo superior blanco
+              BoxShadow(
+                color: Colors.white.withOpacity(0.4),
+                offset: const Offset(-1, -1),
+                blurRadius: 4,
+              ),
+            ],
+    );
+  }
+
+  /// Badge de esmeralda con brillo
+  static BoxDecoration emeraldGemBadge() {
+    return BoxDecoration(
+      gradient: DashboardColors.emeraldRadialGradient,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(
+        width: 1.5,
+        color: DashboardColors.emeraldGlow.withOpacity(0.7),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: DashboardColors.emerald.withOpacity(0.5),
+          blurRadius: 12,
+          spreadRadius: 2,
+        ),
+        BoxShadow(
+          color: Colors.white.withOpacity(0.3),
+          offset: const Offset(-1, -1),
+          blurRadius: 3,
+        ),
+      ],
+    );
+  }
+
+  /// Efecto de facetas de gema (para overlays)
+  static Widget emeraldFacetsOverlay({
+    required Widget child,
+    double opacity = 0.3,
+  }) {
+    return Stack(
+      children: [
+        child,
+        // Capa de facetas con gradiente diagonal
+        Positioned.fill(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: CustomPaint(
+              painter: _EmeraldFacetsPainter(opacity: opacity),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ============================================
+// 🎨 CUSTOM PAINTERS PARA EFECTOS DE GEMAS
+// ============================================
+
+/// Painter para crear efecto de facetas de esmeralda
+class _EmeraldFacetsPainter extends CustomPainter {
+  final double opacity;
+
+  _EmeraldFacetsPainter({required this.opacity});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..style = PaintingStyle.fill
+      ..blendMode = BlendMode.overlay;
+
+    // Faceta superior izquierda (brillante)
+    paint.color = Colors.white.withOpacity(opacity * 0.8);
+    final path1 = Path()
+      ..moveTo(0, 0)
+      ..lineTo(size.width * 0.4, 0)
+      ..lineTo(size.width * 0.2, size.height * 0.3)
+      ..lineTo(0, size.height * 0.2)
+      ..close();
+    canvas.drawPath(path1, paint);
+
+    // Faceta central (media)
+    paint.color = DashboardColors.emeraldLight.withOpacity(opacity * 0.5);
+    final path2 = Path()
+      ..moveTo(size.width * 0.3, 0)
+      ..lineTo(size.width * 0.7, 0)
+      ..lineTo(size.width * 0.6, size.height * 0.5)
+      ..lineTo(size.width * 0.4, size.height * 0.5)
+      ..close();
+    canvas.drawPath(path2, paint);
+
+    // Faceta derecha (sombra)
+    paint.color = DashboardColors.emeraldDeep.withOpacity(opacity * 0.6);
+    final path3 = Path()
+      ..moveTo(size.width * 0.7, size.height * 0.2)
+      ..lineTo(size.width, size.height * 0.3)
+      ..lineTo(size.width, size.height)
+      ..lineTo(size.width * 0.6, size.height * 0.8)
+      ..close();
+    canvas.drawPath(path3, paint);
+
+    // Reflejo diagonal brillante
+    paint.color = Colors.white.withOpacity(opacity * 0.4);
+    final path4 = Path()
+      ..moveTo(size.width * 0.1, size.height * 0.1)
+      ..lineTo(size.width * 0.3, size.height * 0.1)
+      ..lineTo(size.width * 0.15, size.height * 0.4)
+      ..close();
+    canvas.drawPath(path4, paint);
+  }
+
+  @override
+  bool shouldRepaint(_EmeraldFacetsPainter oldDelegate) => false;
 }

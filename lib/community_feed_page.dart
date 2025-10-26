@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'core/theme/premium_widgets.dart';
+import 'core/theme/rich_decorations.dart';
 import 'core/di/locator.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'features/posts/domain/post_repository.dart';
@@ -842,81 +843,95 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: PremiumWidgets.productCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Carrusel de imágenes con badge flotante
-            Stack(
-              children: [
-                hasImages
-                    ? _buildImageCarousel(post.productImages!)
-                    : _buildImagePlaceholder(),
-                // Badge "PRODUCTO" premium
-                Positioned(
-                  top: 12,
-                  right: 12,
-                  child: PremiumWidgets.premiumBadge(
-                    label: 'PRODUCTO',
-                    icon: Icons.star,
-                    gradientColors: [
-                      DashboardColors.primaryLight,
-                      DashboardColors.primary,
-                      DashboardColors.primaryDark,
-                    ],
-                  ),
-                ),
-              ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: DashboardColors.primary.withValues(alpha: 0.12),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+              spreadRadius: 1,
             ),
-
-                  // Información del producto
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.white,
-                          DashboardColors.primaryLight.withOpacity(0.02),
-                        ],
-                      ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Carrusel de imágenes con badge flotante
+              Stack(
+                children: [
+                  hasImages
+                      ? _buildImageCarousel(post.productImages!)
+                      : _buildImagePlaceholder(),
+                  // Badge "PRODUCTO" premium
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: PremiumWidgets.premiumBadge(
+                      label: 'PRODUCTO',
+                      icon: Icons.star,
+                      gradientColors: [
+                        DashboardColors.primaryLight,
+                        DashboardColors.primary,
+                        DashboardColors.primaryDark,
+                      ],
                     ),
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Precio premium con badges y efectos brillantes
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Precio con efectos brillantes (shimmer + pulse)
-                            PremiumWidgets.shimmerEffect(
-                              child: PremiumWidgets.pulsingBorder(
-                                color: DashboardColors.primary,
-                                child: PremiumWidgets.priceContainer(
-                                  price: price.toString(),
-                                  currency: currency,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                PremiumWidgets.conditionBadge(
-                                  condition: condition,
-                                ),
-                                const SizedBox(width: 8),
-                                PremiumWidgets.stockBadge(stock: stock),
-                              ],
-                            ),
+                  ),
+                ],
+              ),
+
+                    // Información del producto
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.white,
+                            DashboardColors.primaryLight.withOpacity(0.02),
                           ],
                         ),
+                      ),
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Precio premium con badges y efectos brillantes
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Precio con efectos brillantes (shimmer + pulse)
+                              PremiumWidgets.shimmerEffect(
+                                child: PremiumWidgets.pulsingBorder(
+                                  color: DashboardColors.primary,
+                                  child: PremiumWidgets.priceContainer(
+                                    price: price.toString(),
+                                    currency: currency,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  PremiumWidgets.conditionBadge(
+                                    condition: condition,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  PremiumWidgets.stockBadge(stock: stock),
+                                ],
+                              ),
+                            ],
+                          ),
 
-                        const SizedBox(height: 16),
+                          const SizedBox(height: 16),
 
-                        // Botones de acción premium
-                        Row(
-                          children: [
-                            Expanded(
+                          // Botones de acción premium
+                          Row(
+                            children: [
+                              Expanded(
                               // Botón dorado con efectos brillantes
                               child: PremiumWidgets.shimmerEffect(
                                 duration: const Duration(seconds: 3),
@@ -940,6 +955,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                   ),
                 ],
               ),
+            ),
         ),
     );
   }
@@ -1204,251 +1220,286 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.purple.shade50,
-              Colors.white,
-            ],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: Colors.purple.shade300,
-            width: 2,
-          ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.purple.withOpacity(0.15),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+              color: DashboardColors.emeraldDeep.withValues(alpha: 0.15),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+              spreadRadius: 2,
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header del servicio
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.purple.shade600, Colors.purple.shade700],
-                ),
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 4,
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.room_service,
-                      size: 24,
-                      color: Colors.purple.shade700,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'SERVICIO PROFESIONAL',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.9),
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          serviceName,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white.withOpacity(0.3)),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.star, size: 14, color: Colors.amber.shade300),
-                        const SizedBox(width: 4),
-                        Text(
-                          '4.8',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Contenido del servicio
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Descripción del servicio
-                  if (post.content.isNotEmpty)
-                    Text(
-                      post.content,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey.shade700,
-                        height: 1.5,
-                      ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-
-                  // Tags/Categorías
-                  if (tags.isNotEmpty) ...[
-                    const SizedBox(height: 16),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: tags.map((tag) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.purple.shade100,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: Colors.purple.shade300),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.label,
-                                size: 14,
-                                color: Colors.purple.shade700,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                tag,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.purple.shade700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-
-                  const SizedBox(height: 16),
-
-                  // Características del servicio
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.purple.shade50,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      children: [
-                        _buildServiceFeature(
-                          Icons.verified_user,
-                          'Profesional verificado',
-                          Colors.green,
-                        ),
-                        const SizedBox(height: 8),
-                        _buildServiceFeature(
-                          Icons.schedule,
-                          'Disponibilidad inmediata',
-                          Colors.blue,
-                        ),
-                        const SizedBox(height: 8),
-                        _buildServiceFeature(
-                          Icons.workspace_premium,
-                          'Garantía de calidad',
-                          Colors.amber,
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // Botones de acción
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            print('📞 Contactar servicio: ${post.id}');
-                          },
-                          icon: const Icon(Icons.phone, size: 18),
-                          label: const Text('Contactar'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.purple.shade600,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () {
-                            print('ℹ️ Ver detalles servicio: ${post.id}');
-                          },
-                          icon: Icon(Icons.info_outline, size: 18, color: Colors.purple.shade700),
-                          label: Text(
-                            'Detalles',
-                            style: TextStyle(color: Colors.purple.shade700),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            side: BorderSide(color: Colors.purple.shade600, width: 2),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
+        child: RichDecorations.emeraldFacetsOverlay(
+          opacity: 0.15,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header del servicio con gradiente de esmeralda
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      DashboardColors.emeraldDeep,
+                      DashboardColors.emerald,
+                      DashboardColors.emeraldTeal,
                     ],
                   ),
-                ],
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        gradient: RadialGradient(
+                          colors: [
+                            Colors.white,
+                            DashboardColors.emeraldGlow.withValues(alpha: 0.3),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.5),
+                            blurRadius: 8,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.room_service,
+                        size: 24,
+                        color: DashboardColors.emeraldDeep,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'SERVICIO PROFESIONAL',
+                            style: TextStyle(
+                              color: DashboardColors.emeraldGlow,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            serviceName,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: RichDecorations.emeraldGemBadge(),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.star, size: 14, color: Colors.white),
+                          const SizedBox(width: 4),
+                          Text(
+                            '4.8',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              // Contenido del servicio
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Descripción del servicio
+                    if (post.content.isNotEmpty)
+                      Text(
+                        post.content,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey.shade700,
+                          height: 1.5,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                    // Tags/Categorías
+                    if (tags.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: tags.map((tag) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  DashboardColors.emeraldLight.withValues(alpha: 0.3),
+                                  DashboardColors.emerald.withValues(alpha: 0.2),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: DashboardColors.emeraldGlow.withValues(alpha: 0.6),
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.label,
+                                  size: 14,
+                                  color: DashboardColors.emeraldDeep,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  tag,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: DashboardColors.emeraldDeep,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+
+                    const SizedBox(height: 16),
+
+                    // Características del servicio con iconos esmeralda
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade50,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: DashboardColors.emeraldGlow.withValues(alpha: 0.2),
+                          width: 1,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          _buildServiceFeature(
+                            Icons.verified_user,
+                            'Profesional verificado',
+                            DashboardColors.emerald,
+                          ),
+                          const SizedBox(height: 8),
+                          _buildServiceFeature(
+                            Icons.schedule,
+                            'Disponibilidad inmediata',
+                            DashboardColors.emeraldTeal,
+                          ),
+                          const SizedBox(height: 8),
+                          _buildServiceFeature(
+                            Icons.workspace_premium,
+                            'Garantía de calidad',
+                            DashboardColors.emeraldLight,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Botones de acción
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: RichDecorations.emeraldGemButton(),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  print('📞 Contactar servicio: ${post.id}');
+                                },
+                                borderRadius: BorderRadius.circular(10),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Icon(Icons.phone, size: 18, color: Colors.white),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Contactar',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              print('ℹ️ Ver detalles servicio: ${post.id}');
+                            },
+                            icon: Icon(Icons.info_outline, size: 18, color: DashboardColors.emeraldDeep),
+                            label: Text(
+                              'Detalles',
+                              style: TextStyle(
+                                color: DashboardColors.emeraldDeep,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              side: BorderSide(
+                                color: DashboardColors.emerald,
+                                width: 2,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+    ),
     );
   }
 
