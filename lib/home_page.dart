@@ -1,269 +1,113 @@
-import 'package:flutter/material.dart';
-import 'core/auth/supabase_auth_service.dart';
-import 'core/auth/employee_roles.dart';
+﻿import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import 'core/theme/dashboard_colors.dart';
-import 'products_page.dart';
-import 'services_page.dart';
-import 'community_feed_page.dart';
-import 'groups_page.dart';
-import 'profile_page.dart';
-import 'messages_page.dart';
-import 'login_page.dart';
-import 'notifications_page.dart';
-import 'settings_page.dart';
-import 'cart_favorites_page.dart';
-import 'shared/widgets/dashboard_grid_item.dart';
 
-/// Home adaptativo que muestra diferentes interfaces según el tipo de usuario.
-/// - Individual: Dashboard personal con proyectos y oportunidades
-/// - Trabajador: Panel de empleado con tareas y empresa
-/// - Empresa: Panel de gestión con empleados y métricas
 class HomePage extends StatefulWidget {
-  final Map<String, dynamic>? currentUser; // Usuario actualmente logueado
-
-  const HomePage({
-    super.key,
-    this.currentUser,
-  });
-
+  final Map<String, dynamic>? currentUser;
+  const HomePage({super.key, this.currentUser});
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  late AnimationController _shimmerController;
+  late AnimationController _pulseController;
+  late AnimationController _rotateController;
   
-  late AnimationController _fadeController;
-  late AnimationController _scaleController;
-
   @override
   void initState() {
     super.initState();
-    
-    _fadeController = AnimationController(
-      duration: const Duration(milliseconds: 1000),
+    _shimmerController = AnimationController(
+      duration: const Duration(seconds: 2),
       vsync: this,
-    );
-    _scaleController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
+    )..repeat();
+    
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
       vsync: this,
-    );
+    )..repeat(reverse: true);
     
-
-    
-    _fadeController.forward();
-    _scaleController.forward();
+    _rotateController = AnimationController(
+      duration: const Duration(seconds: 20),
+      vsync: this,
+    )..repeat();
   }
-
+  
   @override
   void dispose() {
-    _fadeController.dispose();
-    _scaleController.dispose();
+    _shimmerController.dispose();
+    _pulseController.dispose();
+    _rotateController.dispose();
     super.dispose();
+  }
+
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Buenos días';
+    if (hour < 18) return 'Buenas tardes';
+    return 'Buenas noches';
   }
 
   @override
   Widget build(BuildContext context) {
-    // Si no hay usuario, mostrar dashboard individual por defecto
-    if (widget.currentUser == null) {
-      return _buildIndividualDashboard(context);
-    }
+    final userName = widget.currentUser?['name'] ?? 'Usuario';
+    final accountType = (widget.currentUser?['accountType'] as String?) ?? 'individual';
     
-    // Mostrar interfaz específica según el tipo de usuario
-    final accountType = (widget.currentUser!['accountType'] as String?) ?? 'individual';
-    switch (accountType) {
-      case 'individual':
-        return _buildIndividualDashboard(context);
-      case 'worker':
-        return _buildWorkerDashboard(context);
-      case 'company':
-        return _buildCompanyDashboard(context);
-      default:
-        return _buildIndividualDashboard(context);
-    }
-  }
-
-  /// Dashboard para usuarios individuales (mineros independientes)
-  Widget _buildIndividualDashboard(BuildContext context) {
-    final user = widget.currentUser;
-    final userName = user?['name'] ?? 'Usuario';
-    
-    return SafeArea(
-      child: Column(
-          children: [
-            // Header con saludo y opciones
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(width: 40), // Espacio para mantener el balance visual
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.search, size: 20),
-                        onPressed: () {},
-                      ),
-                      Stack(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.shopping_bag_outlined, size: 20),
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const CartFavoritesPage(),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 4,
-                            top: 4,
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: DashboardColors.primary,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
-                              ),
-                              child: const Text(
-                                '2',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.menu, size: 20),
-                        onPressed: () => _showDashboardMenu(context),
-                      ),
-                    ],
-                  ),
-                ],
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              DashboardColors.gray50,
+              DashboardColors.white,
+              DashboardColors.primaryLight.withOpacity(0.05),
+            ],
+          ),
+        ),
+        child: CustomScrollView(
+          slivers: [
+            // Header ÉPICO con animaciones
+            SliverToBoxAdapter(
+              child: _buildEpicHeader(),
+            ),
+            
+            // Estadísticas animadas
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: _buildAnimatedStats(),
               ),
             ),
             
-            // Greeting
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Hola, $userName',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+            // Accesos rápidos con efectos
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildSectionTitle('Explorar', Icons.explore),
+                    const SizedBox(height: 16),
+                    _buildQuickAccessGrid(context, accountType),
+                  ],
                 ),
               ),
             ),
             
-            const SizedBox(height: 24),
+            const SliverToBoxAdapter(child: SizedBox(height: 32)),
             
-            // Grid de opciones
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+            // Actividad reciente mejorada
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              sliver: SliverToBoxAdapter(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Primera fila
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Proyectos',
-                            icon: Icons.work,
-                            backgroundColor: DashboardColors.cardOrangeBg,
-                            iconColor: DashboardColors.cardOrange,
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const ProductsPage()),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Servicios',
-                            icon: Icons.engineering,
-                            isHighlighted: true,
-                            backgroundColor: DashboardColors.cardPurple,
-                            iconColor: DashboardColors.cardPurple,
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const ServicesPage()),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    _buildSectionTitle('Actividad Reciente', Icons.history),
                     const SizedBox(height: 16),
-                    
-                    // Segunda fila
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Comunidad',
-                            icon: Icons.group,
-                            backgroundColor: DashboardColors.cardGreenBg,
-                            iconColor: DashboardColors.cardGreen,
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => CommunityFeedPage(currentUser: widget.currentUser)),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Grupos',
-                            icon: Icons.group_work,
-                            backgroundColor: DashboardColors.cardBlueBg,
-                            iconColor: DashboardColors.cardBlue,
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const GroupsPage()),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    
-                    // Tercera fila
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Mensajes',
-                            icon: Icons.mail_outline,
-                            backgroundColor: DashboardColors.cardPinkBg,
-                            iconColor: DashboardColors.cardPink,
-                            onTap: () => _openMessages(context),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Perfil',
-                            icon: Icons.person,
-                            backgroundColor: DashboardColors.cardYellowBg,
-                            iconColor: DashboardColors.cardYellow,
-                            onTap: () => _showUserProfile(context),
-                          ),
-                        ),
-                      ],
-                    ),
+                    _buildRecentActivity(),
                     const SizedBox(height: 32),
                   ],
                 ),
@@ -271,669 +115,795 @@ class _HomePageState extends State<HomePage>
             ),
           ],
         ),
-      );
+      ),
+    );
   }
 
-  /// Dashboard para trabajadores (empleados de empresa) - Específico por ROL
-  Widget _buildWorkerDashboard(BuildContext context) {
-    final user = widget.currentUser;
-    final userName = user?['name'] ?? 'Usuario';
-    final orgInfo = user?['organizationInfo'] as Map<String, dynamic>?;
-    final companyName = orgInfo?['companyName'] ?? 'Tu Empresa';
-    final roleId = orgInfo?['roleId'] as String?;
-    final department = orgInfo?['department'] as String?;
+  Widget _buildEpicHeader() {
+    final userName = widget.currentUser?['name'] ?? 'Usuario';
     
-    // Obtener el rol del empleado
-    final role = roleId != null ? EmployeeRoles.getById(roleId) : null;
-    final roleName = role?.name ?? 'Empleado';
-    // Convertir color hexadecimal (#RRGGBB) a Color
-    final roleColor = role != null 
-        ? Color(int.parse(role.color.replaceFirst('#', '0xFF')))
-        : const Color(0xFF4ECDC4);
-    
-    return SafeArea(
-      child: Column(
-          children: [
-            // Header con saludo y opciones
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(width: 40), // Espacio para mantener el balance visual
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.search, size: 20),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.menu, size: 20),
-                        onPressed: () => _showDashboardMenu(context),
-                      ),
-                    ],
+    return Container(
+      height: 280,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            DashboardColors.primaryLight,
+            DashboardColors.accent,
+            DashboardColors.primary,
+            DashboardColors.primaryDark,
+          ],
+          stops: [0.0, 0.3, 0.7, 1.0],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: DashboardColors.orangeShadow,
+            blurRadius: 30,
+            offset: const Offset(0, 10),
+            spreadRadius: 5,
+          ),
+          BoxShadow(
+            color: DashboardColors.primaryDark.withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          // Patrón animado de fondo
+          Positioned.fill(
+            child: AnimatedBuilder(
+              animation: _rotateController,
+              builder: (context, child) {
+                return CustomPaint(
+                  painter: _GoldPatternPainter(
+                    animation: _rotateController.value,
                   ),
-                ],
-              ),
+                );
+              },
             ),
-            
-            // Greeting con rol y empresa
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+          ),
+          
+          // Shimmer effect
+          Positioned.fill(
+            child: AnimatedBuilder(
+              animation: _shimmerController,
+              builder: (context, child) {
+                return Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(0),
+                        Colors.white.withOpacity(0.3 * (1 - (_shimmerController.value - 0.5).abs() * 2)),
+                        Colors.white.withOpacity(0),
+                      ],
+                      stops: [
+                        _shimmerController.value - 0.3,
+                        _shimmerController.value,
+                        _shimmerController.value + 0.3,
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          
+          // Contenido del header
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Hola, $userName',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
+                  // Badge BETA con rotación
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: roleColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: roleColor.withValues(alpha: 0.3)),
-                        ),
-                        child: Text(
-                          roleName,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: roleColor,
-                          ),
-                        ),
-                      ),
-                      if (department != null) ...[
-                        const SizedBox(width: 8),
-                        Text(
-                          '• $department',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    companyName,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            
-            const SizedBox(height: 24),
-            
-            // Grid de opciones - Específico por rol
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: _buildRoleSpecificGrid(context, roleId, role),
-              ),
-            ),
-          ],
-        ),
-      );
-  }
-
-  /// Grid específico según el rol del empleado
-  Widget _buildRoleSpecificGrid(BuildContext context, String? roleId, EmployeeRole? role) {
-    // Si no hay rol, mostrar opciones básicas
-    if (role == null || roleId == null) {
-      return _buildBasicWorkerGrid(context);
-    }
-
-    // Grid personalizado según el rol
-    switch (roleId) {
-      case 'ceo':
-        return _buildCEOGrid(context);
-      case 'operations':
-        return _buildOperationsGrid(context);
-      case 'finance':
-        return _buildFinanceGrid(context);
-      case 'hr':
-        return _buildHRGrid(context);
-      case 'sales':
-        return _buildSalesGrid(context);
-      case 'supervisor':
-        return _buildSupervisorGrid(context);
-      case 'technician':
-        return _buildTechnicianGrid(context);
-      case 'administrative':
-        return _buildAdministrativeGrid(context);
-      default:
-        return _buildBasicWorkerGrid(context);
-    }
-  }
-
-  // Grid para CEO - Acceso total
-  Widget _buildCEOGrid(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Métricas',
-                icon: Icons.analytics,
-                isHighlighted: true,
-                backgroundColor: DashboardColors.cardWorkerGreen,
-                iconColor: DashboardColors.cardWorkerGreen,
-                onTap: () {},
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Empleados',
-                icon: Icons.people,
-                backgroundColor: DashboardColors.cardIndigoBg,
-                iconColor: DashboardColors.cardIndigo,
-                onTap: () {},
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Proyectos',
-                icon: Icons.folder_open,
-                backgroundColor: DashboardColors.cardTealBg,
-                iconColor: DashboardColors.cardTeal,
-                onTap: () {},
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Finanzas',
-                icon: Icons.attach_money,
-                backgroundColor: DashboardColors.cardPurpleBg,
-                iconColor: DashboardColors.cardPurple,
-                onTap: () {},
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Recursos',
-                icon: Icons.inventory_2,
-                backgroundColor: DashboardColors.cardYellowBg,
-                iconColor: DashboardColors.cardYellow,
-                onTap: () {},
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Mensajes',
-                icon: Icons.mail_outline,
-                backgroundColor: DashboardColors.cardPinkBg,
-                iconColor: DashboardColors.cardPink,
-                onTap: () => _openMessages(context),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 32),
-      ],
-    );
-  }
-
-  // Grid para Técnico - Acceso limitado
-  Widget _buildTechnicianGrid(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Mis Tareas',
-                icon: Icons.assignment,
-                isHighlighted: true,
-                backgroundColor: DashboardColors.cardWorkerGreen,
-                iconColor: DashboardColors.cardWorkerGreen,
-                onTap: () {},
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Reportar',
-                icon: Icons.report,
-                backgroundColor: DashboardColors.cardOrange2Bg,
-                iconColor: DashboardColors.cardOrange2,
-                onTap: () {},
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Capacitación',
-                icon: Icons.school,
-                backgroundColor: DashboardColors.cardWorkerPinkBg,
-                iconColor: DashboardColors.cardWorkerPink,
-                onTap: () {},
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Perfil',
-                icon: Icons.person,
-                backgroundColor: DashboardColors.cardWorkerPurpleBg,
-                iconColor: DashboardColors.cardWorkerPurple,
-                onTap: () => _showUserProfile(context),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 32),
-      ],
-    );
-  }
-
-  // Grid básico para trabajadores sin rol específico
-  Widget _buildBasicWorkerGrid(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Tareas',
-                icon: Icons.assignment,
-                backgroundColor: DashboardColors.cardTealBg,
-                iconColor: DashboardColors.cardTeal,
-                onTap: () {},
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Reportes',
-                icon: Icons.bar_chart,
-                backgroundColor: DashboardColors.cardWorkerGreen,
-                iconColor: DashboardColors.cardWorkerGreen,
-                onTap: () {},
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Mensajes',
-                icon: Icons.mail_outline,
-                backgroundColor: DashboardColors.cardPinkBg,
-                iconColor: DashboardColors.cardPink,
-                onTap: () => _openMessages(context),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: DashboardGridItem(
-                label: 'Perfil',
-                icon: Icons.person,
-                backgroundColor: DashboardColors.cardYellowBg,
-                iconColor: DashboardColors.cardYellow,
-                onTap: () => _showUserProfile(context),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 32),
-      ],
-    );
-  }
-
-  // Grids simplificados para otros roles (reutilizan grids base)
-  Widget _buildOperationsGrid(BuildContext context) => _buildCEOGrid(context); // Acceso similar a CEO
-  Widget _buildFinanceGrid(BuildContext context) => _buildCEOGrid(context);
-  Widget _buildHRGrid(BuildContext context) => _buildCEOGrid(context);
-  Widget _buildSalesGrid(BuildContext context) => _buildBasicWorkerGrid(context);
-  Widget _buildSupervisorGrid(BuildContext context) => _buildBasicWorkerGrid(context);
-  Widget _buildAdministrativeGrid(BuildContext context) => _buildBasicWorkerGrid(context);
-
-  /// Dashboard para empresas (organizaciones)
-  Widget _buildCompanyDashboard(BuildContext context) {
-    final user = widget.currentUser;
-    final orgInfo = user?['organizationInfo'] as Map<String, dynamic>?;
-    final companyName = orgInfo?['companyName'] ?? 'Tu Empresa';
-    
-    return SafeArea(
-      child: Column(
-          children: [
-            // Header con saludo y opciones
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(width: 40), // Espacio para mantener el balance visual
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.search, size: 20),
-                        onPressed: () {},
-                      ),
-                      Stack(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.shopping_bag_outlined, size: 20),
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const CartFavoritesPage(),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 4,
-                            top: 4,
+                      AnimatedBuilder(
+                        animation: _rotateController,
+                        builder: (context, child) {
+                          return Transform.rotate(
+                            angle: math.sin(_rotateController.value * 2 * math.pi) * 0.1,
                             child: Container(
-                              padding: const EdgeInsets.all(2),
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                               decoration: BoxDecoration(
-                                color: DashboardColors.primary,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
-                              ),
-                              child: const Text(
-                                '2',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
+                                gradient: LinearGradient(
+                                  colors: [
+                                    DashboardColors.wood,
+                                    DashboardColors.woodLight,
+                                    DashboardColors.woodGolden,
+                                  ],
                                 ),
-                                textAlign: TextAlign.center,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: DashboardColors.wood.withOpacity(0.5),
+                                    blurRadius: 12,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.science_outlined, color: Colors.white, size: 14),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    'BETA',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      shadows: [
+                                        Shadow(
+                                          color: Colors.black38,
+                                          offset: Offset(0, 1),
+                                          blurRadius: 2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.menu, size: 20),
-                        onPressed: () => _showDashboardMenu(context),
+                      // Icono pulsante naranja
+                      AnimatedBuilder(
+                        animation: _pulseController,
+                        builder: (context, child) {
+                          return Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  DashboardColors.orangeGlow.withOpacity(0.4),
+                                  DashboardColors.orange.withOpacity(0.3),
+                                ],
+                              ),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: DashboardColors.orangeGlow.withOpacity(0.7 * _pulseController.value),
+                                  blurRadius: 25 * _pulseController.value,
+                                  spreadRadius: 6 * _pulseController.value,
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.notifications_active,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
+                  
+                  const Spacer(),
+                  
+                  // Saludo con efecto
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0, end: 1),
+                    duration: const Duration(milliseconds: 800),
+                    builder: (context, value, child) {
+                      return Opacity(
+                        opacity: value,
+                        child: Transform.translate(
+                          offset: Offset(0, 20 * (1 - value)),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${_getGreeting()} 👋',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.9),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          userName,
+                          style: const TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black26,
+                                offset: Offset(0, 2),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                DashboardColors.orangeBright.withOpacity(0.9),
+                                DashboardColors.orange.withOpacity(0.8),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: DashboardColors.orangeGlow.withOpacity(0.5),
+                                blurRadius: 8,
+                                spreadRadius: 1,
+                              ),
+                            ],
+                          ),
+                          child: const Text(
+                            '🔥 Racha de 7 días activa',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
-            
-            // Greeting
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  companyName,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            
-            const SizedBox(height: 24),
-            
-            // Grid de opciones
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    // Primera fila
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Empleados',
-                            icon: Icons.people_alt,
-                            backgroundColor: DashboardColors.cardDarkBlueBg,
-                            iconColor: DashboardColors.cardDarkBlue,
-                            onTap: () => Navigator.pushNamed(context, '/company-employees'),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Proyectos',
-                            icon: Icons.folder_open,
-                            isHighlighted: true,
-                            backgroundColor: DashboardColors.cardBluePurple,
-                            iconColor: DashboardColors.cardBluePurple,
-                            onTap: () => Navigator.pushNamed(context, '/company-projects'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    
-                    // Segunda fila
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Métricas',
-                            icon: Icons.analytics,
-                            backgroundColor: DashboardColors.cardCompanyPinkBg,
-                            iconColor: DashboardColors.cardCompanyPink,
-                            onTap: () => Navigator.pushNamed(context, '/company-metrics'),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Recursos',
-                            icon: Icons.inventory,
-                            backgroundColor: DashboardColors.cardDarkGreenBg,
-                            iconColor: DashboardColors.cardDarkGreen,
-                            onTap: () => Navigator.pushNamed(context, '/company-resources'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    
-                    // Tercera fila
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Servicios',
-                            icon: Icons.engineering,
-                            backgroundColor: DashboardColors.cardCompanyOrangeBg,
-                            iconColor: DashboardColors.cardCompanyOrange,
-                            onTap: () => Navigator.pushNamed(context, '/company-requested-services'),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DashboardGridItem(
-                            label: 'Productos',
-                            icon: Icons.inventory_2,
-                            backgroundColor: DashboardColors.cardCompanyPurpleBg,
-                            iconColor: DashboardColors.cardCompanyPurple,
-                            onTap: () => Navigator.pushNamed(context, '/company-requested-products'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-  }
-
-
-  /// Muestra el menú del dashboard
-  void _showDashboardMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Header del menú
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 20),
-            ListTile(
-              leading: const Icon(Icons.person, color: Colors.blue),
-              title: const Text('Mi Perfil'),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                Navigator.pop(context);
-                _showUserProfile(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.notifications, color: Colors.orange),
-              title: const Text('Notificaciones'),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotificationsPage(currentUser: widget.currentUser),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings, color: Colors.grey),
-              title: const Text('Configuración'),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SettingsPage(currentUser: widget.currentUser),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.help, color: Colors.purple),
-              title: const Text('Ayuda y soporte'),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text('Cerrar Sesión', style: TextStyle(color: Colors.red)),
-              onTap: () {
-                Navigator.pop(context);
-                _logout(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Navega al perfil del usuario actual
-  void _showUserProfile(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProfilePage(currentUser: widget.currentUser),
-      ),
-    );
-  }
-
-  /// Navega a la página de mensajes
-  void _openMessages(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MessagesPage(currentUser: widget.currentUser),
-      ),
-    );
-  }
-
-  /// Cerrar sesión del usuario actual
-  void _logout(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Cerrar Sesión'),
-        content: const Text('¿Estás seguro de que quieres cerrar sesión?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancelar'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              // Cerrar sesión
-              await SupabaseAuthService.instance.logout();
-              
-              if (mounted) {
-                Navigator.of(context).pop(); // Cerrar dialog
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                  (route) => false,
-                );
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('Cerrar Sesión'),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildSectionTitle(String title, IconData icon) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [DashboardColors.orange, DashboardColors.orangeGlow],
+            ),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: DashboardColors.orangeShadow,
+                blurRadius: 8,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          child: Icon(icon, color: Colors.white, size: 20),
+        ),
+        const SizedBox(width: 12),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: DashboardColors.charcoal,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAnimatedStats() {
+    return Row(
+      children: [
+        Expanded(child: _buildAnimatedStatCard('Ofertas', '12', Icons.local_offer, DashboardColors.orange, 0)),
+        const SizedBox(width: 12),
+        Expanded(child: _buildAnimatedStatCard('Mensajes', '5', Icons.chat_bubble, DashboardColors.woodLight, 100)),
+        const SizedBox(width: 12),
+        Expanded(child: _buildAnimatedStatCard('Grupos', '3', Icons.groups, DashboardColors.orangeBright, 200)),
+      ],
+    );
+  }
+
+  Widget _buildAnimatedStatCard(String label, String value, IconData icon, Color color, int delay) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: Duration(milliseconds: 600 + delay),
+      curve: Curves.elasticOut,
+      builder: (context, animValue, child) {
+        return Transform.scale(
+          scale: animValue,
+          child: AnimatedBuilder(
+            animation: _pulseController,
+            builder: (context, child) {
+              return Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [color.withOpacity(0.9), color],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: color.withOpacity(0.4),
+                      blurRadius: 15,
+                      offset: const Offset(0, 8),
+                    ),
+                    BoxShadow(
+                      color: color.withOpacity(0.2 * _pulseController.value),
+                      blurRadius: 25 * _pulseController.value,
+                      spreadRadius: 3 * _pulseController.value,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.3),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(icon, color: Colors.white, size: 28),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      value,
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black26,
+                            offset: Offset(0, 2),
+                            blurRadius: 4,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white.withOpacity(0.9),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildQuickAccessGrid(BuildContext context, String accountType) {
+    final items = _getQuickAccessItems(accountType);
+    
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 1.1,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return _buildQuickAccessCard(
+          icon: item['icon'],
+          label: item['label'],
+          color: item['color'],
+          onTap: () => item['onTap'](context),
+        );
+      },
+    );
+  }
+
+  List<Map<String, dynamic>> _getQuickAccessItems(String accountType) {
+    final baseItems = [
+      {
+        'icon': Icons.shopping_bag,
+        'label': 'Productos',
+        'color': DashboardColors.orange,
+        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/products'),
+      },
+      {
+        'icon': Icons.handyman,
+        'label': 'Servicios',
+        'color': DashboardColors.wood,
+        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/services'),
+      },
+      {
+        'icon': Icons.groups,
+        'label': 'Comunidad',
+        'color': DashboardColors.orangeBright,
+        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/community'),
+      },
+      {
+        'icon': Icons.group_work,
+        'label': 'Grupos',
+        'color': DashboardColors.woodLight,
+        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/groups'),
+      },
+      {
+        'icon': Icons.chat,
+        'label': 'Mensajes',
+        'color': DashboardColors.cardPink,
+        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/messages'),
+      },
+      {
+        'icon': Icons.person,
+        'label': 'Perfil',
+        'color': DashboardColors.accent,
+        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/profile'),
+      },
+    ];
+
+    if (accountType == 'company') {
+      baseItems.addAll([
+        {
+          'icon': Icons.people,
+          'label': 'Empleados',
+          'color': DashboardColors.cardBlue,
+          'onTap': (BuildContext context) => Navigator.pushNamed(context, '/company/employees'),
+        },
+        {
+          'icon': Icons.analytics,
+          'label': 'Métricas',
+          'color': DashboardColors.cardGreen,
+          'onTap': (BuildContext context) => Navigator.pushNamed(context, '/company/metrics'),
+        },
+      ]);
+    }
+
+    return baseItems;
+  }
+
+  Widget _buildQuickAccessCard({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: const Duration(milliseconds: 400),
+      builder: (context, value, child) {
+        return Transform.scale(
+          scale: value,
+          child: GestureDetector(
+            onTap: onTap,
+            child: AnimatedBuilder(
+              animation: _shimmerController,
+              builder: (context, child) {
+                return Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [color.withOpacity(0.85), color, color.withOpacity(0.9)],
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: color.withOpacity(0.4),
+                        blurRadius: 15,
+                        offset: const Offset(0, 8),
+                      ),
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.1 * math.sin(_shimmerController.value * math.pi)),
+                        blurRadius: 20,
+                        spreadRadius: -5,
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      // Brillo animado
+                      Positioned(
+                        top: -20,
+                        right: -20,
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(
+                              colors: [
+                                Colors.white.withOpacity(0.2 * math.sin(_shimmerController.value * 2 * math.pi).abs()),
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      
+                      // Contenido
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(18),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.25),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.white.withOpacity(0.3),
+                                    blurRadius: 12,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: Icon(icon, size: 36, color: Colors.white),
+                            ),
+                            const SizedBox(height: 14),
+                            Text(
+                              label,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.black26,
+                                    offset: Offset(0, 1),
+                                    blurRadius: 3,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildRecentActivity() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildActivityCard(
+          icon: Icons.local_fire_department,
+          title: 'Nueva oportunidad disponible',
+          subtitle: 'Servicio de Perforación -50%',
+          time: 'Hace 2 horas',
+          iconColor: DashboardColors.orange,
+          delay: 0,
+        ),
+        const SizedBox(height: 12),
+        _buildActivityCard(
+          icon: Icons.people_alt,
+          title: '3 nuevos mineros se unieron',
+          subtitle: 'A tu grupo "Extracción Norte"',
+          time: 'Hace 5 horas',
+          iconColor: DashboardColors.woodLight,
+          delay: 100,
+        ),
+        const SizedBox(height: 12),
+        _buildActivityCard(
+          icon: Icons.shopping_cart_rounded,
+          title: 'Nuevo pedido confirmado',
+          subtitle: 'Equipo de seguridad - \$1,250',
+          time: 'Ayer',
+          iconColor: DashboardColors.orangeBright,
+          delay: 200,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActivityCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required String time,
+    required Color iconColor,
+    required int delay,
+  }) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: Duration(milliseconds: 500 + delay),
+      curve: Curves.easeOut,
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(50 * (1 - value), 0),
+            child: Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: DashboardColors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: DashboardColors.gray200, width: 1.5),
+                boxShadow: [
+                  BoxShadow(
+                    color: iconColor.withOpacity(0.1),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  AnimatedBuilder(
+                    animation: _pulseController,
+                    builder: (context, child) {
+                      return Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [iconColor.withOpacity(0.9), iconColor],
+                          ),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: iconColor.withOpacity(0.4 * _pulseController.value),
+                              blurRadius: 12 * _pulseController.value,
+                              spreadRadius: 3 * _pulseController.value,
+                            ),
+                          ],
+                        ),
+                        child: Icon(icon, color: Colors.white, size: 26),
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: DashboardColors.charcoal,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          subtitle,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: DashboardColors.gray600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: iconColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      time,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: iconColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+// Custom Painter para el patrón dorado animado
+class _GoldPatternPainter extends CustomPainter {
+  final double animation;
+
+  _GoldPatternPainter({required this.animation});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Círculos dorados rotando
+    final goldPaint = Paint()
+      ..color = Colors.white.withOpacity(0.15)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    for (int i = 0; i < 5; i++) {
+      final angle = (animation * 2 * math.pi) + (i * math.pi / 2.5);
+      final x = size.width * 0.8 + math.cos(angle) * 60;
+      final y = size.height * 0.3 + math.sin(angle) * 60;
+      canvas.drawCircle(Offset(x, y), 40 - (i * 5), goldPaint);
+    }
+    
+    // Capas naranja flotantes
+    final orangePaint = Paint()
+      ..color = Color(0xFFFF9500).withOpacity(0.2)
+      ..style = PaintingStyle.fill;
+    
+    for (int i = 0; i < 3; i++) {
+      final angle = (animation * math.pi) + (i * math.pi * 0.7);
+      final x = size.width * 0.2 + math.sin(angle) * 80;
+      final y = size.height * 0.5 + math.cos(angle) * 50;
+      canvas.drawCircle(Offset(x, y), 30 + (i * 10), orangePaint);
+    }
+    
+    // Capas madera (rectángulos suaves)
+    final woodPaint = Paint()
+      ..color = Color(0xFF8B4513).withOpacity(0.1)
+      ..style = PaintingStyle.fill;
+    
+    for (int i = 0; i < 2; i++) {
+      final offset = animation * 100 + (i * 150);
+      final rect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(
+          (offset % size.width) - 50,
+          size.height * 0.6 + (i * 30),
+          120,
+          20,
+        ),
+        Radius.circular(10),
+      );
+      canvas.drawRRect(rect, woodPaint);
+    }
+
+    // Líneas onduladas doradas
+    final wavePaint = Paint()
+      ..color = Colors.white.withOpacity(0.1)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    
+    final path = Path();
+    for (double x = 0; x < size.width; x += 5) {
+      final y = size.height * 0.5 + math.sin((x / size.width + animation) * 4 * math.pi) * 20;
+      if (x == 0) {
+        path.moveTo(x, y);
+      } else {
+        path.lineTo(x, y);
+      }
+    }
+    canvas.drawPath(path, wavePaint);
+  }
+
+  @override
+  bool shouldRepaint(_GoldPatternPainter oldDelegate) => true;
 }

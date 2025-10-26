@@ -860,9 +860,9 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                     label: 'PRODUCTO',
                     icon: Icons.star,
                     gradientColors: [
-                      DashboardColors.gold,
-                      DashboardColors.goldLight,
-                      DashboardColors.goldDark,
+                      DashboardColors.primaryLight,
+                      DashboardColors.primary,
+                      DashboardColors.primaryDark,
                     ],
                   ),
                 ),
@@ -877,7 +877,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.white,
-                          const Color(0xFFFFFAF0).withOpacity(0.3),
+                          DashboardColors.primaryLight.withOpacity(0.02),
                         ],
                       ),
                     ),
@@ -892,7 +892,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                             // Precio con efectos brillantes (shimmer + pulse)
                             PremiumWidgets.shimmerEffect(
                               child: PremiumWidgets.pulsingBorder(
-                                color: DashboardColors.gold,
+                                color: DashboardColors.primary,
                                 child: PremiumWidgets.priceContainer(
                                   price: price.toString(),
                                   currency: currency,
@@ -931,7 +931,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                             PremiumWidgets.iconButton(
                               icon: Icons.visibility,
                               onPressed: () => _viewProductDetails(post),
-                              color: DashboardColors.gold,
+                              color: DashboardColors.primary,
                             ),
                           ],
                         ),

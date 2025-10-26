@@ -7,19 +7,19 @@ final ThemeData yoMineroTheme = _buildTheme();
 ThemeData _buildTheme() {
   final base = ThemeData(useMaterial3: true, brightness: Brightness.light);
   final scheme = ColorScheme.fromSeed(
-    seedColor: DashboardColors.gold,
+    seedColor: DashboardColors.primary,
     brightness: Brightness.light,
-    primary: DashboardColors.gold,
+    primary: DashboardColors.primary,
   ).copyWith(
-    primary: DashboardColors.gold,
-    primaryContainer: DashboardColors.goldLight,
-    secondary: DashboardColors.emerald,
-    secondaryContainer: DashboardColors.emeraldLight,
+    primary: DashboardColors.primary,
+    primaryContainer: DashboardColors.primaryLight,
+    secondary: DashboardColors.accent,
+    secondaryContainer: DashboardColors.accentLight,
     surface: DashboardColors.white,
     background: DashboardColors.white,
     error: DashboardColors.error,
-    onPrimary: DashboardColors.charcoal,
-    onSecondary: DashboardColors.white,
+    onPrimary: Colors.white,
+    onSecondary: Colors.white,
     onSurface: DashboardColors.charcoal,
     onBackground: DashboardColors.charcoal,
     onError: DashboardColors.white,
@@ -28,7 +28,7 @@ ThemeData _buildTheme() {
   return base.copyWith(
     colorScheme: scheme,
     scaffoldBackgroundColor: DashboardColors.white,
-    primaryColor: DashboardColors.gold,
+    primaryColor: DashboardColors.primary,
     appBarTheme: AppBarTheme(
       backgroundColor: DashboardColors.white,
       foregroundColor: DashboardColors.charcoal,
@@ -62,12 +62,12 @@ ThemeData _buildTheme() {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: DashboardColors.gold,
-        foregroundColor: DashboardColors.charcoal,
+        backgroundColor: DashboardColors.primary,
+        foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         elevation: 2,
-        shadowColor: DashboardColors.goldShadow,
+        shadowColor: DashboardColors.primaryDark.withOpacity(0.3),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -83,12 +83,12 @@ ThemeData _buildTheme() {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: DashboardColors.gold, width: 2),
+        borderSide: BorderSide(color: DashboardColors.primary, width: 2),
       ),
     ),
     chipTheme: ChipThemeData(
       backgroundColor: DashboardColors.gray100,
-      selectedColor: DashboardColors.goldLight,
+      selectedColor: DashboardColors.primaryLight,
       labelStyle: TextStyle(color: DashboardColors.charcoal),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

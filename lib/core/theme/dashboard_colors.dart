@@ -6,24 +6,79 @@ class DashboardColors {
   DashboardColors._();
 
   // ============================================
-  // ORO BRILLANTE - Color Principal
+  // 🔥 ESQUEMA PRINCIPAL - NARANJA-ORO-MADERA (COFRE DORADO)
   // ============================================
   
-  static const Color gold = Color(0xFFFFB800);
-  static const Color goldLight = Color(0xFFFFD54F);
-  static const Color goldDark = Color(0xFFD4A017);
-  static const Color goldMetallic = Color(0xFFFFC947);
-  static const Color goldAntique = Color(0xFFB8860B);
-  static const Color goldShadow = Color(0x50FFB800);
+  /// Color primario principal - Naranja vibrante
+  static const Color primary = Color(0xFFFF8C00);
+  static const Color primaryLight = Color(0xFFFFAA33);
+  static const Color primaryDark = Color(0xFFE67E00);
+  
+  /// Acento dorado cálido
+  static const Color accent = Color(0xFFFFB800);
+  static const Color accentLight = Color(0xFFFFD54F);
+  static const Color accentDark = Color(0xFFD4A017);
+  
+  /// Gradiente principal (uso general)
+  static const LinearGradient primaryGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFFFAA33), Color(0xFFFF9500), Color(0xFFFFB800), Color(0xFFE67E00)],
+    stops: [0.0, 0.3, 0.7, 1.0],
+  );
+  
+  /// Gradiente épico (cofre dorado)
+  static const LinearGradient epicGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFFD54F),
+      Color(0xFFFFAA33),
+      Color(0xFFFF9500),
+      Color(0xFFFFB800),
+      Color(0xFFE67E00),
+    ],
+    stops: [0.0, 0.2, 0.5, 0.8, 1.0],
+  );
 
   // ============================================
-  // GRADIENTES DE ORO INTENSOS
+  // ORO BRILLANTE - Color Principal (LEGACY - usa primary en su lugar)
+  // ============================================
+  
+  static const Color gold = Color(0xFFFF9500);
+  static const Color goldLight = Color(0xFFFFAA33);
+  static const Color goldDark = Color(0xFFE67E00);
+  static const Color goldMetallic = Color(0xFFFFB800);
+  static const Color goldAntique = Color(0xFFD4A017);
+  static const Color goldShadow = Color(0x50FF9500);
+
+  // ============================================
+  // NARANJA VIBRANTE - Acentos Cálidos
+  // ============================================
+  
+  static const Color orange = Color(0xFFFF8C00);
+  static const Color orangeBright = Color(0xFFFF9500);
+  static const Color orangeDark = Color(0xFFE67E00);
+  static const Color orangeGlow = Color(0xFFFFAA33);
+  static const Color orangeShadow = Color(0x50FF8C00);
+  
+  // ============================================
+  // MADERA - Tonos Cálidos Naturales
+  // ============================================
+  
+  static const Color wood = Color(0xFF8B4513);
+  static const Color woodLight = Color(0xFFA0522D);
+  static const Color woodDark = Color(0xFF654321);
+  static const Color woodGolden = Color(0xFFB8860B);
+
+  // ============================================
+  // GRADIENTES DE ORO INTENSOS (LEGACY - usa primaryGradient/epicGradient)
   // ============================================
   
   static const LinearGradient goldGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFFFD54F), Color(0xFFFFB800), Color(0xFFD4A017)],
+    colors: [Color(0xFFFFAA33), Color(0xFFFF9500), Color(0xFFE67E00)],
     stops: [0.0, 0.5, 1.0],
   );
   
@@ -31,13 +86,40 @@ class DashboardColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFFFFBE6),
       Color(0xFFFFD54F),
-      Color(0xFFFFB800),
+      Color(0xFFFFAA33),
       Color(0xFFFF9500),
-      Color(0xFFD4A017),
+      Color(0xFFFFB800),
+      Color(0xFFE67E00),
     ],
     stops: [0.0, 0.2, 0.5, 0.8, 1.0],
+  );
+  
+  static const LinearGradient orangeGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFFFAA33), Color(0xFFFF9500), Color(0xFFE67E00)],
+    stops: [0.0, 0.5, 1.0],
+  );
+  
+  static const LinearGradient orangeFireGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFFD54F),
+      Color(0xFFFFAA33),
+      Color(0xFFFF9500),
+      Color(0xFFFF8C00),
+      Color(0xFFE67E00),
+    ],
+    stops: [0.0, 0.2, 0.5, 0.8, 1.0],
+  );
+  
+  static const LinearGradient woodGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFA0522D), Color(0xFF8B4513), Color(0xFF654321)],
+    stops: [0.0, 0.5, 1.0],
   );
 
   // ============================================
@@ -136,13 +218,6 @@ class DashboardColors {
   static const Color border = gray300;
   static const Color lightGray = gray100;
 
-  // ============================================
-  // ALIAS PARA COMPATIBILIDAD
-  // ============================================
-  
-  /// Color primario principal (alias de gold)
-  static const Color primary = gold;
-  
   // ============================================
   // COLORES VIBRANTES PARA CARDS
   // ============================================

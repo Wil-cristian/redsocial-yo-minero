@@ -7,39 +7,39 @@ class RichDecorations {
   RichDecorations._();
 
   // ============================================
-  // 🥇 DECORACIONES DE ORO CON MÚLTIPLES CAPAS
+  // 🥇 DECORACIONES CON ESQUEMA NARANJA-ORO-MADERA
   // ============================================
   
-  /// Card de oro con borde doble, sombra interior y exterior
+  /// Card premium con borde doble, sombra interior y exterior
   static BoxDecoration goldCardRich({bool isElevated = false}) {
     return BoxDecoration(
-      gradient: const LinearGradient(
+      gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Color(0xFFFFFBE6), // Highlight
-          Color(0xFFFFD54F), // Oro claro
-          Color(0xFFFFB800), // Oro principal
-          Color(0xFFD4A017), // Oro oscuro
+          DashboardColors.primaryLight.withOpacity(0.3), // Highlight
+          DashboardColors.primaryLight, // Naranja glow
+          DashboardColors.accent, // Dorado
+          DashboardColors.primaryDark, // Naranja oscuro
         ],
         stops: [0.0, 0.3, 0.7, 1.0],
       ),
       borderRadius: BorderRadius.circular(16),
       border: Border.all(
         width: 3,
-        color: const Color(0xFFFFE680), // Borde dorado brillante
+        color: DashboardColors.accentLight, // Borde dorado brillante
       ),
       boxShadow: [
         // Sombra exterior profunda
         BoxShadow(
-          color: const Color(0xFFD4A017).withOpacity(0.4),
+          color: DashboardColors.primaryDark.withOpacity(0.4),
           offset: const Offset(0, 8),
           blurRadius: 16,
           spreadRadius: 2,
         ),
         // Sombra exterior suave
         BoxShadow(
-          color: const Color(0xFFFFB800).withOpacity(0.2),
+          color: DashboardColors.primary.withOpacity(0.2),
           offset: const Offset(0, 4),
           blurRadius: 8,
           spreadRadius: 0,
@@ -74,36 +74,36 @@ class RichDecorations {
         ),
         // Sombra media
         BoxShadow(
-          color: const Color(0xFFD4A017).withOpacity(0.3),
+          color: DashboardColors.primaryDark.withOpacity(0.3),
           offset: const Offset(0, 6),
           blurRadius: 12,
           spreadRadius: 0,
         ),
         // Brillo superior
         BoxShadow(
-          color: const Color(0xFFFFFBE6).withOpacity(0.5),
+          color: DashboardColors.primaryLight.withOpacity(0.5),
           offset: const Offset(0, -1),
           blurRadius: 3,
           spreadRadius: 0,
         ),
       ],
-      gradient: const LinearGradient(
+      gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFFFFBE6), // Casi blanco
-          Color(0xFFFFE680), // Oro claro
-          Color(0xFFFFD54F), // Oro brillante
-          Color(0xFFFFB800), // Oro principal
-          Color(0xFFFF9500), // Oro naranja
-          Color(0xFFD4A017), // Oro oscuro
+          Colors.white.withOpacity(0.9), // Casi blanco
+          DashboardColors.accentLight, // Dorado claro
+          DashboardColors.primaryLight, // Naranja glow
+          DashboardColors.accent, // Dorado
+          DashboardColors.primary, // Naranja
+          DashboardColors.primaryDark, // Naranja oscuro
         ],
         stops: [0.0, 0.15, 0.35, 0.55, 0.75, 1.0],
       ),
     );
   }
 
-  /// Botón de oro premium con efecto 3D
+  /// Botón premium con efecto 3D (naranja-oro)
   static BoxDecoration goldButton3D({bool isPressed = false}) {
     return BoxDecoration(
       borderRadius: BorderRadius.circular(12),
@@ -112,21 +112,21 @@ class RichDecorations {
         end: Alignment.bottomCenter,
         colors: isPressed
             ? [
-                const Color(0xFFD4A017),
-                const Color(0xFFFFB800),
-                const Color(0xFFFFD54F),
+                DashboardColors.primaryDark,
+                DashboardColors.accent,
+                DashboardColors.accentLight,
               ]
             : [
-                const Color(0xFFFFE680),
-                const Color(0xFFFFB800),
-                const Color(0xFFD4A017),
+                DashboardColors.accentLight,
+                DashboardColors.accent,
+                DashboardColors.primaryDark,
               ],
       ),
       border: Border.all(
         width: 2,
         color: isPressed
-            ? const Color(0xFFAA8500)
-            : const Color(0xFFFFFBE6),
+            ? DashboardColors.woodDark
+            : Colors.white.withOpacity(0.9),
       ),
       boxShadow: isPressed
           ? [
@@ -139,14 +139,14 @@ class RichDecorations {
           : [
               // Sombra profunda
               BoxShadow(
-                color: const Color(0xFFD4A017).withOpacity(0.5),
+                color: DashboardColors.primaryDark.withOpacity(0.5),
                 offset: const Offset(0, 6),
                 blurRadius: 12,
                 spreadRadius: 1,
               ),
               // Sombra media
               BoxShadow(
-                color: const Color(0xFFFFB800).withOpacity(0.3),
+                color: DashboardColors.primary.withOpacity(0.3),
                 offset: const Offset(0, 3),
                 blurRadius: 6,
               ),
@@ -502,30 +502,30 @@ class RichDecorations {
   // 🔘 DECORACIONES PARA BOTONES ESPECIALES
   // ============================================
   
-  /// Botón flotante con oro premium
+  /// Botón flotante premium (naranja-oro)
   static BoxDecoration fabGold() {
     return BoxDecoration(
       shape: BoxShape.circle,
-      gradient: const RadialGradient(
+      gradient: RadialGradient(
         colors: [
-          Color(0xFFFFE680), // Centro brillante
-          Color(0xFFFFD54F), // Medio brillante
-          Color(0xFFFFB800), // Oro principal
-          Color(0xFFD4A017), // Borde oscuro
+          DashboardColors.accentLight, // Centro brillante
+          DashboardColors.primaryLight, // Medio brillante
+          DashboardColors.accent, // Dorado
+          DashboardColors.primaryDark, // Borde oscuro
         ],
         stops: [0.0, 0.4, 0.7, 1.0],
       ),
       boxShadow: [
         // Sombra profunda
         BoxShadow(
-          color: const Color(0xFFD4A017).withOpacity(0.6),
+          color: DashboardColors.primaryDark.withOpacity(0.6),
           offset: const Offset(0, 8),
           blurRadius: 16,
           spreadRadius: 2,
         ),
         // Sombra media
         BoxShadow(
-          color: const Color(0xFFFFB800).withOpacity(0.3),
+          color: DashboardColors.primary.withOpacity(0.3),
           offset: const Offset(0, 4),
           blurRadius: 8,
         ),

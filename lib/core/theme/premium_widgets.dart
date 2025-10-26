@@ -14,16 +14,16 @@ class PremiumWidgets {
   // 🏆 CARDS PREMIUM POR TIPO
   // ============================================
 
-  /// Card para productos (tema dorado)
+  /// Card para productos (tema naranja-dorado)
   static Widget productCard({required Widget child}) {
     return RichDecorations.doubleBorderCard(
       child: child,
-      outerColor: DashboardColors.gold,
+      outerColor: DashboardColors.primary,
       innerColor: const Color(0xFFFFFFFF),
       gradient: LinearGradient(
         colors: [
           DashboardColors.white,
-          const Color(0xFFFFFBF0),
+          DashboardColors.primaryLight.withOpacity(0.1),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -196,34 +196,29 @@ class PremiumWidgets {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [
-            Color(0xFFFFB800),
-            Color(0xFFFFD54F),
-            Color(0xFFD4A017),
+            DashboardColors.accent,
+            DashboardColors.accentLight,
+            DashboardColors.primaryDark,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFFFE082), width: 2),
-        boxShadow: const [
+        border: Border.all(color: DashboardColors.accentLight, width: 2),
+        boxShadow: [
           BoxShadow(
-            color: Color(0x66FFD54F),
-            blurRadius: 12,
-            offset: Offset(0, 4),
-          ),
-          BoxShadow(
-            color: Color(0x33D4A017),
-            blurRadius: 6,
-            offset: Offset(0, 2),
+            color: DashboardColors.primaryDark.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Text(
         '$currency $price',
         style: const TextStyle(
-          color: Color(0xFF1A1A1A),
+          color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.bold,
           letterSpacing: 0.5,
@@ -245,10 +240,10 @@ class PremiumWidgets {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: DashboardColors.gold,
-        foregroundColor: DashboardColors.charcoal,
+        backgroundColor: DashboardColors.primary,
+        foregroundColor: Colors.white,
         elevation: 8,
-        shadowColor: DashboardColors.gold.withOpacity(0.5),
+        shadowColor: DashboardColors.primaryDark.withOpacity(0.5),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -274,17 +269,18 @@ class PremiumWidgets {
   }
 
   /// Botón con borde (outline)
-  static Widget outlineButton({
+  static Widget outlinedButton({
     required String label,
     required VoidCallback onPressed,
-    Color color = const Color(0xFFFFB800),
+    Color? color,
     IconData? icon,
   }) {
+    final buttonColor = color ?? DashboardColors.primary;
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-        foregroundColor: color,
-        side: BorderSide(color: color, width: 2),
+        foregroundColor: buttonColor,
+        side: BorderSide(color: buttonColor, width: 2),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -313,14 +309,15 @@ class PremiumWidgets {
   static Widget iconButton({
     required IconData icon,
     required VoidCallback onPressed,
-    Color color = const Color(0xFFFFB800),
+    Color? color,
   }) {
+    final buttonColor = color ?? DashboardColors.primary;
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.3),
+            color: buttonColor.withOpacity(0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -328,7 +325,7 @@ class PremiumWidgets {
       ),
       child: IconButton(
         onPressed: onPressed,
-        icon: Icon(icon, color: color),
+        icon: Icon(icon, color: buttonColor),
         style: IconButton.styleFrom(
           backgroundColor: Colors.white,
           padding: const EdgeInsets.all(12),
@@ -352,10 +349,14 @@ class PremiumWidgets {
   /// Efecto de pulso en el borde
   static Widget pulsingBorder({
     required Widget child,
-    Color color = const Color(0xFFFFD54F),
+    Color? color,
     Duration duration = const Duration(milliseconds: 1500),
   }) {
-    return _PulsingBorderWidget(color: color, duration: duration, child: child);
+    return _PulsingBorderWidget(
+      color: color ?? DashboardColors.primaryLight,
+      duration: duration,
+      child: child,
+    );
   }
 
   /// Efecto de vidrio (glassmorphism)
@@ -418,7 +419,7 @@ class PremiumWidgets {
   }) {
     return shimmerEffect(
       child: pulsingBorder(
-        color: const Color(0xFFFFD54F),
+        color: DashboardColors.primaryLight,
         child: topShine(
           child: productCard(child: child),
         ),
