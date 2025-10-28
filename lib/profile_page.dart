@@ -6,6 +6,7 @@ import 'core/auth/supabase_auth_service.dart';
 import 'core/achievements/achievement_models.dart';
 import 'core/achievements/achievements_repository.dart';
 import 'core/achievements/gem_color_helper.dart';
+import 'core/favorites/favorites_repository.dart';
 import 'requests_page.dart';
 import 'messages_page.dart';
 import 'products_page.dart';
@@ -14,6 +15,7 @@ import 'edit_profile_page.dart';
 import 'suggestions_page.dart';
 import 'achievements_page.dart';
 import 'shared/models/user.dart';
+import 'shared/widgets/favorite_gem_card.dart';
 import 'login_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -205,6 +207,8 @@ class _ProfilePageState extends State<ProfilePage> {
               _buildInfoCard(),
               const SizedBox(height: 20),
               _buildLevelCard(),
+              const SizedBox(height: 20),
+              _buildFavoritesSection(),
               const SizedBox(height: 20),
               _buildStatsCard(typeInfo),
               const SizedBox(height: 20),
@@ -544,6 +548,31 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFavoritesSection() {
+    // Ejemplo: obtener favoritos del usuario
+    final favorites = FavoritesRepository.getUserFavorites(_userData?['id'] ?? 'demo');
+    if (favorites.isEmpty) {
+      return Container();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            'Favoritos',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        ...favorites.map((fav) => FavoriteGemCard(favorite: fav)),
+      ],
     );
   }
 
