@@ -1,5 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'core/theme/dashboard_colors.dart';
+import 'core/theme/rich_decorations.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'requests_page.dart';
 import 'messages_page.dart';
@@ -264,35 +266,79 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _buildInfoCard() {
     return Container(
-      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
+            color: DashboardColors.emerald.withValues(alpha: 0.15),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+            spreadRadius: 1,
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Información Personal',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+      child: RichDecorations.emeraldFacetsOverlay(
+        opacity: 0.12,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header esmeralda
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      DashboardColors.emeraldDeep,
+                      DashboardColors.emerald,
+                    ],
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      'Información Personal',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Contenido
+              Container(
+                padding: const EdgeInsets.all(20),
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    _buildInfoRow(Icons.email, 'Email', _userData!['email'] ?? 'No especificado'),
+                    const SizedBox(height: 12),
+                    _buildInfoRow(Icons.calendar_today, 'Fecha de Registro', 
+                      _userData!['createdAt'] != null 
+                        ? DateTime.parse(_userData!['createdAt']).toLocal().toString().split(' ')[0]
+                        : 'No disponible'),
+                  ],
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          _buildInfoRow(Icons.email, 'Email', _userData!['email'] ?? 'No especificado'),
-          const SizedBox(height: 12),
-          _buildInfoRow(Icons.calendar_today, 'Fecha de Registro', 
-            _userData!['createdAt'] != null 
-              ? DateTime.parse(_userData!['createdAt']).toLocal().toString().split(' ')[0]
-              : 'No disponible'),
-        ],
+        ),
       ),
     );
   }
@@ -300,7 +346,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Row(
       children: [
-        Icon(icon, size: 20, color: AppColors.textSecondary),
+        Icon(icon, size: 20, color: DashboardColors.emerald),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
@@ -309,8 +355,8 @@ class _ProfilePageState extends State<ProfilePage> {
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w500,
+                  color: DashboardColors.emeraldDeep,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
@@ -328,38 +374,70 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _buildStatsCard(Map<String, dynamic> typeInfo) {
     return Container(
-      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
+            color: DashboardColors.primary.withValues(alpha: 0.15),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+            spreadRadius: 1,
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Estadísticas',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header dorado
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: DashboardColors.primaryGradient,
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.analytics,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'Estadísticas',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              _buildStatItem(Icons.handshake, 'Proyectos', '12', typeInfo['color']),
-              const SizedBox(width: 20),
-              _buildStatItem(Icons.star, 'Calificación', '4.8', AppColors.warning),
-              const SizedBox(width: 20),
-              _buildStatItem(Icons.groups, 'Conexiones', '45', AppColors.success),
-            ],
-          ),
-        ],
+            // Contenido
+            Container(
+              padding: const EdgeInsets.all(20),
+              color: Colors.white,
+              child: Row(
+                children: [
+                  _buildStatItem(Icons.handshake, 'Proyectos', '12', DashboardColors.primary),
+                  const SizedBox(width: 20),
+                  _buildStatItem(Icons.star, 'Calificación', '4.8', DashboardColors.accent),
+                  const SizedBox(width: 20),
+                  _buildStatItem(Icons.groups, 'Conexiones', '45', DashboardColors.emerald),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'core/theme/dashboard_colors.dart';
 import 'core/di/locator.dart';
 import 'core/groups/group_repository.dart';
 import 'shared/models/group.dart';
@@ -376,10 +377,14 @@ class _GroupsPageState extends State<GroupsPage> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: DashboardColors.accent.withValues(alpha: 0.3),
+                          width: 2,
+                        ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.08),
-                            blurRadius: 10,
+                            color: DashboardColors.primary.withValues(alpha: 0.15),
+                            blurRadius: 12,
                             offset: const Offset(0, 4),
                           ),
                         ],
@@ -390,30 +395,57 @@ class _GroupsPageState extends State<GroupsPage> {
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(
-                                radius: 18,
-                                backgroundColor: AppColors.secondaryContainer
-                                    .withValues(alpha: 0.6),
-                                child: Text(g.name[0].toUpperCase(),
+                              Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  gradient: DashboardColors.primaryGradient,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    g.name[0].toUpperCase(),
                                     style: const TextStyle(
-                                        color: AppColors.primary,
-                                        fontWeight: FontWeight.bold)),
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
                               ),
                               const Spacer(),
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
+                                    horizontal: 10, vertical: 6),
                                 decoration: BoxDecoration(
-                                  color:
-                                      AppColors.primary.withValues(alpha: 0.1),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      DashboardColors.accent,
+                                      DashboardColors.accentLight,
+                                    ],
+                                  ),
                                   borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: DashboardColors.accent.withValues(alpha: 0.3),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
-                                child: Text(
-                                  '$score',
-                                  style: const TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.primary,
-                                      fontWeight: FontWeight.bold),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.star, size: 14, color: Colors.white),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '$score',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               )
                             ],

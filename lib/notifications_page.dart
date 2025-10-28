@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/dashboard_colors.dart';
+import 'core/theme/rich_decorations.dart';
 
 /// Página de notificaciones del usuario
 class NotificationsPage extends StatefulWidget {
@@ -151,23 +152,38 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
   Widget _buildNotificationItem(Map<String, dynamic> notification, int index) {
+    final bool isImportant = !notification['read'];
+    
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.grey[200]!,
-            width: 1,
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: isImportant 
+            ? Border.all(
+                color: DashboardColors.emerald.withValues(alpha: 0.3),
+                width: 2,
+              )
+            : null,
+        boxShadow: [
+          BoxShadow(
+            color: isImportant
+                ? DashboardColors.emerald.withValues(alpha: 0.15)
+                : Colors.grey.withValues(alpha: 0.1),
+            blurRadius: isImportant ? 12 : 8,
+            offset: const Offset(0, 2),
           ),
-        ),
-      ),
+        ],
+            ),
       child: Material(
-        color: notification['read'] ? Colors.white : Colors.grey[50],
+        color: Colors.transparent,
         child: InkWell(
           onTap: () {
             setState(() {
               notification['read'] = true;
             });
           },
+          borderRadius: BorderRadius.circular(16),
           onLongPress: () {
             showModalBottomSheet(
               context: context,
@@ -208,13 +224,30 @@ class _NotificationsPageState extends State<NotificationsPage> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: (notification['color'] as Color).withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  decoration: isImportant
+                      ? BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              DashboardColors.emeraldLight,
+                              DashboardColors.emerald,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: DashboardColors.emerald.withValues(alpha: 0.3),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        )
+                      : BoxDecoration(
+                          color: (notification['color'] as Color).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                   child: Icon(
                     notification['icon'] as IconData,
-                    color: notification['color'] as Color,
+                    color: isImportant ? Colors.white : (notification['color'] as Color),
                     size: 28,
                   ),
                 ),
@@ -232,17 +265,24 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: notification['read'] ? FontWeight.w500 : FontWeight.bold,
-                                color: Colors.black87,
+                                color: isImportant ? DashboardColors.sapphireDeep : Colors.black87,
                               ),
                             ),
                           ),
                           if (!notification['read'])
                             Container(
-                              width: 8,
-                              height: 8,
-                              decoration: const BoxDecoration(
-                                color: DashboardColors.primary,
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                gradient: DashboardColors.sapphireRadialGradient,
                                 shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: DashboardColors.sapphire.withValues(alpha: 0.5),
+                                    blurRadius: 6,
+                                    spreadRadius: 1,
+                                  ),
+                                ],
                               ),
                             ),
                         ],

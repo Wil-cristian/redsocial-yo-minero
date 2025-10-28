@@ -720,6 +720,375 @@ class RichDecorations {
       ],
     );
   }
+
+  // ============================================
+  // 💎 DECORACIONES DE RUBÍ (ROJO FUEGO)
+  // ============================================
+
+  /// Rubí tallado con efecto de fuego
+  static BoxDecoration rubyGemCard({bool isElevated = false}) {
+    return BoxDecoration(
+      gradient: DashboardColors.rubyFacetedGradient,
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(
+        width: 2,
+        color: DashboardColors.rubyGlow.withValues(alpha: 0.6),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: DashboardColors.rubyDeep.withValues(alpha: 0.5),
+          offset: const Offset(0, 12),
+          blurRadius: 24,
+          spreadRadius: 2,
+        ),
+        BoxShadow(
+          color: DashboardColors.ruby.withValues(alpha: 0.3),
+          offset: const Offset(0, 6),
+          blurRadius: 12,
+          spreadRadius: 1,
+        ),
+        BoxShadow(
+          color: DashboardColors.rubyGlow.withValues(alpha: 0.4),
+          offset: const Offset(0, -2),
+          blurRadius: 8,
+          spreadRadius: 0,
+        ),
+        if (isElevated)
+          BoxShadow(
+            color: Colors.white.withValues(alpha: 0.3),
+            offset: const Offset(-2, -2),
+            blurRadius: 6,
+            spreadRadius: 0,
+          ),
+      ],
+    );
+  }
+
+  /// Botón de rubí tallado con efecto 3D
+  static BoxDecoration rubyGemButton({bool isPressed = false}) {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: isPressed
+            ? [
+                DashboardColors.rubyDeep,
+                DashboardColors.ruby,
+                DashboardColors.rubyLight,
+              ]
+            : [
+                DashboardColors.rubyGlow,
+                DashboardColors.rubyLight,
+                DashboardColors.ruby,
+                DashboardColors.rubyDeep,
+              ],
+        stops: isPressed ? [0.0, 0.5, 1.0] : [0.0, 0.3, 0.7, 1.0],
+      ),
+      border: Border.all(
+        width: 2,
+        color: isPressed
+            ? DashboardColors.rubyDeep.withValues(alpha: 0.8)
+            : DashboardColors.rubyGlow.withValues(alpha: 0.9),
+      ),
+      boxShadow: isPressed
+          ? [
+              BoxShadow(
+                color: DashboardColors.rubyDeep.withValues(alpha: 0.3),
+                offset: const Offset(0, 2),
+                blurRadius: 4,
+              ),
+            ]
+          : [
+              BoxShadow(
+                color: DashboardColors.rubyDeep.withValues(alpha: 0.6),
+                offset: const Offset(0, 8),
+                blurRadius: 16,
+                spreadRadius: 1,
+              ),
+              BoxShadow(
+                color: DashboardColors.rubyTranslucent,
+                offset: const Offset(0, 4),
+                blurRadius: 8,
+              ),
+              BoxShadow(
+                color: Colors.white.withValues(alpha: 0.4),
+                offset: const Offset(-1, -1),
+                blurRadius: 4,
+              ),
+            ],
+    );
+  }
+
+  /// Badge de rubí con brillo
+  static BoxDecoration rubyGemBadge() {
+    return BoxDecoration(
+      gradient: DashboardColors.rubyRadialGradient,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(
+        width: 1.5,
+        color: DashboardColors.rubyGlow.withValues(alpha: 0.7),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: DashboardColors.ruby.withValues(alpha: 0.5),
+          blurRadius: 12,
+          spreadRadius: 2,
+        ),
+        BoxShadow(
+          color: Colors.white.withValues(alpha: 0.3),
+          offset: const Offset(-1, -1),
+          blurRadius: 3,
+        ),
+      ],
+    );
+  }
+
+  // ============================================
+  // 💎 DECORACIONES DE ZAFIRO (AZUL REAL)
+  // ============================================
+
+  /// Zafiro tallado con profundidad azul
+  static BoxDecoration sapphireGemCard({bool isElevated = false}) {
+    return BoxDecoration(
+      gradient: DashboardColors.sapphireFacetedGradient,
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(
+        width: 2,
+        color: DashboardColors.sapphireGlow.withValues(alpha: 0.6),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: DashboardColors.sapphireDeep.withValues(alpha: 0.5),
+          offset: const Offset(0, 12),
+          blurRadius: 24,
+          spreadRadius: 2,
+        ),
+        BoxShadow(
+          color: DashboardColors.sapphire.withValues(alpha: 0.3),
+          offset: const Offset(0, 6),
+          blurRadius: 12,
+          spreadRadius: 1,
+        ),
+        BoxShadow(
+          color: DashboardColors.sapphireGlow.withValues(alpha: 0.4),
+          offset: const Offset(0, -2),
+          blurRadius: 8,
+          spreadRadius: 0,
+        ),
+        if (isElevated)
+          BoxShadow(
+            color: Colors.white.withValues(alpha: 0.3),
+            offset: const Offset(-2, -2),
+            blurRadius: 6,
+            spreadRadius: 0,
+          ),
+      ],
+    );
+  }
+
+  /// Botón de zafiro tallado con efecto 3D
+  static BoxDecoration sapphireGemButton({bool isPressed = false}) {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: isPressed
+            ? [
+                DashboardColors.sapphireDeep,
+                DashboardColors.sapphire,
+                DashboardColors.sapphireLight,
+              ]
+            : [
+                DashboardColors.sapphireGlow,
+                DashboardColors.sapphireLight,
+                DashboardColors.sapphire,
+                DashboardColors.sapphireDeep,
+              ],
+        stops: isPressed ? [0.0, 0.5, 1.0] : [0.0, 0.3, 0.7, 1.0],
+      ),
+      border: Border.all(
+        width: 2,
+        color: isPressed
+            ? DashboardColors.sapphireDeep.withValues(alpha: 0.8)
+            : DashboardColors.sapphireGlow.withValues(alpha: 0.9),
+      ),
+      boxShadow: isPressed
+          ? [
+              BoxShadow(
+                color: DashboardColors.sapphireDeep.withValues(alpha: 0.3),
+                offset: const Offset(0, 2),
+                blurRadius: 4,
+              ),
+            ]
+          : [
+              BoxShadow(
+                color: DashboardColors.sapphireDeep.withValues(alpha: 0.6),
+                offset: const Offset(0, 8),
+                blurRadius: 16,
+                spreadRadius: 1,
+              ),
+              BoxShadow(
+                color: DashboardColors.sapphireTranslucent,
+                offset: const Offset(0, 4),
+                blurRadius: 8,
+              ),
+              BoxShadow(
+                color: Colors.white.withValues(alpha: 0.4),
+                offset: const Offset(-1, -1),
+                blurRadius: 4,
+              ),
+            ],
+    );
+  }
+
+  /// Badge de zafiro con brillo
+  static BoxDecoration sapphireGemBadge() {
+    return BoxDecoration(
+      gradient: DashboardColors.sapphireRadialGradient,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(
+        width: 1.5,
+        color: DashboardColors.sapphireGlow.withValues(alpha: 0.7),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: DashboardColors.sapphire.withValues(alpha: 0.5),
+          blurRadius: 12,
+          spreadRadius: 2,
+        ),
+        BoxShadow(
+          color: Colors.white.withValues(alpha: 0.3),
+          offset: const Offset(-1, -1),
+          blurRadius: 3,
+        ),
+      ],
+    );
+  }
+
+  // ============================================
+  // 💎 DECORACIONES DE DIAMANTE (CRISTAL PURO)
+  // ============================================
+
+  /// Diamante tallado con efecto arcoíris
+  static BoxDecoration diamondGemCard({bool isElevated = false}) {
+    return BoxDecoration(
+      gradient: DashboardColors.diamondFacetedGradient,
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(
+        width: 2,
+        color: DashboardColors.diamondGlow.withValues(alpha: 0.8),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: DashboardColors.diamondDeep.withValues(alpha: 0.3),
+          offset: const Offset(0, 12),
+          blurRadius: 24,
+          spreadRadius: 2,
+        ),
+        BoxShadow(
+          color: DashboardColors.diamond.withValues(alpha: 0.5),
+          offset: const Offset(0, 6),
+          blurRadius: 12,
+          spreadRadius: 1,
+        ),
+        BoxShadow(
+          color: Colors.white.withValues(alpha: 0.6),
+          offset: const Offset(0, -2),
+          blurRadius: 8,
+          spreadRadius: 0,
+        ),
+        if (isElevated)
+          BoxShadow(
+            color: Colors.white.withValues(alpha: 0.5),
+            offset: const Offset(-2, -2),
+            blurRadius: 6,
+            spreadRadius: 0,
+          ),
+      ],
+    );
+  }
+
+  /// Botón de diamante tallado con efecto 3D
+  static BoxDecoration diamondGemButton({bool isPressed = false}) {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: isPressed
+            ? [
+                DashboardColors.diamondDeep,
+                DashboardColors.diamond,
+                DashboardColors.diamondLight,
+              ]
+            : [
+                Colors.white,
+                DashboardColors.diamondGlow,
+                DashboardColors.diamondLight,
+                DashboardColors.diamond,
+              ],
+        stops: isPressed ? [0.0, 0.5, 1.0] : [0.0, 0.3, 0.7, 1.0],
+      ),
+      border: Border.all(
+        width: 2,
+        color: isPressed
+            ? DashboardColors.diamondDeep.withValues(alpha: 0.5)
+            : Colors.white.withValues(alpha: 0.9),
+      ),
+      boxShadow: isPressed
+          ? [
+              BoxShadow(
+                color: DashboardColors.diamondDeep.withValues(alpha: 0.2),
+                offset: const Offset(0, 2),
+                blurRadius: 4,
+              ),
+            ]
+          : [
+              BoxShadow(
+                color: DashboardColors.diamondDeep.withValues(alpha: 0.4),
+                offset: const Offset(0, 8),
+                blurRadius: 16,
+                spreadRadius: 1,
+              ),
+              BoxShadow(
+                color: DashboardColors.diamondTranslucent,
+                offset: const Offset(0, 4),
+                blurRadius: 8,
+              ),
+              BoxShadow(
+                color: Colors.white.withValues(alpha: 0.6),
+                offset: const Offset(-1, -1),
+                blurRadius: 4,
+              ),
+            ],
+    );
+  }
+
+  /// Badge de diamante con brillo arcoíris
+  static BoxDecoration diamondGemBadge() {
+    return BoxDecoration(
+      gradient: DashboardColors.diamondRadialGradient,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(
+        width: 1.5,
+        color: Colors.white.withValues(alpha: 0.9),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: DashboardColors.diamond.withValues(alpha: 0.5),
+          blurRadius: 12,
+          spreadRadius: 2,
+        ),
+        BoxShadow(
+          color: Colors.white.withValues(alpha: 0.5),
+          offset: const Offset(-1, -1),
+          blurRadius: 3,
+        ),
+      ],
+    );
+  }
 }
 
 // ============================================

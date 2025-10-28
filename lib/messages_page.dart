@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'core/theme/dashboard_colors.dart';
 import 'chat_detail_page.dart';
 import 'group_chat_page.dart';
 
@@ -241,17 +242,26 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
 
   Widget _buildConversationTile(Map<String, dynamic> conversation) {
     final userColor = _getUserColor();
+    final hasUnread = conversation['unreadCount'] > 0;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
+        border: hasUnread
+            ? Border.all(
+                color: DashboardColors.accent.withValues(alpha: 0.3),
+                width: 2,
+              )
+            : null,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 4,
-            offset: const Offset(0, 1),
+            color: hasUnread
+                ? DashboardColors.primary.withValues(alpha: 0.12)
+                : Colors.black.withValues(alpha: 0.02),
+            blurRadius: hasUnread ? 8 : 4,
+            offset: hasUnread ? const Offset(0, 2) : const Offset(0, 1),
           ),
         ],
       ),
@@ -259,15 +269,31 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: Stack(
           children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundColor: _getTypeColor(conversation['type']).withValues(alpha: 0.2),
-              child: Text(
-                conversation['avatar'],
-                style: TextStyle(
-                  color: _getTypeColor(conversation['type']),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+            Container(
+              width: 48,
+              height: 48,
+              decoration: hasUnread
+                  ? BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          DashboardColors.accentLight,
+                          DashboardColors.accent,
+                        ],
+                      ),
+                      shape: BoxShape.circle,
+                    )
+                  : BoxDecoration(
+                      color: _getTypeColor(conversation['type']).withValues(alpha: 0.2),
+                      shape: BoxShape.circle,
+                    ),
+              child: Center(
+                child: Text(
+                  conversation['avatar'],
+                  style: TextStyle(
+                    color: hasUnread ? Colors.white : _getTypeColor(conversation['type']),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),

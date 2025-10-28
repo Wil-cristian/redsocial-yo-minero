@@ -327,16 +327,55 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   }
 
   Widget _buildPostCard(Post post) {
+    // Determinar si el post es importante/urgente
+    final bool isUrgent = post.categories.any((cat) => 
+      cat.toLowerCase().contains('urgente') || 
+      cat.toLowerCase().contains('importante') ||
+      cat.toLowerCase().contains('oportunidad')
+    );
+    
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, 2))],
-      ),
+      decoration: isUrgent
+          ? RichDecorations.rubyGemCard(isElevated: true)
+          : BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Badge "URGENTE" si aplica
+          if (isUrgent)
+            Container(
+              margin: const EdgeInsets.all(12),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: RichDecorations.rubyGemBadge(),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.priority_high, color: Colors.white, size: 16),
+                  const SizedBox(width: 4),
+                  Text(
+                    'URGENTE',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          
           // Header del post
           Padding(
             padding: const EdgeInsets.all(16),
@@ -344,10 +383,16 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundColor: DashboardColors.cardOrange.withOpacity(0.2),
+                  backgroundColor: isUrgent 
+                      ? DashboardColors.rubyLight.withOpacity(0.3)
+                      : DashboardColors.cardOrange.withOpacity(0.2),
                   child: Text(
                     post.authorId.substring(0, 1).toUpperCase(),
-                    style: TextStyle(color: DashboardColors.cardOrange, fontWeight: FontWeight.bold, fontSize: 18),
+                    style: TextStyle(
+                      color: isUrgent ? DashboardColors.rubyDeep : DashboardColors.cardOrange,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -355,7 +400,14 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(post.authorId, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                      Text(
+                        post.authorId,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: isUrgent ? DashboardColors.rubyDeep : Colors.black,
+                        ),
+                      ),
                       Row(
                         children: [
                           Icon(_getPostTypeIcon(post), size: 14, color: Colors.grey.shade600),
@@ -379,7 +431,15 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(post.title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, height: 1.3)),
+                Text(
+                  post.title,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    height: 1.3,
+                    color: isUrgent ? DashboardColors.rubyDeep : Colors.black,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 Text(post.content, style: TextStyle(fontSize: 14, color: Colors.grey.shade700, height: 1.5)),
                 if (post.categories.isNotEmpty) ...[
@@ -388,13 +448,36 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                     spacing: 8,
                     runSpacing: 8,
                     children: post.categories.take(3).map((cat) {
+                      final bool isUrgentTag = cat.toLowerCase().contains('urgente') || 
+                                               cat.toLowerCase().contains('importante');
                       return Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: DashboardColors.cardOrange.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
+                        decoration: isUrgentTag
+                            ? BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    DashboardColors.rubyLight.withValues(alpha: 0.3),
+                                    DashboardColors.ruby.withValues(alpha: 0.2),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: DashboardColors.rubyGlow.withValues(alpha: 0.6),
+                                  width: 1.5,
+                                ),
+                              )
+                            : BoxDecoration(
+                                color: DashboardColors.cardOrange.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                        child: Text(
+                          cat,
+                          style: TextStyle(
+                            color: isUrgentTag ? DashboardColors.rubyDeep : DashboardColors.cardOrange,
+                            fontSize: 12,
+                            fontWeight: isUrgentTag ? FontWeight.w700 : FontWeight.w600,
+                          ),
                         ),
-                        child: Text(cat, style: TextStyle(color: DashboardColors.cardOrange, fontSize: 12, fontWeight: FontWeight.w600)),
                       );
                     }).toList(),
                   ),

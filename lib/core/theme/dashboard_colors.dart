@@ -191,6 +191,210 @@ class DashboardColors {
   );
 
   // ============================================
+  // 💎 RUBÍ - Gema de Fuego con Intensidad
+  // ============================================
+  
+  /// Rubí oscuro profundo (sangre de dragón)
+  static const Color rubyDeep = Color(0xFF7F1D1D);
+  
+  /// Rubí principal (rojo intenso)
+  static const Color ruby = Color(0xFFDC2626);
+  
+  /// Rubí brillante (reflejos de fuego)
+  static const Color rubyLight = Color(0xFFF87171);
+  
+  /// Rubí muy claro (destellos)
+  static const Color rubyGlow = Color(0xFFFCA5A5);
+  
+  /// Rubí con tinte rosado (reflejos)
+  static const Color rubyPink = Color(0xFFFF6B9D);
+  
+  /// Rubí translúcido
+  static const Color rubyTranslucent = Color(0x80DC2626);
+  
+  /// Gradiente de rubí tallado
+  static const LinearGradient rubyGemGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFCA5A5), // Reflejo rosado brillante
+      Color(0xFFF87171), // Luz roja media
+      Color(0xFFDC2626), // Centro del rubí
+      Color(0xFFB91C1C), // Profundidad roja
+      Color(0xFF7F1D1D), // Sombra profunda
+    ],
+    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
+  );
+  
+  /// Gradiente con efecto de facetas de rubí
+  static const LinearGradient rubyFacetedGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFEF2F2), // Reflejo casi blanco
+      Color(0xFFFCA5A5), // Rosa claro brillante
+      Color(0xFFF87171), // Rojo claro
+      Color(0xFFEF4444), // Rojo medio
+      Color(0xFFDC2626), // Rubí principal
+      Color(0xFFB91C1C), // Rojo profundo
+      Color(0xFF991B1B), // Rojo oscuro
+      Color(0xFF7F1D1D), // Sombra interior
+    ],
+    stops: [0.0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.85, 1.0],
+  );
+  
+  /// Gradiente radial de rubí
+  static const RadialGradient rubyRadialGradient = RadialGradient(
+    center: Alignment.topLeft,
+    radius: 1.5,
+    colors: [
+      Color(0xFFFFFFFF), // Reflejo blanco central
+      Color(0xFFFEF2F2), // Rosa casi blanco
+      Color(0xFFFCA5A5), // Rosa claro
+      Color(0xFFEF4444), // Rojo medio
+      Color(0xFFB91C1C), // Rojo profundo
+      Color(0xFF7F1D1D), // Rojo muy oscuro
+    ],
+    stops: [0.0, 0.15, 0.35, 0.6, 0.85, 1.0],
+  );
+
+  // ============================================
+  // 💎 ZAFIRO - Gema del Cielo Profundo
+  // ============================================
+  
+  /// Zafiro oscuro profundo (azul noche)
+  static const Color sapphireDeep = Color(0xFF1E3A8A);
+  
+  /// Zafiro principal (azul real)
+  static const Color sapphire = Color(0xFF2563EB);
+  
+  /// Zafiro brillante (reflejos celestes)
+  static const Color sapphireLight = Color(0xFF60A5FA);
+  
+  /// Zafiro muy claro (destellos)
+  static const Color sapphireGlow = Color(0xFF93C5FD);
+  
+  /// Zafiro con tinte cian (profundidad)
+  static const Color sapphireCyan = Color(0xFF06B6D4);
+  
+  /// Zafiro translúcido
+  static const Color sapphireTranslucent = Color(0x802563EB);
+  
+  /// Gradiente de zafiro tallado
+  static const LinearGradient sapphireGemGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF93C5FD), // Reflejo azul claro
+      Color(0xFF60A5FA), // Luz azul media
+      Color(0xFF2563EB), // Centro del zafiro
+      Color(0xFF1D4ED8), // Profundidad azul
+      Color(0xFF1E3A8A), // Sombra profunda
+    ],
+    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
+  );
+  
+  /// Gradiente con efecto de facetas de zafiro
+  static const LinearGradient sapphireFacetedGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFEFF6FF), // Reflejo casi blanco
+      Color(0xFF93C5FD), // Azul claro brillante
+      Color(0xFF60A5FA), // Azul claro
+      Color(0xFF3B82F6), // Azul medio
+      Color(0xFF2563EB), // Zafiro principal
+      Color(0xFF1D4ED8), // Azul profundo
+      Color(0xFF1E40AF), // Azul oscuro
+      Color(0xFF1E3A8A), // Sombra interior
+    ],
+    stops: [0.0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.85, 1.0],
+  );
+  
+  /// Gradiente radial de zafiro
+  static const RadialGradient sapphireRadialGradient = RadialGradient(
+    center: Alignment.topLeft,
+    radius: 1.5,
+    colors: [
+      Color(0xFFFFFFFF), // Reflejo blanco central
+      Color(0xFFEFF6FF), // Azul casi blanco
+      Color(0xFF93C5FD), // Azul claro
+      Color(0xFF3B82F6), // Azul medio
+      Color(0xFF1D4ED8), // Azul profundo
+      Color(0xFF1E3A8A), // Azul muy oscuro
+    ],
+    stops: [0.0, 0.15, 0.35, 0.6, 0.85, 1.0],
+  );
+
+  // ============================================
+  // 💎 DIAMANTE - Cristal Puro con Arcoíris
+  // ============================================
+  
+  /// Diamante oscuro (sombra de cristal)
+  static const Color diamondDeep = Color(0xFF64748B);
+  
+  /// Diamante principal (cristal)
+  static const Color diamond = Color(0xFFE2E8F0);
+  
+  /// Diamante brillante (reflejos)
+  static const Color diamondLight = Color(0xFFF1F5F9);
+  
+  /// Diamante muy claro (destellos puros)
+  static const Color diamondGlow = Color(0xFFFFFBEB);
+  
+  /// Diamante iridiscente (arcoíris)
+  static const Color diamondIridescent = Color(0xFFDDD6FE);
+  
+  /// Diamante translúcido
+  static const Color diamondTranslucent = Color(0x80F8FAFC);
+  
+  /// Gradiente de diamante tallado
+  static const LinearGradient diamondGemGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFFFFFFF), // Reflejo blanco puro
+      Color(0xFFFFFBEB), // Amarillo muy claro
+      Color(0xFFF1F5F9), // Gris muy claro
+      Color(0xFFE2E8F0), // Gris claro
+      Color(0xFFCBD5E1), // Gris medio
+    ],
+    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
+  );
+  
+  /// Gradiente con efecto de facetas de diamante (con arcoíris)
+  static const LinearGradient diamondFacetedGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFFFFFFFF), // Blanco puro
+      Color(0xFFFFFBEB), // Amarillo muy claro (reflejo)
+      Color(0xFFDDD6FE), // Violeta claro (refracción)
+      Color(0xFFBFDBFE), // Azul muy claro
+      Color(0xFFF1F5F9), // Cristal
+      Color(0xFFE2E8F0), // Gris claro
+      Color(0xFFCBD5E1), // Gris medio
+      Color(0xFF94A3B8), // Sombra
+    ],
+    stops: [0.0, 0.1, 0.25, 0.4, 0.55, 0.7, 0.85, 1.0],
+  );
+  
+  /// Gradiente radial de diamante
+  static const RadialGradient diamondRadialGradient = RadialGradient(
+    center: Alignment.topLeft,
+    radius: 1.5,
+    colors: [
+      Color(0xFFFFFFFF), // Blanco puro central
+      Color(0xFFFFFBEB), // Amarillo muy claro
+      Color(0xFFF1F5F9), // Cristal claro
+      Color(0xFFE2E8F0), // Gris claro
+      Color(0xFFCBD5E1), // Gris medio
+      Color(0xFF94A3B8), // Gris oscuro
+    ],
+    stops: [0.0, 0.15, 0.35, 0.6, 0.85, 1.0],
+  );
+
+  // ============================================
   // PALETA DE SOPORTE VIBRANTE
   // ============================================
   
