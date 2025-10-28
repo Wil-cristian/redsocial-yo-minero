@@ -311,7 +311,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Switch(
             value: value,
             onChanged: enabled ? onChanged : null,
-            activeThumbColor: DashboardColors.primary,
+            thumbColor: WidgetStateProperty.all(DashboardColors.primary),
           ),
         ],
       ),

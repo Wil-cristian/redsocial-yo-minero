@@ -4,7 +4,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["unzip"]
+packages = ["unzip", "flutter"]
 
 [workflows]
 runButton = "Project"
@@ -33,6 +33,10 @@ waitForPort = 5000
 [[ports]]
 localPort = 5000
 externalPort = 80
+
+[[ports]]
+localPort = 42561
+externalPort = 3000
 
 [deployment]
 deploymentTarget = "autoscale"
