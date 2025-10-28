@@ -541,4 +541,23 @@ class DashboardColors {
   static const Color cardCompanyOrangeBg = Color(0xFFFFF7ED);
   static const Color cardCompanyPurple = Color(0xFFA78BFA);
   static const Color cardCompanyPurpleBg = Color(0xFFF5F3FF);
+
+  // ============================================
+  // 🏅 SISTEMA DE NIVELES - GRADIENTES ADICIONALES
+  // ============================================
+  
+  /// Gradiente de bronce para badges
+  static const LinearGradient bronzeGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFE6A87A), Color(0xFFCD7F32), Color(0xFFB87333)],
+  );
+  
+  /// Gradiente de plata para badges
+  static const LinearGradient silverGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFF5F5F5), Color(0xFFE8E8E8), Color(0xFFC0C0C0), Color(0xFF9E9E9E)],
+  );
 }
+

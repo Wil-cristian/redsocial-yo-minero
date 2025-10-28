@@ -3,12 +3,16 @@ import 'core/theme/colors.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'core/theme/rich_decorations.dart';
 import 'core/auth/supabase_auth_service.dart';
+import 'core/achievements/achievement_models.dart';
+import 'core/achievements/achievements_repository.dart';
+import 'core/achievements/gem_color_helper.dart';
 import 'requests_page.dart';
 import 'messages_page.dart';
 import 'products_page.dart';
 import 'services_page.dart';
 import 'edit_profile_page.dart';
 import 'suggestions_page.dart';
+import 'achievements_page.dart';
 import 'shared/models/user.dart';
 import 'login_page.dart';
 
@@ -200,6 +204,8 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               _buildInfoCard(),
               const SizedBox(height: 20),
+              _buildLevelCard(),
+              const SizedBox(height: 20),
               _buildStatsCard(typeInfo),
               const SizedBox(height: 20),
               _buildActionsCard(),
@@ -369,6 +375,175 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildLevelCard() {
+    // Datos de ejemplo - en producción vendrían de la base de datos
+    final userLevel = UserLevel(
+      level: 42,
+      currentXP: 3200,
+      xpToNextLevel: 5000,
+      tier: GemTier.gold,
+      tierName: 'Oro',
+      perks: AchievementsRepository.getPerksForTier(GemTier.gold),
+    );
+    
+    final gradient = GemColorHelper.getGradientForTier(userLevel.tier);
+    final color = GemColorHelper.getColorForTier(userLevel.tier);
+    
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AchievementsPage(currentUser: _userData)),
+        );
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: gradient,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: color.withValues(alpha: 0.3),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+              spreadRadius: 1,
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  // Ícono de nivel
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      GemColorHelper.getIconForTier(userLevel.tier),
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                  
+                  const SizedBox(width: 16),
+                  
+                  // Información de nivel
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Nivel ${userLevel.level}',
+                              style: const TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                userLevel.tierName,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${userLevel.currentXP} / ${userLevel.xpToNextLevel} XP',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white.withValues(alpha: 0.9),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  // Botón para ver logros
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: 16),
+              
+              // Barra de progreso
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Stack(
+                  children: [
+                    Container(
+                      height: 16,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    FractionallySizedBox(
+                      widthFactor: userLevel.progress,
+                      child: Container(
+                        height: 16,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white.withValues(alpha: 0.5),
+                              blurRadius: 8,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              const SizedBox(height: 8),
+              
+              Text(
+                '${(userLevel.progress * 100).toStringAsFixed(1)}% para el siguiente nivel',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white.withValues(alpha: 0.9),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
