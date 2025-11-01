@@ -399,17 +399,193 @@ class OptimizedPostContent extends StatelessWidget {
 
   // === SERVICE ===
   Widget _buildServiceContent() {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        if (post.pricingFrom != null)
-          _chip('Desde \$${post.pricingFrom!.toInt()}', Icons.attach_money, DashboardColors.cardGreen),
-        if (post.pricingTo != null)
-          _chip('Hasta \$${post.pricingTo!.toInt()}', Icons.price_change, DashboardColors.cardGreen),
-        if (post.availability != null)
-          _chip(post.availability!, Icons.access_time, DashboardColors.cardGreen),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFFFFFF),
+            Color(0xFFF9F5FF), // Tono violeta muy suave
+            Color(0xFFFFFFFF),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF9966CC).withValues(alpha: 0.25),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            width: 2,
+            color: const Color(0xFF9966CC).withValues(alpha: 0.3),
+          ),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(
+              width: 1,
+              color: const Color(0xFFE8E8E8),
+            ),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Premium con icono
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFF9966CC), // Amatista
+                          Color(0xFF6A0DAD), // Púrpura
+                          Color(0xFFDA70D6), // Orquídea
+                        ],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF9966CC).withValues(alpha: 0.5),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                        BoxShadow(
+                          color: const Color(0xFF9966CC).withValues(alpha: 0.3),
+                          blurRadius: 20,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.handyman,
+                      color: Colors.white,
+                      size: 32,
+                      shadows: [
+                        Shadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  const Expanded(
+                    child: Text(
+                      'Servicio Profesional',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF6A0DAD),
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: 20),
+              
+              // Chips Premium con gradientes
+              Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  if (post.pricingFrom != null)
+                    _buildPremiumServiceChip(
+                      'Desde \$${post.pricingFrom!.toInt()}',
+                      Icons.attach_money,
+                      const LinearGradient(
+                        colors: [Color(0xFF50C878), Color(0xFF00A86B)],
+                      ),
+                    ),
+                  if (post.pricingTo != null)
+                    _buildPremiumServiceChip(
+                      'Hasta \$${post.pricingTo!.toInt()}',
+                      Icons.price_change,
+                      const LinearGradient(
+                        colors: [Color(0xFF0F52BA), Color(0xFF082567)],
+                      ),
+                    ),
+                  if (post.availability != null)
+                    _buildPremiumServiceChip(
+                      post.availability!,
+                      Icons.access_time,
+                      const LinearGradient(
+                        colors: [Color(0xFF9966CC), Color(0xFF6A0DAD)],
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPremiumServiceChip(String text, IconData icon, LinearGradient gradient) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: gradient,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: Colors.white,
+            size: 20,
+            shadows: const [
+              Shadow(
+                color: Colors.black26,
+                offset: Offset(0, 1),
+                blurRadius: 2,
+              ),
+            ],
+          ),
+          const SizedBox(width: 8),
+          Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              shadows: [
+                Shadow(
+                  color: Colors.black26,
+                  offset: Offset(0, 1),
+                  blurRadius: 2,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -540,25 +716,6 @@ class OptimizedPostContent extends StatelessWidget {
   }
 
   // === HELPERS ===
-  Widget _chip(String label, IconData icon, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withValues(alpha: 0.3)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: color),
-          const SizedBox(width: 4),
-          Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: color)),
-        ],
-      ),
-    );
-  }
-
   String _formatDate(DateTime date) => '${date.day}/${date.month}/${date.year}';
 
   String _getTimeRemaining(DateTime endDate) {
