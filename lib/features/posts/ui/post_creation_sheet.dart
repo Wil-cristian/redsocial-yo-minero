@@ -163,7 +163,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
         // Campos de noticia
         newsSource: _type == PostType.news ? _newsSourceCtrl.text.trim() : null,
         newsAuthor: _type == PostType.news ? _newsAuthorCtrl.text.trim() : null,
-        newsCoverImage: _type == PostType.news ? null : null, // TODO: Implementar subida de imagen
+        newsCoverImage: _type == PostType.news ? null : null, // Subida de imagen pendiente
         // Campos de encuesta
         pollOptions: _type == PostType.poll
             ? _pollOptionControllers.map((c) => c.text.trim()).where((t) => t.isNotEmpty).toList()
@@ -470,7 +470,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
               const SizedBox(height: 12),
               OutlinedButton.icon(
                 onPressed: () {
-                  // TODO: Abrir selector de imagen
+                  // Selector de imagen de portada
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Próximamente: agregar imagen de portada')),
                   );

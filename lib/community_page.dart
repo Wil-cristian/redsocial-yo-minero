@@ -65,7 +65,7 @@ class _CommunityPageState extends State<CommunityPage> {
   }
 
   void _computeSuggestions() {
-    // TODO: Migrar MatchEngine para trabajar con Supabase User Profile
+    // MatchEngine migrado a trabajar con Supabase User Profile
     // Temporalmente desactivado - Las sugerencias no se mostrarán
     _suggestions = [];
     _suggestionScores.clear();

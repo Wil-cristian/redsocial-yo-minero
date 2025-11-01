@@ -249,7 +249,7 @@ class SupabasePostRepository implements PostRepository {
       tags: List<String>.from(json['tags'] ?? []),
       categories: List<String>.from(json['categories'] ?? []),
       likes: json['likes_count'] as int? ?? 0,
-      comments: 0, // TODO: Implementar comments cuando se cree la tabla
+      comments: 0, // Comentarios se implementarán cuando se cree la tabla
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: json['updated_at'] != null 
           ? DateTime.parse(json['updated_at'] as String) 

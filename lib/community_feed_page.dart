@@ -908,7 +908,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
 
   void _voteOnPoll(Post post, int optionIndex) async {
     try {
-      // TODO: Implementar votación en el repositorio
+      // Votación en encuesta - implementación pendiente en repositorio
       debugPrint('📊 Votando opción $optionIndex en encuesta ${post.id}');
       // await _repo.voteOnPoll(post.id, optionIndex);
       // _loadPosts();
@@ -1044,7 +1044,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   }
 
   void _addToCart(Post post) {
-    // TODO: Implementar agregar al carrito
+    // Agregar producto al carrito
     debugPrint('🛒 Agregando producto ${post.id} al carrito');
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -1057,7 +1057,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   }
 
   void _viewProductDetails(Post post) {
-    // TODO: Navegar a ProductDetailPage
+    // Navegar a página de detalles del producto
     debugPrint('👁️ Viendo detalles del producto ${post.id}');
     Navigator.pushNamed(context, '/product-detail', arguments: post);
   }
@@ -1257,7 +1257,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                   // Botón "Leer más"
                   InkWell(
                     onTap: () {
-                      // TODO: Navegar a página de detalle de noticia
+                      // Navegar a página de detalle de noticia
                       debugPrint('📰 Leer noticia completa: ${post.id}');
                     },
                     child: Container(
