@@ -1,0 +1,185 @@
+import 'package:flutter/material.dart';
+import 'dart:math' as math;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../core/theme/dashboard_colors.dart';
+import '../../../../core/di/locator.dart';
+import '../../../../features/posts/domain/post_repository.dart';
+import 'unified_header_widget.dart';
+
+class CustomizableHeader extends StatefulWidget {
+  const CustomizableHeader({super.key});
+
+  @override
+  State<CustomizableHeader> createState() => _CustomizableHeaderState();
+}
+
+class _CustomizableHeaderState extends State<CustomizableHeader> with TickerProviderStateMixin {
+  late AnimationController _sparkleController, _rotationController;
+  late PageController _pageController;
+  List<HeaderWidgetType> activeWidgets = [HeaderWidgetType.liveStats, HeaderWidgetType.dailyStreak, HeaderWidgetType.hotOpportunity];
+  int currentWidgetIndex = 0, activeUsersCount = 0, todayOffersCount = 0;
+  bool isLoadingData = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    _loadUserPreferences();
+    _loadRealTimeData();
+    _sparkleController = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000))..repeat();
+    _rotationController = AnimationController(vsync: this, duration: const Duration(seconds: 20))..repeat();
+    _startAutoRotation();
+  }
+
+  Future<void> _loadUserPreferences() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final indices = prefs.getStringList('header_widgets');
+      if (indices != null && indices.isNotEmpty) {
+        setState(() => activeWidgets = indices.map((i) => HeaderWidgetType.values[int.parse(i)]).toList());
+      }
+    } catch (e) {}
+  }
+
+  Future<void> _saveUserPreferences() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setStringList('header_widgets', activeWidgets.map((w) => w.index.toString()).toList());
+    } catch (e) {}
+  }
+
+  Future<void> _loadRealTimeData() async {
+    try {
+      final posts = await sl<PostRepository>().getAll();
+      final today = DateTime.now(), todayStart = DateTime(today.year, today.month, today.day);
+      final todayPosts = posts.where((p) => DateTime(p.createdAt.year, p.createdAt.month, p.createdAt.day) == todayStart).toList();
+      setState(() {
+        todayOffersCount = todayPosts.length;
+        activeUsersCount = posts.map((p) => p.authorId).toSet().length;
+        isLoadingData = false;
+      });
+    } catch (e) {
+      setState(() => isLoadingData = false);
+    }
+  }
+
+  void _startAutoRotation() {
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted && activeWidgets.length > 1) {
+        final next = (currentWidgetIndex + 1) % activeWidgets.length;
+        _pageController.animateToPage(next, duration: const Duration(milliseconds: 800), curve: Curves.easeInOutCubic);
+        setState(() => currentWidgetIndex = next);
+        _startAutoRotation();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sparkleController.dispose();
+    _rotationController.dispose();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [DashboardColors.cardOrange, DashboardColors.cardOrange.withValues(alpha: 0.9), DashboardColors.gold.withValues(alpha: 0.3)])),
+      child: Stack(children: [
+        AnimatedBuilder(animation: _sparkleController, builder: (_, __) => CustomPaint(painter: SparklePainter(animation: _sparkleController, color: DashboardColors.gold), size: Size.infinite)),
+        SafeArea(child: Column(children: [
+          Padding(padding: const EdgeInsets.all(16), child: Row(children: [
+            AnimatedBuilder(animation: _sparkleController, builder: (_, __) => Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withValues(alpha: 0.2), boxShadow: [BoxShadow(color: DashboardColors.gold.withValues(alpha: 0.3 + _sparkleController.value * 0.4), blurRadius: 20, spreadRadius: 2)]), child: const Icon(Icons.groups, color: Colors.white, size: 28))),
+            const SizedBox(width: 12),
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('Comunidad', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white, shadows: [Shadow(color: DashboardColors.gold.withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(0, 2))])),
+              const SizedBox(height: 4),
+              Text('Conecta, comparte y descubre oportunidades', style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.9), fontWeight: FontWeight.w500)),
+            ])),
+            AnimatedBuilder(animation: _rotationController, builder: (_, __) => Transform.rotate(angle: math.sin(_rotationController.value * 2 * math.pi) * 0.1, child: Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), decoration: BoxDecoration(gradient: const LinearGradient(colors: [DashboardColors.gold, DashboardColors.primaryLight]), borderRadius: BorderRadius.circular(12), boxShadow: [BoxShadow(color: DashboardColors.gold.withValues(alpha: 0.5), blurRadius: 8, offset: const Offset(0, 2))]), child: const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.auto_awesome, size: 14, color: DashboardColors.charcoal), SizedBox(width: 4), Text('BETA', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: DashboardColors.charcoal, letterSpacing: 1))])))),
+          ])),
+          SizedBox(height: 140, child: PageView.builder(controller: _pageController, onPageChanged: (i) => setState(() => currentWidgetIndex = i), itemCount: activeWidgets.length, itemBuilder: (_, i) => UnifiedHeaderWidget(type: activeWidgets[i], data: {'activeUsers': activeUsersCount, 'todayOffers': todayOffersCount, 'streak': 5, 'title': 'Oferta especial', 'price': 1500}))),
+          Padding(padding: const EdgeInsets.only(bottom: 12, left: 16, right: 16), child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(children: List.generate(activeWidgets.length, (i) => AnimatedContainer(duration: const Duration(milliseconds: 300), margin: const EdgeInsets.symmetric(horizontal: 3), width: currentWidgetIndex == i ? 24 : 8, height: 8, decoration: BoxDecoration(color: currentWidgetIndex == i ? Colors.white : Colors.white.withValues(alpha: 0.4), borderRadius: BorderRadius.circular(4), boxShadow: currentWidgetIndex == i ? [BoxShadow(color: Colors.white.withValues(alpha: 0.5), blurRadius: 8)] : null)))),
+            GestureDetector(onTap: () => showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (_) => WidgetSelectorSheet(activeWidgets: activeWidgets, onWidgetsChanged: (w) { setState(() { activeWidgets = w; currentWidgetIndex = 0; _pageController.jumpToPage(0); }); _saveUserPreferences(); })), child: Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(8), border: Border.all(color: Colors.white.withValues(alpha: 0.3))), child: const Row(mainAxisSize: MainAxisSize.min, children: [Icon(Icons.tune, size: 16, color: Colors.white), SizedBox(width: 4), Text('Personalizar', style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600))]))),
+          ])),
+        ])),
+      ]),
+    );
+  }
+}
+
+class SparklePainter extends CustomPainter {
+  final Animation<double> animation;
+  final Color color;
+
+  SparklePainter({required this.animation, required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = color.withValues(alpha: 0.3)..style = PaintingStyle.fill;
+    final random = math.Random(42);
+    for (int i = 0; i < 20; i++) {
+      final x = random.nextDouble() * size.width;
+      final y = random.nextDouble() * size.height;
+      final phase = (animation.value + i / 20) % 1.0;
+      final opacity = (math.sin(phase * 2 * math.pi) + 1) / 2;
+      paint.color = color.withValues(alpha: opacity * 0.3);
+      canvas.drawCircle(Offset(x, y), 2 + opacity * 3, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(SparklePainter old) => animation.value != old.animation.value;
+}
+
+class WidgetSelectorSheet extends StatefulWidget {
+  final List<HeaderWidgetType> activeWidgets;
+  final Function(List<HeaderWidgetType>) onWidgetsChanged;
+
+  const WidgetSelectorSheet({super.key, required this.activeWidgets, required this.onWidgetsChanged});
+
+  @override
+  State<WidgetSelectorSheet> createState() => _WidgetSelectorSheetState();
+}
+
+class _WidgetSelectorSheetState extends State<WidgetSelectorSheet> {
+  late List<HeaderWidgetType> selected;
+
+  @override
+  void initState() {
+    super.initState();
+    selected = List.from(widget.activeWidgets);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      padding: const EdgeInsets.all(24),
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2))),
+        const SizedBox(height: 16),
+        const Text('Personalizar Widgets', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 16),
+        Wrap(spacing: 8, runSpacing: 8, children: HeaderWidgetType.values.map((t) => FilterChip(label: Text(_getName(t)), selected: selected.contains(t), onSelected: (s) => setState(() => s ? selected.add(t) : selected.remove(t)))).toList()),
+        const SizedBox(height: 16),
+        SizedBox(width: double.infinity, child: ElevatedButton(onPressed: () { widget.onWidgetsChanged(selected); Navigator.pop(context); }, style: ElevatedButton.styleFrom(backgroundColor: DashboardColors.primary, padding: const EdgeInsets.symmetric(vertical: 16)), child: const Text('Guardar', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)))),
+      ]),
+    );
+  }
+
+  String _getName(HeaderWidgetType t) {
+    switch (t) {
+      case HeaderWidgetType.liveStats: return 'Estadísticas';
+      case HeaderWidgetType.dailyStreak: return 'Racha';
+      case HeaderWidgetType.hotOpportunity: return 'Oportunidad';
+      case HeaderWidgetType.weatherAlert: return 'Clima';
+      case HeaderWidgetType.aiSuggestion: return 'IA';
+      case HeaderWidgetType.weeklyMission: return 'Misión';
+      case HeaderWidgetType.communityFeed: return 'Comunidad';
+      case HeaderWidgetType.videoHighlight: return 'Video';
+    }
+  }
+}

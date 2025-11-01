@@ -266,6 +266,14 @@ class _CommunityPageState extends State<CommunityPage> {
     );
   }
 
+  Widget _buildSimpleHeader() {
+    return Container(
+      height: 100,
+      decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)])),
+      child: const SafeArea(child: Center(child: Text('Comunidad', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)))),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final list = _filteredSorted();
@@ -299,8 +307,8 @@ class _CommunityPageState extends State<CommunityPage> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           // Nuevo header customizable con efectos premium
-          const SliverToBoxAdapter(
-            child: CustomizableHeader(),
+          SliverToBoxAdapter(
+            child: _buildSimpleHeader(),
           ),
         ],
         body: Column(
