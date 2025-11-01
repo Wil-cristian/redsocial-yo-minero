@@ -389,7 +389,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
               ]),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
-                value: _productCondition,
+                initialValue: _productCondition,
                 decoration: const InputDecoration(
                   labelText: 'Condición',
                   border: OutlineInputBorder(),
@@ -531,7 +531,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<int>(
-                value: _pollDurationDays,
+                initialValue: _pollDurationDays,
                 decoration: const InputDecoration(
                   labelText: 'Duración de la encuesta',
                   border: OutlineInputBorder(),

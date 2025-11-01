@@ -429,7 +429,7 @@ class _ServicesPageState extends State<ServicesPage>
                           width: 60,
                           height: 60,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [
                                 DashboardColors.emeraldLight,
                                 DashboardColors.emerald,
@@ -524,7 +524,7 @@ class _ServicesPageState extends State<ServicesPage>
                           ),
                           child: Text(
                             tag,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: DashboardColors.emeraldDeep,
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
@@ -543,7 +543,7 @@ class _ServicesPageState extends State<ServicesPage>
                           width: 40,
                           height: 40,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [
                                 DashboardColors.emeraldGlow,
                                 DashboardColors.emeraldLight,
@@ -594,7 +594,7 @@ class _ServicesPageState extends State<ServicesPage>
                                   ),
                                   if (service.isAuthorVerified) ...[
                                     const SizedBox(width: 4),
-                                    Icon(
+                                    const Icon(
                                       Icons.verified,
                                       size: 16,
                                       color: DashboardColors.emerald,

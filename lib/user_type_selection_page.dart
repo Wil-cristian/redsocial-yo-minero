@@ -228,6 +228,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
         accountType: type.toString().split('.').last,
       );
 
+      if (!mounted) return;
       Navigator.pop(context); // Cerrar loading
 
       if (result.isSuccess && result.userData != null) {
@@ -241,6 +242,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
         _showError('Error al crear perfil básico');
       }
     } catch (e) {
+      if (!mounted) return;
       Navigator.pop(context); // Cerrar loading
       _showError('Error inesperado: $e');
     }
@@ -251,6 +253,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
     
     // Pequeña animación antes de navegar a registro completo
     Future.delayed(const Duration(milliseconds: 300), () {
+      if (!mounted) return;
       Navigator.push(
         context,
         PageRouteBuilder(

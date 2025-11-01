@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'core/theme/premium_widgets.dart';
 import 'core/theme/rich_decorations.dart';
@@ -36,7 +36,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
         _isLoading = false;
       });
     } catch (e) {
-      print('❌ Error cargando posts: $e');
+      debugPrint('❌ Error cargando posts: $e');
       setState(() => _isLoading = false);
     }
   }
@@ -111,7 +111,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [DashboardColors.cardOrange, DashboardColors.cardOrange.withOpacity(0.8)],
+                  colors: [DashboardColors.cardOrange, DashboardColors.cardOrange.withValues(alpha: 0.8)],
                 ),
               ),
               child: SafeArea(
@@ -126,7 +126,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(Icons.people, color: Colors.white, size: 28),
@@ -145,7 +145,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                               }
 
                               // Obtener perfil del usuario
-                              final profile = await SupabaseAuthService.instance.currentUserProfile;
+                              final profile = SupabaseAuthService.instance.currentUserProfile;
                               final authorName = profile?['name'] ?? profile?['username'] ?? 'Usuario';
 
                               // Mostrar el canvas de creación de posts
@@ -198,7 +198,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 2))],
+                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 2))],
                 ),
                 child: TextField(
                   decoration: InputDecoration(
@@ -294,9 +294,9 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
       ),
       child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
     );
@@ -312,7 +312,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           color: isSelected ? DashboardColors.cardOrange : Colors.white,
           borderRadius: BorderRadius.circular(25),
           border: Border.all(color: isSelected ? DashboardColors.cardOrange : Colors.grey.shade300),
-          boxShadow: isSelected ? [BoxShadow(color: DashboardColors.cardOrange.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 4))] : [],
+          boxShadow: isSelected ? [BoxShadow(color: DashboardColors.cardOrange.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))] : [],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -343,7 +343,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
+                  color: Colors.black.withValues(alpha: 0.08),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
@@ -358,11 +358,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: RichDecorations.rubyGemBadge(),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.priority_high, color: Colors.white, size: 16),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   Text(
                     'URGENTE',
                     style: TextStyle(
@@ -384,8 +384,8 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 CircleAvatar(
                   radius: 24,
                   backgroundColor: isUrgent 
-                      ? DashboardColors.rubyLight.withOpacity(0.3)
-                      : DashboardColors.cardOrange.withOpacity(0.2),
+                      ? DashboardColors.rubyLight.withValues(alpha: 0.3)
+                      : DashboardColors.cardOrange.withValues(alpha: 0.2),
                   child: Text(
                     post.authorId.substring(0, 1).toUpperCase(),
                     style: TextStyle(
@@ -467,7 +467,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                                 ),
                               )
                             : BoxDecoration(
-                                color: DashboardColors.cardOrange.withOpacity(0.1),
+                                color: DashboardColors.cardOrange.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                         child: Text(
@@ -550,7 +550,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                     await _repo.like(post.id);
                     _loadPosts();
                   } catch (e) {
-                    print('❌ Error al dar like: $e');
+                    debugPrint('❌ Error al dar like: $e');
                   }
                 }),
                 const SizedBox(width: 20),
@@ -601,17 +601,17 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
             end: Alignment.bottomRight,
             colors: [
               Colors.white,
-              DashboardColors.cardOrange.withOpacity(0.05),
+              DashboardColors.cardOrange.withValues(alpha: 0.05),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: DashboardColors.cardOrange.withOpacity(0.3),
+            color: DashboardColors.cardOrange.withValues(alpha: 0.3),
             width: 2,
           ),
           boxShadow: [
             BoxShadow(
-              color: DashboardColors.cardOrange.withOpacity(0.1),
+              color: DashboardColors.cardOrange.withValues(alpha: 0.1),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -624,7 +624,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: DashboardColors.cardOrange.withOpacity(0.1),
+                color: DashboardColors.cardOrange.withValues(alpha: 0.1),
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
               ),
               child: Row(
@@ -725,7 +725,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                               boxShadow: [
                                 if (isWinning)
                                   BoxShadow(
-                                    color: DashboardColors.cardOrange.withOpacity(0.2),
+                                    color: DashboardColors.cardOrange.withValues(alpha: 0.2),
                                     blurRadius: 8,
                                     offset: const Offset(0, 2),
                                   ),
@@ -744,8 +744,8 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                                           gradient: LinearGradient(
                                             colors: isWinning
                                                 ? [
-                                                    DashboardColors.cardOrange.withOpacity(0.3),
-                                                    DashboardColors.cardOrange.withOpacity(0.1),
+                                                    DashboardColors.cardOrange.withValues(alpha: 0.3),
+                                                    DashboardColors.cardOrange.withValues(alpha: 0.1),
                                                   ]
                                                 : [
                                                     Colors.grey.shade200,
@@ -821,7 +821,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                                         ),
                                         if (isWinning) ...[
                                           const SizedBox(width: 8),
-                                          Icon(
+                                          const Icon(
                                             Icons.emoji_events,
                                             color: DashboardColors.cardOrange,
                                             size: 20,
@@ -837,7 +837,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                         ),
                       ),
                     );
-                  }).toList(),
+                  }),
 
                   // Total de votos y mensaje
                   if (totalVotes > 0)
@@ -845,13 +845,13 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                       margin: const EdgeInsets.only(top: 8),
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: DashboardColors.cardOrange.withOpacity(0.1),
+                        color: DashboardColors.cardOrange.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.how_to_vote, size: 16, color: DashboardColors.cardOrange),
+                          const Icon(Icons.how_to_vote, size: 16, color: DashboardColors.cardOrange),
                           const SizedBox(width: 8),
                           Text(
                             '$totalVotes ${totalVotes == 1 ? 'persona ha votado' : 'personas han votado'}',
@@ -909,11 +909,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   void _voteOnPoll(Post post, int optionIndex) async {
     try {
       // TODO: Implementar votación en el repositorio
-      print('📊 Votando opción $optionIndex en encuesta ${post.id}');
+      debugPrint('📊 Votando opción $optionIndex en encuesta ${post.id}');
       // await _repo.voteOnPoll(post.id, optionIndex);
       // _loadPosts();
     } catch (e) {
-      print('❌ Error al votar: $e');
+      debugPrint('❌ Error al votar: $e');
     }
   }
 
@@ -975,7 +975,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.white,
-                            DashboardColors.primaryLight.withOpacity(0.02),
+                            DashboardColors.primaryLight.withValues(alpha: 0.02),
                           ],
                         ),
                       ),
@@ -1045,7 +1045,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
 
   void _addToCart(Post post) {
     // TODO: Implementar agregar al carrito
-    print('🛒 Agregando producto ${post.id} al carrito');
+    debugPrint('🛒 Agregando producto ${post.id} al carrito');
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${post.title} agregado al carrito'),
@@ -1058,7 +1058,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
 
   void _viewProductDetails(Post post) {
     // TODO: Navegar a ProductDetailPage
-    print('👁️ Viendo detalles del producto ${post.id}');
+    debugPrint('👁️ Viendo detalles del producto ${post.id}');
     Navigator.pushNamed(context, '/product-detail', arguments: post);
   }
 
@@ -1092,7 +1092,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           border: Border.all(color: Colors.blue.shade200, width: 2),
           boxShadow: [
             BoxShadow(
-              color: Colors.blue.withOpacity(0.1),
+              color: Colors.blue.withValues(alpha: 0.1),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -1138,16 +1138,16 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.black.withValues(alpha: 0.3),
                               blurRadius: 4,
                             ),
                           ],
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.article, size: 14, color: Colors.white),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4),
                             Text(
                               'NOTICIA',
                               style: TextStyle(
@@ -1258,7 +1258,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                   InkWell(
                     onTap: () {
                       // TODO: Navegar a página de detalle de noticia
-                      print('📰 Leer noticia completa: ${post.id}');
+                      debugPrint('📰 Leer noticia completa: ${post.id}');
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -1268,7 +1268,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
@@ -1279,7 +1279,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Icon(Icons.arrow_forward, size: 16, color: Colors.white),
                         ],
                       ),
@@ -1324,7 +1324,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 // Header del servicio con gradiente de esmeralda
               Container(
                 padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
                       DashboardColors.emeraldDeep,
@@ -1332,7 +1332,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                       DashboardColors.emeraldTeal,
                     ],
                   ),
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
                 ),
                 child: Row(
                   children: [
@@ -1348,13 +1348,13 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.white.withOpacity(0.5),
+                            color: Colors.white.withValues(alpha: 0.5),
                             blurRadius: 8,
                             spreadRadius: 2,
                           ),
                         ],
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.room_service,
                         size: 24,
                         color: DashboardColors.emeraldDeep,
@@ -1365,7 +1365,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'SERVICIO PROFESIONAL',
                             style: TextStyle(
                               color: DashboardColors.emeraldGlow,
@@ -1389,11 +1389,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: RichDecorations.emeraldGemBadge(),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.star, size: 14, color: Colors.white),
-                          const SizedBox(width: 4),
+                          SizedBox(width: 4),
                           Text(
                             '4.8',
                             style: TextStyle(
@@ -1453,7 +1453,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.label,
                                   size: 14,
                                   color: DashboardColors.emeraldDeep,
@@ -1461,7 +1461,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                                 const SizedBox(width: 4),
                                 Text(
                                   tag,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700,
                                     color: DashboardColors.emeraldDeep,
@@ -1522,14 +1522,14 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  print('📞 Contactar servicio: ${post.id}');
+                                  debugPrint('📞 Contactar servicio: ${post.id}');
                                 },
                                 borderRadius: BorderRadius.circular(10),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
+                                    children: [
                                       Icon(Icons.phone, size: 18, color: Colors.white),
                                       SizedBox(width: 8),
                                       Text(
@@ -1551,10 +1551,10 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () {
-                              print('ℹ️ Ver detalles servicio: ${post.id}');
+                              debugPrint('ℹ️ Ver detalles servicio: ${post.id}');
                             },
-                            icon: Icon(Icons.info_outline, size: 18, color: DashboardColors.emeraldDeep),
-                            label: Text(
+                            icon: const Icon(Icons.info_outline, size: 18, color: DashboardColors.emeraldDeep),
+                            label: const Text(
                               'Detalles',
                               style: TextStyle(
                                 color: DashboardColors.emeraldDeep,
@@ -1563,7 +1563,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                             ),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 12),
-                              side: BorderSide(
+                              side: const BorderSide(
                                 color: DashboardColors.emerald,
                                 width: 2,
                               ),
@@ -1593,7 +1593,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
         Container(
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, size: 16, color: color),
@@ -1629,7 +1629,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           border: Border.all(color: Colors.orange.shade200, width: 2),
           boxShadow: [
             BoxShadow(
-              color: Colors.orange.withOpacity(0.1),
+              color: Colors.orange.withValues(alpha: 0.1),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -1810,7 +1810,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                     width: double.infinity,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        print('💬 Responder pregunta: ${post.id}');
+                        debugPrint('💬 Responder pregunta: ${post.id}');
                       },
                       icon: const Icon(Icons.reply, size: 18),
                       label: const Text('Responder pregunta'),
@@ -1870,7 +1870,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
     final daysLeft = deadline.difference(DateTime.now()).inDays;
     final hoursLeft = deadline.difference(DateTime.now()).inHours;
     final interested = post.likes * 3; // Simulación de interesados
-    final maxSlots = 10; // Plazas máximas
+    const maxSlots = 10; // Plazas máximas
     final availableSlots = maxSlots - (interested % maxSlots);
     
     // Determinar urgencia
@@ -1897,7 +1897,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           ),
           boxShadow: [
             BoxShadow(
-              color: (isUrgent ? Colors.orange : Colors.green).withOpacity(0.2),
+              color: (isUrgent ? Colors.orange : Colors.green).withValues(alpha: 0.2),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -1929,7 +1929,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               blurRadius: 4,
                             ),
                           ],
@@ -1950,7 +1950,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                                 Text(
                                   'OFERTA',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
+                                    color: Colors.white.withValues(alpha: 0.9),
                                     fontSize: 11,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1,
@@ -2018,13 +2018,13 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            print('📌 Anclar oferta: ${post.id}');
+                            debugPrint('📌 Anclar oferta: ${post.id}');
                           },
                           borderRadius: BorderRadius.circular(20),
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: const Icon(
@@ -2047,7 +2047,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -2081,7 +2081,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -2244,7 +2244,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                         flex: 2,
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            print('✅ Aplicar a oferta: ${post.id}');
+                            debugPrint('✅ Aplicar a oferta: ${post.id}');
                           },
                           icon: const Icon(Icons.send, size: 18),
                           label: Text(isUrgent ? '¡Aplicar Ya!' : 'Aplicar'),
@@ -2262,7 +2262,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                       const SizedBox(width: 12),
                       OutlinedButton(
                         onPressed: () {
-                          print('ℹ️ Ver detalles oferta: ${post.id}');
+                          debugPrint('ℹ️ Ver detalles oferta: ${post.id}');
                         },
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
@@ -2448,11 +2448,11 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
+                          color: Colors.black.withValues(alpha: 0.5),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.black.withValues(alpha: 0.3),
                               blurRadius: 8,
                             ),
                           ],
@@ -2482,11 +2482,11 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
+                          color: Colors.black.withValues(alpha: 0.5),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.black.withValues(alpha: 0.3),
                               blurRadius: 8,
                             ),
                           ],
@@ -2521,10 +2521,10 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                       borderRadius: BorderRadius.circular(4),
                       color: _currentPage == index
                           ? DashboardColors.cardOrange
-                          : Colors.white.withOpacity(0.6),
+                          : Colors.white.withValues(alpha: 0.6),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
+                          color: Colors.black.withValues(alpha: 0.3),
                           blurRadius: 4,
                         ),
                       ],
@@ -2541,7 +2541,7 @@ class _ImageCarouselState extends State<_ImageCarousel> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.6),
+                  color: Colors.black.withValues(alpha: 0.6),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(

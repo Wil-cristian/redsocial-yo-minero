@@ -71,7 +71,7 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
         });
       }
     } catch (e) {
-      print('Error cargando preferencias: $e');
+      debugPrint('Error cargando preferencias: $e');
     }
   }
 
@@ -82,9 +82,9 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
           .map((widget) => widget.index.toString())
           .toList();
       await prefs.setStringList('header_widgets', widgetIndices);
-      print('✅ Preferencias guardadas: ${activeWidgets.length} widgets');
+      debugPrint('✅ Preferencias guardadas: ${activeWidgets.length} widgets');
     } catch (e) {
-      print('Error guardando preferencias: $e');
+      debugPrint('Error guardando preferencias: $e');
     }
   }
 
@@ -115,9 +115,9 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
         isLoadingData = false;
       });
       
-      print('📊 Datos cargados: $activeUsersCount usuarios, $todayOffersCount ofertas hoy');
+      debugPrint('📊 Datos cargados: $activeUsersCount usuarios, $todayOffersCount ofertas hoy');
     } catch (e) {
-      print('Error cargando datos: $e');
+      debugPrint('Error cargando datos: $e');
       setState(() => isLoadingData = false);
     }
   }
@@ -154,8 +154,8 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
           end: Alignment.bottomRight,
           colors: [
             DashboardColors.cardOrange,
-            DashboardColors.cardOrange.withOpacity(0.9),
-            DashboardColors.gold.withOpacity(0.3),
+            DashboardColors.cardOrange.withValues(alpha: 0.9),
+            DashboardColors.gold.withValues(alpha: 0.3),
           ],
         ),
       ),
@@ -233,7 +233,7 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
                     color: Colors.white,
                     shadows: [
                       Shadow(
-                        color: DashboardColors.gold.withOpacity(0.5),
+                        color: DashboardColors.gold.withValues(alpha: 0.5),
                         blurRadius: 10,
                         offset: const Offset(0, 2),
                       ),
@@ -245,7 +245,7 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
                   'Conecta, comparte y descubre oportunidades',
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -268,10 +268,10 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withValues(alpha: 0.2),
             boxShadow: [
               BoxShadow(
-                color: DashboardColors.gold.withOpacity(
+                color: DashboardColors.gold.withValues(alpha: 
                   0.3 + (_sparkleController.value * 0.4),
                 ),
                 blurRadius: 20,
@@ -298,7 +298,7 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [
                   DashboardColors.gold,
                   DashboardColors.primaryLight,
@@ -307,13 +307,13 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: DashboardColors.gold.withOpacity(0.5),
+                  color: DashboardColors.gold.withValues(alpha: 0.5),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
               ],
             ),
-            child: Row(
+            child: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
@@ -321,7 +321,7 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
                   size: 14,
                   color: DashboardColors.charcoal,
                 ),
-                const SizedBox(width: 4),
+                SizedBox(width: 4),
                 Text(
                   'BETA',
                   style: TextStyle(
@@ -383,12 +383,12 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
                 decoration: BoxDecoration(
                   color: currentWidgetIndex == index
                       ? Colors.white
-                      : Colors.white.withOpacity(0.4),
+                      : Colors.white.withValues(alpha: 0.4),
                   borderRadius: BorderRadius.circular(4),
                   boxShadow: currentWidgetIndex == index
                       ? [
                           BoxShadow(
-                            color: Colors.white.withOpacity(0.5),
+                            color: Colors.white.withValues(alpha: 0.5),
                             blurRadius: 8,
                           ),
                         ]
@@ -411,14 +411,14 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: Colors.white.withOpacity(0.3),
+            color: Colors.white.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
-        child: Row(
+        child: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
@@ -426,7 +426,7 @@ class _CustomizableHeaderState extends State<CustomizableHeader>
               size: 16,
               color: Colors.white,
             ),
-            const SizedBox(width: 4),
+            SizedBox(width: 4),
             Text(
               'Personalizar',
               style: TextStyle(
@@ -480,8 +480,8 @@ class _LiveStatsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
         child: Center(
           child: CircularProgressIndicator(
             color: DashboardColors.gold,
@@ -548,15 +548,15 @@ class _StatBubble extends StatelessWidget {
           return Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: color.withOpacity(0.3 + (sparkleController.value * 0.3)),
+                color: color.withValues(alpha: 0.3 + (sparkleController.value * 0.3)),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: color.withOpacity(0.2 + (sparkleController.value * 0.2)),
+                  color: color.withValues(alpha: 0.2 + (sparkleController.value * 0.2)),
                   blurRadius: 12,
                   spreadRadius: 1,
                 ),
@@ -579,7 +579,7 @@ class _StatBubble extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 9,
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white.withValues(alpha: 0.8),
                   ),
                   textAlign: TextAlign.center,
                   maxLines: 1,
@@ -608,13 +608,13 @@ class _DailyStreakWidget extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white.withOpacity(0.2),
-              Colors.white.withOpacity(0.1),
+              Colors.white.withValues(alpha: 0.2),
+              Colors.white.withValues(alpha: 0.1),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: DashboardColors.gold.withOpacity(0.4),
+            color: DashboardColors.gold.withValues(alpha: 0.4),
             width: 2,
           ),
         ),
@@ -629,7 +629,7 @@ class _DailyStreakWidget extends StatelessWidget {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [
                           DashboardColors.gold,
                           DashboardColors.primaryLight,
@@ -637,13 +637,13 @@ class _DailyStreakWidget extends StatelessWidget {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: DashboardColors.gold.withOpacity(0.5),
+                          color: DashboardColors.gold.withValues(alpha: 0.5),
                           blurRadius: 16,
                           spreadRadius: 2,
                         ),
                       ],
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.local_fire_department,
                       color: Colors.white,
                       size: 24,
@@ -663,11 +663,11 @@ class _DailyStreakWidget extends StatelessWidget {
                       Text(
                         '⛏️ Tu veta activa: ',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           fontSize: 12,
                         ),
                       ),
-                      Text(
+                      const Text(
                         '3 días',
                         style: TextStyle(
                           color: Colors.white,
@@ -684,15 +684,15 @@ class _DailyStreakWidget extends StatelessWidget {
                     child: LinearProgressIndicator(
                       value: 0.8,
                       minHeight: 8,
-                      backgroundColor: Colors.white.withOpacity(0.2),
-                      valueColor: AlwaysStoppedAnimation(DashboardColors.gold),
+                      backgroundColor: Colors.white.withValues(alpha: 0.2),
+                      valueColor: const AlwaysStoppedAnimation(DashboardColors.gold),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     '80% a "Buscador de Oro" 🏆',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha: 0.8),
                       fontSize: 10,
                     ),
                   ),
@@ -723,20 +723,20 @@ class _HotOpportunityWidget extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  DashboardColors.error.withOpacity(0.3),
-                  DashboardColors.cardOrange.withOpacity(0.2),
+                  DashboardColors.error.withValues(alpha: 0.3),
+                  DashboardColors.cardOrange.withValues(alpha: 0.2),
                 ],
               ),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: DashboardColors.error.withOpacity(
+                color: DashboardColors.error.withValues(alpha: 
                   0.5 + (sparkleController.value * 0.3),
                 ),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: DashboardColors.error.withOpacity(0.3),
+                  color: DashboardColors.error.withValues(alpha: 0.3),
                   blurRadius: 16,
                   spreadRadius: sparkleController.value * 2,
                 ),
@@ -744,7 +744,7 @@ class _HotOpportunityWidget extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.local_fire_department,
                   color: DashboardColors.error,
                   size: 32,
@@ -755,7 +755,7 @@ class _HotOpportunityWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      const Text(
                         '🌟 Oportunidad de hoy',
                         style: TextStyle(
                           color: Colors.white,
@@ -764,7 +764,7 @@ class _HotOpportunityWidget extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
+                      const Text(
                         'Servicio de Perforación -50%',
                         style: TextStyle(
                           color: Colors.white,
@@ -776,14 +776,14 @@ class _HotOpportunityWidget extends StatelessWidget {
                       Text(
                         'Expira en: 4h 23m ⏰',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                           fontSize: 11,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.white,
                   size: 16,
@@ -805,13 +805,13 @@ class _WeatherAlertWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
+          color: Colors.white.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Row(
+        child: const Row(
           children: [
             Icon(Icons.wb_sunny, color: Colors.amber, size: 32),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -853,17 +853,17 @@ class _AISuggestionWidget extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              DashboardColors.minerBlue.withOpacity(0.3),
-              DashboardColors.cardBlue.withOpacity(0.2),
+              DashboardColors.minerBlue.withValues(alpha: 0.3),
+              DashboardColors.cardBlue.withValues(alpha: 0.2),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: DashboardColors.minerBlue.withOpacity(0.4)),
+          border: Border.all(color: DashboardColors.minerBlue.withValues(alpha: 0.4)),
         ),
-        child: Row(
+        child: const Row(
           children: [
             Icon(Icons.psychology, color: DashboardColors.minerBlue, size: 28),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -908,8 +908,8 @@ class _WeeklyMissionWidget extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              DashboardColors.cardPurple.withOpacity(0.3),
-              DashboardColors.cardPurple.withOpacity(0.1),
+              DashboardColors.cardPurple.withValues(alpha: 0.3),
+              DashboardColors.cardPurple.withValues(alpha: 0.1),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
@@ -918,10 +918,10 @@ class _WeeklyMissionWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
+            const Row(
               children: [
                 Icon(Icons.flag, color: DashboardColors.cardPurple, size: 20),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Text(
                   '🎯 Misión de la semana',
                   style: TextStyle(color: Colors.white, fontSize: 12),
@@ -929,7 +929,7 @@ class _WeeklyMissionWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               'Conecta con 5 nuevos mineros',
               style: TextStyle(
                 color: Colors.white,
@@ -943,15 +943,15 @@ class _WeeklyMissionWidget extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: 0.4,
                 minHeight: 8,
-                backgroundColor: Colors.white.withOpacity(0.2),
-                valueColor: AlwaysStoppedAnimation(DashboardColors.cardPurple),
+                backgroundColor: Colors.white.withValues(alpha: 0.2),
+                valueColor: const AlwaysStoppedAnimation(DashboardColors.cardPurple),
               ),
             ),
             const SizedBox(height: 4),
             Text(
               '2/5 completado',
               style: TextStyle(
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
                 fontSize: 10,
               ),
             ),
@@ -974,14 +974,14 @@ class _CommunityFeedWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
+          color: Colors.white.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               '🎊 ¡Carlos cerró su 1er negocio!',
               style: TextStyle(
                 color: Colors.white,
@@ -993,7 +993,7 @@ class _CommunityFeedWidget extends StatelessWidget {
             Text(
               '⚡ 127 transacciones esta semana',
               style: TextStyle(
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
                 fontSize: 11,
               ),
             ),
@@ -1014,13 +1014,13 @@ class _VideoHighlightWidget extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.black.withOpacity(0.4),
-              Colors.black.withOpacity(0.2),
+              Colors.black.withValues(alpha: 0.4),
+              Colors.black.withValues(alpha: 0.2),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Stack(
+        child: const Stack(
           children: [
             // Placeholder para video
             Center(
@@ -1066,10 +1066,6 @@ class SparklePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color.withOpacity(0.1)
-      ..style = PaintingStyle.fill;
-
     // Generar destellos en posiciones aleatorias
     final random = math.Random(42); // Seed fijo para consistencia
     
@@ -1080,7 +1076,7 @@ class SparklePainter extends CustomPainter {
       // Animación de opacidad pulsante
       final opacity = (math.sin((animation.value + (i * 0.1)) * 2 * math.pi) + 1) / 2;
       final sparklePaint = Paint()
-        ..color = color.withOpacity(opacity * 0.15)
+        ..color = color.withValues(alpha: opacity * 0.15)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
       
       // Dibujar destello
@@ -1092,7 +1088,7 @@ class SparklePainter extends CustomPainter {
       
       // Estrella de 4 puntas
       final starPaint = Paint()
-        ..color = color.withOpacity(opacity * 0.3)
+        ..color = color.withValues(alpha: opacity * 0.3)
         ..strokeWidth = 1
         ..style = PaintingStyle.stroke;
       
@@ -1154,9 +1150,9 @@ class _WidgetSelectorSheetState extends State<WidgetSelectorSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: DashboardColors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -1173,12 +1169,12 @@ class _WidgetSelectorSheetState extends State<WidgetSelectorSheet> {
           ),
           
           // Título
-          Padding(
-            padding: const EdgeInsets.all(20),
+          const Padding(
+            padding: EdgeInsets.all(20),
             child: Row(
               children: [
                 Icon(Icons.widgets, color: DashboardColors.gold),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Text(
                   'Personaliza tu header',
                   style: TextStyle(
@@ -1238,7 +1234,7 @@ class _WidgetSelectorSheetState extends State<WidgetSelectorSheet> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Guardar configuración',
                   style: TextStyle(
                     fontSize: 16,

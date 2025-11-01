@@ -17,12 +17,12 @@ class RichDecorations {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          DashboardColors.primaryLight.withOpacity(0.3), // Highlight
+          DashboardColors.primaryLight.withValues(alpha: 0.3), // Highlight
           DashboardColors.primaryLight, // Naranja glow
           DashboardColors.accent, // Dorado
           DashboardColors.primaryDark, // Naranja oscuro
         ],
-        stops: [0.0, 0.3, 0.7, 1.0],
+        stops: const [0.0, 0.3, 0.7, 1.0],
       ),
       borderRadius: BorderRadius.circular(16),
       border: Border.all(
@@ -32,14 +32,14 @@ class RichDecorations {
       boxShadow: [
         // Sombra exterior profunda
         BoxShadow(
-          color: DashboardColors.primaryDark.withOpacity(0.4),
+          color: DashboardColors.primaryDark.withValues(alpha: 0.4),
           offset: const Offset(0, 8),
           blurRadius: 16,
           spreadRadius: 2,
         ),
         // Sombra exterior suave
         BoxShadow(
-          color: DashboardColors.primary.withOpacity(0.2),
+          color: DashboardColors.primary.withValues(alpha: 0.2),
           offset: const Offset(0, 4),
           blurRadius: 8,
           spreadRadius: 0,
@@ -47,7 +47,7 @@ class RichDecorations {
         // Highlight superior (brillo)
         if (isElevated)
           BoxShadow(
-            color: Colors.white.withOpacity(0.4),
+            color: Colors.white.withValues(alpha: 0.4),
             offset: const Offset(0, -2),
             blurRadius: 4,
             spreadRadius: 0,
@@ -67,21 +67,21 @@ class RichDecorations {
       boxShadow: [
         // Sombra profunda
         BoxShadow(
-          color: Colors.black.withOpacity(0.25),
+          color: Colors.black.withValues(alpha: 0.25),
           offset: const Offset(0, 10),
           blurRadius: 20,
           spreadRadius: -5,
         ),
         // Sombra media
         BoxShadow(
-          color: DashboardColors.primaryDark.withOpacity(0.3),
+          color: DashboardColors.primaryDark.withValues(alpha: 0.3),
           offset: const Offset(0, 6),
           blurRadius: 12,
           spreadRadius: 0,
         ),
         // Brillo superior
         BoxShadow(
-          color: DashboardColors.primaryLight.withOpacity(0.5),
+          color: DashboardColors.primaryLight.withValues(alpha: 0.5),
           offset: const Offset(0, -1),
           blurRadius: 3,
           spreadRadius: 0,
@@ -91,14 +91,14 @@ class RichDecorations {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Colors.white.withOpacity(0.9), // Casi blanco
+          Colors.white.withValues(alpha: 0.9), // Casi blanco
           DashboardColors.accentLight, // Dorado claro
           DashboardColors.primaryLight, // Naranja glow
           DashboardColors.accent, // Dorado
           DashboardColors.primary, // Naranja
           DashboardColors.primaryDark, // Naranja oscuro
         ],
-        stops: [0.0, 0.15, 0.35, 0.55, 0.75, 1.0],
+        stops: const [0.0, 0.15, 0.35, 0.55, 0.75, 1.0],
       ),
     );
   }
@@ -126,12 +126,12 @@ class RichDecorations {
         width: 2,
         color: isPressed
             ? DashboardColors.woodDark
-            : Colors.white.withOpacity(0.9),
+            : Colors.white.withValues(alpha: 0.9),
       ),
       boxShadow: isPressed
           ? [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 offset: const Offset(0, 2),
                 blurRadius: 4,
               ),
@@ -139,20 +139,20 @@ class RichDecorations {
           : [
               // Sombra profunda
               BoxShadow(
-                color: DashboardColors.primaryDark.withOpacity(0.5),
+                color: DashboardColors.primaryDark.withValues(alpha: 0.5),
                 offset: const Offset(0, 6),
                 blurRadius: 12,
                 spreadRadius: 1,
               ),
               // Sombra media
               BoxShadow(
-                color: DashboardColors.primary.withOpacity(0.3),
+                color: DashboardColors.primary.withValues(alpha: 0.3),
                 offset: const Offset(0, 3),
                 blurRadius: 6,
               ),
               // Highlight
               BoxShadow(
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.white.withValues(alpha: 0.3),
                 offset: const Offset(0, -1),
                 blurRadius: 2,
               ),
@@ -184,18 +184,18 @@ class RichDecorations {
       ),
       boxShadow: [
         BoxShadow(
-          color: const Color(0xFF059669).withOpacity(0.4),
+          color: const Color(0xFF059669).withValues(alpha: 0.4),
           offset: const Offset(0, 8),
           blurRadius: 16,
           spreadRadius: 2,
         ),
         BoxShadow(
-          color: const Color(0xFF10B981).withOpacity(0.2),
+          color: const Color(0xFF10B981).withValues(alpha: 0.2),
           offset: const Offset(0, 4),
           blurRadius: 8,
         ),
         BoxShadow(
-          color: Colors.white.withOpacity(0.4),
+          color: Colors.white.withValues(alpha: 0.4),
           offset: const Offset(0, -2),
           blurRadius: 4,
         ),
@@ -227,18 +227,18 @@ class RichDecorations {
       ),
       boxShadow: [
         BoxShadow(
-          color: const Color(0xFF2563EB).withOpacity(0.4),
+          color: const Color(0xFF2563EB).withValues(alpha: 0.4),
           offset: const Offset(0, 8),
           blurRadius: 16,
           spreadRadius: 2,
         ),
         BoxShadow(
-          color: const Color(0xFF3B82F6).withOpacity(0.2),
+          color: const Color(0xFF3B82F6).withValues(alpha: 0.2),
           offset: const Offset(0, 4),
           blurRadius: 8,
         ),
         BoxShadow(
-          color: Colors.white.withOpacity(0.4),
+          color: Colors.white.withValues(alpha: 0.4),
           offset: const Offset(0, -2),
           blurRadius: 4,
         ),
@@ -270,18 +270,18 @@ class RichDecorations {
       ),
       boxShadow: [
         BoxShadow(
-          color: const Color(0xFF7C3AED).withOpacity(0.4),
+          color: const Color(0xFF7C3AED).withValues(alpha: 0.4),
           offset: const Offset(0, 8),
           blurRadius: 16,
           spreadRadius: 2,
         ),
         BoxShadow(
-          color: const Color(0xFF9F7AEA).withOpacity(0.2),
+          color: const Color(0xFF9F7AEA).withValues(alpha: 0.2),
           offset: const Offset(0, 4),
           blurRadius: 8,
         ),
         BoxShadow(
-          color: Colors.white.withOpacity(0.4),
+          color: Colors.white.withValues(alpha: 0.4),
           offset: const Offset(0, -2),
           blurRadius: 4,
         ),
@@ -313,18 +313,18 @@ class RichDecorations {
       ),
       boxShadow: [
         BoxShadow(
-          color: const Color(0xFFEA580C).withOpacity(0.4),
+          color: const Color(0xFFEA580C).withValues(alpha: 0.4),
           offset: const Offset(0, 8),
           blurRadius: 16,
           spreadRadius: 2,
         ),
         BoxShadow(
-          color: const Color(0xFFFB923C).withOpacity(0.2),
+          color: const Color(0xFFFB923C).withValues(alpha: 0.2),
           offset: const Offset(0, 4),
           blurRadius: 8,
         ),
         BoxShadow(
-          color: Colors.white.withOpacity(0.4),
+          color: Colors.white.withValues(alpha: 0.4),
           offset: const Offset(0, -2),
           blurRadius: 4,
         ),
@@ -350,7 +350,7 @@ class RichDecorations {
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 0.15),
             offset: const Offset(0, 8),
             blurRadius: 16,
             spreadRadius: -4,
@@ -368,7 +368,7 @@ class RichDecorations {
           gradient: gradient,
           boxShadow: [
             BoxShadow(
-              color: Colors.white.withOpacity(0.3),
+              color: Colors.white.withValues(alpha: 0.3),
               offset: const Offset(0, -1),
               blurRadius: 2,
             ),
@@ -393,26 +393,26 @@ class RichDecorations {
       borderRadius: BorderRadius.circular(16),
       border: Border.all(
         width: 2,
-        color: glowColor.withOpacity(0.6),
+        color: glowColor.withValues(alpha: 0.6),
       ),
       boxShadow: [
         // Sombra exterior
         BoxShadow(
-          color: Colors.black.withOpacity(0.2),
+          color: Colors.black.withValues(alpha: 0.2),
           offset: const Offset(0, 10),
           blurRadius: 20,
           spreadRadius: -5,
         ),
         // Brillo exterior
         BoxShadow(
-          color: glowColor.withOpacity(0.4),
+          color: glowColor.withValues(alpha: 0.4),
           offset: const Offset(0, 0),
           blurRadius: 12,
           spreadRadius: 2,
         ),
         // Brillo superior
         BoxShadow(
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha: 0.5),
           offset: const Offset(0, -2),
           blurRadius: 4,
         ),
@@ -440,21 +440,21 @@ class RichDecorations {
       boxShadow: [
         // Sombra inferior derecha (profundidad)
         BoxShadow(
-          color: shadowColor.withOpacity(0.6),
+          color: shadowColor.withValues(alpha: 0.6),
           offset: const Offset(4, 4),
           blurRadius: 8,
           spreadRadius: 0,
         ),
         // Brillo superior izquierdo (relieve)
         BoxShadow(
-          color: highlightColor.withOpacity(0.5),
+          color: highlightColor.withValues(alpha: 0.5),
           offset: const Offset(-2, -2),
           blurRadius: 6,
           spreadRadius: 0,
         ),
         // Sombra exterior general
         BoxShadow(
-          color: Colors.black.withOpacity(0.15),
+          color: Colors.black.withValues(alpha: 0.15),
           offset: const Offset(0, 8),
           blurRadius: 16,
           spreadRadius: -4,
@@ -506,7 +506,7 @@ class RichDecorations {
   static BoxDecoration fabGold() {
     return BoxDecoration(
       shape: BoxShape.circle,
-      gradient: RadialGradient(
+      gradient: const RadialGradient(
         colors: [
           DashboardColors.accentLight, // Centro brillante
           DashboardColors.primaryLight, // Medio brillante
@@ -518,20 +518,20 @@ class RichDecorations {
       boxShadow: [
         // Sombra profunda
         BoxShadow(
-          color: DashboardColors.primaryDark.withOpacity(0.6),
+          color: DashboardColors.primaryDark.withValues(alpha: 0.6),
           offset: const Offset(0, 8),
           blurRadius: 16,
           spreadRadius: 2,
         ),
         // Sombra media
         BoxShadow(
-          color: DashboardColors.primary.withOpacity(0.3),
+          color: DashboardColors.primary.withValues(alpha: 0.3),
           offset: const Offset(0, 4),
           blurRadius: 8,
         ),
         // Brillo superior
         BoxShadow(
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha: 0.5),
           offset: const Offset(0, -2),
           blurRadius: 4,
         ),
@@ -545,22 +545,22 @@ class RichDecorations {
     bool isSelected = false,
   }) {
     return BoxDecoration(
-      color: isSelected ? color : color.withOpacity(0.1),
+      color: isSelected ? color : color.withValues(alpha: 0.1),
       borderRadius: BorderRadius.circular(20),
       border: Border.all(
         width: 2,
-        color: isSelected ? color : color.withOpacity(0.3),
+        color: isSelected ? color : color.withValues(alpha: 0.3),
       ),
       boxShadow: isSelected
           ? [
               BoxShadow(
-                color: color.withOpacity(0.3),
+                color: color.withValues(alpha: 0.3),
                 offset: const Offset(0, 4),
                 blurRadius: 8,
                 spreadRadius: 1,
               ),
               BoxShadow(
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.white.withValues(alpha: 0.3),
                 offset: const Offset(0, -1),
                 blurRadius: 2,
               ),
@@ -580,26 +580,26 @@ class RichDecorations {
       borderRadius: BorderRadius.circular(20),
       border: Border.all(
         width: 2,
-        color: DashboardColors.emeraldGlow.withOpacity(0.6),
+        color: DashboardColors.emeraldGlow.withValues(alpha: 0.6),
       ),
       boxShadow: [
         // Sombra verde profunda (base de la gema)
         BoxShadow(
-          color: DashboardColors.emeraldDeep.withOpacity(0.5),
+          color: DashboardColors.emeraldDeep.withValues(alpha: 0.5),
           offset: const Offset(0, 12),
           blurRadius: 24,
           spreadRadius: 2,
         ),
         // Sombra verde media (reflejo)
         BoxShadow(
-          color: DashboardColors.emerald.withOpacity(0.3),
+          color: DashboardColors.emerald.withValues(alpha: 0.3),
           offset: const Offset(0, 6),
           blurRadius: 12,
           spreadRadius: 1,
         ),
         // Brillo superior translúcido
         BoxShadow(
-          color: DashboardColors.emeraldGlow.withOpacity(0.4),
+          color: DashboardColors.emeraldGlow.withValues(alpha: 0.4),
           offset: const Offset(0, -2),
           blurRadius: 8,
           spreadRadius: 0,
@@ -607,7 +607,7 @@ class RichDecorations {
         if (isElevated)
           // Reflejo blanco brillante (faceta)
           BoxShadow(
-            color: Colors.white.withOpacity(0.3),
+            color: Colors.white.withValues(alpha: 0.3),
             offset: const Offset(-2, -2),
             blurRadius: 6,
             spreadRadius: 0,
@@ -640,14 +640,14 @@ class RichDecorations {
       border: Border.all(
         width: 2,
         color: isPressed
-            ? DashboardColors.emeraldDeep.withOpacity(0.8)
-            : DashboardColors.emeraldGlow.withOpacity(0.9),
+            ? DashboardColors.emeraldDeep.withValues(alpha: 0.8)
+            : DashboardColors.emeraldGlow.withValues(alpha: 0.9),
       ),
       boxShadow: isPressed
           ? [
               // Sombra reducida cuando está presionado
               BoxShadow(
-                color: DashboardColors.emeraldDeep.withOpacity(0.3),
+                color: DashboardColors.emeraldDeep.withValues(alpha: 0.3),
                 offset: const Offset(0, 2),
                 blurRadius: 4,
               ),
@@ -655,20 +655,20 @@ class RichDecorations {
           : [
               // Sombra profunda verde
               BoxShadow(
-                color: DashboardColors.emeraldDeep.withOpacity(0.6),
+                color: DashboardColors.emeraldDeep.withValues(alpha: 0.6),
                 offset: const Offset(0, 8),
                 blurRadius: 16,
                 spreadRadius: 1,
               ),
               // Sombra media translúcida
-              BoxShadow(
+              const BoxShadow(
                 color: DashboardColors.emeraldTranslucent,
-                offset: const Offset(0, 4),
+                offset: Offset(0, 4),
                 blurRadius: 8,
               ),
               // Reflejo superior blanco
               BoxShadow(
-                color: Colors.white.withOpacity(0.4),
+                color: Colors.white.withValues(alpha: 0.4),
                 offset: const Offset(-1, -1),
                 blurRadius: 4,
               ),
@@ -683,16 +683,16 @@ class RichDecorations {
       borderRadius: BorderRadius.circular(12),
       border: Border.all(
         width: 1.5,
-        color: DashboardColors.emeraldGlow.withOpacity(0.7),
+        color: DashboardColors.emeraldGlow.withValues(alpha: 0.7),
       ),
       boxShadow: [
         BoxShadow(
-          color: DashboardColors.emerald.withOpacity(0.5),
+          color: DashboardColors.emerald.withValues(alpha: 0.5),
           blurRadius: 12,
           spreadRadius: 2,
         ),
         BoxShadow(
-          color: Colors.white.withOpacity(0.3),
+          color: Colors.white.withValues(alpha: 0.3),
           offset: const Offset(-1, -1),
           blurRadius: 3,
         ),
@@ -806,9 +806,9 @@ class RichDecorations {
                 blurRadius: 16,
                 spreadRadius: 1,
               ),
-              BoxShadow(
+              const BoxShadow(
                 color: DashboardColors.rubyTranslucent,
-                offset: const Offset(0, 4),
+                offset: Offset(0, 4),
                 blurRadius: 8,
               ),
               BoxShadow(
@@ -929,9 +929,9 @@ class RichDecorations {
                 blurRadius: 16,
                 spreadRadius: 1,
               ),
-              BoxShadow(
+              const BoxShadow(
                 color: DashboardColors.sapphireTranslucent,
-                offset: const Offset(0, 4),
+                offset: Offset(0, 4),
                 blurRadius: 8,
               ),
               BoxShadow(
@@ -1052,9 +1052,9 @@ class RichDecorations {
                 blurRadius: 16,
                 spreadRadius: 1,
               ),
-              BoxShadow(
+              const BoxShadow(
                 color: DashboardColors.diamondTranslucent,
-                offset: const Offset(0, 4),
+                offset: Offset(0, 4),
                 blurRadius: 8,
               ),
               BoxShadow(
@@ -1108,7 +1108,7 @@ class _EmeraldFacetsPainter extends CustomPainter {
       ..blendMode = BlendMode.overlay;
 
     // Faceta superior izquierda (brillante)
-    paint.color = Colors.white.withOpacity(opacity * 0.8);
+    paint.color = Colors.white.withValues(alpha: opacity * 0.8);
     final path1 = Path()
       ..moveTo(0, 0)
       ..lineTo(size.width * 0.4, 0)
@@ -1118,7 +1118,7 @@ class _EmeraldFacetsPainter extends CustomPainter {
     canvas.drawPath(path1, paint);
 
     // Faceta central (media)
-    paint.color = DashboardColors.emeraldLight.withOpacity(opacity * 0.5);
+    paint.color = DashboardColors.emeraldLight.withValues(alpha: opacity * 0.5);
     final path2 = Path()
       ..moveTo(size.width * 0.3, 0)
       ..lineTo(size.width * 0.7, 0)
@@ -1128,7 +1128,7 @@ class _EmeraldFacetsPainter extends CustomPainter {
     canvas.drawPath(path2, paint);
 
     // Faceta derecha (sombra)
-    paint.color = DashboardColors.emeraldDeep.withOpacity(opacity * 0.6);
+    paint.color = DashboardColors.emeraldDeep.withValues(alpha: opacity * 0.6);
     final path3 = Path()
       ..moveTo(size.width * 0.7, size.height * 0.2)
       ..lineTo(size.width, size.height * 0.3)
@@ -1138,7 +1138,7 @@ class _EmeraldFacetsPainter extends CustomPainter {
     canvas.drawPath(path3, paint);
 
     // Reflejo diagonal brillante
-    paint.color = Colors.white.withOpacity(opacity * 0.4);
+    paint.color = Colors.white.withValues(alpha: opacity * 0.4);
     final path4 = Path()
       ..moveTo(size.width * 0.1, size.height * 0.1)
       ..lineTo(size.width * 0.3, size.height * 0.1)

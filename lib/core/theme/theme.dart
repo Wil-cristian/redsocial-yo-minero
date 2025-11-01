@@ -16,12 +16,10 @@ ThemeData _buildTheme() {
     secondary: DashboardColors.accent,
     secondaryContainer: DashboardColors.accentLight,
     surface: DashboardColors.white,
-    background: DashboardColors.white,
     error: DashboardColors.error,
     onPrimary: Colors.white,
     onSecondary: Colors.white,
     onSurface: DashboardColors.charcoal,
-    onBackground: DashboardColors.charcoal,
     onError: DashboardColors.white,
   );
 
@@ -29,12 +27,12 @@ ThemeData _buildTheme() {
     colorScheme: scheme,
     scaffoldBackgroundColor: DashboardColors.white,
     primaryColor: DashboardColors.primary,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       backgroundColor: DashboardColors.white,
       foregroundColor: DashboardColors.charcoal,
       elevation: 0,
       shadowColor: DashboardColors.gray200,
-      systemOverlayStyle: const SystemUiOverlayStyle(
+      systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
       ),
@@ -67,7 +65,7 @@ ThemeData _buildTheme() {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         elevation: 2,
-        shadowColor: DashboardColors.primaryDark.withOpacity(0.3),
+        shadowColor: DashboardColors.primaryDark.withValues(alpha: 0.3),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -75,25 +73,25 @@ ThemeData _buildTheme() {
       fillColor: DashboardColors.gray50,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: DashboardColors.gray300, width: 1),
+        borderSide: const BorderSide(color: DashboardColors.gray300, width: 1),
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: DashboardColors.gray300, width: 1),
+        borderSide: const BorderSide(color: DashboardColors.gray300, width: 1),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: DashboardColors.primary, width: 2),
+        borderSide: const BorderSide(color: DashboardColors.primary, width: 2),
       ),
     ),
     chipTheme: ChipThemeData(
       backgroundColor: DashboardColors.gray100,
       selectedColor: DashboardColors.primaryLight,
-      labelStyle: TextStyle(color: DashboardColors.charcoal),
+      labelStyle: const TextStyle(color: DashboardColors.charcoal),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     ),
-    snackBarTheme: SnackBarThemeData(
+    snackBarTheme: const SnackBarThemeData(
       backgroundColor: DashboardColors.charcoal,
       contentTextStyle: TextStyle(color: DashboardColors.white),
     ),
@@ -105,7 +103,7 @@ ThemeData _buildTheme() {
       margin: const EdgeInsets.all(8),
     ),
     dividerColor: DashboardColors.gray200,
-    iconTheme: IconThemeData(color: DashboardColors.gray700),
+    iconTheme: const IconThemeData(color: DashboardColors.gray700),
   );
 }
 

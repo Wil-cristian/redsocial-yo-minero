@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
             end: Alignment.bottomRight,
             colors: [
               AppColors.primary,
-              AppColors.primary.withOpacity(0.8),
+              AppColors.primary.withValues(alpha: 0.8),
               const Color(0xFF2D9CDB),
               const Color(0xFF56CCF2),
             ],
@@ -213,10 +213,10 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withValues(alpha: 0.2),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 spreadRadius: 5,
               ),
@@ -257,7 +257,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           'Gestión Inteligente de Recursos',
           style: TextStyle(
             fontSize: 14,
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withValues(alpha: 0.9),
             letterSpacing: 0.5,
           ),
         ),
@@ -270,10 +270,10 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       constraints: const BoxConstraints(maxWidth: 440),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
-        color: Colors.white.withOpacity(0.95),
+        color: Colors.white.withValues(alpha: 0.95),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 30,
             spreadRadius: 0,
             offset: const Offset(0, 10),
@@ -335,7 +335,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         decoration: InputDecoration(
           labelText: 'Correo electrónico',
           labelStyle: TextStyle(color: Colors.grey[600]),
-          prefixIcon: Icon(Icons.email_outlined, color: AppColors.primary),
+          prefixIcon: const Icon(Icons.email_outlined, color: AppColors.primary),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         ),
@@ -357,7 +357,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         decoration: InputDecoration(
           labelText: 'Contraseña',
           labelStyle: TextStyle(color: Colors.grey[600]),
-          prefixIcon: Icon(Icons.lock_outline, color: AppColors.primary),
+          prefixIcon: const Icon(Icons.lock_outline, color: AppColors.primary),
           suffixIcon: IconButton(
             icon: Icon(
               _isPasswordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined,
@@ -389,7 +389,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.4),
+            color: AppColors.primary.withValues(alpha: 0.4),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -431,7 +431,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

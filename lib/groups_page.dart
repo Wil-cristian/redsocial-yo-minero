@@ -398,7 +398,7 @@ class _GroupsPageState extends State<GroupsPage> {
                               Container(
                                 width: 36,
                                 height: 36,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   gradient: DashboardColors.primaryGradient,
                                   shape: BoxShape.circle,
                                 ),
@@ -418,7 +418,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 6),
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
+                                  gradient: const LinearGradient(
                                     colors: [
                                       DashboardColors.accent,
                                       DashboardColors.accentLight,
@@ -435,7 +435,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                 ),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.star, size: 14, color: Colors.white),
+                                    const Icon(Icons.star, size: 14, color: Colors.white),
                                     const SizedBox(width: 4),
                                     Text(
                                       '$score',

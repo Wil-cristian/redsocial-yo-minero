@@ -1,5 +1,7 @@
+// ignore_for_file: avoid_web_libraries_in_flutter, deprecated_member_use
 import 'dart:html' as html;
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 
 /// Crear cuentas de prueba para testing - PERMANENTES
 void createTestAccounts() {
@@ -8,11 +10,11 @@ void createTestAccounts() {
   
   // Solo crear cuentas si no existen usuarios
   if (existingUsers != null && existingUsers.isNotEmpty) {
-    print('✅ Cuentas de prueba ya existen en localStorage');
+    debugPrint('✅ Cuentas de prueba ya existen en localStorage');
     return;
   }
 
-  print('🔄 Creando cuentas de prueba...');
+  debugPrint('🔄 Creando cuentas de prueba...');
 
   // 1. Crear empresa de prueba
   final testCompany = {
@@ -106,37 +108,37 @@ void createTestAccounts() {
   html.window.localStorage['password_employee_test_002'] = testPassword;
   html.window.localStorage['password_individual_test_001'] = testPassword;
 
-  print('');
-  print('✅ ═══════════════════════════════════════════════════════════');
-  print('✅ CUENTAS DE PRUEBA CREADAS EXITOSAMENTE');
-  print('✅ ═══════════════════════════════════════════════════════════');
-  print('');
-  print('🏢 EMPRESA (Admin):');
-  print('   📧 Email: empresa@test.com');
-  print('   🔑 Password: test123');
-  print('   👤 Tipo: Company');
-  print('   ✓ Puede crear empleados');
-  print('');
-  print('👷 EMPLEADO TÉCNICO:');
-  print('   📧 Email: carlos.tecnico@test.com');
-  print('   🔑 Password: test123');
-  print('   👤 Rol: Técnico');
-  print('   ✓ Ya cambió su contraseña');
-  print('   📊 Dashboard limitado (solo tareas)');
-  print('');
-  print('👔 EMPLEADO CEO - PRIMER LOGIN:');
-  print('   📧 Email: maria.gerente@test.com');
-  print('   🔑 Password: test123');
-  print('   👤 Rol: CEO');
-  print('   ⚠️  DEBE CAMBIAR CONTRASEÑA AL INICIAR SESIÓN');
-  print('   📊 Dashboard completo (acceso total)');
-  print('');
-  print('🧑 USUARIO INDIVIDUAL:');
-  print('   📧 Email: juan@test.com');
-  print('   🔑 Password: test123');
-  print('   👤 Tipo: Individual');
-  print('');
-  print('✅ ═══════════════════════════════════════════════════════════');
+  debugPrint('');
+  debugPrint('✅ ═══════════════════════════════════════════════════════════');
+  debugPrint('✅ CUENTAS DE PRUEBA CREADAS EXITOSAMENTE');
+  debugPrint('✅ ═══════════════════════════════════════════════════════════');
+  debugPrint('');
+  debugPrint('🏢 EMPRESA (Admin):');
+  debugPrint('   📧 Email: empresa@test.com');
+  debugPrint('   🔑 Password: test123');
+  debugPrint('   👤 Tipo: Company');
+  debugPrint('   ✓ Puede crear empleados');
+  debugPrint('');
+  debugPrint('👷 EMPLEADO TÉCNICO:');
+  debugPrint('   📧 Email: carlos.tecnico@test.com');
+  debugPrint('   🔑 Password: test123');
+  debugPrint('   👤 Rol: Técnico');
+  debugPrint('   ✓ Ya cambió su contraseña');
+  debugPrint('   📊 Dashboard limitado (solo tareas)');
+  debugPrint('');
+  debugPrint('👔 EMPLEADO CEO - PRIMER LOGIN:');
+  debugPrint('   📧 Email: maria.gerente@test.com');
+  debugPrint('   🔑 Password: test123');
+  debugPrint('   👤 Rol: CEO');
+  debugPrint('   ⚠️  DEBE CAMBIAR CONTRASEÑA AL INICIAR SESIÓN');
+  debugPrint('   📊 Dashboard completo (acceso total)');
+  debugPrint('');
+  debugPrint('🧑 USUARIO INDIVIDUAL:');
+  debugPrint('   📧 Email: juan@test.com');
+  debugPrint('   🔑 Password: test123');
+  debugPrint('   👤 Tipo: Individual');
+  debugPrint('');
+  debugPrint('✅ ═══════════════════════════════════════════════════════════');
 }
 
 /// Eliminar cuentas de prueba
@@ -147,7 +149,7 @@ void clearTestAccounts() {
   html.window.localStorage.remove('password_employee_test_002');
   html.window.localStorage.remove('password_individual_test_001');
   
-  print('🗑️  Cuentas de prueba eliminadas');
+  debugPrint('🗑️  Cuentas de prueba eliminadas');
 }
 
 /// Verificar si las cuentas de prueba existen
@@ -159,7 +161,7 @@ bool testAccountsExist() {
 /// Mostrar información de las cuentas de prueba
 void showTestAccountsInfo() {
   if (!testAccountsExist()) {
-    print('❌ No hay cuentas de prueba creadas');
+    debugPrint('❌ No hay cuentas de prueba creadas');
     return;
   }
 
@@ -168,25 +170,25 @@ void showTestAccountsInfo() {
 
   final List<dynamic> users = jsonDecode(usersJson);
   
-  print('');
-  print('📋 CUENTAS DE PRUEBA DISPONIBLES: ${users.length}');
-  print('═══════════════════════════════════════════════════════════');
+  debugPrint('');
+  debugPrint('📋 CUENTAS DE PRUEBA DISPONIBLES: ${users.length}');
+  debugPrint('═══════════════════════════════════════════════════════════');
   
   for (final user in users) {
-    print('');
-    print('👤 ${user['name']}');
-    print('   📧 ${user['email']}');
-    print('   🔑 test123');
-    print('   📁 ${user['accountType']}');
+    debugPrint('');
+    debugPrint('👤 ${user['name']}');
+    debugPrint('   📧 ${user['email']}');
+    debugPrint('   🔑 test123');
+    debugPrint('   📁 ${user['accountType']}');
     if (user['organizationInfo'] != null && user['organizationInfo']['roleId'] != null) {
-      print('   👔 ${user['organizationInfo']['roleId']}');
+      debugPrint('   👔 ${user['organizationInfo']['roleId']}');
       if (user['mustChangePassword'] == true) {
-        print('   ⚠️  Debe cambiar contraseña');
+        debugPrint('   ⚠️  Debe cambiar contraseña');
       }
     }
   }
   
-  print('');
-  print('═══════════════════════════════════════════════════════════');
+  debugPrint('');
+  debugPrint('═══════════════════════════════════════════════════════════');
 }
 

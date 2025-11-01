@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+// ignore_for_file: use_build_context_synchronously
+import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'core/theme/rich_decorations.dart';
@@ -95,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading || _userData == null) {
-      return Scaffold(
+      return const Scaffold(
         backgroundColor: AppColors.background,
         body: Center(
           child: Column(
@@ -298,7 +299,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Header esmeralda
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
                       DashboardColors.emeraldDeep,
@@ -314,7 +315,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.person,
                         color: Colors.white,
                         size: 24,
@@ -560,11 +561,11 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             'Favoritos',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -598,7 +599,7 @@ class _ProfilePageState extends State<ProfilePage> {
             // Header dorado
             Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: DashboardColors.primaryGradient,
               ),
               child: Row(
@@ -609,7 +610,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.analytics,
                       color: Colors.white,
                       size: 24,

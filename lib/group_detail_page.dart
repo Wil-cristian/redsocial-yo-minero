@@ -53,6 +53,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
       setState(() {
         _group = _group.copyWith(memberIds: {..._group.memberIds}..remove(uid));
       });
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Has salido del grupo ${_group.name}'),
@@ -64,6 +65,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
       setState(() {
         _group = _group.copyWith(memberIds: {..._group.memberIds, uid});
       });
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Te has unido al grupo ${_group.name}'),

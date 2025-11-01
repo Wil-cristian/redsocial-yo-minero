@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'supabase_config.dart';
 
@@ -23,7 +24,7 @@ class SupabaseService {
     );
 
     _initialized = true;
-    print('✅ Supabase inicializado correctamente');
+    debugPrint('✅ Supabase inicializado correctamente');
   }
 
   /// Obtener el cliente de Supabase

@@ -310,7 +310,7 @@ class _NotificationsPageState extends State<NotificationsPage>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [
                     DashboardColors.emerald,
                     DashboardColors.emeraldLight,

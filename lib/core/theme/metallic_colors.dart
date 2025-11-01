@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 
 /// 💎 COLORES METÁLICOS REALISTAS
 /// Inspirados en piedras preciosas y metales reales
@@ -291,12 +290,12 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: const Color(0xFFFFD700).withOpacity(0.3),
+                color: const Color(0xFFFFD700).withValues(alpha: 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
               BoxShadow(
-                color: const Color(0xFFFFE55C).withOpacity(0.2),
+                color: const Color(0xFFFFE55C).withValues(alpha: 0.2),
                 blurRadius: 24,
                 offset: const Offset(0, 8),
               ),
@@ -316,7 +315,7 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: const Color(0xFF10B981).withOpacity(0.3),
+                color: const Color(0xFF10B981).withValues(alpha: 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -336,7 +335,7 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -356,7 +355,7 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: const Color(0xFF3B82F6).withOpacity(0.3),
+                color: const Color(0xFF3B82F6).withValues(alpha: 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),

@@ -1,3 +1,4 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'core/auth/supabase_auth_service.dart';

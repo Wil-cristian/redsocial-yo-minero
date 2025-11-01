@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:yominero/shared/models/post.dart';
 import 'package:yominero/features/posts/domain/post_repository.dart';
 import 'package:yominero/core/supabase/supabase_service.dart';
@@ -24,7 +25,7 @@ class SupabasePostRepository implements PostRepository {
           .map((json) => _mapToPost(json))
           .toList();
     } catch (e) {
-      print('❌ Error al obtener posts: $e');
+      debugPrint('❌ Error al obtener posts: $e');
       return [];
     }
   }
@@ -68,9 +69,9 @@ class SupabasePostRepository implements PostRepository {
       final currentUser = SupabaseAuthService.instance.currentUser;
       
       // DEBUG: Verificar autenticación
-      print('🔐 Usuario actual: ${currentUser?.id}');
-      print('🔐 Email: ${currentUser?.email}');
-      print('🔐 Token presente: ${_supabase.auth.currentSession?.accessToken != null}');
+      debugPrint('🔐 Usuario actual: ${currentUser?.id}');
+      debugPrint('🔐 Email: ${currentUser?.email}');
+      debugPrint('🔐 Token presente: ${_supabase.auth.currentSession?.accessToken != null}');
       
       if (currentUser == null) {
         throw Exception('Usuario no autenticado');
@@ -161,10 +162,10 @@ class SupabasePostRepository implements PostRepository {
           ''')
           .single();
 
-      print('✅ Post creado: ${response['id']}');
+      debugPrint('✅ Post creado: ${response['id']}');
       return _mapToPost(response);
     } catch (e) {
-      print('❌ Error al crear post: $e');
+      debugPrint('❌ Error al crear post: $e');
       rethrow;
     }
   }
@@ -198,10 +199,10 @@ class SupabasePostRepository implements PostRepository {
         'user_id': uid,
       });
 
-      print('✅ Like agregado al post $postId');
+      debugPrint('✅ Like agregado al post $postId');
       return true;
     } catch (e) {
-      print('❌ Error al dar like: $e');
+      debugPrint('❌ Error al dar like: $e');
       return false;
     }
   }
@@ -223,7 +224,7 @@ class SupabasePostRepository implements PostRepository {
 
       return result != null;
     } catch (e) {
-      print('❌ Error al verificar like: $e');
+      debugPrint('❌ Error al verificar like: $e');
       return false;
     }
   }

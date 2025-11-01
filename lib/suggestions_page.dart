@@ -832,6 +832,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
     );
 
     Future.delayed(const Duration(seconds: 3), () {
+      if (!mounted) return;
       Navigator.pop(context);
       _refreshSuggestions();
       ScaffoldMessenger.of(context).showSnackBar(

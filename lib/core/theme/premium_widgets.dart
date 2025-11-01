@@ -23,7 +23,7 @@ class PremiumWidgets {
       gradient: LinearGradient(
         colors: [
           DashboardColors.white,
-          DashboardColors.primaryLight.withOpacity(0.1),
+          DashboardColors.primaryLight.withValues(alpha: 0.1),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -37,10 +37,10 @@ class PremiumWidgets {
       child: child,
       outerColor: DashboardColors.cardPurple,
       innerColor: const Color(0xFFF5F3FF),
-      gradient: LinearGradient(
+      gradient: const LinearGradient(
         colors: [
           DashboardColors.white,
-          const Color(0xFFF9F5FF),
+          Color(0xFFF9F5FF),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -54,10 +54,10 @@ class PremiumWidgets {
       child: child,
       outerColor: DashboardColors.emerald,
       innerColor: const Color(0xFFECFDF5),
-      gradient: LinearGradient(
+      gradient: const LinearGradient(
         colors: [
           DashboardColors.white,
-          const Color(0xFFF0FDF4),
+          Color(0xFFF0FDF4),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -87,12 +87,12 @@ class PremiumWidgets {
         border: Border.all(color: Colors.white, width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: gradientColors.first.withOpacity(0.5),
+            color: gradientColors.first.withValues(alpha: 0.5),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
           BoxShadow(
-            color: gradientColors.last.withOpacity(0.3),
+            color: gradientColors.last.withValues(alpha: 0.3),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -128,7 +128,7 @@ class PremiumWidgets {
         border: Border.all(color: Colors.white, width: 1),
         boxShadow: [
           BoxShadow(
-            color: (isNew ? const Color(0xFF10B981) : const Color(0xFF6B7280)).withOpacity(0.4),
+            color: (isNew ? const Color(0xFF10B981) : const Color(0xFF6B7280)).withValues(alpha: 0.4),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -156,7 +156,7 @@ class PremiumWidgets {
         border: Border.all(color: Colors.white, width: 1),
         boxShadow: [
           BoxShadow(
-            color: (hasStock ? const Color(0xFF3B82F6) : const Color(0xFFEF4444)).withOpacity(0.4),
+            color: (hasStock ? const Color(0xFF3B82F6) : const Color(0xFFEF4444)).withValues(alpha: 0.4),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -196,7 +196,7 @@ class PremiumWidgets {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
             DashboardColors.accent,
             DashboardColors.accentLight,
@@ -209,7 +209,7 @@ class PremiumWidgets {
         border: Border.all(color: DashboardColors.accentLight, width: 2),
         boxShadow: [
           BoxShadow(
-            color: DashboardColors.primaryDark.withOpacity(0.3),
+            color: DashboardColors.primaryDark.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -243,7 +243,7 @@ class PremiumWidgets {
         backgroundColor: DashboardColors.primary,
         foregroundColor: Colors.white,
         elevation: 8,
-        shadowColor: DashboardColors.primaryDark.withOpacity(0.5),
+        shadowColor: DashboardColors.primaryDark.withValues(alpha: 0.5),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -317,7 +317,7 @@ class PremiumWidgets {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: buttonColor.withOpacity(0.3),
+            color: buttonColor.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -367,10 +367,10 @@ class PremiumWidgets {
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: Colors.white.withOpacity(0.3),
+              color: Colors.white.withValues(alpha: 0.3),
               width: 1.5,
             ),
           ),
@@ -397,8 +397,8 @@ class PremiumWidgets {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.white.withOpacity(0.4),
-                  Colors.white.withOpacity(0.1),
+                  Colors.white.withValues(alpha: 0.4),
+                  Colors.white.withValues(alpha: 0.1),
                   Colors.transparent,
                 ],
               ),
@@ -494,7 +494,7 @@ class _ShimmerWidgetState extends State<_ShimmerWidget>
                         end: Alignment.centerRight,
                         colors: [
                           Colors.transparent,
-                          Colors.white.withOpacity(0.3),
+                          Colors.white.withValues(alpha: 0.3),
                           Colors.transparent,
                         ],
                       ),
@@ -555,7 +555,7 @@ class _PulsingBorderWidgetState extends State<_PulsingBorderWidget>
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: widget.color.withOpacity(_animation.value * 0.6),
+                color: widget.color.withValues(alpha: _animation.value * 0.6),
                 blurRadius: 12 * _animation.value,
                 spreadRadius: 2 * _animation.value,
               ),

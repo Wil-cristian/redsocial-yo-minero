@@ -1,5 +1,7 @@
+// ignore_for_file: avoid_web_libraries_in_flutter, deprecated_member_use
 import 'dart:convert';
 import 'dart:html' as html;
+import 'package:flutter/foundation.dart';
 
 /// Servicio para almacenamiento local de usuarios registrados (versión simplificada)
 class UserStorageService {
@@ -31,7 +33,7 @@ class UserStorageService {
       
       return true;
     } catch (e) {
-      print('Error saving user: $e');
+      debugPrint('Error saving user: $e');
       return false;
     }
   }
@@ -45,7 +47,7 @@ class UserStorageService {
       final List<dynamic> usersJson = jsonDecode(usersData);
       return List<Map<String, dynamic>>.from(usersJson);
     } catch (e) {
-      print('Error loading users: $e');
+      debugPrint('Error loading users: $e');
       return [];
     }
   }
@@ -75,7 +77,7 @@ class UserStorageService {
     try {
       html.window.localStorage[_currentUserKey] = jsonEncode(userData);
     } catch (e) {
-      print('Error saving current user session: $e');
+      debugPrint('Error saving current user session: $e');
     }
   }
 
@@ -87,7 +89,7 @@ class UserStorageService {
       
       return Map<String, dynamic>.from(jsonDecode(userData));
     } catch (e) {
-      print('Error loading current user session: $e');
+      debugPrint('Error loading current user session: $e');
       return null;
     }
   }
@@ -116,7 +118,7 @@ class UserStorageService {
       
       return true;
     } catch (e) {
-      print('Error updating user: $e');
+      debugPrint('Error updating user: $e');
       return false;
     }
   }

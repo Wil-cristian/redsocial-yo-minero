@@ -32,7 +32,7 @@ void main() {
       name: 'User 1',
       email: 'u1@test',
       servicesOffered: [
-        ServiceOffering(
+        const ServiceOffering(
           name: 'Mantenimiento',
           category: 'Maquinaria',
           tags: ['taladro', 'mantenimiento'],

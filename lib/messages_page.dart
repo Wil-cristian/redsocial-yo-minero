@@ -273,7 +273,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
               width: 48,
               height: 48,
               decoration: hasUnread
-                  ? BoxDecoration(
+                  ? const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
                           DashboardColors.accentLight,

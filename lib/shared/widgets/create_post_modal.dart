@@ -187,7 +187,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
                             }
                           });
                         },
-                        selectedColor: DashboardColors.cardOrange.withOpacity(0.3),
+                        selectedColor: DashboardColors.cardOrange.withValues(alpha: 0.3),
                         checkmarkColor: DashboardColors.cardOrange,
                       );
                     }).toList(),

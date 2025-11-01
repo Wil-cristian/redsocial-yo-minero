@@ -268,7 +268,7 @@ class _ConfettiPainter extends CustomPainter {
     
     for (int i = 0; i < 50; i++) {
       final startX = random.nextDouble() * size.width;
-      final startY = -20.0;
+      const startY = -20.0;
       
       final endX = startX + (random.nextDouble() - 0.5) * 100;
       final endY = size.height + 20;

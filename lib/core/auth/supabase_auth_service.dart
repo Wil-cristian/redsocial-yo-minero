@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../supabase/supabase_service.dart';
 
@@ -49,9 +50,9 @@ class SupabaseAuthService {
           .single();
       
       _currentUserProfile = profile;
-      print('✅ Perfil cargado: ${profile['name']}');
+      debugPrint('✅ Perfil cargado: ${profile['name']}');
     } catch (e) {
-      print('⚠️ Error al cargar perfil: $e');
+      debugPrint('⚠️ Error al cargar perfil: $e');
       _currentUserProfile = null;
     }
   }
@@ -141,7 +142,7 @@ class SupabaseAuthService {
 
       // 3. Si no existe el perfil en la tabla users, crearlo automáticamente
       if (_currentUserProfile == null) {
-        print('⚠️ Usuario sin perfil en tabla users, creando...');
+        debugPrint('⚠️ Usuario sin perfil en tabla users, creando...');
         try {
           await _supabase.from('users').insert({
             'id': response.user!.id,
@@ -156,9 +157,9 @@ class SupabaseAuthService {
           
           // Recargar perfil después de crearlo
           await _loadUserProfile(response.user!.id);
-          print('✅ Perfil creado automáticamente');
+          debugPrint('✅ Perfil creado automáticamente');
         } catch (e) {
-          print('❌ Error al crear perfil: $e');
+          debugPrint('❌ Error al crear perfil: $e');
           return AuthResult.error('Error al crear perfil de usuario');
         }
       }

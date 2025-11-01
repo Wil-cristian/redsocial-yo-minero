@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/core/auth/employee_roles.dart';
+import 'package:yominero/core/auth/employee_roles.dart';
 
 void main() {
   group('Sistema de Roles de Empleados', () {
@@ -12,7 +12,7 @@ void main() {
     });
 
     test('CEO debe tener permisos de acceso total', () {
-      final ceo = EmployeeRoles.ceo;
+      const ceo = EmployeeRoles.ceo;
       
       expect(ceo.permissions.contains('view_all'), isTrue);
       expect(ceo.permissions.contains('edit_all'), isTrue);
@@ -20,7 +20,7 @@ void main() {
     });
 
     test('Técnico debe tener permisos limitados', () {
-      final technician = EmployeeRoles.technician;
+      const technician = EmployeeRoles.technician;
       
       expect(technician.permissions.contains('view_own_tasks'), isTrue);
       expect(technician.permissions.contains('report_progress'), isTrue);
@@ -92,7 +92,7 @@ void main() {
     });
 
     test('EmployeeRole serialización/deserialización', () {
-      final ceo = EmployeeRoles.ceo;
+      const ceo = EmployeeRoles.ceo;
       final json = ceo.toJson();
       final restored = EmployeeRole.fromJson(json);
       

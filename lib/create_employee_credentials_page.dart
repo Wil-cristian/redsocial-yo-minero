@@ -327,7 +327,7 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
                   border: Border.all(color: Colors.grey[300]!),
                 ),
                 child: DropdownButtonFormField<EmployeeRole>(
-                  value: _selectedRole,
+                  initialValue: _selectedRole,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.work),
                     border: InputBorder.none,

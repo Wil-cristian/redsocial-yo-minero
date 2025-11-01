@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'core/theme/dashboard_colors.dart';
 
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             colors: [
               DashboardColors.gray50,
               DashboardColors.white,
-              DashboardColors.primaryLight.withOpacity(0.05),
+              DashboardColors.primaryLight.withValues(alpha: 0.05),
             ],
           ),
         ),
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Container(
       height: 280,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
@@ -136,14 +136,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           stops: [0.0, 0.3, 0.7, 1.0],
         ),
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             color: DashboardColors.orangeShadow,
             blurRadius: 30,
-            offset: const Offset(0, 10),
+            offset: Offset(0, 10),
             spreadRadius: 5,
           ),
           BoxShadow(
-            color: DashboardColors.primaryDark.withOpacity(0.3),
+            color: DashboardColors.primaryDark.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 5),
           ),
@@ -176,9 +176,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.white.withOpacity(0),
-                        Colors.white.withOpacity(0.3 * (1 - (_shimmerController.value - 0.5).abs() * 2)),
-                        Colors.white.withOpacity(0),
+                        Colors.white.withValues(alpha: 0),
+                        Colors.white.withValues(alpha: 0.3 * (1 - (_shimmerController.value - 0.5).abs() * 2)),
+                        Colors.white.withValues(alpha: 0),
                       ],
                       stops: [
                         _shimmerController.value - 0.3,
@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
+                                gradient: const LinearGradient(
                                   colors: [
                                     DashboardColors.wood,
                                     DashboardColors.woodLight,
@@ -221,17 +221,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: DashboardColors.wood.withOpacity(0.5),
+                                    color: DashboardColors.wood.withValues(alpha: 0.5),
                                     blurRadius: 12,
                                     spreadRadius: 2,
                                   ),
                                 ],
                               ),
-                              child: Row(
+                              child: const Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(Icons.science_outlined, color: Colors.white, size: 14),
-                                  const SizedBox(width: 4),
+                                  SizedBox(width: 4),
                                   Text(
                                     'BETA',
                                     style: TextStyle(
@@ -262,20 +262,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  DashboardColors.orangeGlow.withOpacity(0.4),
-                                  DashboardColors.orange.withOpacity(0.3),
+                                  DashboardColors.orangeGlow.withValues(alpha: 0.4),
+                                  DashboardColors.orange.withValues(alpha: 0.3),
                                 ],
                               ),
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: DashboardColors.orangeGlow.withOpacity(0.7 * _pulseController.value),
+                                  color: DashboardColors.orangeGlow.withValues(alpha: 0.7 * _pulseController.value),
                                   blurRadius: 25 * _pulseController.value,
                                   spreadRadius: 6 * _pulseController.value,
                                 ),
                               ],
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.notifications_active,
                               color: Colors.white,
                               size: 24,
@@ -308,7 +308,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           '${_getGreeting()} 👋',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -334,14 +334,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                DashboardColors.orangeBright.withOpacity(0.9),
-                                DashboardColors.orange.withOpacity(0.8),
+                                DashboardColors.orangeBright.withValues(alpha: 0.9),
+                                DashboardColors.orange.withValues(alpha: 0.8),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: DashboardColors.orangeGlow.withOpacity(0.5),
+                                color: DashboardColors.orangeGlow.withValues(alpha: 0.5),
                                 blurRadius: 8,
                                 spreadRadius: 1,
                               ),
@@ -382,11 +382,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               colors: [DashboardColors.orange, DashboardColors.orangeGlow],
             ),
             borderRadius: BorderRadius.circular(12),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: DashboardColors.orangeShadow,
                 blurRadius: 8,
@@ -399,7 +399,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         const SizedBox(width: 12),
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: DashboardColors.charcoal,
@@ -438,17 +438,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [color.withOpacity(0.9), color],
+                    colors: [color.withValues(alpha: 0.9), color],
                   ),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: color.withOpacity(0.4),
+                      color: color.withValues(alpha: 0.4),
                       blurRadius: 15,
                       offset: const Offset(0, 8),
                     ),
                     BoxShadow(
-                      color: color.withOpacity(0.2 * _pulseController.value),
+                      color: color.withValues(alpha: 0.2 * _pulseController.value),
                       blurRadius: 25 * _pulseController.value,
                       spreadRadius: 3 * _pulseController.value,
                     ),
@@ -459,7 +459,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(icon, color: Colors.white, size: 28),
@@ -485,7 +485,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       label,
                       style: TextStyle(
                         fontSize: 13,
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -606,17 +606,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [color.withOpacity(0.85), color, color.withOpacity(0.9)],
+                      colors: [color.withValues(alpha: 0.85), color, color.withValues(alpha: 0.9)],
                     ),
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: color.withOpacity(0.4),
+                        color: color.withValues(alpha: 0.4),
                         blurRadius: 15,
                         offset: const Offset(0, 8),
                       ),
                       BoxShadow(
-                        color: Colors.white.withOpacity(0.1 * math.sin(_shimmerController.value * math.pi)),
+                        color: Colors.white.withValues(alpha: 0.1 * math.sin(_shimmerController.value * math.pi)),
                         blurRadius: 20,
                         spreadRadius: -5,
                       ),
@@ -635,7 +635,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             shape: BoxShape.circle,
                             gradient: RadialGradient(
                               colors: [
-                                Colors.white.withOpacity(0.2 * math.sin(_shimmerController.value * 2 * math.pi).abs()),
+                                Colors.white.withValues(alpha: 0.2 * math.sin(_shimmerController.value * 2 * math.pi).abs()),
                                 Colors.transparent,
                               ],
                             ),
@@ -652,11 +652,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             Container(
                               padding: const EdgeInsets.all(18),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.25),
+                                color: Colors.white.withValues(alpha: 0.25),
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.white.withOpacity(0.3),
+                                    color: Colors.white.withValues(alpha: 0.3),
                                     blurRadius: 12,
                                     spreadRadius: 2,
                                   ),
@@ -754,7 +754,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 border: Border.all(color: DashboardColors.gray200, width: 1.5),
                 boxShadow: [
                   BoxShadow(
-                    color: iconColor.withOpacity(0.1),
+                    color: iconColor.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -769,12 +769,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [iconColor.withOpacity(0.9), iconColor],
+                            colors: [iconColor.withValues(alpha: 0.9), iconColor],
                           ),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: iconColor.withOpacity(0.4 * _pulseController.value),
+                              color: iconColor.withValues(alpha: 0.4 * _pulseController.value),
                               blurRadius: 12 * _pulseController.value,
                               spreadRadius: 3 * _pulseController.value,
                             ),
@@ -791,7 +791,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       children: [
                         Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: DashboardColors.charcoal,
@@ -800,7 +800,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         const SizedBox(height: 6),
                         Text(
                           subtitle,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             color: DashboardColors.gray600,
                           ),
@@ -811,7 +811,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: iconColor.withOpacity(0.1),
+                      color: iconColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -843,7 +843,7 @@ class _GoldPatternPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Círculos dorados rotando
     final goldPaint = Paint()
-      ..color = Colors.white.withOpacity(0.15)
+      ..color = Colors.white.withValues(alpha: 0.15)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
@@ -856,7 +856,7 @@ class _GoldPatternPainter extends CustomPainter {
     
     // Capas naranja flotantes
     final orangePaint = Paint()
-      ..color = Color(0xFFFF9500).withOpacity(0.2)
+      ..color = const Color(0xFFFF9500).withValues(alpha: 0.2)
       ..style = PaintingStyle.fill;
     
     for (int i = 0; i < 3; i++) {
@@ -868,7 +868,7 @@ class _GoldPatternPainter extends CustomPainter {
     
     // Capas madera (rectángulos suaves)
     final woodPaint = Paint()
-      ..color = Color(0xFF8B4513).withOpacity(0.1)
+      ..color = const Color(0xFF8B4513).withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
     
     for (int i = 0; i < 2; i++) {
@@ -880,14 +880,14 @@ class _GoldPatternPainter extends CustomPainter {
           120,
           20,
         ),
-        Radius.circular(10),
+        const Radius.circular(10),
       );
       canvas.drawRRect(rect, woodPaint);
     }
 
     // Líneas onduladas doradas
     final wavePaint = Paint()
-      ..color = Colors.white.withOpacity(0.1)
+      ..color = Colors.white.withValues(alpha: 0.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
     

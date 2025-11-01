@@ -15,8 +15,8 @@ enum AccountType {
 enum CompanyRole {
   owner,            // Dueño de la empresa
   manager,          // Gerente/administrador
-  customer_service, // Atención al cliente
-  content_manager,  // Encargado de publicaciones
+  customerService, // Atención al cliente
+  contentManager,  // Encargado de publicaciones
   employee          // Empleado regular
 }
 
@@ -39,7 +39,7 @@ class OrganizationInfo {
   });
 
   // Getters de conveniencia
-  bool get canManageContent => permissions.contains('manage_content') || companyRole == CompanyRole.content_manager || companyRole == CompanyRole.owner;
+  bool get canManageContent => permissions.contains('manage_content') || companyRole == CompanyRole.contentManager || companyRole == CompanyRole.owner;
   bool get canManageMembers => permissions.contains('manage_members') || companyRole == CompanyRole.manager || companyRole == CompanyRole.owner;
   bool get canViewAnalytics => permissions.contains('view_analytics') || companyRole == CompanyRole.manager || companyRole == CompanyRole.owner;
 }
@@ -530,9 +530,9 @@ class User {
           return 'Propietario';
         case CompanyRole.manager:
           return 'Gerente';
-        case CompanyRole.customer_service:
+        case CompanyRole.customerService:
           return 'Atención al Cliente';
-        case CompanyRole.content_manager:
+        case CompanyRole.contentManager:
           return 'Gestor de Contenido';
         case CompanyRole.employee:
           return 'Empleado';

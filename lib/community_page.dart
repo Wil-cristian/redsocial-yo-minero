@@ -287,8 +287,8 @@ class _CommunityPageState extends State<CommunityPage> {
         onPressed: _openCreatePost,
         backgroundColor: DashboardColors.primary,
         elevation: 8,
-        icon: Icon(Icons.add, color: Colors.white),
-        label: Text(
+        icon: const Icon(Icons.add, color: Colors.white),
+        label: const Text(
           'Nueva Publicación',
           style: TextStyle(
             color: Colors.white,
@@ -299,8 +299,8 @@ class _CommunityPageState extends State<CommunityPage> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           // Nuevo header customizable con efectos premium
-          SliverToBoxAdapter(
-            child: const CustomizableHeader(),
+          const SliverToBoxAdapter(
+            child: CustomizableHeader(),
           ),
         ],
         body: Column(
