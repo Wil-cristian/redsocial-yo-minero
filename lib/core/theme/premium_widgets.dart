@@ -20,14 +20,6 @@ class PremiumWidgets {
       child: child,
       outerColor: DashboardColors.primary,
       innerColor: const Color(0xFFFFFFFF),
-      gradient: LinearGradient(
-        colors: [
-          DashboardColors.white,
-          DashboardColors.primaryLight.withValues(alpha: 0.1),
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
     );
   }
 
@@ -37,14 +29,6 @@ class PremiumWidgets {
       child: child,
       outerColor: DashboardColors.cardPurple,
       innerColor: const Color(0xFFF5F3FF),
-      gradient: const LinearGradient(
-        colors: [
-          DashboardColors.white,
-          Color(0xFFF9F5FF),
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
     );
   }
 
@@ -54,14 +38,6 @@ class PremiumWidgets {
       child: child,
       outerColor: DashboardColors.emerald,
       innerColor: const Color(0xFFECFDF5),
-      gradient: const LinearGradient(
-        colors: [
-          DashboardColors.white,
-          Color(0xFFF0FDF4),
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
     );
   }
 

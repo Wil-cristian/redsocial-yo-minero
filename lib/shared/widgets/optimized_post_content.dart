@@ -54,49 +54,310 @@ class OptimizedPostContent extends StatelessWidget {
 
   // === PRODUCT ===
   Widget _buildProductContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (post.productPrice != null)
-          Row(
-            children: [
-              Text(
-                '\$${post.productPrice!.toStringAsFixed(2)}',
-                style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: DashboardColors.cardBlue),
-              ),
-              const Spacer(),
-              if (onViewDetails != null)
-                ElevatedButton.icon(
-                  onPressed: onViewDetails,
-                  icon: const Icon(Icons.shopping_bag, size: 18),
-                  label: const Text('Ver detalles'),
-                  style: ElevatedButton.styleFrom(backgroundColor: DashboardColors.cardBlue, foregroundColor: Colors.white),
-                ),
-            ],
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFFFFFF),
+            Color(0xFFFFFAF0),
+            Color(0xFFFFFFFF),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFFFD700).withValues(alpha: 0.2),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
-        if (post.productImages != null && post.productImages!.isNotEmpty) ...[
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 120,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: post.productImages!.length,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(post.productImages![index], width: 120, height: 120, fit: BoxFit.cover),
-                ),
-              ),
-            ),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
-        if (post.productStock != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text('Stock: ${post.productStock}', style: TextStyle(color: Colors.grey.shade600, fontSize: 13)),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            width: 2,
+            color: const Color(0xFFFFD700).withValues(alpha: 0.3),
           ),
-      ],
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(
+              width: 1,
+              color: const Color(0xFFE8E8E8),
+            ),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Premium con Precio
+              if (post.productPrice != null)
+                Row(
+                  children: [
+                    // Precio con efecto oro
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFFD700), // Oro
+                            Color(0xFFFFA500), // Naranja dorado
+                            Color(0xFFFFE55C), // Oro claro
+                          ],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFFFD700).withValues(alpha: 0.5),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                          BoxShadow(
+                            color: const Color(0xFFFFD700).withValues(alpha: 0.3),
+                            blurRadius: 20,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.diamond,
+                            color: Colors.white,
+                            size: 24,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black26,
+                                offset: Offset(0, 2),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '\$${post.productPrice!.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: 1,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
+                    // Botón Ver detalles premium
+                    if (onViewDetails != null)
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          gradient: LinearGradient(
+                            colors: [
+                              DashboardColors.cardBlue,
+                              DashboardColors.cardBlue.withValues(alpha: 0.8),
+                            ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: DashboardColors.cardBlue.withValues(alpha: 0.4),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: onViewDetails,
+                            borderRadius: BorderRadius.circular(16),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.shopping_bag, size: 20, color: Colors.white),
+                                  const SizedBox(width: 8),
+                                  const Text(
+                                    'Ver detalles',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              
+              // Carrusel de imágenes PREMIUM
+              if (post.productImages != null && post.productImages!.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: post.productImages!.length,
+                    itemBuilder: (context, index) => Container(
+                      margin: const EdgeInsets.only(right: 12),
+                      width: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          ),
+                          BoxShadow(
+                            color: const Color(0xFFFFD700).withValues(alpha: 0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Stack(
+                        children: [
+                          // Imagen con bordes premium
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                width: 3,
+                                color: const Color(0xFFFFD700).withValues(alpha: 0.3),
+                              ),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(17),
+                                border: Border.all(
+                                  width: 1,
+                                  color: const Color(0xFFE8E8E8),
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.network(
+                                  post.productImages![index],
+                                  width: 200,
+                                  height: 200,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Badge de número de imagen
+                          Positioned(
+                            top: 12,
+                            right: 12,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.black.withValues(alpha: 0.7),
+                                    Colors.black.withValues(alpha: 0.5),
+                                  ],
+                                ),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.3),
+                                  width: 1,
+                                ),
+                              ),
+                              child: Text(
+                                '${index + 1}/${post.productImages!.length}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              
+              // Stock premium
+              if (post.productStock != null) ...[
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: LinearGradient(
+                      colors: [
+                        post.productStock! > 5
+                            ? const Color(0xFF50C878).withValues(alpha: 0.15)
+                            : const Color(0xFFE0115F).withValues(alpha: 0.15),
+                        post.productStock! > 5
+                            ? const Color(0xFF00A86B).withValues(alpha: 0.1)
+                            : const Color(0xFF9B111E).withValues(alpha: 0.1),
+                      ],
+                    ),
+                    border: Border.all(
+                      color: post.productStock! > 5
+                          ? const Color(0xFF50C878).withValues(alpha: 0.5)
+                          : const Color(0xFFE0115F).withValues(alpha: 0.5),
+                      width: 2,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        post.productStock! > 5 ? Icons.inventory : Icons.warning,
+                        color: post.productStock! > 5
+                            ? const Color(0xFF50C878)
+                            : const Color(0xFFE0115F),
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        post.productStock! > 5
+                            ? 'Stock disponible: ${post.productStock}'
+                            : '¡Últimas ${post.productStock} unidades!',
+                        style: TextStyle(
+                          color: post.productStock! > 5
+                              ? const Color(0xFF50C878)
+                              : const Color(0xFFE0115F),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
     );
   }
 

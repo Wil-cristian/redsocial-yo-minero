@@ -5,6 +5,7 @@ import 'features/products/domain/product_repository.dart';
 import 'core/theme/colors.dart';
 import 'core/routing/app_router.dart';
 import 'core/auth/auth_service.dart';
+import 'core/theme/premium_product_card.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
@@ -28,17 +29,6 @@ class _ProductsPageState extends State<ProductsPage> {
     'Herramientas',
     'Equipos',
     'Accesorios',
-  ];
-
-  final List<Color> _productColors = [
-    AppColors.primary,
-    AppColors.secondary,
-    AppColors.success,
-    AppColors.info,
-    AppColors.warning,
-    AppColors.primaryContainer,
-    AppColors.secondaryContainer,
-    AppColors.textSecondary,
   ];
 
   @override
@@ -398,10 +388,9 @@ class _ProductsPageState extends State<ProductsPage> {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final product = filtered[index];
-                  final color = _productColors[index % _productColors.length];
-                  return _ProductCard(
+                  return PremiumProductCard(
                     product: product,
-                    color: color,
+                    index: index,
                     onTap: () => Navigator.of(context).pushNamed(
                       AppRoutes.productDetail,
                       arguments: product,
@@ -552,259 +541,5 @@ class _ProductsPageState extends State<ProductsPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
-  }
-}
-
-class _ProductCard extends StatelessWidget {
-  final Product product;
-  final Color color;
-  final VoidCallback onTap;
-
-  const _ProductCard({
-    required this.product,
-    required this.color,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white,
-            color.withValues(alpha: 0.02),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: color.withValues(alpha: 0.1),
-            blurRadius: 15,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header con precio e icono
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [color, color.withValues(alpha: 0.7)],
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: color.withValues(alpha: 0.3),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        _getProductIcon(product.name),
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [AppColors.success, AppColors.success.withValues(alpha: 0.8)],
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Text(
-                        '\$${product.price.toStringAsFixed(0)}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                
-                const SizedBox(height: 12),
-                
-                // Título del producto
-                Text(
-                  product.name,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                
-                const SizedBox(height: 6),
-                
-                // Descripción
-                Expanded(
-                  child: Text(
-                    product.description,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
-                      height: 1.3,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                
-                const SizedBox(height: 12),
-                
-                // Información del autor
-                Row(
-                  children: [
-                    Container(
-                      width: 28,
-                      height: 28,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColors.secondary.withValues(alpha: 0.8),
-                            AppColors.secondary.withValues(alpha: 0.6),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: product.authorAvatarUrl != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(14),
-                            child: Image.network(
-                              product.authorAvatarUrl!,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : Center(
-                            child: Text(
-                              product.authorIcon,
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                          ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                product.authorIcon,
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                              const SizedBox(width: 2),
-                              Flexible(
-                                child: Text(
-                                  product.authorDisplayName,
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.primary,
-                                    fontSize: 10,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              if (product.isAuthorVerified) ...[
-                                const SizedBox(width: 2),
-                                const Icon(
-                                  Icons.verified,
-                                  size: 12,
-                                  color: AppColors.success,
-                                ),
-                              ],
-                            ],
-                          ),
-                          if (product.authorRating > 0) ...[
-                            const SizedBox(height: 2),
-                            Row(
-                              children: [
-                                const Icon(Icons.star, size: 10, color: Colors.amber),
-                                const SizedBox(width: 2),
-                                Text(
-                                  product.authorRating.toStringAsFixed(1),
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Colors.grey[600],
-                                    fontSize: 9,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                
-                const SizedBox(height: 8),
-                
-                // Footer con estado y tiempo
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: product.inStock ? AppColors.success.withValues(alpha: 0.1) : AppColors.error.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        product.inStock ? 'Disponible' : 'Agotado',
-                        style: TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w500,
-                          color: product.inStock ? AppColors.success : AppColors.error,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      product.timeAgo,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey[500],
-                        fontSize: 8,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  IconData _getProductIcon(String productName) {
-    final name = productName.toLowerCase();
-    if (name.contains('casco')) return Icons.construction;
-    if (name.contains('linterna')) return Icons.flashlight_on;
-    if (name.contains('guantes')) return Icons.back_hand;
-    if (name.contains('botas')) return Icons.work;
-    if (name.contains('chaleco')) return Icons.warning;
-    if (name.contains('detector')) return Icons.sensors;
-    if (name.contains('cuerda')) return Icons.link;
-    if (name.contains('martillo')) return Icons.build;
-    return Icons.inventory;
   }
 }

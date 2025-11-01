@@ -7,7 +7,6 @@ import 'core/routing/app_router.dart';
 import 'core/di/locator.dart';
 import 'features/posts/domain/post_repository.dart';
 import 'features/posts/ui/post_creation_sheet.dart';
-import 'features/community/ui/widgets/customizable_header.dart';
 import 'core/matching/match_engine.dart';
 import 'core/matching/suggestion_cache.dart';
 import 'core/theme/animations.dart';
