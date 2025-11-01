@@ -26,7 +26,7 @@ void main() {
   });
 
   group('Match lists', () {
-    const user = User(
+    final user = User(
       id: 'u1',
       username: 'user1',
       name: 'User 1',

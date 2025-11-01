@@ -24,6 +24,18 @@ class PostRepositorySupabase implements PostRepository {
     double? pricingTo,
     String? pricingUnit,
     String? availability,
+    List<String>? productImages,
+    double? productPrice,
+    String? productCurrency,
+    int? productStock,
+    String? productCondition,
+    String? newsSource,
+    String? newsAuthor,
+    String? newsCoverImage,
+    List<String>? pollOptions,
+    Map<String, int>? pollVotes,
+    bool? pollAllowMultiple,
+    DateTime? pollEndsAt,
   }) =>
       _delegate.create(
         author: author,
@@ -42,6 +54,18 @@ class PostRepositorySupabase implements PostRepository {
         pricingTo: pricingTo,
         pricingUnit: pricingUnit,
         availability: availability,
+        productImages: productImages,
+        productPrice: productPrice,
+        productCurrency: productCurrency,
+        productStock: productStock,
+        productCondition: productCondition,
+        newsSource: newsSource,
+        newsAuthor: newsAuthor,
+        newsCoverImage: newsCoverImage,
+        pollOptions: pollOptions,
+        pollVotes: pollVotes,
+        pollAllowMultiple: pollAllowMultiple,
+        pollEndsAt: pollEndsAt,
       );
 
   @override

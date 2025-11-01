@@ -15,8 +15,6 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage> with TickerProviderStateMixin {
   bool _isFavorite = false;
-  bool _inCart = false;
-  final int _quantity = 1;
   late AnimationController _cartAnimationController;
   late AnimationController _favoriteAnimationController;
 
@@ -53,7 +51,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
 
   void _addToCart() {
     setState(() {
-      _inCart = true;
       _cartAnimationController.forward().then((_) {
         _cartAnimationController.reverse();
       });

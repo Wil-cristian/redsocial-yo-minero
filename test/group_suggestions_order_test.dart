@@ -5,7 +5,7 @@ import 'package:yominero/shared/models/user.dart';
 
 void main() {
   test('Group suggestions sorted by score desc', () {
-    const user = User(
+    final user = User(
         id: 'u',
         username: 'u',
         email: 'u@test',

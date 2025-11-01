@@ -6,7 +6,7 @@ import 'package:yominero/shared/models/user.dart';
 void main() {
   group('Group matching', () {
     test('suggests groups with overlapping tags', () {
-      const user = User(
+      final user = User(
         id: 'u1',
         username: 'u1',
         email: 'u1@test',

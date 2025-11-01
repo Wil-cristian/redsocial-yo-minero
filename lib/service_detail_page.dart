@@ -15,7 +15,6 @@ class ServiceDetailPage extends StatefulWidget {
 
 class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProviderStateMixin {
   bool _isBookmarked = false;
-  bool _quoteRequested = false;
   late AnimationController _quoteAnimationController;
   late AnimationController _bookmarkAnimationController;
 
@@ -52,7 +51,6 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
 
   void _requestQuote() {
     setState(() {
-      _quoteRequested = true;
       _quoteAnimationController.forward().then((_) {
         _quoteAnimationController.reverse();
       });

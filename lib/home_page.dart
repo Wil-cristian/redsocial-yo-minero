@@ -50,7 +50,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final userName = widget.currentUser?['name'] ?? 'Usuario';
     final accountType = (widget.currentUser?['accountType'] as String?) ?? 'individual';
     
     return Scaffold(

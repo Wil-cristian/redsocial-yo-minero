@@ -1864,7 +1864,6 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
     final tags = post.serviceTags ?? [];
     final pricingFrom = post.pricingFrom;
     final pricingTo = post.pricingTo;
-    final availability = post.availability ?? 'Disponible';
     
     // Simulación de deadline y plazas (en producción vendría de metadata)
     final deadline = post.deadline ?? DateTime.now().add(const Duration(days: 15));

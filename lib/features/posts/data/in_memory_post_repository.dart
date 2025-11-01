@@ -88,6 +88,18 @@ class InMemoryPostRepository implements PostRepository {
     double? pricingTo,
     String? pricingUnit,
     String? availability,
+    List<String>? productImages,
+    double? productPrice,
+    String? productCurrency,
+    int? productStock,
+    String? productCondition,
+    String? newsSource,
+    String? newsAuthor,
+    String? newsCoverImage,
+    List<String>? pollOptions,
+    Map<String, int>? pollVotes,
+    bool? pollAllowMultiple,
+    DateTime? pollEndsAt,
   }) {
     final id = DateTime.now().microsecondsSinceEpoch.toString();
     final now = DateTime.now();

@@ -5,7 +5,7 @@ import 'package:yominero/shared/models/user.dart';
 
 void main() {
   group('Group scoring edge cases', () {
-    const user = User(
+    final user = User(
       id: 'u',
       username: 'u',
       email: 'u@test',
@@ -27,6 +27,11 @@ void main() {
           },
           tags: tags ?? {'z'},
         );
+
+    test('zero overlap gives zero score', () {
+      final score = MatchEngine.computeGroupScore(group: g(), user: user);
+      expect(score, equals(0));
+    });
 
     test('Tag overlap influences score', () {
       final s1 =

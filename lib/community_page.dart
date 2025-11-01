@@ -205,6 +205,18 @@ class _CommunityPageState extends State<CommunityPage> {
           double? pricingTo,
           String? pricingUnit,
           String? availability,
+          List<String>? productImages,
+          double? productPrice,
+          String? productCurrency,
+          int? productStock,
+          String? productCondition,
+          String? newsSource,
+          String? newsAuthor,
+          String? newsCoverImage,
+          List<String>? pollOptions,
+          Map<String, int>? pollVotes,
+          bool? pollAllowMultiple,
+          DateTime? pollEndsAt,
         }) async {
           return _repo.create(
             author: author,
@@ -216,12 +228,25 @@ class _CommunityPageState extends State<CommunityPage> {
             requiredTags: requiredTags,
             budgetAmount: budgetAmount,
             budgetCurrency: budgetCurrency,
+            deadline: deadline,
             serviceName: serviceName,
             serviceTags: serviceTags,
             pricingFrom: pricingFrom,
             pricingTo: pricingTo,
             pricingUnit: pricingUnit,
             availability: availability,
+            productImages: productImages,
+            productPrice: productPrice,
+            productCurrency: productCurrency,
+            productStock: productStock,
+            productCondition: productCondition,
+            newsSource: newsSource,
+            newsAuthor: newsAuthor,
+            newsCoverImage: newsCoverImage,
+            pollOptions: pollOptions,
+            pollVotes: pollVotes,
+            pollAllowMultiple: pollAllowMultiple,
+            pollEndsAt: pollEndsAt,
           );
         },
         onCreated: (post) async {
@@ -237,137 +262,6 @@ class _CommunityPageState extends State<CommunityPage> {
             SnackBar(content: Text('Publicado: ${post.title}')),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildCommunityHeaderContent() {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColors.primary,
-            AppColors.primary.withValues(alpha: 0.8),
-            AppColors.secondary.withValues(alpha: 0.9),
-          ],
-        ),
-      ),
-      child: Stack(
-        children: [
-          // Decorative elements
-          Positioned(
-            top: 40,
-            right: -20,
-            child: Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.1),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 120,
-            left: -30,
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.05),
-              ),
-            ),
-          ),
-          // Main content
-          Positioned(
-            left: 24,
-            right: 24,
-            bottom: 40,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Community icon
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-                  ),
-                  child: const Icon(
-                    Icons.groups,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // Title
-                const Text(
-                  'Comunidad',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                // Subtitle
-                Text(
-                  'Conecta, comparte y descubre oportunidades',
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.9),
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // Stats row
-                Row(
-                  children: [
-                    _buildStatChip('${_posts.length}', 'Publicaciones'),
-                    const SizedBox(width: 12),
-                    _buildStatChip('${_suggestions.length}', 'Sugerencias'),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatChip(String value, String label) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.8),
-              fontSize: 12,
-            ),
-          ),
-        ],
       ),
     );
   }
