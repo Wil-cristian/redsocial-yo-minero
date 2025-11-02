@@ -1,84 +1,84 @@
 import 'package:flutter/material.dart';
 
-/// 🏆 PALETA DE COLORES PREMIUM VIBRANTE - YOMINERO
-/// Colores saturados, gradientes intensos, look premium moderno
+/// 🏆 PALETA DE COLORES PREMIUM - YOMINERO
+/// Diseño minimalista Apple/Dior: ORO y PLATA con brillo metalizado
 class DashboardColors {
   DashboardColors._();
 
   // ============================================
-  // 🔥 ESQUEMA PRINCIPAL - NARANJA-ORO-MADERA (COFRE DORADO)
+  // � ESQUEMA PRINCIPAL - ORO METALIZADO
   // ============================================
   
-  /// Color primario principal - Naranja vibrante
-  static const Color primary = Color(0xFFFF8C00);
-  static const Color primaryLight = Color(0xFFFFAA33);
-  static const Color primaryDark = Color(0xFFE67E00);
+  /// Color primario principal - Oro metalizado
+  static const Color primary = Color(0xFFD4AF37); // Oro base
+  static const Color primaryLight = Color(0xFFF4E4C1); // Oro claro brillante
+  static const Color primaryDark = Color(0xFFB8941E); // Oro oscuro
   
-  /// Acento dorado cálido
-  static const Color accent = Color(0xFFFFB800);
-  static const Color accentLight = Color(0xFFFFD54F);
-  static const Color accentDark = Color(0xFFD4A017);
+  /// Acento plata metalizada
+  static const Color accent = Color(0xFFC0C0C0); // Plata base
+  static const Color accentLight = Color(0xFFE8E8E8); // Plata clara brillante
+  static const Color accentDark = Color(0xFFA8A8A8); // Plata oscura
   
-  /// Gradiente principal (uso general)
+  /// Gradiente principal ORO metalizado
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFFFAA33), Color(0xFFFF9500), Color(0xFFFFB800), Color(0xFFE67E00)],
+    colors: [Color(0xFFD4AF37), Color(0xFFF4E4C1), Color(0xFFEDD9A3), Color(0xFFD4AF37)],
     stops: [0.0, 0.3, 0.7, 1.0],
   );
   
-  /// Gradiente épico (cofre dorado)
+  /// Gradiente épico ORO → PLATA
   static const LinearGradient epicGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFFFD54F),
-      Color(0xFFFFAA33),
-      Color(0xFFFF9500),
-      Color(0xFFFFB800),
-      Color(0xFFE67E00),
+      Color(0xFFF4E4C1), // Oro claro
+      Color(0xFFD4AF37), // Oro base
+      Color(0xFFE8E8E8), // Plata clara
+      Color(0xFFC0C0C0), // Plata base
+      Color(0xFFD4AF37), // Oro base
     ],
     stops: [0.0, 0.2, 0.5, 0.8, 1.0],
   );
 
   // ============================================
-  // ORO BRILLANTE - Color Principal (LEGACY - usa primary en su lugar)
+  // ORO BRILLANTE - Color Principal
   // ============================================
   
-  static const Color gold = Color(0xFFFF9500);
-  static const Color goldLight = Color(0xFFFFAA33);
-  static const Color goldDark = Color(0xFFE67E00);
-  static const Color goldMetallic = Color(0xFFFFB800);
-  static const Color goldAntique = Color(0xFFD4A017);
-  static const Color goldShadow = Color(0x50FF9500);
+  static const Color gold = Color(0xFFD4AF37); // Oro metalizado
+  static const Color goldLight = Color(0xFFF4E4C1); // Oro claro
+  static const Color goldDark = Color(0xFFB8941E); // Oro oscuro
+  static const Color goldMetallic = Color(0xFFF4E4C1); // Oro metalizado claro
+  static const Color goldAntique = Color(0xFFD4AF37); // Oro antiguo
+  static const Color goldShadow = Color(0x50D4AF37); // Sombra dorada
 
   // ============================================
-  // NARANJA VIBRANTE - Acentos Cálidos
+  // ORO VIBRANTE - Tonos metalizados
   // ============================================
   
-  static const Color orange = Color(0xFFFF8C00);
-  static const Color orangeBright = Color(0xFFFF9500);
-  static const Color orangeDark = Color(0xFFE67E00);
-  static const Color orangeGlow = Color(0xFFFFAA33);
-  static const Color orangeShadow = Color(0x50FF8C00);
+  static const Color orange = Color(0xFFD4AF37); // Oro base (reemplaza naranja)
+  static const Color orangeBright = Color(0xFFF4E4C1); // Oro brillante
+  static const Color orangeDark = Color(0xFFB8941E); // Oro oscuro
+  static const Color orangeGlow = Color(0xFFEDD9A3); // Oro resplandor
+  static const Color orangeShadow = Color(0x50D4AF37); // Sombra dorada
   
   // ============================================
-  // MADERA - Tonos Cálidos Naturales
+  // PLATA - Tonos metalizados (reemplaza madera)
   // ============================================
   
-  static const Color wood = Color(0xFF8B4513);
-  static const Color woodLight = Color(0xFFA0522D);
-  static const Color woodDark = Color(0xFF654321);
-  static const Color woodGolden = Color(0xFFB8860B);
+  static const Color wood = Color(0xFFC0C0C0); // Plata base
+  static const Color woodLight = Color(0xFFE8E8E8); // Plata clara
+  static const Color woodDark = Color(0xFFA8A8A8); // Plata oscura
+  static const Color woodGolden = Color(0xFFD0D0D0); // Plata brillante
 
   // ============================================
-  // GRADIENTES DE ORO INTENSOS (LEGACY - usa primaryGradient/epicGradient)
+  // GRADIENTES METALIZADOS
   // ============================================
   
   static const LinearGradient goldGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFFFAA33), Color(0xFFFF9500), Color(0xFFE67E00)],
+    colors: [Color(0xFFF4E4C1), Color(0xFFD4AF37), Color(0xFFB8941E)],
     stops: [0.0, 0.5, 1.0],
   );
   
@@ -86,11 +86,11 @@ class DashboardColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFFFD54F),
-      Color(0xFFFFAA33),
-      Color(0xFFFF9500),
-      Color(0xFFFFB800),
-      Color(0xFFE67E00),
+      Color(0xFFF4E4C1), // Oro claro
+      Color(0xFFEDD9A3), // Oro medio claro
+      Color(0xFFD4AF37), // Oro base
+      Color(0xFFEDD9A3), // Oro medio claro
+      Color(0xFFB8941E), // Oro oscuro
     ],
     stops: [0.0, 0.2, 0.5, 0.8, 1.0],
   );
@@ -98,7 +98,7 @@ class DashboardColors {
   static const LinearGradient orangeGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFFFAA33), Color(0xFFFF9500), Color(0xFFE67E00)],
+    colors: [Color(0xFFF4E4C1), Color(0xFFD4AF37), Color(0xFFB8941E)], // Oro metalizado
     stops: [0.0, 0.5, 1.0],
   );
   
@@ -106,11 +106,11 @@ class DashboardColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFFFD54F),
-      Color(0xFFFFAA33),
-      Color(0xFFFF9500),
-      Color(0xFFFF8C00),
-      Color(0xFFE67E00),
+      Color(0xFFF4E4C1), // Oro muy claro
+      Color(0xFFEDD9A3), // Oro claro
+      Color(0xFFD4AF37), // Oro base
+      Color(0xFFC9A961), // Oro medio
+      Color(0xFFB8941E), // Oro oscuro
     ],
     stops: [0.0, 0.2, 0.5, 0.8, 1.0],
   );
@@ -118,7 +118,7 @@ class DashboardColors {
   static const LinearGradient woodGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFA0522D), Color(0xFF8B4513), Color(0xFF654321)],
+    colors: [Color(0xFFE8E8E8), Color(0xFFC0C0C0), Color(0xFFA8A8A8)], // Plata metalizada
     stops: [0.0, 0.5, 1.0],
   );
 
@@ -408,7 +408,7 @@ class DashboardColors {
   // ============================================
   
   static const Color error = Color(0xFFEF4444);
-  static const Color warning = Color(0xFFFF8C00);
+  static const Color warning = Color(0xFFD4AF37); // Oro para advertencias
   static const Color success = Color(0xFF10B981);
   static const Color info = Color(0xFF3B82F6);
 
@@ -417,7 +417,7 @@ class DashboardColors {
   // ============================================
   
   static const LinearGradient productGradient = LinearGradient(
-    colors: [Color(0xFFFFD54F), Color(0xFFFFB800), Color(0xFFFF9500)],
+    colors: [Color(0xFFF4E4C1), Color(0xFFD4AF37), Color(0xFFB8941E)], // Oro metalizado
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -492,11 +492,11 @@ class DashboardColors {
   // COLORES VIBRANTES PARA CARDS
   // ============================================
   
-  // Naranjas
-  static const Color cardOrange = Color(0xFFFF8C00);
-  static const Color cardOrangeBg = Color(0xFFFFF4E6);
-  static const Color cardOrange2 = Color(0xFFFF6B00);
-  static const Color cardOrange2Bg = Color(0xFFFFF0E0);
+  // Oro metalizado
+  static const Color cardOrange = Color(0xFFD4AF37); // Oro base
+  static const Color cardOrangeBg = Color(0xFFFAF6ED); // Fondo oro claro
+  static const Color cardOrange2 = Color(0xFFC9A961); // Oro medio
+  static const Color cardOrange2Bg = Color(0xFFF8F3E8); // Fondo oro muy claro
   
   // Morados
   static const Color cardPurple = Color(0xFF9F7AEA);
@@ -536,9 +536,9 @@ class DashboardColors {
   static const Color cardWorkerPurple = Color(0xFF8B5CF6);
   static const Color cardWorkerPurpleBg = Color(0xFFF5F3FF);
   
-  // Colores para empresas
-  static const Color cardCompanyOrange = Color(0xFFFB923C);
-  static const Color cardCompanyOrangeBg = Color(0xFFFFF7ED);
+  // Colores para empresas - Oro metalizado
+  static const Color cardCompanyOrange = Color(0xFFD4AF37); // Oro base
+  static const Color cardCompanyOrangeBg = Color(0xFFFAF6ED); // Fondo oro claro
   static const Color cardCompanyPurple = Color(0xFFA78BFA);
   static const Color cardCompanyPurpleBg = Color(0xFFF5F3FF);
 
@@ -546,11 +546,11 @@ class DashboardColors {
   // 🏅 SISTEMA DE NIVELES - GRADIENTES ADICIONALES
   // ============================================
   
-  /// Gradiente de bronce para badges
+  /// Gradiente de bronce (ahora oro oscuro)
   static const LinearGradient bronzeGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFE6A87A), Color(0xFFCD7F32), Color(0xFFB87333)],
+    colors: [Color(0xFFC9A961), Color(0xFFB8941E), Color(0xFFA67C00)], // Oro oscuro
   );
   
   /// Gradiente de plata para badges

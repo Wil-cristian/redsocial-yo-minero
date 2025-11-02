@@ -13,11 +13,29 @@ import 'dart:math' as math;
 class Premium3DProductCarousel extends StatefulWidget {
   final List<Product> products;
   final Function(Product)? onProductTap;
+  final String? authorId;
+  final String? authorName;
+  final DateTime? createdAt;
+  final String? title;
+  final int? likes;
+  final int? comments;
+  final VoidCallback? onLike;
+  final VoidCallback? onComment;
+  final VoidCallback? onShare;
 
   const Premium3DProductCarousel({
     super.key,
     required this.products,
     this.onProductTap,
+    this.authorId,
+    this.authorName,
+    this.createdAt,
+    this.title,
+    this.likes,
+    this.comments,
+    this.onLike,
+    this.onComment,
+    this.onShare,
   });
 
   @override
@@ -33,20 +51,22 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
   @override
   void initState() {
     super.initState();
+    // Empezar en el MEDIO de las imágenes para ver laterales a AMBOS lados
+    final middleIndex = (widget.products.length / 2).floor();
     _pageController = PageController(
-      viewportFraction: 0.7,
-      initialPage: 0,
+      viewportFraction: 0.50, // 50% - Proporciones perfectas: 25% | 50% | 25%
+      initialPage: middleIndex >= 0 ? middleIndex : 0, // Empezar en el medio
     );
     _pageController.addListener(() {
       setState(() {
-        _currentPage = _pageController.page ?? 0;
+        _currentPage = _pageController.page ?? middleIndex.toDouble();
       });
     });
 
     // Animación de flotación sutil
     _floatController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 4), // Más lenta para ser más elegante
     )..repeat(reverse: true);
   }
 
@@ -60,57 +80,87 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
   @override
   Widget build(BuildContext context) {
     if (widget.products.isEmpty) {
-      return const SizedBox(height: 400);
+      return const SizedBox(height: 480);
     }
 
-    return Container(
-      height: 450,
-      color: Colors.white,
-      child: PageView.builder(
-        controller: _pageController,
-        itemCount: widget.products.length,
-        itemBuilder: (context, index) {
-          return _buildCard(index);
-        },
-      ),
+    return Column(
+      children: [
+        // 📸 IMÁGENES FLOTANTES - Altura EXTRA para que no se corten los lados
+        SizedBox(
+          height: 500, // MUY GRANDE para que las rotadas laterales no se corten
+          child: PageView.builder(
+            clipBehavior: Clip.none, // Sin recorte
+            controller: _pageController,
+            // SIN padEnds:false para que el carousel esté CENTRADO
+            itemCount: widget.products.length,
+            itemBuilder: (context, index) {
+              return _buildFloatingImage(index);
+            },
+          ),
+        ),
+        
+        const SizedBox(height: 20),
+        
+        // 📋 INFORMACIÓN COMPLETA EN CONTENEDOR - TODO ABAJO
+        SizedBox(
+          height: 180, // Más alto para incluir todo
+          child: AnimatedBuilder(
+            animation: _pageController,
+            builder: (context, child) {
+              final currentIndex = _currentPage.round().clamp(0, widget.products.length - 1);
+              return _buildInfoContainer(widget.products[currentIndex], currentIndex);
+            },
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildCard(int index) {
+  /// 📸 Construye solo la imagen flotante con transformaciones 3D
+  Widget _buildFloatingImage(int index) {
     final product = widget.products[index];
     
     return AnimatedBuilder(
       animation: _pageController,
       builder: (context, child) {
-        double value = 0;
+        // Offset desde el centro (-1.0 = izquierda, 0.0 = centro, 1.0 = derecha)
+        double offset = 0;
         if (_pageController.position.haveDimensions) {
-          value = (_currentPage - index).abs();
+          offset = _currentPage - index; // NEGATIVO=izquierda, POSITIVO=derecha
         }
-
-        // Escala: tarjeta central más grande
-        final scale = 1.0 - (value * 0.3).clamp(0.0, 0.3);
         
-        // Rotación 3D en eje Y
-        final rotationY = (value * 0.3).clamp(-0.3, 0.3);
+        final absOffset = offset.abs(); // Distancia absoluta del centro
+
+        // ESCALA GRADUAL: central grande (1.3x), va disminuyendo hacia los lados
+        final scale = 1.3 - (absOffset * 0.45).clamp(0.0, 0.45); // De 1.3x a 0.85x
         
-        // Opacidad
-        final opacity = (1.0 - (value * 0.4)).clamp(0.6, 1.0);
+        // ROTACIÓN GRADUAL Y PROPORCIONAL a la posición
+        // offset negativo (izquierda) → rotación positiva (muestra lado derecho)
+        // offset positivo (derecha) → rotación negativa (muestra lado izquierdo)
+        final rotationY = -offset * 0.3; // Gradual y suave
+        
+        // OPACIDAD GRADUAL: 100% en centro, disminuye hacia los lados
+        final opacity = (1.0 - (absOffset * 0.15)).clamp(0.5, 1.0);
 
-        // Elevación vertical (flotación)
-        final verticalOffset = (value * 30).clamp(0.0, 30.0);
+        // ELEVACIÓN GRADUAL: centro arriba, laterales bajan
+        final verticalOffset = absOffset * 25;
 
-        return Center(
-          child: Transform(
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001) // Perspectiva
-              ..rotateY(rotationY)
-              ..scale(scale),
-            alignment: Alignment.center,
-            child: Opacity(
-              opacity: opacity,
-              child: Transform.translate(
-                offset: Offset(0, verticalOffset),
-                child: _buildProductCard(product, index),
+        // PROFUNDIDAD GRADUAL: centro al frente, laterales atrás
+        final zDepth = -absOffset * 100;
+
+        return GestureDetector(
+          onTap: () => widget.onProductTap?.call(product),
+          child: Center( // Center para alineación vertical
+            child: Transform(
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.003) // Perspectiva pronunciada
+                ..translate(0.0, verticalOffset, zDepth)
+                ..rotateY(rotationY)
+                ..scale(scale),
+              alignment: Alignment.center,
+              child: Opacity(
+                opacity: opacity,
+                child: _buildImageOnly(product, index, absOffset),
               ),
             ),
           ),
@@ -119,233 +169,273 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
     );
   }
 
-  Widget _buildProductCard(Product product, int index) {
+  /// 🖼️ Solo la imagen - contenedor independiente flotante
+  Widget _buildImageOnly(Product product, int index, double distanceFromCenter) {
     // Alternar entre oro y plata
     final isGold = index % 2 == 0;
+    
+    // Sombras más intensas para la tarjeta central
+    final shadowIntensity = 1.0 - (distanceFromCenter * 0.7);
 
-    return GestureDetector(
-      onTap: () => widget.onProductTap?.call(product),
-      child: AnimatedBuilder(
-        animation: _floatController,
-        builder: (context, child) {
-          // Flotación sutil
-          final float = math.sin(_floatController.value * 2 * math.pi) * 5;
-          
-          return Transform.translate(
-            offset: Offset(0, float),
-            child: Container(
-              width: 280,
-              height: 400,
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [
-                  // Sombra cercana
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.08),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
-                    spreadRadius: 0,
+    return AnimatedBuilder(
+      animation: _floatController,
+      builder: (context, child) {
+        // Flotación sutil solo para tarjeta central
+        final float = distanceFromCenter < 0.5 
+            ? math.sin(_floatController.value * 2 * math.pi) * 10.0
+            : 0.0;
+        
+        return Transform.translate(
+          offset: Offset(0, float),
+          child: Container(
+            // SIN width fijo - usa TODO el espacio disponible del viewportFraction
+            height: 240, // Altura REDUCIDA para que las 3 imágenes se vean mejor
+            margin: const EdgeInsets.symmetric(horizontal: 4), // Margen MUY pequeño para que estén juntas
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              color: Colors.white,
+              boxShadow: [
+                // Sombra cercana - más intensa en el centro
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.22 * shadowIntensity),
+                  blurRadius: 32 * shadowIntensity,
+                  offset: Offset(0, 16 * shadowIntensity),
+                  spreadRadius: 2 * shadowIntensity,
+                ),
+                // Sombra lejana - más suave
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.14 * shadowIntensity),
+                  blurRadius: 64 * shadowIntensity,
+                  offset: Offset(0, 28 * shadowIntensity),
+                  spreadRadius: 0,
+                ),
+                // Sombra ambiental dorada/plateada
+                BoxShadow(
+                  color: (isGold
+                          ? const Color(0xFFD4AF37)
+                          : const Color(0xFFC0C0C0))
+                      .withValues(alpha: 0.18 * shadowIntensity),
+                  blurRadius: 42 * shadowIntensity,
+                  offset: const Offset(0, 0),
+                  spreadRadius: -2,
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(18),
+              child: product.imageUrl != null && product.imageUrl!.isNotEmpty
+                  ? Image.network(
+                      product.imageUrl!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => _buildPlaceholder(isGold, product.name),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return _buildPlaceholder(isGold, product.name);
+                      },
+                    )
+                  : _buildPlaceholder(isGold, product.name),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// 📋 Contenedor de información COMPLETA - Todo abajo (autor, título, precio, acciones)
+  Widget _buildInfoContainer(Product product, int index) {
+    final isGold = index % 2 == 0;
+    final accentColor = isGold ? const Color(0xFFD4AF37) : const Color(0xFFC0C0C0);
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // AUTOR - si se proporciona
+          if (widget.authorId != null) ...[
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 16,
+                  backgroundColor: accentColor.withValues(alpha: 0.2),
+                  child: Text(
+                    (widget.authorName ?? widget.authorId ?? 'U').substring(0, 1).toUpperCase(),
+                    style: TextStyle(
+                      color: accentColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
                   ),
-                  // Sombra lejana
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.04),
-                    blurRadius: 40,
-                    offset: const Offset(0, 16),
-                    spreadRadius: 0,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.authorName ?? widget.authorId ?? 'Usuario',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          color: Color(0xFF1A1A1A),
+                        ),
+                      ),
+                      if (widget.createdAt != null)
+                        Text(
+                          'Producto · ${_getTimeAgo(widget.createdAt!)}',
+                          style: const TextStyle(color: Color(0xFF999999), fontSize: 11),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+          ],
+
+          // TÍTULO - si se proporciona, si no usa nombre del producto
+          Text(
+            widget.title ?? product.name,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF1A1A1A),
+              letterSpacing: -0.3,
+              height: 1.3,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          
+          const SizedBox(height: 12),
+          
+          // PRECIO Y ACCIONES
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Precio
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: accentColor,
+                ),
+                child: Text(
+                  '\$${product.price.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    letterSpacing: -0.3,
+                  ),
+                ),
+              ),
+              
+              const Spacer(),
+              
+              // ACCIONES - likes, comentarios, compartir
+              Row(
+                children: [
+                  // Like
+                  _buildActionButton(
+                    Icons.favorite_border,
+                    widget.likes?.toString() ?? '0',
+                    widget.onLike,
+                  ),
+                  const SizedBox(width: 16),
+                  // Comentarios
+                  _buildActionButton(
+                    Icons.chat_bubble_outline,
+                    widget.comments?.toString() ?? '0',
+                    widget.onComment,
+                  ),
+                  const SizedBox(width: 16),
+                  // Compartir
+                  _buildActionButton(
+                    Icons.share_outlined,
+                    '',
+                    widget.onShare,
                   ),
                 ],
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  children: [
-                    // Imagen del producto (placeholder)
-                    Positioned.fill(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              const Color(0xFFFAFAFA),
-                              const Color(0xFFF5F5F5),
-                            ],
-                          ),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            _getProductIcon(product.name),
-                            size: 120,
-                            color: isGold
-                                ? const Color(0xFFD4AF37).withValues(alpha: 0.3)
-                                : const Color(0xFFC0C0C0).withValues(alpha: 0.3),
-                          ),
-                        ),
-                      ),
-                    ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
-                    // Gradiente sutil en la parte inferior
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: 200,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              Colors.white.withValues(alpha: 0.95),
-                              Colors.white,
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // Información del producto
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Nombre del producto
-                            Text(
-                              product.name,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF1A1A1A),
-                                letterSpacing: -0.5,
-                                height: 1.2,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            
-                            const SizedBox(height: 8),
-                            
-                            // Descripción breve
-                            Text(
-                              product.description,
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: const Color(0xFF666666),
-                                height: 1.4,
-                                letterSpacing: 0,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            
-                            const SizedBox(height: 16),
-                            
-                            // Precio con acento oro/plata
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    gradient: LinearGradient(
-                                      colors: isGold
-                                          ? [
-                                              const Color(0xFFD4AF37),
-                                              const Color(0xFFF4E4C1),
-                                            ]
-                                          : [
-                                              const Color(0xFFC0C0C0),
-                                              const Color(0xFFE8E8E8),
-                                            ],
-                                    ),
-                                  ),
-                                  child: Text(
-                                    '\$${product.price.toStringAsFixed(2)}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                      letterSpacing: -0.5,
-                                    ),
-                                  ),
-                                ),
-                                
-                                // Botón minimalista
-                                Container(
-                                  width: 44,
-                                  height: 44,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: isGold
-                                        ? const Color(0xFFD4AF37).withValues(alpha: 0.1)
-                                        : const Color(0xFFC0C0C0).withValues(alpha: 0.1),
-                                    border: Border.all(
-                                      color: isGold
-                                          ? const Color(0xFFD4AF37).withValues(alpha: 0.3)
-                                          : const Color(0xFFC0C0C0).withValues(alpha: 0.3),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Icon(
-                                    Icons.arrow_forward,
-                                    size: 20,
-                                    color: isGold
-                                        ? const Color(0xFFD4AF37)
-                                        : const Color(0xFFC0C0C0),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    // Indicador de stock (sutil)
-                    if (product.inStock)
-                      Positioned(
-                        top: 16,
-                        right: 16,
-                        child: Container(
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: isGold
-                                ? const Color(0xFFD4AF37)
-                                : const Color(0xFFC0C0C0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: (isGold
-                                        ? const Color(0xFFD4AF37)
-                                        : const Color(0xFFC0C0C0))
-                                    .withValues(alpha: 0.3),
-                                blurRadius: 8,
-                                spreadRadius: 2,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                  ],
+  /// Botón de acción minimalista (like, comentario, compartir)
+  Widget _buildActionButton(IconData icon, String label, VoidCallback? onTap) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
+          children: [
+            Icon(icon, size: 20, color: const Color(0xFF666666)),
+            if (label.isNotEmpty) ...[
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF666666),
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-            ),
-          );
-        },
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Calcular tiempo transcurrido
+  String _getTimeAgo(DateTime dt) {
+    final diff = DateTime.now().difference(dt);
+    if (diff.inDays > 365) return '${(diff.inDays / 365).floor()} años';
+    if (diff.inDays > 30) return '${(diff.inDays / 30).floor()} meses';
+    if (diff.inDays > 0) return '${diff.inDays}d';
+    if (diff.inHours > 0) return '${diff.inHours}h';
+    if (diff.inMinutes > 0) return '${diff.inMinutes}m';
+    return 'Ahora';
+  }
+
+  /// Placeholder minimalista cuando no hay imagen
+  Widget _buildPlaceholder(bool isGold, String productName) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            const Color(0xFFFAFAFA),
+            const Color(0xFFF5F5F5),
+          ],
+        ),
+      ),
+      child: Center(
+        child: Icon(
+          _getProductIcon(productName),
+          size: 100,
+          color: isGold
+              ? const Color(0xFFD4AF37).withValues(alpha: 0.3)
+              : const Color(0xFFC0C0C0).withValues(alpha: 0.3),
+        ),
       ),
     );
   }

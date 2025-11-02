@@ -319,6 +319,12 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   }
 
   Widget _buildPostCard(Post post) {
+    // 🎨 POSTS DE PRODUCTO: Sin contenedor, solo carousel flotante
+    if (post.type == PostType.product) {
+      return _buildProductPost(post);
+    }
+
+    // Posts normales con contenedor
     final bool isUrgent = post.categories.any((cat) =>
       cat.toLowerCase().contains('urgente') ||
       cat.toLowerCase().contains('importante') ||
@@ -538,6 +544,37 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           ],
         ),
       ),
+    );
+  }
+
+  /// 🎨 POST DE PRODUCTO - Sin contenedor blanco, solo carousel flotante
+  Widget _buildProductPost(Post post) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 8),
+
+        // 💎 CAROUSEL 3D PREMIUM - Con TODA la info integrada (autor, título, precio, acciones)
+        OptimizedPostContent(
+          post: post,
+          onLike: () async {
+            try {
+              await _repo.like(post.id);
+              _loadPosts();
+            } catch (e) {
+              debugPrint('❌ Error al dar like: $e');
+            }
+          },
+          onComment: () {
+            // Navegar a comentarios
+          },
+          onShare: () {
+            // Compartir post
+          },
+        ),
+
+        const SizedBox(height: 8),
+      ],
     );
   }
 
