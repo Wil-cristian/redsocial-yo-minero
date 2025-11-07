@@ -29,34 +29,34 @@ class AppColorsUnified {
   // ============================================
   
   /// 1️⃣ NARANJA - Acción, energía, CTAs
-  static const Color orange = Color(0xFF333333);  // Gris oscuro
+  static const Color orange = Color(0xFFFF6B35);  // Tu favorito original
   
   /// 2️⃣ ORO - Identidad de marca, premium
-  static const Color gold = Color(0xFFCCCCCC);  // Gris claro
+  static const Color gold = Color(0xFFD4AF37);
   
   /// 3️⃣ BACKGROUND - Fondo principal (60% de la app)
-  static const Color background = Color(0xFFF5F5F5);  // Casi blanco
+  static const Color background = Color(0xFFF8F5EF);
   
   /// 4️⃣ SURFACE - Cards, superficies elevadas
-  static const Color surface = Color(0xFFFFFFFF);  // Blanco
+  static const Color surface = Color(0xFFFFFFFF);
   
   /// 5️⃣ TEXTO PRINCIPAL - Negro/gris oscuro
-  static const Color textPrimary = Color(0xFF000000);  // Negro
+  static const Color textPrimary = Color(0xFF1F2937);
   
   /// 6️⃣ TEXTO SECUNDARIO - Gris medio
-  static const Color textSecondary = Color(0xFF666666);  // Gris medio
+  static const Color textSecondary = Color(0xFF6B7280);
   
   /// 7️⃣ SUCCESS - Verde éxito
-  static const Color success = Color(0xFF888888);  // Gris
+  static const Color success = Color(0xFF10B981);
   
   /// 8️⃣ ERROR - Rojo error
-  static const Color error = Color(0xFF444444);  // Gris oscuro
+  static const Color error = Color(0xFFEF4444);
   
   /// 9️⃣ WARNING - Amarillo advertencia
-  static const Color warning = Color(0xFF999999);  // Gris claro
+  static const Color warning = Color(0xFFF59E0B);
   
   /// 🔟 COMPANY BLUE - Azul empresa
-  static const Color companyBlue = Color(0xFF777777);  // Gris
+  static const Color companyBlue = Color(0xFF45B7D1);
 
   // ============================================
   // 🎨 GRADIENTES (usando los 10 colores base)
