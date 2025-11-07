@@ -20,11 +20,13 @@ class RadialMenuItem {
 class RadialMenu extends StatefulWidget {
   final List<RadialMenuItem> items;
   final VoidCallback onClose;
+  final Offset buttonPosition;
 
   const RadialMenu({
     super.key,
     required this.items,
     required this.onClose,
+    required this.buttonPosition,
   });
 
   @override
@@ -100,8 +102,53 @@ class _RadialMenuState extends State<RadialMenu>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final center = Offset(size.width - 100, size.height - 100);
-    final radius = math.min(size.width, size.height) * 0.35;
+    final center = widget.buttonPosition;
+    
+    // Calcular radio máximo que no se salga de la pantalla
+    // Los items tienen 70px de tamaño, el centro del item está en el radio
+    // entonces necesitamos itemSize/2 (35px) de espacio desde el centro del item hasta su borde
+    final itemSize = 70.0;
+    final halfItemSize = itemSize / 2; // 35px
+    final safeMargin = 10.0; // Margen extra de seguridad
+    
+    final maxRadiusRight = size.width - center.dx - halfItemSize - safeMargin;
+    final maxRadiusLeft = center.dx - halfItemSize - safeMargin;
+    final maxRadiusTop = center.dy - halfItemSize - safeMargin;
+    final maxRadiusBottom = size.height - center.dy - halfItemSize - safeMargin - 90; // 90px margen para navbar
+    
+    // Calcular espacio horizontal disponible (determina si usamos círculo o arco)
+    final horizontalRadius = math.min(maxRadiusRight, maxRadiusLeft);
+    
+    // FALLBACK: Si el espacio horizontal es insuficiente (<50px), usar arco superior
+    // Esto asegura que desktop/tablet con amplio espacio horizontal use círculo completo
+    final useFallbackLayout = horizontalRadius < 50.0;
+    
+    // Calcular radio según el modo (círculo vs arco)
+    final double radius;
+    
+    if (useFallbackLayout) {
+      // FALLBACK (arco superior): Solo considerar espacio horizontal y superior
+      final fallbackRadius = math.max(0.0, math.min(
+        math.min(maxRadiusRight, maxRadiusLeft),  // Límites horizontales
+        maxRadiusTop                               // Solo límite superior
+      ));
+      radius = fallbackRadius;
+    } else {
+      // CÍRCULO COMPLETO: Considerar espacio horizontal y vertical disponibles
+      // Para el sector inferior, usar maxRadiusBottom solo si es positivo
+      // Si es negativo, limitar con otro criterio
+      final bottomLimit = maxRadiusBottom > 0 ? maxRadiusBottom : maxRadiusTop;
+      final calculatedRadius = math.min(
+        math.min(maxRadiusRight, maxRadiusLeft),  // Límites horizontales
+        math.min(maxRadiusTop, bottomLimit)        // Límites verticales
+      );
+      radius = math.min(180.0, math.max(0.0, calculatedRadius));
+    }
+    
+    // Escala de items adaptativa
+    final itemScale = useFallbackLayout 
+        ? (radius < 20 ? 0.4 : 0.65)  // Super compacto si radius muy pequeño
+        : (radius / 80.0).clamp(0.6, 1.0);
 
     return Stack(
       children: [
@@ -188,9 +235,16 @@ class _RadialMenuState extends State<RadialMenu>
           },
         ),
 
-        // Items del menú en círculo
+        // Items del menú en círculo o semicírculo (fallback)
         ...List.generate(widget.items.length, (index) {
-          final angle = (2 * math.pi / widget.items.length) * index - math.pi / 2;
+          // Layout adaptativo: semicírculo superior si no hay espacio
+          // Fallback: de -5π/6 a -π/6 (semicírculo superior evitando bordes laterales)
+          final angleStep = useFallbackLayout
+              ? (2 * math.pi / 3) / math.max(1, widget.items.length - 1)  // Arco de 120°
+              : (2 * math.pi / widget.items.length);                       // Círculo completo
+          final startAngle = useFallbackLayout ? -5 * math.pi / 6 : -math.pi / 2;
+          final angle = startAngle + (angleStep * index);
+          
           final item = widget.items[index];
 
           return AnimatedBuilder(
@@ -204,15 +258,19 @@ class _RadialMenuState extends State<RadialMenu>
               final x = center.dx + distance * math.cos(angle);
               final y = center.dy + distance * math.sin(angle);
 
-              final itemScale = 1.0 + (_itemControllers[index].value * 0.3);
+              // Item size escalado según el radio disponible
+              final scaledItemSize = 70.0 * itemScale;
+              final halfScaledSize = scaledItemSize / 2;
+
+              final pressScale = 1.0 + (_itemControllers[index].value * 0.3);
               final isHovered = _hoveredIndex == index;
               final hoverScale = isHovered ? 1.15 : 1.0;
 
               return Positioned(
-                left: x - 35,
-                top: y - 35,
+                left: x - halfScaledSize,
+                top: y - halfScaledSize,
                 child: Transform.scale(
-                  scale: _expandController.value * itemScale * hoverScale,
+                  scale: _expandController.value * pressScale * hoverScale,
                   child: Opacity(
                     opacity: _expandController.value,
                     child: MouseRegion(
@@ -223,10 +281,10 @@ class _RadialMenuState extends State<RadialMenu>
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            // Icono con efecto
+                            // Icono con efecto (tamaño escalado)
                             Container(
-                              width: 70,
-                              height: 70,
+                              width: scaledItemSize,
+                              height: scaledItemSize,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 gradient: LinearGradient(

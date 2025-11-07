@@ -126,6 +126,39 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    
+    // Calcular posición óptima del botón basándose en el tamaño de pantalla
+    final navbarHeight = 90.0;
+    final minRadiusNeeded = 100.0; // Radio ideal para menú circular
+    final itemHalfSize = 35.0;
+    final safeMargin = 10.0;
+    
+    // HORIZONTAL: En pantallas grandes, centrar más el botón para permitir radio mayor
+    // En pantallas pequeñas, mantener en esquina derecha
+    final buttonRight = size.width > 600
+        ? math.max(120.0, size.width * 0.2)  // Desktop: 20% desde derecha, mín 120px
+        : 20.0; // Mobile: esquina derecha
+    
+    // VERTICAL: En pantallas grandes (círculo completo), SUBIR el botón lo suficiente
+    // para que haya espacio tanto arriba como abajo
+    final spaceNeededBelow = minRadiusNeeded + itemHalfSize + safeMargin + navbarHeight;
+    final spaceNeededAbove = minRadiusNeeded + itemHalfSize + safeMargin;
+    
+    final buttonBottom = size.width > 600
+        // Desktop/Tablet: centrar verticalmente para permitir círculo completo
+        ? math.max(spaceNeededBelow, size.height - spaceNeededAbove - 70)
+        // Mobile: posición normal o ajustada
+        : (size.height < 700 || size.height - 55 < spaceNeededBelow
+            ? math.min(size.height - spaceNeededBelow - 70, navbarHeight + 40)
+            : 20.0);
+    
+    // Posición del centro del botón (70x70)
+    final buttonCenter = Offset(
+      size.width - buttonRight - 35,  // Posición horizontal adaptativa
+      size.height - buttonBottom - 35, // Posición vertical adaptativa
+    );
+    
     return Stack(
       children: [
         // Menú radial overlay
@@ -133,13 +166,15 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
           RadialMenu(
             items: _getMenuItems(context),
             onClose: () => setState(() => _isMenuOpen = false),
+            buttonPosition: buttonCenter,
           ),
 
-        // Botón flotante
-        Positioned(
-          right: 20,
-          bottom: 20,
-          child: GestureDetector(
+        // Botón flotante (oculto cuando el menú está abierto)
+        if (!_isMenuOpen)
+          Positioned(
+            right: buttonRight,
+            bottom: buttonBottom,
+            child: GestureDetector(
             onTap: _toggleMenu,
             child: AnimatedBuilder(
               animation: Listenable.merge([
