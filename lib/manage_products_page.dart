@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/product.dart';
 import 'core/theme/colors.dart';
-import 'core/auth/auth_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 
 class ManageProductsPage extends StatefulWidget {
   const ManageProductsPage({super.key});
@@ -22,7 +22,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
 
   void _loadUserProducts() {
     // Mock data - replace with actual data loading
-    final currentUser = AuthService.instance.currentUser;
+    final currentUser = SupabaseAuthService.instance.currentUser;
     if (currentUser == null) return;
     
     _userProducts = [
@@ -793,7 +793,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
       return;
     }
 
-    final currentUser = AuthService.instance.currentUser;
+    final currentUser = SupabaseAuthService.instance.currentUser;
     if (currentUser == null) return;
 
     final newProduct = Product(

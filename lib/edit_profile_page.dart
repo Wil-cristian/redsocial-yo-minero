@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import '../shared/models/user.dart';
 import '../core/theme/colors.dart';
-import '../core/auth/auth_service.dart';
+import '../core/auth/supabase_auth_service.dart';
 
 class EditProfilePage extends StatefulWidget {
   final User user;
@@ -1019,7 +1019,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
       birthDate: _birthDate,
     );
     
-    AuthService.instance.updateUser((_) => updatedUser);
+    SupabaseAuthService.instance.updateUser((_) => updatedUser);
     
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

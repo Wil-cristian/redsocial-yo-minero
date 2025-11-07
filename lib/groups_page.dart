@@ -5,7 +5,7 @@ import 'core/di/locator.dart';
 import 'core/groups/group_repository.dart';
 import 'shared/models/group.dart';
 import 'group_detail_page.dart';
-import 'core/auth/auth_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'core/matching/match_engine.dart';
 
 class GroupsPage extends StatefulWidget {
@@ -156,7 +156,7 @@ class _GroupsPageState extends State<GroupsPage> {
   }
 
   void _computeSuggestions() {
-    final user = AuthService.instance.currentUser;
+    final user = SupabaseAuthService.instance.currentUser;
     if (user == null) return;
     final suggestions = MatchEngine.groupSuggestionsForUser(user, _groups);
     _suggested = suggestions;
@@ -517,8 +517,8 @@ class _GroupsPageState extends State<GroupsPage> {
                 final g = groups[index];
                 final isSuggested = _suggestionScores.containsKey(g.id);
                 final score = _suggestionScores[g.id];
-                final isMember = AuthService.instance.currentUser != null &&
-                    g.memberIds.contains(AuthService.instance.currentUser!.id);
+                final isMember = SupabaseAuthService.instance.currentUser != null &&
+                    g.memberIds.contains(SupabaseAuthService.instance.currentUser!.id);
                 return InkWell(
                   onTap: () => Navigator.of(context)
                       .push(

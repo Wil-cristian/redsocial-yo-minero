@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yominero/core/di/locator.dart';
 import 'package:yominero/core/groups/group_repository.dart';
 import 'package:yominero/shared/models/group.dart';
-import 'core/auth/auth_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'core/theme/colors.dart';
 
 class GroupDetailPage extends StatefulWidget {
@@ -35,13 +35,13 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
   }
 
   bool get _isMember {
-    final uid = AuthService.instance.currentUser?.id;
+    final uid = SupabaseAuthService.instance.currentUser?.id;
     if (uid == null) return false;
     return _group.memberIds.contains(uid);
   }
 
   Future<void> _toggleMembership() async {
-    final uid = AuthService.instance.currentUser?.id;
+    final uid = SupabaseAuthService.instance.currentUser?.id;
     if (uid == null) return;
     
     _joinAnimationController.forward().then((_) {

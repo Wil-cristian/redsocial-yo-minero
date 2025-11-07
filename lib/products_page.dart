@@ -4,7 +4,7 @@ import 'core/di/locator.dart';
 import 'features/products/domain/product_repository.dart';
 import 'core/theme/colors.dart';
 import 'core/routing/app_router.dart';
-import 'core/auth/auth_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'core/theme/premium_product_card.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -506,7 +506,7 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
   void _createNewProduct(String name, String description, double price) {
-    final currentUser = AuthService.instance.currentUser;
+    final currentUser = SupabaseAuthService.instance.currentUser;
     if (currentUser == null) return;
 
     final newProduct = Product(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/user.dart';
-import 'core/auth/auth_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'core/theme/colors.dart';
 
 class ManageServicesPage extends StatefulWidget {
@@ -12,7 +12,7 @@ class ManageServicesPage extends StatefulWidget {
 
 class _ManageServicesPageState extends State<ManageServicesPage> {
   List<ServiceOffering> get userServices => 
-      AuthService.instance.currentUser?.servicesOffered ?? [];
+      SupabaseAuthService.instance.currentUser?.servicesOffered ?? [];
 
   @override
   Widget build(BuildContext context) {
@@ -795,7 +795,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
     );
 
     // Update user services
-    AuthService.instance.updateUser((user) {
+    SupabaseAuthService.instance.updateUser((user) {
       final currentServices = List<ServiceOffering>.from(user.servicesOffered);
       
       if (existingService != null) {

@@ -5,7 +5,7 @@ import 'core/theme/colors.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'core/theme/rich_decorations.dart';
 import 'core/di/locator.dart';
-import 'core/auth/auth_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'core/matching/match_engine.dart';
 import 'features/services/domain/service_repository.dart';
 import 'features/posts/domain/post_repository.dart';
@@ -57,7 +57,7 @@ class _ServicesPageState extends State<ServicesPage>
   }
 
   Future<void> _computeMatches() async {
-    final user = AuthService.instance.currentUser;
+    final user = SupabaseAuthService.instance.currentUser;
     final posts = await _postRepo
         .getAll()
         .timeout(const Duration(seconds: 8), onTimeout: () => <Post>[]);
@@ -877,7 +877,7 @@ class _ServicesPageState extends State<ServicesPage>
 
   void _createNewService(String name, String description, double rate, String category, String location) {
     // En una app real, esto se enviaría al servidor
-    final currentUser = AuthService.instance.currentUser;
+    final currentUser = SupabaseAuthService.instance.currentUser;
     if (currentUser == null) return;
 
     final newService = Service(
