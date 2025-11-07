@@ -1,295 +1,50 @@
 # YoMinero - Red Social para la Industria Minera
 
-## Descripción del Proyecto
-YoMinero es una plataforma social especializada para profesionales, empresas y trabajadores de la industria minera. Permite conectar, compartir conocimientos, buscar y ofrecer servicios, y gestionar grupos de trabajo.
+## Overview
+YoMinero is a specialized social platform designed for professionals, companies, and workers in the mining industry. Its primary purpose is to facilitate connections, knowledge sharing, service provision and discovery, and group management within the mining sector. The platform aims to be the central hub for industry networking and collaboration.
 
-## Arquitectura
+## User Preferences
+I want iterative development. Ask before making major changes. I prefer detailed explanations.
 
-### Stack Tecnológico
-- **Frontend**: Flutter Web 3.32.0
-- **Backend**: Supabase (PostgreSQL, Auth, Realtime)
-- **Deployment**: Replit
+## System Architecture
 
-### Estructura del Proyecto
-```
-lib/
-├── core/
-│   ├── auth/
-│   │   └── supabase_auth_service.dart    # Servicio de autenticación con Supabase
-│   ├── groups/
-│   │   ├── group_repository.dart         # Interfaz abstracta para grupos
-│   │   └── supabase_group_repository.dart # Implementación con Supabase
-│   ├── di/
-│   │   └── locator.dart                  # Dependency injection (get_it)
-│   └── supabase/
-│       ├── supabase_service.dart         # Cliente Supabase singleton
-│       └── supabase_config.dart          # Configuración de Supabase
-├── features/
-│   ├── services/
-│   │   ├── domain/
-│   │   │   └── service_repository.dart   # Interfaz abstracta
-│   │   └── data/
-│   │       └── supabase_service_repository.dart # Implementación Supabase
-│   ├── products/
-│   │   ├── domain/
-│   │   │   └── product_repository.dart   # Interfaz abstracta
-│   │   └── data/
-│   │       └── supabase_product_repository.dart # Implementación Supabase
-│   ├── posts/
-│   │   ├── domain/
-│   │   │   └── post_repository.dart      # Interfaz abstracta
-│   │   └── data/
-│   │       └── supabase_post_repository.dart # Implementación Supabase
-│   ├── favorites/
-│   │   └── data/
-│   │       └── supabase_favorite_repository.dart # Favoritos
-│   ├── messaging/
-│   │   └── data/
-│   │       └── supabase_messaging_repository.dart # Chat con Realtime
-│   └── metrics/
-│       └── data/
-│           └── supabase_metrics_repository.dart # Dashboard y analytics
-├── shared/
-│   └── models/
-│       ├── user.dart                     # Modelo de usuario
-│       ├── service.dart                  # Modelo de servicio
-│       ├── group.dart                    # Modelo de grupo
-│       ├── product.dart                  # Modelo de producto
-│       ├── post.dart                     # Modelo de publicación
-│       ├── favorite.dart                 # Modelo de favorito
-│       ├── conversation.dart             # Modelo de conversación
-│       ├── message.dart                  # Modelo de mensaje
-│       ├── project.dart                  # Modelo de proyecto
-│       └── transaction.dart              # Modelo de transacción
-└── pages/
-    ├── login_page.dart
-    ├── services_page.dart                # Página de servicios
-    ├── products_page.dart                # Página de productos
-    ├── groups_page.dart                  # Página de grupos
-    ├── company_metrics_page.dart         # Dashboard con métricas reales
-    └── ... (otras páginas)
-```
+### UI/UX Decisions
+The application features a comprehensive UI for various functionalities, including:
+- **Service Management**: Pages for displaying and managing services.
+- **Product Marketplace**: Pages for showcasing and interacting with products.
+- **Group Management**: Functionality for creating, joining, and managing groups.
+- **Company Metrics Dashboard**: Real-time analytics and metrics display.
+- **User Profiles**: Expanded professional profiles with various fields.
+- **Real-time Messaging**: UI for conversations and chat.
 
-## Estado Actual del Proyecto (Nov 7, 2025)
+### Technical Implementations
+- **Frontend**: Flutter Web 3.32.0.
+- **Backend**: Supabase (PostgreSQL, Auth, Realtime).
+- **Deployment**: Replit.
+- **Authentication**: Supabase-based authentication with user registration (individual, worker, company types), login, and session persistence. Includes `SupabaseAuthService` for managing user sessions and profiles.
+- **Data Repositories**: Implemented with a Repository Pattern, using abstract interfaces (e.g., `ServiceRepository`, `GroupRepository`, `ProductRepository`, `PostRepository`, `FavoriteRepository`, `MessagingRepository`, `MetricsRepository`) backed by Supabase implementations.
+- **Real-time Features**: Supabase Realtime is used for instant messaging and conversation updates, including automatic message read receipts and refreshing.
+- **Professional Profiles**: Expanded user profiles with fields like phone, profession, company, job title, website, location (JSONB), birth date, experience level, specializations, and interests. Optimized indexing for search.
+- **Messaging Optimization**: Implemented pagination with infinite scroll for conversations, real-time user search with debouncing, and concurrency control.
+- **Dependency Injection**: `get_it` is used for managing dependencies like `SupabaseAuthService` and various repository implementations.
+- **Design Patterns**: Employs the Repository Pattern for data access and the Singleton Pattern for core services like `SupabaseAuthService` and the Supabase client.
 
-### ✅ Completado
+### Feature Specifications
+- **Core Functionalities**:
+    - **Services**: CRUD operations, search by category and tags.
+    - **Groups**: Create, join, leave groups, manage members, and track member counts.
+    - **Products**: Full marketplace functionality with CRUD, search, and vendor information.
+    - **Posts**: Social feed with author information.
+    - **Favorites**: Mark/unmark products and services, retrieve by type.
+    - **Messaging**: Real-time chat with conversation management, message sending/receiving, and automatic updates.
+    - **Metrics**: Track projects (planning, in_progress, completed) and financial transactions (income, expenses) with period-based analytics.
+- **User Management**: Comprehensive user profile editing, including newly added professional fields.
 
-#### 1. Migración a Supabase - Backend
-- [x] Autenticación con Supabase implementada
-- [x] Registro de usuarios con tipos de cuenta (individual, worker, company)
-- [x] Inicio de sesión funcional
-- [x] Persistencia de sesión entre recargas
-- [x] Servicio `SupabaseAuthService` con `currentUserModel` helper
+### System Design Choices
+- **Database Schema**: PostgreSQL on Supabase, with tables for `users`, `services`, `groups`, `group_members`, `products`, `posts`, `favorites`, `conversations`, `messages`, `projects`, and `transactions`.
+- **Database Functions & Triggers**: RPC functions (`increment_group_members`, `decrement_group_members`) and triggers (`update_conversation_on_message`, `update_updated_at`) are used for data integrity and real-time updates.
 
-#### 2. Repositorios Conectados a Supabase
-- [x] **SupabaseServiceRepository**: CRUD completo para servicios
-  - create, update, delete, getById, getAll
-  - Búsqueda por categoría y tags
-  - Métodos asíncronos correctamente implementados
-  - fromJson/toJson en modelo Service
-- [x] **SupabaseGroupRepository**: Gestión de grupos
-  - create, join, leave, getById, getAll
-  - Gestión de miembros con protección contra duplicados
-  - Contadores de miembros sincronizados correctamente
-  - fromJson/toJson en modelo Group
-- [x] **SupabaseProductRepository**: Marketplace completo
-  - CRUD completo (create, update, delete, getById, getAll)
-  - Búsqueda por categoría, vendedor, query
-  - JOIN con users para info del vendedor
-  - Modelo compatible con código legacy
-- [x] **SupabasePostRepository**: Feed social
-  - getAll() con información del autor
-  - fromJson/toJson implementados
-- [x] **SupabaseFavoriteRepository**: Sistema de favoritos
-  - Marcar/desmarcar productos y servicios como favoritos
-  - Obtener favoritos por tipo (producto/servicio)
-  - Toggle de favoritos en UI
-- [x] **MessagingRepository**: Chat en tiempo real
-  - Gestión de conversaciones
-  - Envío y recepción de mensajes
-  - Supabase Realtime para chat instantáneo
-  - Triggers de BD para actualización automática
-  - UI completa: ConversationsPage y ChatPage
-  - Refresco automático cada 10 segundos
-  - Marca automática de mensajes como leídos
-- [x] **MetricsRepository**: Analytics y dashboard
-  - Proyectos con estados (planning, in_progress, completed, etc.)
-  - Transacciones (ingresos, gastos)
-  - Métricas calculadas por período (week, month, quarter, year)
-
-#### 3. Refactorización Arquitectónica (Opción B)
-- [x] Eliminado `auth_service.dart` legacy
-- [x] Todas las referencias actualizadas a `SupabaseAuthService`
-- [x] Uso correcto de `currentUserProfile` (Map) vs `currentUser` (Supabase User)
-- [x] Helper `currentUserModel` para obtener modelo User local
-- [x] Corrección de referencias en 20+ archivos
-- [x] Compilación exitosa sin errores
-
-#### 4. Integración con UI
-- [x] Páginas actualizadas para usar repositorios de Supabase
-- [x] MatchEngine funciona con `currentUserModel`
-- [x] Creación de productos/servicios usa `currentUserProfile`
-- [x] Dashboard de métricas muestra datos reales
-- [x] Selector de período funcional (semana, mes, trimestre, año)
-- [x] EditProfilePage actualiza perfil en Supabase (name, bio y campos profesionales completos)
-- [x] ConversationsPage con lista de chats y refresco automático
-- [x] ChatPage con mensajería en tiempo real usando Realtime
-
-#### 5. Expansión de Perfiles Profesionales ⭐ NUEVO
-- [x] Migración SQL `profile_expansion.sql` creada
-- [x] Campos profesionales agregados: phone, profession, company, job_title, website
-- [x] Campos adicionales: location (JSONB), birth_date, experience_level
-- [x] Arrays dinámicos: specializations, interests
-- [x] Índices optimizados para búsquedas (GIN para arrays, B-tree para campos)
-- [x] EditProfilePage expandido para soportar todos los campos nuevos
-- [x] Documentación completa en `database/README.md`
-- [x] Validación del arquitecto aprobada
-
-### ⚠️ Pendientes / TODOs
-
-#### 1. Funcionalidades Pendientes
-- [ ] **Notificaciones**: Sistema de notificaciones push
-- [ ] **Ejecutar migración SQL**: Aplicar `profile_expansion.sql` en Supabase (ver `database/README.md`)
-
-#### 2. Mejoras Técnicas
-- [ ] Manejo de errores más robusto con try-catch en servicios
-- [ ] Tests unitarios e integración
-- [ ] Implementar ManageServicesPage para editar servicios
-- [ ] Optimización de rendimiento con muchas conversaciones
-
-## Base de Datos
-
-### Esquema Actual (Supabase)
-Ver: `database/supabase_schema.sql` y `database/additional_tables.sql`
-
-**Tablas Implementadas:**
-- `users` - Perfiles de usuario
-- `services` - Servicios ofrecidos
-- `groups` - Grupos de trabajo
-- `group_members` - Relación usuarios-grupos
-- `products` - Productos del marketplace
-- `posts` - Publicaciones de la comunidad
-- `favorites` - Favoritos de usuarios (productos y servicios)
-- `conversations` - Conversaciones entre usuarios
-- `messages` - Mensajes de chat (con Realtime habilitado)
-- `projects` - Proyectos de usuarios/empresas
-- `transactions` - Transacciones financieras (ingresos/gastos)
-
-**Funciones RPC:**
-- `increment_group_members(group_id)` - Incrementa contador de miembros
-- `decrement_group_members(group_id)` - Decrementa contador de miembros
-
-**Triggers:**
-- `update_conversation_on_message` - Actualiza conversaciones cuando se envía un mensaje
-- `update_updated_at` - Actualiza timestamp de updated_at automáticamente
-
-## Configuración
-
-### Variables de Entorno
-Archivo: `.env`
-```
-SUPABASE_URL=https://wrshdeghtdcrgeqbqihh.supabase.co
-SUPABASE_ANON_KEY=eyJhbGci...
-```
-
-### Dependency Injection
-El proyecto usa `get_it` para DI. Configuración en `lib/core/di/locator.dart`:
-- `SupabaseAuthService` (singleton)
-- `ServiceRepository` (usa SupabaseServiceRepository)
-- `GroupRepository` (usa SupabaseGroupRepository)
-- `PostRepository` (usa InMemoryPostRepository - temporal)
-
-## Patrones de Diseño
-
-### Repository Pattern
-Cada dominio tiene una interfaz abstracta y múltiples implementaciones:
-- `ServiceRepository` → `SupabaseServiceRepository` | `InMemoryServiceRepository`
-- `GroupRepository` → `SupabaseGroupRepository` | `InMemoryGroupRepository`
-
-### Singleton Pattern
-- `SupabaseAuthService.instance`
-- `supabase` client (desde `supabase_service.dart`)
-
-## Problemas Conocidos
-
-1. **Editar perfil no funcional**: El método `updateUser` no existe en `SupabaseAuthService`. Requiere implementación.
-2. **Servicios de usuario**: `ManageServicesPage` no actualiza servicios en Supabase (comentado temporalmente).
-3. **Datos mock**: Muchas features aún usan datos en memoria en lugar de Supabase.
-
-## Próximos Pasos Recomendados
-
-1. **Implementar ProductRepository con Supabase**
-   - Crear tabla `products` en Supabase
-   - Implementar SupabaseProductRepository
-   - Actualizar ProductsPage para usar repositorio real
-
-2. **Implementar actualización de perfil**
-   - Agregar método `updateProfile` a SupabaseAuthService
-   - Implementar en EditProfilePage
-   - Permitir actualización de avatar, bio, etc.
-
-3. **Sistema de Favoritos**
-   - Crear tabla `favorites` en Supabase
-   - Implementar FavoritesRepository
-   - Agregar UI para marcar/desmarcar favoritos
-
-4. **Mensajería con Realtime**
-   - Crear tablas `conversations` y `messages`
-   - Implementar listeners de Supabase Realtime
-   - UI para chat en tiempo real
-
-## Notas de Desarrollo
-
-- **Compilación**: `flutter build web --release`
-- **Servidor local**: El workflow sirve desde `build/web` en puerto 5000
-- **Hot reload**: No disponible en web release, requiere rebuild completo
-- **Arquitectura limpia**: Priorizar interfaces sobre implementaciones concretas
-
-## Historial de Cambios Importantes
-
-### 2025-11-07
-
-**Primera Sesión:**
-- ✅ Refactorización completa de autenticación (Opción B)
-- ✅ Migración de ServiceRepository y GroupRepository a Supabase
-- ✅ Corrección de 15+ archivos para usar SupabaseAuthService correctamente
-- ✅ Implementación de métodos fromJson/toJson en modelos
-- ✅ Protección de contadores de miembros en grupos
-- ✅ Compilación exitosa después de arquitectura refactoring
-
-**Segunda Sesión:**
-- ✅ Creación de esquema SQL adicional con 5 nuevas tablas (favorites, conversations, messages, projects, transactions)
-- ✅ Implementación completa de Sistema de Favoritos
-- ✅ Migración de Products a Supabase con modelo actualizado
-- ✅ Implementación de Proyectos y Transacciones para métricas
-- ✅ Dashboard de Company Metrics conectado a datos reales de Supabase
-- ✅ Sistema de Mensajería con Realtime implementado
-- ✅ Triggers de base de datos para actualización automática de conversaciones
-- ✅ Todos los repositorios registrados en locator.dart
-- ✅ Compilación exitosa de toda la aplicación web
-
-**Tercera Sesión:**
-- ✅ EditProfilePage actualizado para usar updateCurrentUser de Supabase
-- ✅ Implementación de feedback visual (loading, success, error) en edición de perfil
-- ✅ ConversationsPage creada con lista de conversaciones
-- ✅ Refresco automático cada 10 segundos en ConversationsPage
-- ✅ ChatPage creada con chat en tiempo real
-- ✅ Suscripción/desuscripción correcta de Supabase Realtime
-- ✅ Scroll automático al recibir mensajes nuevos
-- ✅ Marca automática de mensajes como leídos
-- ✅ Limpieza correcta de timers y suscripciones en dispose()
-- ✅ Compilación y aprobación del arquitecto
-
-**Cuarta Sesión:**
-- ✅ Creación de migración SQL `profile_expansion.sql`
-- ✅ 10 nuevos campos agregados a tabla users
-- ✅ Índices optimizados para búsquedas (GIN para arrays, B-tree para strings)
-- ✅ EditProfilePage expandido con soporte completo para todos los campos
-- ✅ Mapeo correcto de datos (strings, JSON, arrays, fechas ISO)
-- ✅ `database/README.md` con documentación completa de migraciones
-- ✅ Comandos CLI corregidos y validados (`supabase db execute --file`)
-- ✅ Compilación exitosa y aprobación final del arquitecto
-
----
-
-**Última actualización**: 7 de noviembre de 2025
+## External Dependencies
+- **Supabase**: Used as the primary backend for database (PostgreSQL), authentication, and real-time functionalities.
+- **Flutter Web**: Frontend framework.
+- **get_it**: Dependency injection library for Flutter.
