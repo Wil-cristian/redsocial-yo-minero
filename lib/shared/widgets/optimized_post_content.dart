@@ -99,7 +99,7 @@ class OptimizedPostContent extends StatelessWidget {
                     height: 6,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: post.productStock! > 5 ? accentColor : const AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
+                      color: post.productStock! > 5 ? accentColor : AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
                     ),
                   ),
                   const SizedBox(width: 8),

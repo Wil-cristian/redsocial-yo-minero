@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'dart:math' as math;
 import '../../core/theme/dashboard_colors.dart';
 import '../../core/achievements/achievement_models.dart';
@@ -303,7 +304,7 @@ class _ConfettiPainter extends CustomPainter {
       DashboardColors.emerald,
       DashboardColors.accent,
       AppColorsUnified.companyBlue,
-      AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.companyBlueDark,
     ];
     return colors[index % colors.length];
   }

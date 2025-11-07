@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'core/theme/dashboard_colors.dart';
 
 class GroupChatPage extends StatefulWidget {
@@ -410,9 +411,9 @@ class _GroupChatPageState extends State<GroupChatPage> {
                 color: DashboardColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
+              child: Text(
                 'Admin',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2)),
+                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColorsUnified.companyBlueDark),
               ),
             )
           : null,
@@ -472,7 +473,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
               shrinkWrap: true,
               children: [
                 _buildAttachmentOption(Icons.image, 'Foto', AppColorsUnified.companyBlue),
-                _buildAttachmentOption(Icons.videocam, 'Video', AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2)),
+                _buildAttachmentOption(Icons.videocam, 'Video', AppColorsUnified.companyBlueDark),
                 _buildAttachmentOption(Icons.description, 'Archivo', AppColorsUnified.orange),
                 _buildAttachmentOption(Icons.location_on, 'Ubicación', AppColorsUnified.error),
                 _buildAttachmentOption(Icons.contact_mail, 'Contacto', AppColorsUnified.success),

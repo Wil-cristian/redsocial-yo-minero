@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.light;
@@ -21,10 +22,10 @@ class ThemeProvider extends ChangeNotifier {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF1E3A8A),
+        seedColor: AppColorsUnified.companyBlueDark,
         brightness: Brightness.light,
       ),
-      scaffoldBackgroundColor: const AppColorsUnified.background,
+      scaffoldBackgroundColor: AppColorsUnified.background,
       appBarTheme: const AppBarTheme(
         centerTitle: true,
         elevation: 0,
@@ -48,7 +49,7 @@ class ThemeProvider extends ChangeNotifier {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF1E3A8A), width: 2),
+          borderSide: BorderSide(color: AppColorsUnified.companyBlueDark, width: 2),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -68,25 +69,25 @@ class ThemeProvider extends ChangeNotifier {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const AppColorsUnified.companyBlue,
+        seedColor: AppColorsUnified.companyBlue,
         brightness: Brightness.dark,
       ),
-      scaffoldBackgroundColor: const Color(0xFF121212),
-      appBarTheme: const AppBarTheme(
+      scaffoldBackgroundColor: AppColorsUnified.textPrimary,
+      appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Color(0xFF1E1E1E),
+        backgroundColor: AppColorsUnified.textPrimary,
       ),
       cardTheme: CardThemeData(
         elevation: 4,
-        color: const Color(0xFF1E1E1E),
+        color: AppColorsUnified.textPrimary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: const Color(0xFF2C2C2C),
+        fillColor: AppColorsUnified.textPrimary,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,

@@ -296,7 +296,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2D3748),
+                    color: AppColorsUnified.textPrimary,
                   ),
                   textAlign: TextAlign.center,
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/colors.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class ErrorView extends StatelessWidget {
   final String message;

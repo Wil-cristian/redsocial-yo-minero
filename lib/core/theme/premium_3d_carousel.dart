@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/product.dart';
 import 'dart:math' as math;
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// 💎 PREMIUM 3D CAROUSEL - Estilo Apple/Dior
 /// 
@@ -212,8 +213,8 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
                 // Sombra ambiental dorada/plateada
                 BoxShadow(
                   color: (isGold
-                          ? const AppColorsUnified.gold
-                          : const AppColorsUnified.lighten(AppColorsUnified.gold, 0.3))
+                          ? AppColorsUnified.gold
+                          : AppColorsUnified.silverLight)
                       .withValues(alpha: 0.18 * shadowIntensity),
                   blurRadius: 42 * shadowIntensity,
                   offset: const Offset(0, 0),
@@ -244,7 +245,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
   /// 📋 Contenedor de información COMPLETA - Todo abajo (autor, título, precio, acciones)
   Widget _buildInfoContainer(Product product, int index) {
     final isGold = index % 2 == 0;
-    final accentColor = isGold ? const AppColorsUnified.gold : const AppColorsUnified.lighten(AppColorsUnified.gold, 0.3);
+    final accentColor = isGold ? AppColorsUnified.gold : AppColorsUnified.silverLight;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -295,7 +296,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
                       if (widget.createdAt != null)
                         Text(
                           'Producto · ${_getTimeAgo(widget.createdAt!)}',
-                          style: const TextStyle(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2), fontSize: 11),
+                          style: TextStyle(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2), fontSize: 11),
                         ),
                     ],
                   ),
@@ -386,7 +387,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Row(
           children: [
-            Icon(icon, size: 20, color: const AppColorsUnified.textSecondary),
+            Icon(icon, size: 20, color: AppColorsUnified.textSecondary),
             if (label.isNotEmpty) ...[
               const SizedBox(width: 4),
               Text(
@@ -423,8 +424,8 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const AppColorsUnified.surface,
-            const AppColorsUnified.background,
+            AppColorsUnified.surface,
+            AppColorsUnified.background,
           ],
         ),
       ),
@@ -433,8 +434,8 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
           _getProductIcon(productName),
           size: 100,
           color: isGold
-              ? const AppColorsUnified.gold.withValues(alpha: 0.3)
-              : const AppColorsUnified.lighten(AppColorsUnified.gold, 0.3).withValues(alpha: 0.3),
+              ? AppColorsUnified.gold.withValues(alpha: 0.3)
+              : AppColorsUnified.silverLight.withValues(alpha: 0.3),
         ),
       ),
     );

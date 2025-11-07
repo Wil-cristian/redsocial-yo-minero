@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/post.dart';
 import 'package:yominero/core/posts/post_validation.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 typedef PostCreatedCallback = void Function(Post post);
 

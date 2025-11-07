@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// Widget para mostrar un elemento del grid de opciones del dashboard
 class DashboardGridItem extends StatefulWidget {
@@ -13,8 +14,8 @@ class DashboardGridItem extends StatefulWidget {
     super.key,
     required this.label,
     required this.icon,
-    this.backgroundColor = const Color(0xFFF0F0F0),
-    this.iconColor = const AppColorsUnified.companyBlue,
+    this.backgroundColor = AppColorsUnified.surface,
+    this.iconColor = AppColorsUnified.companyBlue,
     required this.onTap,
     this.isHighlighted = false,
   });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import '../../../../core/theme/dashboard_colors.dart';
 
 /// Widget unificado optimizado que reemplaza 8 widgets similares
@@ -105,8 +106,8 @@ class UnifiedHeaderWidget extends StatelessWidget {
           title: 'Sugerencia IA',
           subtitle: data['suggestion'] ?? 'Explora nuevas ofertas',
           description: 'Basado en tu actividad',
-          gradientColors: [AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2), AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.3)],
-          shadowColor: AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2).withOpacity(0.3),
+          gradientColors: [AppColorsUnified.companyBlueDark, AppColorsUnified.companyBlueDarker],
+          shadowColor: AppColorsUnified.companyBlueDark.withOpacity(0.3),
         );
       case HeaderWidgetType.weeklyMission:
         return _WidgetConfig(

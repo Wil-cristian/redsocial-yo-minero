@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/product.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'core/theme/colors.dart';
 import 'core/auth/supabase_auth_service.dart';
 

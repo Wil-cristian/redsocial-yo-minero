@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// 🎨 SISTEMA CENTRALIZADO DE COLORES - YoMinero
 /// 
@@ -130,6 +131,21 @@ class AppColorsUnified {
   // Variaciones de PLATA (derivadas de textSecondary - uno de los 10 base)
   static Color get silver => lighten(textSecondary, 0.3);  // Plata derivada de textSecondary
   static Color get silverLight => lighten(textSecondary, 0.4);  // Plata clara
+  
+  // Variaciones adicionales para gradientes premium
+  static Color get backgroundLighter => lighten(background, 0.05);
+  static Color get goldLighter => lighten(gold, 0.2);
+  static Color get goldDarker => darken(gold, 0.1);
+  static Color get surfaceTinted => lighten(surface, 0.05);
+  static Color get surfaceLight => lighten(surface, 0.03);
+  static Color get companyBlueDark => darken(companyBlue, 0.2);
+  static Color get companyBlueDarker => darken(companyBlue, 0.3);
+  static Color get companyBlueLight => lighten(companyBlue, 0.2);
+  static Color get companyBlueLighter => lighten(companyBlue, 0.3);
+  static Color get companyBlueLightest => lighten(companyBlue, 0.4);
+  static Color get successDark => darken(success, 0.1);
+  static Color get successLight => lighten(success, 0.2);
+  static Color get successLighter => lighten(success, 0.3);
 
   // ============================================
   // 🎨 ALIASES SEMÁNTICOS (usando los 10)

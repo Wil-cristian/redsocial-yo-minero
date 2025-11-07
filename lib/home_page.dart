@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         boxShadow: [
           BoxShadow(
-            color: DashboardAppColorsUnified.orangeShadow,
+            color: DashboardColors.orangeShadow,
             blurRadius: 30,
             offset: Offset(0, 10),
             spreadRadius: 5,
@@ -263,14 +263,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  DashboardAppColorsUnified.orangeGlow.withValues(alpha: 0.4),
-                                  DashboardAppColorsUnified.orange.withValues(alpha: 0.3),
+                                  DashboardColors.orangeGlow.withValues(alpha: 0.4),
+                                  DashboardColors.orange.withValues(alpha: 0.3),
                                 ],
                               ),
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: DashboardAppColorsUnified.orangeGlow.withValues(alpha: 0.7 * _pulseController.value),
+                                  color: DashboardColors.orangeGlow.withValues(alpha: 0.7 * _pulseController.value),
                                   blurRadius: 25 * _pulseController.value,
                                   spreadRadius: 6 * _pulseController.value,
                                 ),
@@ -335,14 +335,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                DashboardAppColorsUnified.orangeBright.withValues(alpha: 0.9),
-                                DashboardAppColorsUnified.orange.withValues(alpha: 0.8),
+                                DashboardColors.orangeBright.withValues(alpha: 0.9),
+                                DashboardColors.orange.withValues(alpha: 0.8),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: DashboardAppColorsUnified.orangeGlow.withValues(alpha: 0.5),
+                                color: DashboardColors.orangeGlow.withValues(alpha: 0.5),
                                 blurRadius: 8,
                                 spreadRadius: 1,
                               ),
@@ -384,12 +384,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [DashboardAppColorsUnified.orange, DashboardAppColorsUnified.orangeGlow],
+              colors: [DashboardColors.orange, DashboardColors.orangeGlow],
             ),
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: DashboardAppColorsUnified.orangeShadow,
+                color: DashboardColors.orangeShadow,
                 blurRadius: 8,
                 spreadRadius: 1,
               ),
@@ -413,11 +413,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget _buildAnimatedStats() {
     return Row(
       children: [
-        Expanded(child: _buildAnimatedStatCard('Ofertas', '12', Icons.local_offer, DashboardAppColorsUnified.orange, 0)),
+        Expanded(child: _buildAnimatedStatCard('Ofertas', '12', Icons.local_offer, DashboardColors.orange, 0)),
         const SizedBox(width: 12),
         Expanded(child: _buildAnimatedStatCard('Mensajes', '5', Icons.chat_bubble, DashboardColors.woodLight, 100)),
         const SizedBox(width: 12),
-        Expanded(child: _buildAnimatedStatCard('Grupos', '3', Icons.groups, DashboardAppColorsUnified.orangeBright, 200)),
+        Expanded(child: _buildAnimatedStatCard('Grupos', '3', Icons.groups, DashboardColors.orangeBright, 200)),
       ],
     );
   }
@@ -511,18 +511,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                DashboardAppColorsUnified.orange.withOpacity(0.1),
-                DashboardAppColorsUnified.orangeGlow.withOpacity(0.05),
+                DashboardColors.orange.withOpacity(0.1),
+                DashboardColors.orangeGlow.withOpacity(0.05),
               ],
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: DashboardAppColorsUnified.orange.withOpacity(0.3),
+              color: DashboardColors.orange.withOpacity(0.3),
               width: 2,
             ),
             boxShadow: [
               BoxShadow(
-                color: DashboardAppColorsUnified.orange.withOpacity(0.1),
+                color: DashboardColors.orange.withOpacity(0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -543,7 +543,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: DashboardAppColorsUnified.orange.withOpacity(0.4),
+                      color: DashboardColors.orange.withOpacity(0.4),
                       blurRadius: 12,
                       spreadRadius: 2,
                     ),
@@ -590,7 +590,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
               Icon(
                 Icons.touch_app,
-                color: DashboardAppColorsUnified.orange.withOpacity(0.6),
+                color: DashboardColors.orange.withOpacity(0.6),
                 size: 32,
               ),
             ],
@@ -720,7 +720,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           title: 'Nueva oportunidad disponible',
           subtitle: 'Servicio de Perforación -50%',
           time: 'Hace 2 horas',
-          iconColor: DashboardAppColorsUnified.orange,
+          iconColor: DashboardColors.orange,
           delay: 0,
         ),
         const SizedBox(height: 12),
@@ -738,7 +738,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           title: 'Nuevo pedido confirmado',
           subtitle: 'Equipo de seguridad - \$1,250',
           time: 'Ayer',
-          iconColor: DashboardAppColorsUnified.orangeBright,
+          iconColor: DashboardColors.orangeBright,
           delay: 200,
         ),
       ],

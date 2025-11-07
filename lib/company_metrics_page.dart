@@ -455,7 +455,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                     gradient: LinearGradient(
                       colors: [
                         AppColorsUnified.companySecondary.withValues(alpha: 0.7),
-                        const Color(0xFF2980B9).withValues(alpha: 0.7),
+                        AppColorsUnified.companyBlue.withValues(alpha: 0.7),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(8),

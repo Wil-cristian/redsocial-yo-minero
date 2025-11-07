@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'rich_decorations.dart';
 import 'dashboard_colors.dart';
+import 'app_colors_unified.dart';
 
 /// 🎨 PREMIUM WIDGETS LIBRARY
 /// Sistema de widgets premium reutilizables con efectos brillantes
@@ -19,7 +20,7 @@ class PremiumWidgets {
     return RichDecorations.doubleBorderCard(
       child: child,
       outerColor: DashboardColors.primary,
-      innerColor: const AppColorsUnified.surface,
+      innerColor: AppColorsUnified.surface,
     );
   }
 
@@ -28,7 +29,7 @@ class PremiumWidgets {
     return RichDecorations.doubleBorderCard(
       child: child,
       outerColor: DashboardColors.cardPurple,
-      innerColor: const Color(0xFFF5F3FF),
+      innerColor: AppColorsUnified.surfaceTinted,
     );
   }
 
@@ -37,7 +38,7 @@ class PremiumWidgets {
     return RichDecorations.doubleBorderCard(
       child: child,
       outerColor: DashboardColors.emerald,
-      innerColor: const Color(0xFFECFDF5),
+      innerColor: AppColorsUnified.surfaceLight,
     );
   }
 
@@ -99,12 +100,12 @@ class PremiumWidgets {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: isNew ? const AppColorsUnified.success : const AppColorsUnified.textSecondary,
+        color: isNew ? AppColorsUnified.success : AppColorsUnified.textSecondary,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white, width: 1),
         boxShadow: [
           BoxShadow(
-            color: (isNew ? const AppColorsUnified.success : const AppColorsUnified.textSecondary).withValues(alpha: 0.4),
+            color: (isNew ? AppColorsUnified.success : AppColorsUnified.textSecondary).withValues(alpha: 0.4),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -127,12 +128,12 @@ class PremiumWidgets {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: hasStock ? const AppColorsUnified.companyBlue : const AppColorsUnified.error,
+        color: hasStock ? AppColorsUnified.companyBlue : AppColorsUnified.error,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white, width: 1),
         boxShadow: [
           BoxShadow(
-            color: (hasStock ? const AppColorsUnified.companyBlue : const AppColorsUnified.error).withValues(alpha: 0.4),
+            color: (hasStock ? AppColorsUnified.companyBlue : AppColorsUnified.error).withValues(alpha: 0.4),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -409,7 +410,7 @@ class PremiumWidgets {
     bool isUrgent = false,
   }) {
     return pulsingBorder(
-      color: isUrgent ? const Color(0xFFFF6B00) : const AppColorsUnified.success,
+      color: isUrgent ? AppColorsUnified.orange : AppColorsUnified.success,
       duration: isUrgent
           ? const Duration(milliseconds: 800)
           : const Duration(milliseconds: 1500),

@@ -102,7 +102,7 @@ class _CompanyRequestedProductsPageState
       case 'En Camino':
         return AppColorsUnified.companyBlue;
       case 'En Procesamiento':
-        return AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2);
+        return AppColorsUnified.companyBlueDark;
       case 'Pendiente':
         return AppColorsUnified.orange;
       case 'Cancelado':

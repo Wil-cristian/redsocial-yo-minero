@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'dart:math';
 import 'core/theme/colors.dart';
 import 'core/auth/employee_roles.dart';
@@ -105,7 +106,7 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Icon(Icons.check_circle, color: AppColorsUnified.success[600], size: 28),
+            Icon(Icons.check_circle, color: AppColorsUnified.success, size: 28),
             const SizedBox(width: 12),
             const Text('Credenciales Creadas'),
           ],
@@ -126,18 +127,18 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColorsUnified.orange[50],
+                color: AppColorsUnified.orange,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppColorsUnified.orange[200]!),
+                border: Border.all(color: AppColorsUnified.orange),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.warning_amber, color: AppColorsUnified.orange[700], size: 20),
+                  Icon(Icons.warning_amber, color: AppColorsUnified.orange, size: 20),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       'El empleado debe cambiar la contraseña en su primer inicio de sesión',
-                      style: TextStyle(fontSize: 12, color: AppColorsUnified.orange[900]),
+                      style: TextStyle(fontSize: 12, color: AppColorsUnified.orange),
                     ),
                   ),
                 ],
@@ -239,18 +240,18 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.companyBlue[50],
+                  color: AppColorsUnified.companyBlue,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColorsUnified.companyBlue[200]!),
+                  border: Border.all(color: AppColorsUnified.companyBlue),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline, color: AppColorsUnified.companyBlue[700]),
+                    Icon(Icons.info_outline, color: AppColorsUnified.companyBlue),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'Se generarán credenciales temporales que el empleado deberá cambiar en su primer inicio de sesión.',
-                        style: TextStyle(color: AppColorsUnified.companyBlue[900], fontSize: 13),
+                        style: TextStyle(color: AppColorsUnified.companyBlue, fontSize: 13),
                       ),
                     ),
                   ],
@@ -402,8 +403,8 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
                           _formatPermission(permission),
                           style: const TextStyle(fontSize: 12),
                         ),
-                        backgroundColor: AppColorsUnified.success[50],
-                        side: BorderSide(color: AppColorsUnified.success[200]!),
+                        backgroundColor: AppColorsUnified.success,
+                        side: BorderSide(color: AppColorsUnified.success),
                       );
                     }).toList(),
                   ),

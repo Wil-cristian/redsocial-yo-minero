@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'core/theme/colors.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'main_navigation_shell.dart';
@@ -120,7 +121,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: const AppColorsUnified.success.withValues(alpha: 0.1),
+                          color: AppColorsUnified.success.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
@@ -166,18 +167,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: AppColorsUnified.orange[50],
+                      color: AppColorsUnified.orange,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColorsUnified.orange[200]!),
+                      border: Border.all(color: AppColorsUnified.orange),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.info_outline, color: AppColorsUnified.orange[700]),
+                        Icon(Icons.info_outline, color: AppColorsUnified.orange),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             'Por seguridad, debes cambiar tu contraseña temporal antes de continuar.',
-                            style: TextStyle(color: AppColorsUnified.orange[900], fontSize: 13),
+                            style: TextStyle(color: AppColorsUnified.orange, fontSize: 13),
                           ),
                         ),
                       ],
@@ -322,7 +323,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _changePassword,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const AppColorsUnified.success,
+                      backgroundColor: AppColorsUnified.success,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -353,22 +354,22 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColorsUnified.companyBlue[50],
+                    color: AppColorsUnified.companyBlue,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColorsUnified.companyBlue[200]!),
+                    border: Border.all(color: AppColorsUnified.companyBlue),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.tips_and_updates, color: AppColorsUnified.companyBlue[700], size: 20),
+                          Icon(Icons.tips_and_updates, color: AppColorsUnified.companyBlue, size: 20),
                           const SizedBox(width: 8),
                           Text(
                             'Consejos para una contraseña segura:',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: AppColorsUnified.companyBlue[900],
+                              color: AppColorsUnified.companyBlue,
                               fontSize: 14,
                             ),
                           ),
@@ -395,12 +396,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
         children: [
-          Icon(Icons.check_circle, size: 16, color: AppColorsUnified.companyBlue[700]),
+          Icon(Icons.check_circle, size: 16, color: AppColorsUnified.companyBlue),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(fontSize: 12, color: AppColorsUnified.companyBlue[800]),
+              style: TextStyle(fontSize: 12, color: AppColorsUnified.companyBlue),
             ),
           ),
         ],

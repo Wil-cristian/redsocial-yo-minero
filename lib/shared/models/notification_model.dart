@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 enum NotificationType {
   message,
@@ -97,7 +98,7 @@ class NotificationModel {
       case NotificationType.message:
         return AppColorsUnified.companyBlue;
       case NotificationType.groupInvite:
-        return AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2);
+        return AppColorsUnified.companyBlueDark;
       case NotificationType.productLiked:
         return AppColorsUnified.error;
       case NotificationType.serviceRequest:

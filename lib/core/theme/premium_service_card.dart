@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/service.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// 💎 PREMIUM SERVICE CARD - Diseño ultra sofisticado tema AMATISTA/VIOLETA
 /// 
@@ -47,19 +48,19 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
   }
 
   // Colores premium de gemas (tema violeta/púrpura)
-  static const List<List<Color>> _gemGradients = [
+  static final List<List<Color>> _gemGradients = [
     // Amatista
-    [Color(0xFF9966CC), Color(0xFF6A0DAD), AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.3)],
+    [AppColorsUnified.companyBlueLightest, AppColorsUnified.companyBlueDark, AppColorsUnified.companyBlueLighter],
     // Zafiro
-    [Color(0xFF0F52BA), Color(0xFF082567), Color(0xFF6495ED)],
+    [AppColorsUnified.companyBlue, AppColorsUnified.companyBlueDarker, AppColorsUnified.companyBlueLight],
     // Esmeralda
-    [Color(0xFF50C878), Color(0xFF00A86B), Color(0xFF7FFFD4)],
+    [AppColorsUnified.success, AppColorsUnified.successDark, AppColorsUnified.successLighter],
     // Rubí
     [AppColorsUnified.error, AppColorsUnified.darken(AppColorsUnified.error, 0.2), AppColorsUnified.lighten(AppColorsUnified.error, 0.2)],
     // Oro
-    [AppColorsUnified.gold, AppColorsUnified.orange, AppColorsUnified.lighten(AppColorsUnified.gold, 0.2)],
+    [AppColorsUnified.gold, AppColorsUnified.orange, AppColorsUnified.goldLighter],
     // Turquesa
-    [Color(0xFF40E0D0), Color(0xFF00CED1), Color(0xFF48D1CC)],
+    [AppColorsUnified.successLight, AppColorsUnified.success, AppColorsUnified.successLight],
   ];
 
   List<Color> get _cardGradient => _gemGradients[widget.index % _gemGradients.length];
@@ -171,7 +172,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               width: 1,
-              color: const AppColorsUnified.lighten(AppColorsUnified.surface, 0.05),
+              color: AppColorsUnified.surfaceTinted,
             ),
             color: Colors.white,
           ),

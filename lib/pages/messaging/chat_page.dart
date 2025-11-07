@@ -6,6 +6,7 @@ import 'package:yominero/core/theme/colors.dart';
 import 'package:yominero/features/messaging/data/supabase_messaging_repository.dart';
 import 'package:yominero/shared/models/conversation.dart';
 import 'package:yominero/shared/models/message.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class ChatPage extends StatefulWidget {
   final String otherUserId;

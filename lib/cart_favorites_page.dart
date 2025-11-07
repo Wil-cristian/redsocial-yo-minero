@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'core/theme/dashboard_colors.dart';
 
 /// Página de carrito/favoritos

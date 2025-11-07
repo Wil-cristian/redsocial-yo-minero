@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// Badge widget para mostrar contador en iconos
 class BadgeIcon extends StatelessWidget {
@@ -13,8 +14,8 @@ class BadgeIcon extends StatelessWidget {
     super.key,
     required this.icon,
     this.count = 0,
-    this.backgroundColor = const AppColorsUnified.companyBlue,
-    this.iconColor = const AppColorsUnified.companyBlue,
+    this.backgroundColor = AppColorsUnified.companyBlue,
+    this.iconColor = AppColorsUnified.companyBlue,
     required this.onTap,
     this.showBadge = true,
   });

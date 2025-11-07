@@ -386,7 +386,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                             title: 'Individual',
                             subtitle: 'Para mineros independientes y profesionales autónomos',
                             icon: Icons.person,
-                            color: const AppColorsUnified.companyBlue,
+                            color: AppColorsUnified.companyBlue,
                             delay: 0,
                           ),
                           
@@ -398,7 +398,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                           //   title: 'Trabajador',
                           //   subtitle: 'Para empleados que trabajan en una empresa',
                           //   icon: Icons.engineering,
-                          //   color: const AppColorsUnified.success,
+                          //   color: AppColorsUnified.success,
                           //   delay: 200,
                           // ),
                           

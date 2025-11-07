@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/product.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// 💎 PREMIUM PRODUCT CARD - Diseño ultra sofisticado con efectos fetichistas
 /// 
@@ -47,19 +48,19 @@ class _PremiumProductCardState extends State<PremiumProductCard>
   }
 
   // Colores premium basados en gemas
-  static const List<List<Color>> _gemGradients = [
+  static final List<List<Color>> _gemGradients = [
     // Oro Imperial
-    [AppColorsUnified.gold, AppColorsUnified.orange, AppColorsUnified.lighten(AppColorsUnified.gold, 0.2)],
+    [AppColorsUnified.gold, AppColorsUnified.orange, AppColorsUnified.goldLighter],
     // Plata Lunar
-    [AppColorsUnified.lighten(AppColorsUnified.surface, 0.05), AppColorsUnified.lighten(AppColorsUnified.gold, 0.3), AppColorsUnified.surface],
+    [AppColorsUnified.surfaceTinted, AppColorsUnified.silverLight, AppColorsUnified.surface],
     // Esmeralda
-    [Color(0xFF50C878), Color(0xFF00A86B), Color(0xFF7FFFD4)],
+    [AppColorsUnified.success, AppColorsUnified.successDark, AppColorsUnified.successLighter],
     // Zafiro
-    [Color(0xFF0F52BA), Color(0xFF082567), Color(0xFF6495ED)],
+    [AppColorsUnified.companyBlue, AppColorsUnified.companyBlueDarker, AppColorsUnified.companyBlueLight],
     // Rubí
     [AppColorsUnified.error, AppColorsUnified.darken(AppColorsUnified.error, 0.2), AppColorsUnified.lighten(AppColorsUnified.error, 0.2)],
     // Amatista
-    [Color(0xFF9966CC), Color(0xFF6A0DAD), AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.3)],
+    [AppColorsUnified.companyBlueLightest, AppColorsUnified.companyBlueDark, AppColorsUnified.companyBlueLighter],
   ];
 
   List<Color> get _cardGradient => _gemGradients[widget.index % _gemGradients.length];
@@ -178,7 +179,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
             // Borde más interno plateado
             border: Border.all(
               width: 1,
-              color: const AppColorsUnified.lighten(AppColorsUnified.surface, 0.05),
+              color: AppColorsUnified.surfaceTinted,
             ),
             // Fondo blanco premium
             color: Colors.white,
@@ -310,7 +311,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
         ),
         boxShadow: [
           BoxShadow(
-            color: const AppColorsUnified.gold.withValues(alpha: 0.4),
+            color: AppColorsUnified.gold.withValues(alpha: 0.4),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),

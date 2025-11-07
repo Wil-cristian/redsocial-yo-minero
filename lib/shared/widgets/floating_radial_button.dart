@@ -56,7 +56,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
       RadialMenuItem(
         icon: Icons.shopping_bag_rounded,
         label: 'Productos',
-        color: DashboardAppColorsUnified.orange,
+        color: DashboardColors.orange,
         route: '/products',
         onTap: () => Navigator.pushNamed(context, '/products'),
       ),
@@ -70,7 +70,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
       RadialMenuItem(
         icon: Icons.groups_rounded,
         label: 'Comunidad',
-        color: DashboardAppColorsUnified.orangeBright,
+        color: DashboardColors.orangeBright,
         route: '/community',
         onTap: () => Navigator.pushNamed(context, '/community'),
       ),

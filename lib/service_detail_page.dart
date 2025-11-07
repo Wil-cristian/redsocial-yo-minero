@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/service.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'core/theme/colors.dart';
 
 /// Displays detailed information about a service with beautiful design

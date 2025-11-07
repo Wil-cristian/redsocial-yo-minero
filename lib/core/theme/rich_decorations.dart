@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'dashboard_colors.dart';
 
 /// Ultra-optimized RichDecorations using factory pattern
@@ -24,11 +25,11 @@ class RichDecorations {
   }
 
   // Gold/Amber family
-  static BoxDecoration goldCardRich({bool isElevated = false}) => _createRich(gradientColors: [DashboardColors.cardOrange.withValues(alpha: 0.9), DashboardColors.gold, AppColorsUnified.lighten(AppColorsUnified.gold, 0.1)], borderColor: DashboardColors.gold, isElevated: isElevated);
-  static BoxDecoration goldCardTextured() => _createRich(gradientColors: [const Color(0xFFF5E6D3), const Color(0xFFE8D5B7), const AppColorsUnified.lighten(AppColorsUnified.gold, 0.1)], borderColor: const AppColorsUnified.darken(AppColorsUnified.gold, 0.1), borderWidth: 3);
-  static BoxDecoration goldButton3D({bool isPressed = false}) => _createRich(gradientColors: isPressed ? [DashboardColors.gold.withValues(alpha: 0.7), DashboardColors.cardOrange.withValues(alpha: 0.8)] : [DashboardColors.gold, DashboardColors.cardOrange], borderColor: AppColorsUnified.darken(AppColorsUnified.gold, 0.1), borderRadius: 12, isPressed: isPressed, isElevated: true);
+  static BoxDecoration goldCardRich({bool isElevated = false}) => _createRich(gradientColors: [DashboardColors.cardOrange.withValues(alpha: 0.9), DashboardColors.gold, AppColorsUnified.goldLight], borderColor: DashboardColors.gold, isElevated: isElevated);
+  static BoxDecoration goldCardTextured() => _createRich(gradientColors: [AppColorsUnified.backgroundLighter, AppColorsUnified.background, AppColorsUnified.goldLight], borderColor: AppColorsUnified.goldDarker, borderWidth: 3);
+  static BoxDecoration goldButton3D({bool isPressed = false}) => _createRich(gradientColors: isPressed ? [DashboardColors.gold.withValues(alpha: 0.7), DashboardColors.cardOrange.withValues(alpha: 0.8)] : [DashboardColors.gold, DashboardColors.cardOrange], borderColor: AppColorsUnified.goldDarker, borderRadius: 12, isPressed: isPressed, isElevated: true);
   static BoxDecoration amberCardRich() => _createRich(gradientColors: [AppColorsUnified.warning, AppColorsUnified.warning, AppColorsUnified.warning], borderColor: AppColorsUnified.warning, isElevated: true);
-  static BoxDecoration fabGold() => _createRich(gradientColors: [DashboardColors.gold, AppColorsUnified.lighten(AppColorsUnified.gold, 0.1), DashboardColors.cardOrange], borderColor: const AppColorsUnified.darken(AppColorsUnified.gold, 0.1), borderRadius: 28, isElevated: true);
+  static BoxDecoration fabGold() => _createRich(gradientColors: [DashboardColors.gold, AppColorsUnified.goldLight, DashboardColors.cardOrange], borderColor: AppColorsUnified.goldDarker, borderRadius: 28, isElevated: true);
 
   // Emerald/Green family
   static BoxDecoration emeraldCardRich() => _createRich(gradientColors: [DashboardColors.emeraldLight, DashboardColors.emerald, DashboardColors.emeraldDeep], borderColor: DashboardColors.emeraldGlow, isElevated: true);
@@ -44,7 +45,7 @@ class RichDecorations {
   static BoxDecoration sapphireCardRich() => _createRich(gradientColors: [AppColorsUnified.companyBlue, AppColorsUnified.companyBlue, AppColorsUnified.companyBlue], borderColor: AppColorsUnified.companyBlue, isElevated: true);
 
   // Amethyst/Purple family
-  static BoxDecoration amethystCardRich() => _createRich(gradientColors: [AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2), AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2), AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2)], borderColor: AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2), isElevated: true);
+  static BoxDecoration amethystCardRich() => _createRich(gradientColors: [AppColorsUnified.companyBlueDark, AppColorsUnified.companyBlueDark, AppColorsUnified.companyBlueDark], borderColor: AppColorsUnified.companyBlueDark, isElevated: true);
 
   // Post type shortcuts (simple delegation)
   static BoxDecoration productCard() => goldCardTextured();
@@ -79,7 +80,7 @@ class RichDecorations {
   static Widget goldFoilOverlay({required Widget child, double opacity = 0.2}) {
     return Stack(children: [
       child,
-      Positioned.fill(child: IgnorePointer(child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [DashboardColors.gold.withValues(alpha: opacity), Colors.transparent, AppColorsUnified.lighten(AppColorsUnified.gold, 0.1).withValues(alpha: opacity)], stops: const [0.0, 0.5, 1.0], begin: Alignment.topLeft, end: Alignment.bottomRight))))),
+      Positioned.fill(child: IgnorePointer(child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [DashboardColors.gold.withValues(alpha: opacity), Colors.transparent, AppColorsUnified.goldLight.withValues(alpha: opacity)], stops: const [0.0, 0.5, 1.0], begin: Alignment.topLeft, end: Alignment.bottomRight))))),
     ]);
   }
 

@@ -4,6 +4,7 @@ import 'package:yominero/core/auth/supabase_auth_service.dart';
 import 'package:yominero/core/di/locator.dart';
 import 'package:yominero/core/theme/colors.dart';
 import 'package:yominero/features/messaging/data/supabase_messaging_repository.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'chat_page.dart';
 
 class SearchUsersPage extends StatefulWidget {
