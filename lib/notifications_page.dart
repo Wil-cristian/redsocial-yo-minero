@@ -139,7 +139,7 @@ class _NotificationsPageState extends State<NotificationsPage>
       case 'mensajes':
         return DashboardColors.accent;
       case 'sistema':
-        return Colors.blue;
+        return AppColorsUnified.companyBlue;
       default:
         return Colors.grey;
     }
@@ -190,7 +190,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                           });
                           Navigator.pop(context);
                         },
-                        child: const Text('Limpiar', style: TextStyle(color: Colors.red)),
+                        child: const Text('Limpiar', style: TextStyle(color: AppColorsUnified.error)),
                       ),
                     ],
                   ),
@@ -213,9 +213,9 @@ class _NotificationsPageState extends State<NotificationsPage>
                 value: 'clear_all',
                 child: Row(
                   children: [
-                    Icon(Icons.delete_outline, size: 20, color: Colors.red),
+                    Icon(Icons.delete_outline, size: 20, color: AppColorsUnified.error),
                     SizedBox(width: 12),
-                    Text('Limpiar todo', style: TextStyle(color: Colors.red)),
+                    Text('Limpiar todo', style: TextStyle(color: AppColorsUnified.error)),
                   ],
                 ),
               ),

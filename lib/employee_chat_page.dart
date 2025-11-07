@@ -156,8 +156,8 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                         },
                       ),
                       ListTile(
-                        leading: const Icon(Icons.block, color: Colors.red),
-                        title: const Text('Bloquear', style: TextStyle(color: Colors.red)),
+                        leading: const Icon(Icons.block, color: AppColorsUnified.error),
+                        title: const Text('Bloquear', style: TextStyle(color: AppColorsUnified.error)),
                         onTap: () {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(

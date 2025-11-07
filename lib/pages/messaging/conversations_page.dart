@@ -188,7 +188,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
             Icon(
               Icons.error_outline,
               size: 64,
-              color: Colors.red.shade300,
+              color: AppColorsUnified.error,
             ),
             const SizedBox(height: 16),
             Text(

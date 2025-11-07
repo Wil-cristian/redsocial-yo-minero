@@ -79,13 +79,13 @@ class _CompanyRequestedServicesPageState
   Color _getStatusColor(String status) {
     switch (status) {
       case 'Completado':
-        return Colors.green;
+        return AppColorsUnified.success;
       case 'En Progreso':
-        return Colors.blue;
+        return AppColorsUnified.companyBlue;
       case 'Pendiente':
-        return Colors.orange;
+        return AppColorsUnified.orange;
       case 'Cancelado':
-        return Colors.red;
+        return AppColorsUnified.error;
       default:
         return Colors.grey;
     }

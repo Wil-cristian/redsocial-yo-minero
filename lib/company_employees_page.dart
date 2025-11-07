@@ -249,7 +249,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
 
   Widget _buildEmployeeCard(Map<String, dynamic> employee) {
     final isActive = employee['status'] == 'Activo';
-    final statusColor = isActive ? Colors.green : Colors.orange;
+    final statusColor = isActive ? AppColorsUnified.success : AppColorsUnified.orange;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -414,9 +414,9 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                           value: 'delete',
                           child: Row(
                             children: [
-                              Icon(Icons.delete, size: 16, color: Colors.red),
+                              Icon(Icons.delete, size: 16, color: AppColorsUnified.error),
                               SizedBox(width: 8),
-                              Text('Eliminar', style: TextStyle(color: Colors.red)),
+                              Text('Eliminar', style: TextStyle(color: AppColorsUnified.error)),
                             ],
                           ),
                         ),
@@ -558,7 +558,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: AppColorsUnified.error,
             ),
             child: const Text('Eliminar'),
           ),

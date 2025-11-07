@@ -78,8 +78,8 @@ class UnifiedHeaderWidget extends StatelessWidget {
           title: 'Racha diaria',
           subtitle: '${data['streak'] ?? 0} días',
           description: '¡Sigue así!',
-          gradientColors: [Colors.orange.shade400, Colors.deepOrange.shade600],
-          shadowColor: Colors.orange.withOpacity(0.3),
+          gradientColors: [AppColorsUnified.orange, AppColorsUnified.darken(AppColorsUnified.orange, 0.2)],
+          shadowColor: AppColorsUnified.orange.withOpacity(0.3),
         );
       case HeaderWidgetType.hotOpportunity:
         return _WidgetConfig(
@@ -87,8 +87,8 @@ class UnifiedHeaderWidget extends StatelessWidget {
           title: 'Oportunidad caliente',
           subtitle: data['title'] ?? 'Sin ofertas',
           description: '\$${data['price'] ?? 0}',
-          gradientColors: [Colors.red.shade400, Colors.pink.shade600],
-          shadowColor: Colors.red.withOpacity(0.3),
+          gradientColors: [AppColorsUnified.error, AppColorsUnified.error],
+          shadowColor: AppColorsUnified.error.withOpacity(0.3),
         );
       case HeaderWidgetType.weatherAlert:
         return _WidgetConfig(
@@ -96,8 +96,8 @@ class UnifiedHeaderWidget extends StatelessWidget {
           title: 'Clima',
           subtitle: '${data['temp'] ?? 22}°C',
           description: data['condition'] ?? 'Soleado',
-          gradientColors: [Colors.amber.shade400, Colors.orange.shade600],
-          shadowColor: Colors.amber.withOpacity(0.3),
+          gradientColors: [AppColorsUnified.warning, AppColorsUnified.orange],
+          shadowColor: AppColorsUnified.warning.withOpacity(0.3),
         );
       case HeaderWidgetType.aiSuggestion:
         return _WidgetConfig(
@@ -105,8 +105,8 @@ class UnifiedHeaderWidget extends StatelessWidget {
           title: 'Sugerencia IA',
           subtitle: data['suggestion'] ?? 'Explora nuevas ofertas',
           description: 'Basado en tu actividad',
-          gradientColors: [Colors.purple.shade400, Colors.deepPurple.shade600],
-          shadowColor: Colors.purple.withOpacity(0.3),
+          gradientColors: [AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2), AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.3)],
+          shadowColor: AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2).withOpacity(0.3),
         );
       case HeaderWidgetType.weeklyMission:
         return _WidgetConfig(
@@ -114,8 +114,8 @@ class UnifiedHeaderWidget extends StatelessWidget {
           title: 'Misión semanal',
           subtitle: '${data['progress'] ?? 0}%',
           description: 'Completa 5 tareas',
-          gradientColors: [Colors.green.shade400, Colors.teal.shade600],
-          shadowColor: Colors.green.withOpacity(0.3),
+          gradientColors: [AppColorsUnified.success, AppColorsUnified.success],
+          shadowColor: AppColorsUnified.success.withOpacity(0.3),
         );
       case HeaderWidgetType.communityFeed:
         return _WidgetConfig(
@@ -123,8 +123,8 @@ class UnifiedHeaderWidget extends StatelessWidget {
           title: 'Comunidad',
           subtitle: '${data['newPosts'] ?? 0} nuevos',
           description: 'Últimas 24h',
-          gradientColors: [Colors.blue.shade400, Colors.indigo.shade600],
-          shadowColor: Colors.blue.withOpacity(0.3),
+          gradientColors: [AppColorsUnified.companyBlue, AppColorsUnified.companyBlue],
+          shadowColor: AppColorsUnified.companyBlue.withOpacity(0.3),
         );
       case HeaderWidgetType.videoHighlight:
         return _WidgetConfig(
@@ -132,8 +132,8 @@ class UnifiedHeaderWidget extends StatelessWidget {
           title: 'Video destacado',
           subtitle: data['videoTitle'] ?? 'Sin video',
           description: '${data['views'] ?? 0} vistas',
-          gradientColors: [Colors.cyan.shade400, Colors.blue.shade600],
-          shadowColor: Colors.cyan.withOpacity(0.3),
+          gradientColors: [AppColorsUnified.companyBlue, AppColorsUnified.companyBlue],
+          shadowColor: AppColorsUnified.companyBlue.withOpacity(0.3),
         );
     }
   }

@@ -98,15 +98,15 @@ class _CompanyRequestedProductsPageState
   Color _getStatusColor(String status) {
     switch (status) {
       case 'Entregado':
-        return Colors.green;
+        return AppColorsUnified.success;
       case 'En Camino':
-        return Colors.blue;
+        return AppColorsUnified.companyBlue;
       case 'En Procesamiento':
-        return Colors.purple;
+        return AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2);
       case 'Pendiente':
-        return Colors.orange;
+        return AppColorsUnified.orange;
       case 'Cancelado':
-        return Colors.red;
+        return AppColorsUnified.error;
       default:
         return Colors.grey;
     }

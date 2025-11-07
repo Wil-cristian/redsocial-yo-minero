@@ -759,7 +759,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Nombre y categoría son obligatorios'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColorsUnified.error,
         ),
       );
       return;

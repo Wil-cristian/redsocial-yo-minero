@@ -87,13 +87,13 @@ class _CompanyProjectsPageState extends State<CompanyProjectsPage> {
   Color _getStatusColor(String status) {
     switch (status) {
       case 'En Progreso':
-        return Colors.blue;
+        return AppColorsUnified.companyBlue;
       case 'Completado':
-        return Colors.green;
+        return AppColorsUnified.success;
       case 'Planificación':
-        return Colors.orange;
+        return AppColorsUnified.orange;
       case 'En Pausa':
-        return Colors.red;
+        return AppColorsUnified.error;
       default:
         return Colors.grey;
     }

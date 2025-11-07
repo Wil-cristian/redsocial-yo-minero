@@ -740,7 +740,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
             if (existingProduct != null)
               TextButton(
                 onPressed: () => _deleteProduct(existingProduct),
-                child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
+                child: const Text('Eliminar', style: TextStyle(color: AppColorsUnified.error)),
               ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -775,7 +775,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Nombre, descripción y precio son obligatorios'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColorsUnified.error,
         ),
       );
       return;
@@ -786,7 +786,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Ingrese un precio válido'),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColorsUnified.error,
         ),
       );
       return;
@@ -862,7 +862,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                 ),
               );
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColorsUnified.error),
             child: const Text('Eliminar'),
           ),
         ],

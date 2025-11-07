@@ -598,7 +598,7 @@ class _ServicesPageState extends State<ServicesPage>
                                 const SizedBox(height: 2),
                                 Row(
                                   children: [
-                                    const Icon(Icons.star, size: 14, color: Colors.amber),
+                                    const Icon(Icons.star, size: 14, color: AppColorsUnified.warning),
                                     const SizedBox(width: 2),
                                     Text(
                                       '${0.0.toStringAsFixed(1)} (${0})',

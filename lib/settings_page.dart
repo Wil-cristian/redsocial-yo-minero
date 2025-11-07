@@ -226,7 +226,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: ElevatedButton(
                   onPressed: () => _showLogoutDialog(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: AppColorsUnified.error,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -407,7 +407,7 @@ class _SettingsPageState extends State<SettingsPage> {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: AppColorsUnified.error,
               foregroundColor: Colors.white,
             ),
             child: const Text('Cerrar Sesión'),

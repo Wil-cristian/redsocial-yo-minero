@@ -96,13 +96,13 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
   Color _getStatusColor(String status) {
     switch (status) {
       case 'Disponible':
-        return Colors.green;
+        return AppColorsUnified.success;
       case 'En Uso':
-        return Colors.blue;
+        return AppColorsUnified.companyBlue;
       case 'Mantenimiento':
-        return Colors.orange;
+        return AppColorsUnified.orange;
       case 'Necesita Mantenimiento':
-        return Colors.red;
+        return AppColorsUnified.error;
       default:
         return Colors.grey;
     }
@@ -111,15 +111,15 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
   Color _getConditionColor(String condition) {
     switch (condition) {
       case 'Excelente':
-        return Colors.green;
+        return AppColorsUnified.success;
       case 'Bueno':
-        return Colors.blue;
+        return AppColorsUnified.companyBlue;
       case 'Regular':
-        return Colors.orange;
+        return AppColorsUnified.orange;
       case 'Necesita Mantenimiento':
-        return Colors.red;
+        return AppColorsUnified.error;
       case 'Nueva':
-        return Colors.green;
+        return AppColorsUnified.success;
       default:
         return Colors.grey;
     }

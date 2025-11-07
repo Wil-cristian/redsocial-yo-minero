@@ -27,7 +27,7 @@ class RichDecorations {
   static BoxDecoration goldCardRich({bool isElevated = false}) => _createRich(gradientColors: [DashboardColors.cardOrange.withValues(alpha: 0.9), DashboardColors.gold, Color(0xFFD4A574)], borderColor: DashboardColors.gold, isElevated: isElevated);
   static BoxDecoration goldCardTextured() => _createRich(gradientColors: [const Color(0xFFF5E6D3), const Color(0xFFE8D5B7), const Color(0xFFD4A574)], borderColor: const Color(0xFFB8935E), borderWidth: 3);
   static BoxDecoration goldButton3D({bool isPressed = false}) => _createRich(gradientColors: isPressed ? [DashboardColors.gold.withValues(alpha: 0.7), DashboardColors.cardOrange.withValues(alpha: 0.8)] : [DashboardColors.gold, DashboardColors.cardOrange], borderColor: Color(0xFFB8935E), borderRadius: 12, isPressed: isPressed, isElevated: true);
-  static BoxDecoration amberCardRich() => _createRich(gradientColors: [Colors.amber.shade100, Colors.amber.shade200, Colors.amber.shade300], borderColor: Colors.amber.shade600, isElevated: true);
+  static BoxDecoration amberCardRich() => _createRich(gradientColors: [AppColorsUnified.warning, AppColorsUnified.warning, AppColorsUnified.warning], borderColor: AppColorsUnified.warning, isElevated: true);
   static BoxDecoration fabGold() => _createRich(gradientColors: [DashboardColors.gold, Color(0xFFD4A574), DashboardColors.cardOrange], borderColor: const Color(0xFFB8935E), borderRadius: 28, isElevated: true);
 
   // Emerald/Green family
@@ -37,14 +37,14 @@ class RichDecorations {
   static BoxDecoration emeraldGemBadge() => _createRich(gradientColors: [DashboardColors.emeraldDeep, DashboardColors.emerald], borderRadius: 20, borderWidth: 0);
 
   // Ruby/Red family
-  static BoxDecoration rubyGemCard({bool isElevated = false}) => _createRich(gradientColors: [Colors.red.shade300, Colors.red.shade500, Colors.red.shade700], borderColor: Colors.red.shade900, borderWidth: 3, isElevated: isElevated);
-  static BoxDecoration rubyGemBadge() => _createRich(gradientColors: [Colors.red.shade700, Colors.red.shade500], borderRadius: 20, borderWidth: 0);
+  static BoxDecoration rubyGemCard({bool isElevated = false}) => _createRich(gradientColors: [AppColorsUnified.error, AppColorsUnified.error, AppColorsUnified.error], borderColor: AppColorsUnified.error, borderWidth: 3, isElevated: isElevated);
+  static BoxDecoration rubyGemBadge() => _createRich(gradientColors: [AppColorsUnified.error, AppColorsUnified.error], borderRadius: 20, borderWidth: 0);
 
   // Sapphire/Blue family
-  static BoxDecoration sapphireCardRich() => _createRich(gradientColors: [Colors.blue.shade100, Colors.blue.shade300, Colors.blue.shade500], borderColor: Colors.blue.shade700, isElevated: true);
+  static BoxDecoration sapphireCardRich() => _createRich(gradientColors: [AppColorsUnified.companyBlue, AppColorsUnified.companyBlue, AppColorsUnified.companyBlue], borderColor: AppColorsUnified.companyBlue, isElevated: true);
 
   // Amethyst/Purple family
-  static BoxDecoration amethystCardRich() => _createRich(gradientColors: [Colors.purple.shade100, Colors.purple.shade300, Colors.purple.shade500], borderColor: Colors.purple.shade700, isElevated: true);
+  static BoxDecoration amethystCardRich() => _createRich(gradientColors: [AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2), AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2), AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2)], borderColor: AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2), isElevated: true);
 
   // Post type shortcuts (simple delegation)
   static BoxDecoration productCard() => goldCardTextured();
@@ -52,7 +52,7 @@ class RichDecorations {
   static BoxDecoration offerCard() => emeraldCardRich();
   static BoxDecoration questionCard() => amberCardRich();
   static BoxDecoration newsCard() => sapphireCardRich();
-  static BoxDecoration pollCard() => _createRich(gradientColors: [Colors.orange.shade100, Colors.orange.shade300, Colors.orange.shade400], borderColor: Colors.orange.shade700, isElevated: true);
+  static BoxDecoration pollCard() => _createRich(gradientColors: [AppColorsUnified.orange, AppColorsUnified.orange, AppColorsUnified.orange], borderColor: AppColorsUnified.orange, isElevated: true);
 
   // Utility decorations
   static BoxDecoration glowingCard({required Color glowColor, double intensity = 0.6}) => _createRich(gradientColors: [Colors.white, glowColor.withValues(alpha: 0.1)], shadows: [BoxShadow(color: glowColor.withValues(alpha: intensity), blurRadius: 20, spreadRadius: 4)], borderColor: glowColor.withValues(alpha: 0.3));

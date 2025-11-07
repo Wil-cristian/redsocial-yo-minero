@@ -434,7 +434,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
                             onTap: () => setState(() => _productImageUrls.removeAt(index)),
                             child: Container(
                               decoration: const BoxDecoration(
-                                color: Colors.red,
+                                color: AppColorsUnified.error,
                                 shape: BoxShape.circle,
                               ),
                               child: const Icon(Icons.close, color: Colors.white, size: 20),
@@ -501,7 +501,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
                       ),
                       if (_pollOptionControllers.length > 2)
                         IconButton(
-                          icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
+                          icon: const Icon(Icons.remove_circle_outline, color: AppColorsUnified.error),
                           onPressed: () {
                             setState(() {
                               _pollOptionControllers[index].dispose();

@@ -393,7 +393,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                 width: 10,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: AppColorsUnified.success,
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 1),
                 ),
@@ -412,7 +412,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
               ),
               child: const Text(
                 'Admin',
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.purple),
+                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2)),
               ),
             )
           : null,
@@ -471,12 +471,12 @@ class _GroupChatPageState extends State<GroupChatPage> {
               crossAxisCount: 3,
               shrinkWrap: true,
               children: [
-                _buildAttachmentOption(Icons.image, 'Foto', Colors.blue),
-                _buildAttachmentOption(Icons.videocam, 'Video', Colors.purple),
-                _buildAttachmentOption(Icons.description, 'Archivo', Colors.orange),
-                _buildAttachmentOption(Icons.location_on, 'Ubicación', Colors.red),
-                _buildAttachmentOption(Icons.contact_mail, 'Contacto', Colors.teal),
-                _buildAttachmentOption(Icons.description, 'Documento', Colors.indigo),
+                _buildAttachmentOption(Icons.image, 'Foto', AppColorsUnified.companyBlue),
+                _buildAttachmentOption(Icons.videocam, 'Video', AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2)),
+                _buildAttachmentOption(Icons.description, 'Archivo', AppColorsUnified.orange),
+                _buildAttachmentOption(Icons.location_on, 'Ubicación', AppColorsUnified.error),
+                _buildAttachmentOption(Icons.contact_mail, 'Contacto', AppColorsUnified.success),
+                _buildAttachmentOption(Icons.description, 'Documento', AppColorsUnified.companyBlue),
               ],
             ),
           ],

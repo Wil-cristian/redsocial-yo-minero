@@ -95,19 +95,19 @@ class NotificationModel {
   Color get color {
     switch (type) {
       case NotificationType.message:
-        return Colors.blue;
+        return AppColorsUnified.companyBlue;
       case NotificationType.groupInvite:
-        return Colors.purple;
+        return AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2);
       case NotificationType.productLiked:
-        return Colors.red;
+        return AppColorsUnified.error;
       case NotificationType.serviceRequest:
-        return Colors.orange;
+        return AppColorsUnified.orange;
       case NotificationType.newFollower:
-        return Colors.green;
+        return AppColorsUnified.success;
       case NotificationType.comment:
-        return Colors.teal;
+        return AppColorsUnified.success;
       case NotificationType.mention:
-        return Colors.indigo;
+        return AppColorsUnified.companyBlue;
     }
   }
 

@@ -223,7 +223,7 @@ class UserProfileCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              const Icon(Icons.star, size: 14, color: Colors.amber),
+              const Icon(Icons.star, size: 14, color: AppColorsUnified.warning),
               const SizedBox(width: 4),
               Text(
                 user.ratingAvg.toStringAsFixed(1),
@@ -358,7 +358,7 @@ class UserProfileCard extends StatelessWidget {
               if (showRating && user.ratingCount > 0)
                 Row(
                   children: [
-                    const Icon(Icons.star, size: 12, color: Colors.amber),
+                    const Icon(Icons.star, size: 12, color: AppColorsUnified.warning),
                     const SizedBox(width: 2),
                     Text(
                       user.ratingAvg.toStringAsFixed(1),

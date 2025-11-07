@@ -166,18 +166,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.orange[50],
+                      color: AppColorsUnified.orange[50],
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.orange[200]!),
+                      border: Border.all(color: AppColorsUnified.orange[200]!),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.info_outline, color: Colors.orange[700]),
+                        Icon(Icons.info_outline, color: AppColorsUnified.orange[700]),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             'Por seguridad, debes cambiar tu contraseña temporal antes de continuar.',
-                            style: TextStyle(color: Colors.orange[900], fontSize: 13),
+                            style: TextStyle(color: AppColorsUnified.orange[900], fontSize: 13),
                           ),
                         ),
                       ],
@@ -353,22 +353,22 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.blue[50],
+                    color: AppColorsUnified.companyBlue[50],
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.blue[200]!),
+                    border: Border.all(color: AppColorsUnified.companyBlue[200]!),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.tips_and_updates, color: Colors.blue[700], size: 20),
+                          Icon(Icons.tips_and_updates, color: AppColorsUnified.companyBlue[700], size: 20),
                           const SizedBox(width: 8),
                           Text(
                             'Consejos para una contraseña segura:',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.blue[900],
+                              color: AppColorsUnified.companyBlue[900],
                               fontSize: 14,
                             ),
                           ),
@@ -395,12 +395,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
         children: [
-          Icon(Icons.check_circle, size: 16, color: Colors.blue[700]),
+          Icon(Icons.check_circle, size: 16, color: AppColorsUnified.companyBlue[700]),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(fontSize: 12, color: Colors.blue[800]),
+              style: TextStyle(fontSize: 12, color: AppColorsUnified.companyBlue[800]),
             ),
           ),
         ],

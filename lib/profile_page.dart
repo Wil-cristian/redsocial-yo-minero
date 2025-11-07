@@ -940,8 +940,8 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text('Cerrar Sesión', style: TextStyle(color: Colors.red)),
+              leading: const Icon(Icons.logout, color: AppColorsUnified.error),
+              title: const Text('Cerrar Sesión', style: TextStyle(color: AppColorsUnified.error)),
               onTap: () => _logout(),
             ),
           ],
@@ -974,7 +974,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               }
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColorsUnified.error),
             child: const Text('Cerrar Sesión', style: TextStyle(color: Colors.white)),
           ),
         ],

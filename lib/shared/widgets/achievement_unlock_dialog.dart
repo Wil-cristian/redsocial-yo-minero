@@ -302,8 +302,8 @@ class _ConfettiPainter extends CustomPainter {
       DashboardColors.primary,
       DashboardColors.emerald,
       DashboardColors.accent,
-      Colors.blue,
-      Colors.purple,
+      AppColorsUnified.companyBlue,
+      AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2),
     ];
     return colors[index % colors.length];
   }

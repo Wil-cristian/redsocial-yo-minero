@@ -116,7 +116,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error al iniciar conversación: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColorsUnified.error,
           ),
         );
       }
@@ -188,7 +188,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 64, color: Colors.red.shade300),
+            Icon(Icons.error_outline, size: 64, color: AppColorsUnified.error),
             const SizedBox(height: 16),
             Text(
               _error!,

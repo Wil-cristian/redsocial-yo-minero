@@ -348,12 +348,12 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: Colors.red.withValues(alpha: 0.1),
+              color: AppColorsUnified.error.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
               Icons.favorite,
-              color: Colors.red,
+              color: AppColorsUnified.error,
             ),
           ),
           const SizedBox(width: 16),

@@ -584,14 +584,14 @@ class _GroupsPageState extends State<GroupsPage> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
-                                        color: Colors.green
+                                        color: AppColorsUnified.success
                                             .withValues(alpha: 0.12),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: const Text('Miembro',
                                           style: TextStyle(
                                               fontSize: 11,
-                                              color: Colors.green,
+                                              color: AppColorsUnified.success,
                                               fontWeight: FontWeight.w600)),
                                     ),
                                 ],

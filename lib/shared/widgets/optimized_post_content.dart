@@ -381,7 +381,7 @@ class OptimizedPostContent extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: pollEnded ? Colors.red : Colors.green,
+              color: pollEnded ? AppColorsUnified.error : AppColorsUnified.success,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
