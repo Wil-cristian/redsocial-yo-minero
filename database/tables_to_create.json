@@ -1,0 +1,63 @@
+{
+  "instructions": "Copia y pega el contenido del archivo 'database/additional_tables.sql' en el SQL Editor de Supabase",
+  "tables_to_create": [
+    {
+      "name": "favorites",
+      "description": "Sistema de favoritos para productos y servicios",
+      "purpose": "Permite a los usuarios marcar productos/servicios como favoritos",
+      "columns": ["id", "user_id", "product_id", "service_id", "created_at"],
+      "features": ["RLS habilitado", "Triggers automáticos para contadores", "Índices optimizados"]
+    },
+    {
+      "name": "conversations",
+      "description": "Conversaciones directas entre usuarios",
+      "purpose": "Sistema de mensajería 1-a-1 con chat en tiempo real",
+      "columns": ["id", "user1_id", "user2_id", "last_message_at", "unread_count_user1", "unread_count_user2"],
+      "features": ["RLS habilitado", "Realtime (habilitar manualmente)", "Sistema de no leídos automático"]
+    },
+    {
+      "name": "messages",
+      "description": "Mensajes dentro de conversaciones",
+      "purpose": "Mensajes de chat con soporte para texto, imágenes y archivos",
+      "columns": ["id", "conversation_id", "sender_id", "content", "message_type", "is_read", "read_at"],
+      "features": ["RLS habilitado", "Realtime (habilitar manualmente)", "Triggers para actualizar conversaciones"]
+    },
+    {
+      "name": "projects",
+      "description": "Proyectos de empresas",
+      "purpose": "Gestión de proyectos para métricas del dashboard",
+      "columns": ["id", "company_id", "name", "description", "status", "progress", "budget_amount", "start_date", "end_date", "manager_id"],
+      "features": ["RLS habilitado", "Solo empresa y empleados pueden ver", "Soporte para equipo y presupuesto"]
+    },
+    {
+      "name": "transactions",
+      "description": "Transacciones financieras (ingresos y gastos)",
+      "purpose": "Registro de finanzas para métricas del dashboard",
+      "columns": ["id", "company_id", "type", "category", "amount", "currency", "description", "project_id", "transaction_date"],
+      "features": ["RLS habilitado", "Solo roles financieros pueden ver", "Asociación con proyectos opcional"]
+    }
+  ],
+  "steps": [
+    "1. Ve a tu proyecto en Supabase Dashboard",
+    "2. Abre el SQL Editor (ícono de base de datos en el menú lateral)",
+    "3. Crea una nueva query",
+    "4. Copia TODO el contenido de 'database/additional_tables.sql'",
+    "5. Pega el contenido en el editor",
+    "6. Ejecuta el script (botón RUN o Ctrl+Enter)",
+    "7. Habilita Realtime manualmente:",
+    "   - Ve a Database → Replication",
+    "   - Busca 'messages' y habilita Realtime",
+    "   - Busca 'conversations' y habilita Realtime",
+    "8. Verifica que las 5 tablas se crearon correctamente"
+  ],
+  "verification": {
+    "check_tables": "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name IN ('favorites', 'conversations', 'messages', 'projects', 'transactions');",
+    "expected_result": "Deberías ver las 5 tablas listadas"
+  },
+  "notes": [
+    "El script incluye Row Level Security (RLS) configurado automáticamente",
+    "Los triggers se crean automáticamente para gestionar contadores y fechas",
+    "No olvides habilitar Realtime manualmente para mensajería en tiempo real",
+    "Todas las políticas de seguridad están pre-configuradas"
+  ]
+}
