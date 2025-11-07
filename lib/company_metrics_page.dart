@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'core/di/locator.dart';
+import 'features/metrics/data/supabase_metrics_repository.dart';
+import 'shared/models/project.dart';
 
 class CompanyMetricsPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -14,7 +17,49 @@ class CompanyMetricsPage extends StatefulWidget {
 }
 
 class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
+  final _metricsRepo = sl<MetricsRepository>();
   String _selectedPeriod = 'Mes Actual';
+  Map<String, dynamic>? _metrics;
+  List<Project>? _projects;
+  bool _isLoading = true;
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadMetrics();
+  }
+  
+  Future<void> _loadMetrics() async {
+    if (widget.currentUser == null) return;
+    
+    setState(() => _isLoading = true);
+    
+    final companyId = widget.currentUser!['id'] as String;
+    String period = 'month';
+    
+    switch (_selectedPeriod) {
+      case 'Semana':
+        period = 'week';
+        break;
+      case 'Trimestre':
+        period = 'quarter';
+        break;
+      case 'Año':
+        period = 'year';
+        break;
+      default:
+        period = 'month';
+    }
+    
+    final metrics = await _metricsRepo.getCompanyMetrics(companyId, period: period);
+    final projects = await _metricsRepo.getCompanyProjects(companyId);
+    
+    setState(() {
+      _metrics = metrics;
+      _projects = projects;
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +89,9 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: _isLoading 
+        ? const Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
         child: Column(
           children: [
             // Period Selector
@@ -60,6 +107,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                         setState(() {
                           _selectedPeriod = value!;
                         });
+                        _loadMetrics();
                       },
                       items: [
                         'Semana',
@@ -87,7 +135,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                     children: [
                       _buildMetricCard(
                         title: 'Ingresos',
-                        value: '\$485,200',
+                        value: '\$${(_metrics?['income'] ?? 0.0).toStringAsFixed(0)}',
                         change: '+12.5%',
                         icon: Icons.trending_up,
                         color: Colors.green,
@@ -96,7 +144,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                       const SizedBox(width: 12),
                       _buildMetricCard(
                         title: 'Gastos',
-                        value: '\$245,800',
+                        value: '\$${(_metrics?['expense'] ?? 0.0).toStringAsFixed(0)}',
                         change: '+5.2%',
                         icon: Icons.trending_down,
                         color: Colors.red,
@@ -109,7 +157,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                     children: [
                       _buildMetricCard(
                         title: 'Ganancia',
-                        value: '\$239,400',
+                        value: '\$${(_metrics?['profit'] ?? 0.0).toStringAsFixed(0)}',
                         change: '+18.3%',
                         icon: Icons.attach_money,
                         color: Colors.blue,
@@ -118,8 +166,8 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                       const SizedBox(width: 12),
                       _buildMetricCard(
                         title: 'Proyectos',
-                        value: '8',
-                        change: '+2',
+                        value: '${_metrics?['projects_count'] ?? 0}',
+                        change: '+${_metrics?['projects_count'] ?? 0}',
                         icon: Icons.folder_open,
                         color: Colors.orange,
                         flex: 1,
@@ -272,6 +320,31 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
   }
 
   Widget _buildPerformanceChart() {
+    if (_projects == null || _projects!.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(32),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.08),
+              blurRadius: 8,
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            'No hay proyectos activos',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+            ),
+          ),
+        ),
+      );
+    }
+    
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -286,15 +359,12 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildPerformanceBar('Exploración Mina Sur', 0.65),
-          const SizedBox(height: 16),
-          _buildPerformanceBar('Perforación Profunda', 1.0),
-          const SizedBox(height: 16),
-          _buildPerformanceBar('Extracción de Minerales', 0.15),
-          const SizedBox(height: 16),
-          _buildPerformanceBar('Análisis Geológico', 0.40),
-        ],
+        children: _projects!.take(5).map((project) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: _buildPerformanceBar(project.name, project.progress / 100),
+          );
+        }).toList(),
       ),
     );
   }

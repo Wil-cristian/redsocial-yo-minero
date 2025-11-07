@@ -339,7 +339,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
         ],
       ),
       child: Text(
-        widget.service.rateDisplay,
+        widget.service.priceDisplay,
         style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
