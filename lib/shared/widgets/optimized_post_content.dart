@@ -356,7 +356,7 @@ class OptimizedPostContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(.cardPink)),
+                Text(DashboardColors.cardPink)),
                 if (post.serviceName != null) Text(post.serviceName!, style: const TextStyle(fontSize: 14)),
               ],
             ),

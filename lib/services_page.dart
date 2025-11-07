@@ -368,17 +368,15 @@ class _ServicesPageState extends State<ServicesPage>
               ),
               const SizedBox(height: 8),
               Text(p.title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall
+                  style: Theme.of(context).textTheme
+                      AppColors.titleSmall
                       ?.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
               Text(p.content,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
+                  style: Theme.of(context).textTheme
+                      AppColors.bodyMedium
                       ?.copyWith(color: Colors.grey[700])),
               if (p.tags.isNotEmpty) ...[
                 const SizedBox(height: 8),

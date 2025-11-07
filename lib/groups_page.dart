@@ -454,18 +454,16 @@ class _GroupsPageState extends State<GroupsPage> {
                           Text(g.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
+                              style: Theme.of(context).textTheme
+                                  AppColors.bodyMedium
                                   ?.copyWith(fontWeight: FontWeight.bold)),
                           const SizedBox(height: 4),
                           Text(
                             g.description,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
+                            style: Theme.of(context).textTheme
+                                AppColors.bodySmall
                                 ?.copyWith(color: Colors.grey[700]),
                           ),
                         ],
@@ -563,9 +561,8 @@ class _GroupsPageState extends State<GroupsPage> {
                                     child: Text(g.name,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall
+                                        style: Theme.of(context).textTheme
+                                            AppColors.titleSmall
                                             ?.copyWith(
                                                 fontWeight: FontWeight.bold)),
                                   ),
@@ -606,9 +603,8 @@ class _GroupsPageState extends State<GroupsPage> {
                               Text(g.description,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
+                                  style: Theme.of(context).textTheme
+                                      AppColors.bodyMedium
                                       ?.copyWith(color: Colors.grey[700])),
                               const SizedBox(height: 10),
                               Wrap(

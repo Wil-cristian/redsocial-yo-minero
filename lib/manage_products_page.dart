@@ -116,7 +116,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                   child: TextButton.icon(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.close, size: 18, color: AppColors.secondary),
-                    label: Text(.secondary)),
+                    label: const Text('Cerrar'),
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     ),

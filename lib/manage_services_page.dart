@@ -74,7 +74,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                   child: TextButton.icon(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.close, size: 18, color: AppColors.primary),
-                    label: Text(.primary)),
+                    label: const Text('Cerrar'),
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     ),

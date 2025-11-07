@@ -360,7 +360,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                       onPressed: () => _rejectRequest(request['id']),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.error,
-                        side: BorderSide(.error),
+                        side: BorderSide(color: DashboardColors.error),
                       ),
                       child: const Text('Rechazar'),
                     ),
