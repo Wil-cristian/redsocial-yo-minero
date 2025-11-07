@@ -131,15 +131,25 @@ lib/
 - [x] Creación de productos/servicios usa `currentUserProfile`
 - [x] Dashboard de métricas muestra datos reales
 - [x] Selector de período funcional (semana, mes, trimestre, año)
-- [x] EditProfilePage actualiza perfil en Supabase (name y bio)
+- [x] EditProfilePage actualiza perfil en Supabase (name, bio y campos profesionales completos)
 - [x] ConversationsPage con lista de chats y refresco automático
 - [x] ChatPage con mensajería en tiempo real usando Realtime
+
+#### 5. Expansión de Perfiles Profesionales ⭐ NUEVO
+- [x] Migración SQL `profile_expansion.sql` creada
+- [x] Campos profesionales agregados: phone, profession, company, job_title, website
+- [x] Campos adicionales: location (JSONB), birth_date, experience_level
+- [x] Arrays dinámicos: specializations, interests
+- [x] Índices optimizados para búsquedas (GIN para arrays, B-tree para campos)
+- [x] EditProfilePage expandido para soportar todos los campos nuevos
+- [x] Documentación completa en `database/README.md`
+- [x] Validación del arquitecto aprobada
 
 ### ⚠️ Pendientes / TODOs
 
 #### 1. Funcionalidades Pendientes
 - [ ] **Notificaciones**: Sistema de notificaciones push
-- [ ] **Ampliar campos de perfil**: Agregar phone, profession, company, job_title, website al esquema de BD
+- [ ] **Ejecutar migración SQL**: Aplicar `profile_expansion.sql` en Supabase (ver `database/README.md`)
 
 #### 2. Mejoras Técnicas
 - [ ] Manejo de errores más robusto con try-catch en servicios
@@ -269,6 +279,16 @@ Cada dominio tiene una interfaz abstracta y múltiples implementaciones:
 - ✅ Marca automática de mensajes como leídos
 - ✅ Limpieza correcta de timers y suscripciones en dispose()
 - ✅ Compilación y aprobación del arquitecto
+
+**Cuarta Sesión:**
+- ✅ Creación de migración SQL `profile_expansion.sql`
+- ✅ 10 nuevos campos agregados a tabla users
+- ✅ Índices optimizados para búsquedas (GIN para arrays, B-tree para strings)
+- ✅ EditProfilePage expandido con soporte completo para todos los campos
+- ✅ Mapeo correcto de datos (strings, JSON, arrays, fechas ISO)
+- ✅ `database/README.md` con documentación completa de migraciones
+- ✅ Comandos CLI corregidos y validados (`supabase db execute --file`)
+- ✅ Compilación exitosa y aprobación final del arquitecto
 
 ---
 
