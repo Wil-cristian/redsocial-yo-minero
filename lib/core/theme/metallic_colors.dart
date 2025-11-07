@@ -1,301 +1,216 @@
 import 'package:flutter/material.dart';
+import 'app_colors_unified.dart';
 
-/// 💎 COLORES METÁLICOS REALISTAS
-/// Inspirados en piedras preciosas y metales reales
-/// Usa gradientes multicapa para simular brillo y profundidad
+/// 💎 COLORES METÁLICOS - NOW DELEGATED TO AppColorsUnified
+/// Todos los colores derivan del sistema de 10 base
 class MetallicColors {
   MetallicColors._();
 
   // ============================================
-  // 🥇 ORO BRILLANTE - Como oro real 24K
+  // 🥇 ORO - Del sistema de 10
   // ============================================
   
-  /// Gradiente de oro con brillo realista (5 capas)
-  static const LinearGradient goldShine = LinearGradient(
+  static LinearGradient get goldShine => AppColorsUnified.goldGradient;
+  static LinearGradient get goldMetallic => AppColorsUnified.goldGradient;
+  static LinearGradient get goldButton => AppColorsUnified.goldGradient;
+
+  // ============================================
+  // 💎 ESMERALDA - Del success (verde)
+  // ============================================
+  
+  static LinearGradient get emeraldShine => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFFFFAF0), // Highlight blanco dorado
-      Color(0xFFFFE55C), // Oro brillante
-      Color(0xFFFFD700), // Oro puro
-      Color(0xFFFFB300), // Oro medio
-      Color(0xFFCC9900), // Oro oscuro (sombra)
+      AppColorsUnified._lighten(AppColorsUnified.success, 0.3),
+      AppColorsUnified._lighten(AppColorsUnified.success, 0.2),
+      AppColorsUnified.success,
+      AppColorsUnified._darken(AppColorsUnified.success, 0.2),
+      AppColorsUnified._darken(AppColorsUnified.success, 0.3),
     ],
-    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
   
-  /// Gradiente de oro con efecto metálico
-  static const LinearGradient goldMetallic = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      Color(0xFFFFE873), // Top highlight
-      Color(0xFFFFD700), // Oro medio
-      Color(0xFFD4AF37), // Oro antiguo
-      Color(0xFFAA8C3A), // Base oscura
-    ],
-    stops: [0.0, 0.4, 0.7, 1.0],
-  );
-  
-  /// Oro con reflejo diagonal (para botones)
-  static const LinearGradient goldButton = LinearGradient(
-    begin: Alignment(-1.0, -1.0),
-    end: Alignment(1.0, 1.0),
-    colors: [
-      Color(0xFFFFF9E6), // Reflejo brillante
-      Color(0xFFFFE55C),
-      Color(0xFFFFD700),
-      Color(0xFFFFB300),
-      Color(0xFFD4AF37),
-    ],
-    stops: [0.0, 0.2, 0.5, 0.8, 1.0],
-  );
+  static LinearGradient get emeraldCrystal => emeraldShine;
 
   // ============================================
-  // 💎 ESMERALDA - Verde piedra preciosa
+  // 🪙 PLATINO/PLATA - Del textSecondary
   // ============================================
   
-  /// Gradiente esmeralda brillante (como la foto)
-  static const LinearGradient emeraldShine = LinearGradient(
+  static LinearGradient get platinumShine => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFF6EE7B7), // Highlight claro
-      Color(0xFF34D399), // Verde brillante
-      Color(0xFF10B981), // Esmeralda puro
-      Color(0xFF059669), // Verde profundo
-      Color(0xFF047857), // Sombra oscura
+      AppColorsUnified.surface,
+      AppColorsUnified._lighten(AppColorsUnified.textSecondary, 0.4),
+      AppColorsUnified._lighten(AppColorsUnified.textSecondary, 0.3),
+      AppColorsUnified.textSecondary,
+      AppColorsUnified._darken(AppColorsUnified.textSecondary, 0.1),
     ],
-    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
   
-  /// Esmeralda con brillo cristalino
-  static const LinearGradient emeraldCrystal = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      Color(0xFFA7F3D0), // Brillo superior
-      Color(0xFF6EE7B7),
-      Color(0xFF34D399),
-      Color(0xFF10B981),
-      Color(0xFF065F46), // Base oscura
-    ],
-    stops: [0.0, 0.2, 0.5, 0.8, 1.0],
-  );
+  static LinearGradient get silverMetallic => platinumShine;
 
   // ============================================
-  // 🪙 PLATINO/PLATA - Metal brillante
+  // 🟤 BRONCE - Del gold oscurecido
   // ============================================
   
-  /// Gradiente de platino realista
-  static const LinearGradient platinumShine = LinearGradient(
+  static LinearGradient get bronzeShine => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFFFFFFF), // Highlight puro
-      Color(0xFFF5F5F5),
-      Color(0xFFE8E8E8), // Plata brillante
-      Color(0xFFC0C0C0), // Plata media
-      Color(0xFF9E9E9E), // Sombra
+      AppColorsUnified._darken(AppColorsUnified.gold, 0.1),
+      AppColorsUnified._darken(AppColorsUnified.gold, 0.2),
+      AppColorsUnified._darken(AppColorsUnified.gold, 0.3),
+      AppColorsUnified._darken(AppColorsUnified.gold, 0.4),
+      AppColorsUnified._darken(AppColorsUnified.gold, 0.5),
     ],
-    stops: [0.0, 0.2, 0.5, 0.8, 1.0],
-  );
-  
-  /// Plata metálica con reflejo
-  static const LinearGradient silverMetallic = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [
-      Color(0xFFFAFAFA), // Top shine
-      Color(0xFFE8E8E8),
-      Color(0xFFC0C0C0),
-      Color(0xFFA8A8A8),
-      Color(0xFF7C7C7C), // Base oscura
-    ],
-    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
 
   // ============================================
-  // 🟤 BRONCE - Metal cálido
+  // 🔷 ZAFIRO - Del companyBlue
   // ============================================
   
-  /// Gradiente de bronce pulido
-  static const LinearGradient bronzeShine = LinearGradient(
+  static LinearGradient get sapphireShine => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFF4C584), // Highlight dorado
-      Color(0xFFE5A66D), // Bronce claro
-      Color(0xFFCD7F32), // Bronce puro
-      Color(0xFFB87333), // Bronce medio
-      Color(0xFF8B5A2B), // Sombra oscura
+      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.3),
+      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.companyBlue,
+      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.3),
     ],
-    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
 
   // ============================================
-  // 🔷 ZAFIRO - Azul piedra preciosa
+  // 🔮 AMATISTA - Del companyBlue (púrpura → azul)
   // ============================================
   
-  /// Gradiente zafiro brillante
-  static const LinearGradient sapphireShine = LinearGradient(
+  static LinearGradient get amethystShine => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFF93C5FD), // Highlight azul claro
-      Color(0xFF60A5FA), // Azul brillante
-      Color(0xFF3B82F6), // Zafiro puro
-      Color(0xFF2563EB), // Azul profundo
-      Color(0xFF1E40AF), // Sombra oscura
+      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.3),
+      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.companyBlue,
+      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.3),
     ],
-    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
 
   // ============================================
-  // 🔮 AMATISTA - Púrpura cristalino
+  // 🍊 ÁMBAR - Del warning (naranja/amarillo)
   // ============================================
   
-  /// Gradiente amatista brillante
-  static const LinearGradient amethystShine = LinearGradient(
+  static LinearGradient get amberShine => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFE9D5FF), // Highlight lavanda
-      Color(0xFFC084FC), // Púrpura claro
-      Color(0xFF9333EA), // Amatista puro
-      Color(0xFF7C3AED), // Púrpura profundo
-      Color(0xFF6B21A8), // Sombra oscura
+      AppColorsUnified._lighten(AppColorsUnified.warning, 0.3),
+      AppColorsUnified._lighten(AppColorsUnified.warning, 0.2),
+      AppColorsUnified.warning,
+      AppColorsUnified._darken(AppColorsUnified.warning, 0.2),
+      AppColorsUnified._darken(AppColorsUnified.warning, 0.3),
     ],
-    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
 
   // ============================================
-  // 🍊 ÁMBAR - Naranja cálido
+  // 💗 RUBÍ - Del error (rojo)
   // ============================================
   
-  /// Gradiente ámbar brillante
-  static const LinearGradient amberShine = LinearGradient(
+  static LinearGradient get rubyShine => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFFEF3C7), // Highlight amarillo
-      Color(0xFFFDE68A), // Ámbar claro
-      Color(0xFFFBBF24), // Ámbar puro
-      Color(0xFFF59E0B), // Naranja medio
-      Color(0xFFD97706), // Sombra oscura
+      AppColorsUnified._lighten(AppColorsUnified.error, 0.3),
+      AppColorsUnified._lighten(AppColorsUnified.error, 0.2),
+      AppColorsUnified.error,
+      AppColorsUnified._darken(AppColorsUnified.error, 0.2),
+      AppColorsUnified._darken(AppColorsUnified.error, 0.3),
     ],
-    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
 
   // ============================================
-  // 💗 RUBÍ - Rojo piedra preciosa
+  // 🌊 AGUAMARINA - Del companyBlue
   // ============================================
   
-  /// Gradiente rubí brillante
-  static const LinearGradient rubyShine = LinearGradient(
+  static LinearGradient get aquamarineShine => LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFFDA4AF), // Highlight rosa
-      Color(0xFFF87171), // Rojo brillante
-      Color(0xFFEF4444), // Rubí puro
-      Color(0xFFDC2626), // Rojo profundo
-      Color(0xFFB91C1C), // Sombra oscura
+      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.3),
+      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.companyBlue,
+      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.3),
     ],
-    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
 
   // ============================================
-  // 🌊 AGUAMARINA - Azul turquesa
+  // 🎨 GRADIENTES RADIALES
   // ============================================
   
-  /// Gradiente aguamarina brillante
-  static const LinearGradient aquamarineShine = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFFCCFBF1), // Highlight claro
-      Color(0xFF5EEAD4), // Turquesa brillante
-      Color(0xFF2DD4BF), // Aguamarina puro
-      Color(0xFF14B8A6), // Turquesa profundo
-      Color(0xFF0D9488), // Sombra oscura
-    ],
-    stops: [0.0, 0.25, 0.5, 0.75, 1.0],
-  );
-
-  // ============================================
-  // 🎨 GRADIENTES RADIALES (para efectos circulares)
-  // ============================================
-  
-  /// Oro radial (para FABs, avatares)
-  static const RadialGradient goldRadial = RadialGradient(
-    center: Alignment(0.3, -0.5), // Offset para simular luz
+  static RadialGradient get goldRadial => RadialGradient(
+    center: const Alignment(0.3, -0.5),
     radius: 1.5,
     colors: [
-      Color(0xFFFFFAF0), // Centro brillante
-      Color(0xFFFFE55C),
-      Color(0xFFFFD700),
-      Color(0xFFCC9900),
+      AppColorsUnified._lighten(AppColorsUnified.gold, 0.3),
+      AppColorsUnified._lighten(AppColorsUnified.gold, 0.2),
+      AppColorsUnified.gold,
+      AppColorsUnified._darken(AppColorsUnified.gold, 0.2),
     ],
-    stops: [0.0, 0.3, 0.7, 1.0],
   );
   
-  /// Esmeralda radial
-  static const RadialGradient emeraldRadial = RadialGradient(
-    center: Alignment(0.3, -0.5),
+  static RadialGradient get emeraldRadial => RadialGradient(
+    center: const Alignment(0.3, -0.5),
     radius: 1.5,
     colors: [
-      Color(0xFFA7F3D0),
-      Color(0xFF34D399),
-      Color(0xFF10B981),
-      Color(0xFF047857),
+      AppColorsUnified._lighten(AppColorsUnified.success, 0.3),
+      AppColorsUnified._lighten(AppColorsUnified.success, 0.2),
+      AppColorsUnified.success,
+      AppColorsUnified._darken(AppColorsUnified.success, 0.2),
     ],
-    stops: [0.0, 0.3, 0.7, 1.0],
   );
 
   // ============================================
   // ✨ EFECTOS ESPECIALES
   // ============================================
   
-  /// Shimmer dorado (para efectos de carga)
-  static const LinearGradient goldShimmer = LinearGradient(
-    begin: Alignment(-1.0, -0.3),
-    end: Alignment(1.0, 0.3),
+  static LinearGradient get goldShimmer => LinearGradient(
+    begin: const Alignment(-1.0, -0.3),
+    end: const Alignment(1.0, 0.3),
     colors: [
-      Color(0x00FFD700), // Transparente
-      Color(0x44FFE55C), // Semi-transparente brillante
-      Color(0x88FFFAF0), // Brillante
-      Color(0x44FFE55C), // Semi-transparente brillante
-      Color(0x00FFD700), // Transparente
+      AppColorsUnified._fade(AppColorsUnified.gold, 0.0),
+      AppColorsUnified._fade(AppColorsUnified.gold, 0.3),
+      AppColorsUnified._fade(AppColorsUnified.gold, 0.5),
+      AppColorsUnified._fade(AppColorsUnified.gold, 0.3),
+      AppColorsUnified._fade(AppColorsUnified.gold, 0.0),
     ],
-    stops: [0.0, 0.35, 0.5, 0.65, 1.0],
   );
   
-  /// Overlay metálico suave (para hover effects)
-  static const Color goldOverlay = Color(0x1AFFD700);
-  static const Color emeraldOverlay = Color(0x1A10B981);
-  static const Color silverOverlay = Color(0x1AC0C0C0);
+  static Color get goldOverlay => AppColorsUnified._fade(AppColorsUnified.gold, 0.1);
+  static Color get emeraldOverlay => AppColorsUnified._fade(AppColorsUnified.success, 0.1);
+  static Color get silverOverlay => AppColorsUnified._fade(AppColorsUnified.textSecondary, 0.1);
 }
 
-/// 🎨 HELPER: Crear BoxDecoration con gradiente metálico
+/// 🎨 HELPER: Decoraciones metálicas usando AppColorsUnified
 class MetallicDecoration {
-  /// Caja con gradiente de oro brillante
   static BoxDecoration gold({
     double borderRadius = 12,
     bool withShadow = true,
   }) {
     return BoxDecoration(
-      gradient: MetallicColors.goldShine,
+      gradient: AppColorsUnified.goldGradient,
       borderRadius: BorderRadius.circular(borderRadius),
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: const Color(0xFFFFD700).withValues(alpha: 0.3),
+                color: AppColorsUnified._fade(AppColorsUnified.gold, 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
               BoxShadow(
-                color: const Color(0xFFFFE55C).withValues(alpha: 0.2),
+                color: AppColorsUnified._fade(AppColorsUnified.goldLight, 0.2),
                 blurRadius: 24,
                 offset: const Offset(0, 8),
               ),
@@ -304,7 +219,6 @@ class MetallicDecoration {
     );
   }
 
-  /// Caja con gradiente de esmeralda brillante
   static BoxDecoration emerald({
     double borderRadius = 12,
     bool withShadow = true,
@@ -315,7 +229,7 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: const Color(0xFF10B981).withValues(alpha: 0.3),
+                color: AppColorsUnified._fade(AppColorsUnified.success, 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -324,7 +238,6 @@ class MetallicDecoration {
     );
   }
 
-  /// Caja con gradiente de platino
   static BoxDecoration platinum({
     double borderRadius = 12,
     bool withShadow = true,
@@ -335,7 +248,7 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: AppColorsUnified._fade(AppColorsUnified.textPrimary, 0.1),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -344,7 +257,6 @@ class MetallicDecoration {
     );
   }
 
-  /// Caja con gradiente de zafiro
   static BoxDecoration sapphire({
     double borderRadius = 12,
     bool withShadow = true,
@@ -355,7 +267,7 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: const Color(0xFF3B82F6).withValues(alpha: 0.3),
+                color: AppColorsUnified._fade(AppColorsUnified.companyBlue, 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),

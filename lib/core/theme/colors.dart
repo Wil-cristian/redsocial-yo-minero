@@ -1,100 +1,93 @@
 import 'package:flutter/material.dart';
+import 'app_colors_unified.dart';
 
-/// Legacy color constants (kept for backward compatibility).
+/// Legacy color constants - NOW DELEGATED TO AppColorsUnified
 class YoMineroColors {
   YoMineroColors._();
-  static const Color machineryOrange = Color(0xFFFF6F00);
-  static const Color goldYellow = Color(0xFFFFD600);
-  static const Color earthDark = Color(0xFF4E342E);
-  static const Color sandLight = Color(0xFFF5F5DC);
-  static const Color charcoal = Color(0xFF1C1C1C);
-  static const Color stoneGray = Color(0xFF9E9E9E);
-  static const Color alertRed = Color(0xFFD32F2F);
-  static const Color successGreen = Color(0xFF2E7D32);
-  static const Color infoBlue = Color(0xFF1976D2);
-  static const Color copper = Color(0xFFB87333);
-  static const Color silver = Color(0xFFB0BEC5);
-  static const Color graphite = Color(0xFF37474F);
+  
+  static Color get machineryOrange => AppColorsUnified.orange;
+  static Color get goldYellow => AppColorsUnified.gold;
+  static Color get earthDark => AppColorsUnified._darken(AppColorsUnified.textPrimary, 0.2);
+  static Color get sandLight => AppColorsUnified._lighten(AppColorsUnified.background, 0.05);
+  static Color get charcoal => AppColorsUnified.textPrimary;
+  static Color get stoneGray => AppColorsUnified.textSecondary;
+  static Color get alertRed => AppColorsUnified.error;
+  static Color get successGreen => AppColorsUnified.success;
+  static Color get infoBlue => AppColorsUnified.companyBlue;
+  static Color get copper => AppColorsUnified._darken(AppColorsUnified.gold, 0.2);
+  static Color get silver => AppColorsUnified.silver;
+  static Color get graphite => AppColorsUnified._darken(AppColorsUnified.textSecondary, 0.3);
 }
 
-/// New semantic palette following the color selection guide.
-/// Names focus on role instead of specific hue to simplify future adjustments.
+/// Semantic palette - NOW DELEGATED TO AppColorsUnified
 class AppColors {
   AppColors._();
 
   // Brand / primary system
-  static const Color primary =
-      Color(0xFFE06800); // slightly desaturated from old orange
-  static const Color primaryContainer = Color(0xFFFFE5D1);
-  static const Color primaryHover = Color(0xFFCB5E00);
-  static const Color primaryPressed = Color(0xFFB35200);
+  static Color get primary => AppColorsUnified.orange;
+  static Color get primaryContainer => AppColorsUnified._lighten(AppColorsUnified.orange, 0.4);
+  static Color get primaryHover => AppColorsUnified._darken(AppColorsUnified.orange, 0.1);
+  static Color get primaryPressed => AppColorsUnified._darken(AppColorsUnified.orange, 0.2);
 
-  // Secondary / accent (amber-copper blend)
-  static const Color secondary = Color(0xFFC87900);
-  static const Color secondaryContainer = Color(0xFFFFF0DA);
+  // Secondary / accent
+  static Color get secondary => AppColorsUnified.gold;
+  static Color get secondaryContainer => AppColorsUnified._lighten(AppColorsUnified.gold, 0.4);
 
   // Neutrals / backgrounds
-  static const Color background = Color(0xFFF8F5EF);
-  static const Color backgroundAlt = Color(0xFFF2EEE7);
-  static const Color surface = Color(0xFFFFFFFF);
-  static const Color surfaceAlt = Color(0xFFFAF7F2);
-  static const Color outline = Color(0xFFD5CBBF);
+  static Color get background => AppColorsUnified.background;
+  static Color get backgroundAlt => AppColorsUnified.backgroundDark;
+  static Color get surface => AppColorsUnified.surface;
+  static Color get surfaceAlt => AppColorsUnified._lighten(AppColorsUnified.surface, 0.02);
+  static Color get outline => AppColorsUnified._lighten(AppColorsUnified.textSecondary, 0.3);
 
   // Text
-  static const Color textPrimary = Color(0xFF282523);
-  static const Color textSecondary = Color(0xFF5E574F);
-  static const Color textDisabled = Color(0xFF9E948B);
+  static Color get textPrimary => AppColorsUnified.textPrimary;
+  static Color get textSecondary => AppColorsUnified.textSecondary;
+  static Color get textDisabled => AppColorsUnified.textDisabled;
 
   // States
-  static const Color success = Color(0xFF2E7D32);
-  static const Color successContainer = Color(0xFFE4F3E5);
-  static const Color error = Color(0xFFC62828);
-  static const Color errorContainer = Color(0xFFFCE4E4);
-  static const Color warning = Color(0xFFFFB300);
-  static const Color warningContainer = Color(0xFFFFF6DA);
-  static const Color info = Color(0xFF0F67B5);
-  static const Color infoContainer = Color(0xFFE0F0FA);
+  static Color get success => AppColorsUnified.success;
+  static Color get successContainer => AppColorsUnified._lighten(AppColorsUnified.success, 0.4);
+  static Color get error => AppColorsUnified.error;
+  static Color get errorContainer => AppColorsUnified._lighten(AppColorsUnified.error, 0.4);
+  static Color get warning => AppColorsUnified.warning;
+  static Color get warningContainer => AppColorsUnified._lighten(AppColorsUnified.warning, 0.4);
+  static Color get info => AppColorsUnified.companyBlue;
+  static Color get infoContainer => AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.4);
 
-  // Utility / decorative
-  static const Color focus = Color(0xFF684200);
-  static const Color black = Color(0xFF000000);
-  static const Color white = Color(0xFFFFFFFF);
+  // Utility
+  static Color get focus => AppColorsUnified._darken(AppColorsUnified.gold, 0.3);
+  static Color get black => AppColorsUnified.textPrimary;
+  static Color get white => AppColorsUnified.surface;
 
-  /// Returns best contrasting on-color (black/white) for given [background].
+  /// Returns best contrasting on-color for given background
   static Color onColor(Color background) =>
-      background.computeLuminance() > 0.54 ? black : white;
+      background.computeLuminance() > 0.54 
+        ? AppColorsUnified.textPrimary 
+        : AppColorsUnified.surface;
 }
 
+/// Context extension - Delegated to AppColorsUnified
 extension AppColorScheme on BuildContext {
-  Color get cPrimary => AppColors.primary;
-  Color get cPrimaryContainer => AppColors.primaryContainer;
-  Color get cSecondary => AppColors.secondary;
-  Color get cSecondaryContainer => AppColors.secondaryContainer;
-  Color get cBg => AppColors.background;
-  Color get cBgAlt => AppColors.backgroundAlt;
-  Color get cSurface => AppColors.surface;
-  Color get cSurfaceAlt => AppColors.surfaceAlt;
-  Color get cOutline => AppColors.outline;
-  Color get cText => AppColors.textPrimary;
-  Color get cTextSecondary => AppColors.textSecondary;
-  Color get cSuccess => AppColors.success;
-  Color get cError => AppColors.error;
-  Color get cWarning => AppColors.warning;
-  Color get cInfo => AppColors.info;
+  Color get cPrimary => AppColorsUnified.orange;
+  Color get cPrimaryContainer => AppColorsUnified._lighten(AppColorsUnified.orange, 0.4);
+  Color get cSecondary => AppColorsUnified.gold;
+  Color get cSecondaryContainer => AppColorsUnified._lighten(AppColorsUnified.gold, 0.4);
+  Color get cBg => AppColorsUnified.background;
+  Color get cBgAlt => AppColorsUnified.backgroundDark;
+  Color get cSurface => AppColorsUnified.surface;
+  Color get cSurfaceAlt => AppColorsUnified._lighten(AppColorsUnified.surface, 0.02);
+  Color get cOutline => AppColorsUnified._lighten(AppColorsUnified.textSecondary, 0.3);
+  Color get cText => AppColorsUnified.textPrimary;
+  Color get cTextSecondary => AppColorsUnified.textSecondary;
+  Color get cSuccess => AppColorsUnified.success;
+  Color get cError => AppColorsUnified.error;
+  Color get cWarning => AppColorsUnified.warning;
+  Color get cInfo => AppColorsUnified.companyBlue;
 }
 
+/// Color utilities - Using AppColorsUnified helpers
 extension YoMineroColorUtils on Color {
-  Color darken([double amount = .1]) {
-    final hsl = HSLColor.fromColor(this);
-    return hsl
-        .withLightness((hsl.lightness - amount).clamp(0.0, 1.0))
-        .toColor();
-  }
-
-  Color lighten([double amount = .1]) {
-    final hsl = HSLColor.fromColor(this);
-    return hsl
-        .withLightness((hsl.lightness + amount).clamp(0.0, 1.0))
-        .toColor();
-  }
+  Color darken([double amount = .1]) => AppColorsUnified._darken(this, amount);
+  Color lighten([double amount = .1]) => AppColorsUnified._lighten(this, amount);
 }

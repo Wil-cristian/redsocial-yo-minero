@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_colors_unified.dart';
 
 /// Curves personalizadas para animaciones premium
 class AppCurves {
@@ -213,13 +214,14 @@ class ShimmerLoading extends StatefulWidget {
   final Color highlightColor;
   final Duration duration;
 
-  const ShimmerLoading({
+  ShimmerLoading({
     super.key,
     required this.child,
-    this.baseColor = const Color(0xFFE0E0E0),
-    this.highlightColor = const Color(0xFFF5F5F5),
+    Color? baseColor,
+    Color? highlightColor,
     this.duration = const Duration(milliseconds: 1500),
-  });
+  })  : baseColor = baseColor ?? AppColorsUnified._lighten(AppColorsUnified.textSecondary, 0.2),
+        highlightColor = highlightColor ?? AppColorsUnified._lighten(AppColorsUnified.surface, 0.01);
 
   @override
   State<ShimmerLoading> createState() => _ShimmerLoadingState();
