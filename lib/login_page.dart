@@ -172,10 +172,10 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
             end: Alignment.bottomRight,
             colors: [
               // Gradiente ORO → PLATA con brillo metalizado
-              const AppColorsUnified.silver, // Plata base
-              const AppColorsUnified.silverLight, // Plata clara (brillo)
-              const AppColorsUnified.gold, // Oro base
-              const AppColorsUnified.goldLight, // Oro claro (brillo metalizado)
+              AppColorsUnified.silver, // Plata base
+              AppColorsUnified.silverLight, // Plata clara (brillo)
+              AppColorsUnified.gold, // Oro base
+              AppColorsUnified.goldLight, // Oro claro (brillo metalizado)
             ],
             stops: const [0.0, 0.3, 0.7, 1.0],
           ),
@@ -383,7 +383,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       height: 56,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [
             AppColorsUnified.gold, // Oro base
             AppColorsUnified.goldLight, // Oro claro (brillo metalizado)
@@ -391,7 +391,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         ),
         boxShadow: [
           BoxShadow(
-            color: const AppColorsUnified.gold.withValues(alpha: 0.5),
+            color: AppColorsUnified.gold.withValues(alpha: 0.5),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),

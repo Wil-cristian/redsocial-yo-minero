@@ -121,10 +121,15 @@ class AppColorsUnified {
   static Color get orangeLight => _lighten(orange, 0.15);
   static Color get orangeMedium => _darken(orange, 0.05);
   static Color get orangeDark => _darken(orange, 0.15);
+  static Color get orangeApple => const Color(0xFFFF9500);  // Naranja estilo Apple
   
   // Variaciones de ORO (basadas en gold)
   static Color get goldLight => _lighten(gold, 0.12);
   static Color get goldDark => _darken(gold, 0.12);
+  
+  // Variaciones de PLATA (para badges)
+  static Color get silver => const Color(0xFFC0C0C0);
+  static Color get silverLight => _lighten(silver, 0.15);
 
   // ============================================
   // 🎨 ALIASES SEMÁNTICOS (usando los 10)

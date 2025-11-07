@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Container(
       height: 280,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                               decoration: BoxDecoration(
-                                gradient: const LinearGradient(
+                                gradient: LinearGradient(
                                   colors: [
                                     DashboardColors.wood,
                                     DashboardColors.woodLight,
@@ -383,7 +383,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               colors: [DashboardColors.orange, DashboardColors.orangeGlow],
             ),
             borderRadius: BorderRadius.circular(12),
@@ -533,7 +533,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                     colors: [
                       AppColorsUnified.orange,
                       AppColorsUnified.orangeMedium,
@@ -872,7 +872,7 @@ class _GoldPatternPainter extends CustomPainter {
     
     // Capas naranja flotantes
     final orangePaint = Paint()
-      ..color = const AppColorsUnified.orangeApple.withValues(alpha: 0.2)
+      ..color = AppColorsUnified.orangeApple.withValues(alpha: 0.2)
       ..style = PaintingStyle.fill;
     
     for (int i = 0; i < 3; i++) {
@@ -884,7 +884,7 @@ class _GoldPatternPainter extends CustomPainter {
     
     // Capas madera (rectángulos suaves)
     final woodPaint = Paint()
-      ..color = const AppColorsUnified.textSecondary.withValues(alpha: 0.1)
+      ..color = AppColorsUnified.textSecondary.withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
     
     for (int i = 0; i < 2; i++) {

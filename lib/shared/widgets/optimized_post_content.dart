@@ -62,7 +62,7 @@ class OptimizedPostContent extends StatelessWidget {
   Widget _buildProductContent() {
     // Determinar si es oro o plata basado en el índice del precio
     final isGold = (post.productPrice?.toInt() ?? 0) % 2 == 0;
-    final accentColor = isGold ? const AppColorsUnified.gold : const AppColorsUnified.silver;
+    final accentColor = isGold ? AppColorsUnified.gold : AppColorsUnified.silver;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,8 +162,8 @@ class OptimizedPostContent extends StatelessWidget {
   Widget _buildServiceContent() {
     // Determinar si es oro o plata basado en el índice del precio
     final isGold = (post.pricingFrom?.toInt() ?? 0) % 2 == 0;
-    final accentColor = isGold ? const AppColorsUnified.gold : const AppColorsUnified.silver;
-    final lightAccent = isGold ? const AppColorsUnified.goldLight : const AppColorsUnified.silverLight;
+    final accentColor = isGold ? AppColorsUnified.gold : AppColorsUnified.silver;
+    final lightAccent = isGold ? AppColorsUnified.goldLight : AppColorsUnified.silverLight;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

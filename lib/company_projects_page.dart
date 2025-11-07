@@ -329,7 +329,7 @@ class _CompanyProjectsPageState extends State<CompanyProjectsPage> {
                         value: project['progress'] / 100,
                         minHeight: 6,
                         backgroundColor: Colors.grey[200],
-                        valueColor: const AlwaysStoppedAnimation<Color>(
+                        valueColor: AlwaysStoppedAnimation<Color>(
                           AppColorsUnified.companySecondary,
                         ),
                       ),
