@@ -152,14 +152,17 @@ class _RadialMenuState extends State<RadialMenu>
 
     return Stack(
       children: [
-        // Overlay oscuro con animación
+        // Overlay oscuro con animación (no cubre la navbar inferior)
         AnimatedBuilder(
           animation: _expandController,
           builder: (context, child) {
-            return GestureDetector(
-              onTap: _handleClose,
-              child: Container(
-                color: Colors.black.withOpacity(0.7 * _expandController.value),
+            return Positioned.fill(
+              bottom: 80, // Dejar espacio para la navbar inferior
+              child: GestureDetector(
+                onTap: _handleClose,
+                child: Container(
+                  color: Colors.black.withOpacity(0.7 * _expandController.value),
+                ),
               ),
             );
           },
