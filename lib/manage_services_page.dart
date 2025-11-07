@@ -12,7 +12,7 @@ class ManageServicesPage extends StatefulWidget {
 
 class _ManageServicesPageState extends State<ManageServicesPage> {
   List<ServiceOffering> get userServices => 
-      SupabaseAuthService.instance.currentUser?.servicesOffered ?? [];
+      SupabaseAuthService.instance.currentUserModel?.servicesOffered ?? [];
 
   @override
   Widget build(BuildContext context) {
@@ -794,58 +794,58 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
       tags: tags,
     );
 
-    // Update user services
-    SupabaseAuthService.instance.updateUser((user) {
-      final currentServices = List<ServiceOffering>.from(user.servicesOffered);
-      
-      if (existingService != null) {
-        // Replace existing service
-        final index = currentServices.indexWhere((s) => s.name == existingService.name);
-        if (index != -1) {
-          currentServices[index] = newService;
-        }
-      } else {
-        // Add new service
-        currentServices.add(newService);
-      }
+    // TODO: Actualizar servicios del usuario en Supabase
+    // SupabaseAuthService.instance.updateUser((user) {
+    //   final currentServices = List<ServiceOffering>.from(user.servicesOffered);
+    //   
+    //   if (existingService != null) {
+    //     // Replace existing service
+    //     final index = currentServices.indexWhere((s) => s.name == existingService.name);
+    //     if (index != -1) {
+    //       currentServices[index] = newService;
+    //     }
+    //   } else {
+    //     // Add new service
+    //     currentServices.add(newService);
+    //   }
 
-      return User(
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        avatarUrl: user.avatarUrl,
-        phone: user.phone,
-        bio: user.bio,
-        location: user.location,
-        languages: user.languages,
-        servicesOffered: currentServices,
-        interests: user.interests,
-        watchKeywords: user.watchKeywords,
-        profession: user.profession,
-        experienceLevel: user.experienceLevel,
-        specializations: user.specializations,
-        certifications: user.certifications,
-        workExperience: user.workExperience,
-        birthDate: user.birthDate,
-        company: user.company,
-        jobTitle: user.jobTitle,
-        website: user.website,
-        socialLinks: user.socialLinks,
-        preferences: user.preferences,
-        preferredPostTypes: user.preferredPostTypes,
-        followedTags: user.followedTags,
-        followedCategories: user.followedCategories,
-        verificationStatus: user.verificationStatus,
-        ratingAvg: user.ratingAvg,
-        ratingCount: user.ratingCount,
-        completedJobsCount: user.completedJobsCount,
-        createdAt: user.createdAt,
-        lastActiveAt: user.lastActiveAt,
-        isOnline: user.isOnline,
-      );
-    });
+    //   return User(
+    //     id: user.id,
+    //     username: user.username,
+    //     email: user.email,
+    //     name: user.name,
+    //     role: user.role,
+    //     avatarUrl: user.avatarUrl,
+    //     phone: user.phone,
+    //     bio: user.bio,
+    //     location: user.location,
+    //     languages: user.languages,
+    //     servicesOffered: currentServices,
+    //     interests: user.interests,
+    //     watchKeywords: user.watchKeywords,
+    //     profession: user.profession,
+    //     experienceLevel: user.experienceLevel,
+    //     specializations: user.specializations,
+    //     certifications: user.certifications,
+    //     workExperience: user.workExperience,
+    //     birthDate: user.birthDate,
+    //     company: user.company,
+    //     jobTitle: user.jobTitle,
+    //     website: user.website,
+    //     socialLinks: user.socialLinks,
+    //     preferences: user.preferences,
+    //     preferredPostTypes: user.preferredPostTypes,
+    //     followedTags: user.followedTags,
+    //     followedCategories: user.followedCategories,
+    //     verificationStatus: user.verificationStatus,
+    //     ratingAvg: user.ratingAvg,
+    //     ratingCount: user.ratingCount,
+    //     completedJobsCount: user.completedJobsCount,
+    //     createdAt: user.createdAt,
+    //     lastActiveAt: user.lastActiveAt,
+    //     isOnline: user.isOnline,
+    //   );
+    // });
 
     Navigator.of(context).pop();
     setState(() {});

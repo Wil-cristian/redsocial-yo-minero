@@ -156,7 +156,7 @@ class _GroupsPageState extends State<GroupsPage> {
   }
 
   void _computeSuggestions() {
-    final user = SupabaseAuthService.instance.currentUser;
+    final user = SupabaseAuthService.instance.currentUserModel;
     if (user == null) return;
     final suggestions = MatchEngine.groupSuggestionsForUser(user, _groups);
     _suggested = suggestions;
@@ -517,8 +517,8 @@ class _GroupsPageState extends State<GroupsPage> {
                 final g = groups[index];
                 final isSuggested = _suggestionScores.containsKey(g.id);
                 final score = _suggestionScores[g.id];
-                final isMember = SupabaseAuthService.instance.currentUser != null &&
-                    g.memberIds.contains(SupabaseAuthService.instance.currentUser!.id);
+                final currentUserId = SupabaseAuthService.instance.currentUser?.id;
+                final isMember = currentUserId != null && g.memberIds.contains(currentUserId);
                 return InkWell(
                   onTap: () => Navigator.of(context)
                       .push(

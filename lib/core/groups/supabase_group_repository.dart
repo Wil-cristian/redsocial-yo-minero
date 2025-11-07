@@ -83,7 +83,12 @@ class SupabaseGroupRepository implements GroupRepository {
           .select()
           .single();
 
-      await _addMemberToGroup(response['id'], currentUser.id);
+      // Agregar al creador como miembro del grupo
+      await _supabase.from('group_members').insert({
+        'group_id': response['id'],
+        'user_id': currentUser.id,
+        'joined_at': DateTime.now().toIso8601String(),
+      });
 
       debugPrint('✅ Grupo creado: ${response['id']}');
       return Group.fromJson(response);

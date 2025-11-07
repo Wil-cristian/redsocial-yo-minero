@@ -21,9 +21,8 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
   }
 
   void _loadUserProducts() {
-    // Mock data - replace with actual data loading
-    final currentUser = SupabaseAuthService.instance.currentUser;
-    if (currentUser == null) return;
+    final profile = SupabaseAuthService.instance.currentUserProfile;
+    if (profile == null) return;
     
     _userProducts = [
       Product(
@@ -32,13 +31,13 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
         description: 'Taladro de alta resistencia para minería',
         price: 2500.0,
         inStock: true,
-        authorId: currentUser.id,
-        authorName: currentUser.name,
-        authorDisplayName: currentUser.accountDisplayName,
-        authorAccountType: currentUser.accountType.name,
-        authorAvatarUrl: currentUser.avatarUrl,
-        authorRating: currentUser.ratingAvg,
-        authorReviewCount: currentUser.ratingCount,
+        authorId: profile['id'],
+        authorName: profile['name'] ?? '',
+        authorDisplayName: profile['name'] ?? '',
+        authorAccountType: profile['account_type'] ?? 'individual',
+        authorAvatarUrl: profile['profile_image_url'],
+        authorRating: (profile['rating_avg'] ?? 0.0).toDouble(),
+        authorReviewCount: profile['rating_count'] ?? 0,
       ),
       Product(
         id: '2',
@@ -46,13 +45,13 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
         description: 'Casco certificado para trabajos de minería',
         price: 75.0,
         inStock: true,
-        authorId: currentUser.id,
-        authorName: currentUser.name,
-        authorDisplayName: currentUser.accountDisplayName,
-        authorAccountType: currentUser.accountType.name,
-        authorAvatarUrl: currentUser.avatarUrl,
-        authorRating: currentUser.ratingAvg,
-        authorReviewCount: currentUser.ratingCount,
+        authorId: profile['id'],
+        authorName: profile['name'] ?? '',
+        authorDisplayName: profile['name'] ?? '',
+        authorAccountType: profile['account_type'] ?? 'individual',
+        authorAvatarUrl: profile['profile_image_url'],
+        authorRating: (profile['rating_avg'] ?? 0.0).toDouble(),
+        authorReviewCount: profile['rating_count'] ?? 0,
       ),
     ];
   }
@@ -793,8 +792,8 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
       return;
     }
 
-    final currentUser = SupabaseAuthService.instance.currentUser;
-    if (currentUser == null) return;
+    final profile = SupabaseAuthService.instance.currentUserProfile;
+    if (profile == null) return;
 
     final newProduct = Product(
       id: existingProduct?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
@@ -803,13 +802,13 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
       price: price,
       imageUrl: imageUrl.trim().isNotEmpty ? imageUrl.trim() : null,
       inStock: inStock,
-      authorId: currentUser.id,
-      authorName: currentUser.name,
-      authorDisplayName: currentUser.accountDisplayName,
-      authorAccountType: currentUser.accountType.name,
-      authorAvatarUrl: currentUser.avatarUrl,
-      authorRating: currentUser.ratingAvg,
-      authorReviewCount: currentUser.ratingCount,
+      authorId: profile['id'],
+      authorName: profile['name'] ?? '',
+      authorDisplayName: profile['name'] ?? '',
+      authorAccountType: profile['account_type'] ?? 'individual',
+      authorAvatarUrl: profile['profile_image_url'],
+      authorRating: (profile['rating_avg'] ?? 0.0).toDouble(),
+      authorReviewCount: profile['rating_count'] ?? 0,
     );
 
     setState(() {

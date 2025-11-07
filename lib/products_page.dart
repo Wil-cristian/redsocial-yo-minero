@@ -506,21 +506,21 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
   void _createNewProduct(String name, String description, double price) {
-    final currentUser = SupabaseAuthService.instance.currentUser;
-    if (currentUser == null) return;
+    final profile = SupabaseAuthService.instance.currentUserProfile;
+    if (profile == null) return;
 
     final newProduct = Product(
       id: 'p${DateTime.now().millisecondsSinceEpoch}',
       name: name,
       description: description,
       price: price,
-      authorId: currentUser.id,
-      authorName: currentUser.name,
-      authorDisplayName: currentUser.accountDisplayName,
-      authorAccountType: currentUser.accountType.name,
-      authorAvatarUrl: currentUser.avatarUrl,
-      authorRating: currentUser.ratingAvg,
-      authorReviewCount: currentUser.ratingCount,
+      authorId: profile['id'],
+      authorName: profile['name'] ?? '',
+      authorDisplayName: profile['name'] ?? '',
+      authorAccountType: profile['account_type'] ?? 'individual',
+      authorAvatarUrl: profile['profile_image_url'],
+      authorRating: (profile['rating_avg'] ?? 0.0).toDouble(),
+      authorReviewCount: profile['rating_count'] ?? 0,
     );
 
     setState(() {

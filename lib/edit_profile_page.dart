@@ -1004,22 +1004,20 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   }
 
   void _saveProfile() {
-    // Update the current user using AuthService
-    final updatedUser = widget.user.copyWith(
-      name: _nameController.text.trim(),
-      bio: _bioController.text.trim().isNotEmpty ? _bioController.text.trim() : null,
-      phone: _phoneController.text.trim().isNotEmpty ? _phoneController.text.trim() : null,
-      profession: _professionController.text.trim().isNotEmpty ? _professionController.text.trim() : null,
-      company: _companyController.text.trim().isNotEmpty ? _companyController.text.trim() : null,
-      jobTitle: _jobTitleController.text.trim().isNotEmpty ? _jobTitleController.text.trim() : null,
-      website: _websiteController.text.trim().isNotEmpty ? _websiteController.text.trim() : null,
-      experienceLevel: _experienceLevel,
-      specializations: _selectedSpecializations,
-      interests: _interests,
-      birthDate: _birthDate,
-    );
-    
-    SupabaseAuthService.instance.updateUser((_) => updatedUser);
+    // TODO: Implementar actualización de perfil con Supabase
+    // final updatedUser = widget.user.copyWith(
+    //   name: _nameController.text.trim(),
+    //   bio: _bioController.text.trim().isNotEmpty ? _bioController.text.trim() : null,
+    //   phone: _phoneController.text.trim().isNotEmpty ? _phoneController.text.trim() : null,
+    //   profession: _professionController.text.trim().isNotEmpty ? _professionController.text.trim() : null,
+    //   company: _companyController.text.trim().isNotEmpty ? _companyController.text.trim() : null,
+    //   jobTitle: _jobTitleController.text.trim().isNotEmpty ? _jobTitleController.text.trim() : null,
+    //   website: _websiteController.text.trim().isNotEmpty ? _websiteController.text.trim() : null,
+    //   experienceLevel: _experienceLevel,
+    //   specializations: _selectedSpecializations,
+    //   interests: _interests,
+    //   birthDate: _birthDate,
+    // );
     
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

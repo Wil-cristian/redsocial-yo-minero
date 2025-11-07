@@ -1,106 +1,201 @@
-# YoMinero - Mining Social Network
+# YoMinero - Red Social para la Industria Minera
 
-## Overview
+## Descripción del Proyecto
+YoMinero es una plataforma social especializada para profesionales, empresas y trabajadores de la industria minera. Permite conectar, compartir conocimientos, buscar y ofrecer servicios, y gestionar grupos de trabajo.
 
-YoMinero is a Flutter-based mobile and web application serving as a social network platform specifically designed for the mining industry. The application features a comprehensive role-based access control system for employees, supporting different user types including companies, individual miners, and employees with varying permission levels. The platform enables social interactions (posts, likes), marketplace functionality (products and services), and specialized dashboards tailored to different user roles (CEO, Technical staff, Individual miners).
+## Arquitectura
 
-## User Preferences
+### Stack Tecnológico
+- **Frontend**: Flutter Web 3.32.0
+- **Backend**: Supabase (PostgreSQL, Auth, Realtime)
+- **Deployment**: Replit
 
-Preferred communication style: Simple, everyday language.
+### Estructura del Proyecto
+```
+lib/
+├── core/
+│   ├── auth/
+│   │   └── supabase_auth_service.dart    # Servicio de autenticación con Supabase
+│   ├── groups/
+│   │   ├── group_repository.dart         # Interfaz abstracta para grupos
+│   │   └── supabase_group_repository.dart # Implementación con Supabase
+│   ├── di/
+│   │   └── locator.dart                  # Dependency injection (get_it)
+│   └── supabase/
+│       ├── supabase_service.dart         # Cliente Supabase singleton
+│       └── supabase_config.dart          # Configuración de Supabase
+├── features/
+│   └── services/
+│       ├── domain/
+│       │   └── service_repository.dart   # Interfaz abstracta para servicios
+│       └── data/
+│           ├── supabase_service_repository.dart # Implementación con Supabase
+│           └── in_memory_service_repository.dart # Implementación legacy (mock data)
+├── shared/
+│   └── models/
+│       ├── user.dart                     # Modelo de usuario (local)
+│       ├── service.dart                  # Modelo de servicio con fromJson/toJson
+│       ├── group.dart                    # Modelo de grupo con fromJson/toJson
+│       ├── product.dart                  # Modelo de producto
+│       └── post.dart                     # Modelo de publicación
+└── pages/
+    ├── login_page.dart
+    ├── services_page.dart                # Página de servicios
+    ├── products_page.dart                # Página de productos
+    ├── groups_page.dart                  # Página de grupos
+    ├── group_detail_page.dart            # Detalle de grupo
+    └── ... (otras páginas)
+```
 
-## System Architecture
+## Estado Actual del Proyecto (Nov 7, 2025)
 
-### Frontend Architecture
+### ✅ Completado
 
-**Framework:** Flutter (cross-platform mobile and web)
-- **Rationale:** Enables single codebase deployment across iOS, Android, and Web platforms
-- **Architecture Pattern:** Feature-based modular architecture with clean separation of concerns
-- **Layer Structure:**
-  - `core/`: Contains theme configuration, routing, authentication, and dependency injection (simple locator pattern)
-  - `features/`: Domain-specific modules (posts, products, services) with data and domain layers
-  - `shared/models`: Shared data models exported via barrel files for reusability
+#### 1. Migración a Supabase - Backend
+- [x] Autenticación con Supabase implementada
+- [x] Registro de usuarios con tipos de cuenta (individual, worker, company)
+- [x] Inicio de sesión funcional
+- [x] Persistencia de sesión entre recargas
+- [x] Servicio `SupabaseAuthService` con `currentUserModel` helper
 
-**State Management:** Not explicitly defined in repository, appears to use simple state management patterns
+#### 2. Repositorios Conectados a Supabase
+- [x] **SupabaseServiceRepository**: CRUD completo para servicios
+  - create, update, delete, getById, getAll
+  - Búsqueda por categoría y tags
+  - Métodos asíncronos correctamente implementados
+  - fromJson/toJson en modelo Service
+- [x] **SupabaseGroupRepository**: Gestión de grupos
+  - create, join, leave, getById, getAll
+  - Gestión de miembros con protección contra duplicados
+  - Contadores de miembros sincronizados correctamente
+  - fromJson/toJson en modelo Group
 
-**UI/UX Design System:**
-- Custom metallic color palette with gradients (gold, emerald, platinum, bronze)
-- Semantic color tokens defined in `AppColors` (primary, surface, success, info)
-- Orange-gold-wood theme scheme ("Cofre Dorado" - Golden Chest)
-- Primary colors: Vibrant orange (#FF8C00), Warm gold (#FFB800)
-- Uses gradient decorations for realistic metallic effects rather than flat colors
+#### 3. Refactorización Arquitectónica (Opción B)
+- [x] Eliminado `auth_service.dart` legacy
+- [x] Todas las referencias actualizadas a `SupabaseAuthService`
+- [x] Uso correcto de `currentUserProfile` (Map) vs `currentUser` (Supabase User)
+- [x] Helper `currentUserModel` para obtener modelo User local
+- [x] Corrección de referencias en 15+ archivos
+- [x] Compilación exitosa sin errores
 
-**Routing:** Centralized routing system in core module
+#### 4. Integración con UI
+- [x] Páginas actualizadas para usar repositorios de Supabase
+- [x] MatchEngine funciona con `currentUserModel`
+- [x] Creación de productos/servicios usa `currentUserProfile`
 
-### Backend Architecture
+### ⚠️ Pendientes / TODOs
 
-**Development Approach:** In-memory repository implementations for rapid development
-- **Rationale:** Allows fast prototyping and testing without external dependencies
-- **Migration Path:** Designed to be replaced with remote APIs or SQLite as application scales
+#### 1. Funcionalidades No Implementadas
+- [ ] **Editar Perfil**: Método para actualizar perfil de usuario en Supabase
+- [ ] **Favoritos**: Tabla y lógica para marcar servicios/productos favoritos
+- [ ] **Mensajería**: Sistema de mensajes en tiempo real con Supabase Realtime
+- [ ] **Métricas Dashboard**: Estadísticas y analytics del usuario
 
-**Authentication System:**
-- Multi-user type support: Company, Individual, Employee
-- Role-based access control (RBAC) for employees
-- Password change requirement on first login for employees
-- Predefined test accounts for different roles (CEO, Technician, Individual, Company)
+#### 2. Repositorios Pendientes
+- [ ] ProductRepository con Supabase (actualmente usa datos mock)
+- [ ] PostRepository con Supabase (actualmente usa datos mock)
+- [ ] FavoritesRepository (requiere tabla en BD)
 
-**Employee Role System:**
-- 8 predefined roles with different dashboard access levels
-- CEO/Director General: Full access to all features (Metrics, Employees, Projects, Finances, Resources, Messages)
-- Technical Staff: Limited access (Tasks, Reporting, Training, Profile)
-- Department-based organization
+#### 3. Mejoras Técnicas
+- [ ] Manejo de errores más robusto
+- [ ] Loading states en todas las operaciones async
+- [ ] Refresh de datos después de crear/actualizar
+- [ ] Tests unitarios e integración
 
-### Data Storage Solutions
+## Base de Datos
 
-**Current Implementation:** In-memory repositories (development)
+### Esquema Actual (Supabase)
+Ver: `database/supabase_schema.sql`
 
-**Planned Integration:** Supabase (PostgreSQL-based)
-- **Database Schema:** 7+ main tables including users, posts, products, services, groups
-- **Features:**
-  - Row Level Security (RLS) configured
-  - Automatic triggers for likes and timestamp updates
-  - Indexed for performance optimization
-  - 8 predefined employee roles in database
+**Tablas Principales:**
+- `users` - Perfiles de usuario
+- `services` - Servicios ofrecidos
+- `groups` - Grupos de trabajo
+- `group_members` - Relación usuarios-grupos
 
-**Schema Structure:**
-- Users table with type differentiation (company/individual/employee)
-- Social features (posts with likes tracking)
-- Marketplace (products, services)
-- Group management
-- Employee roles and departments
+**Funciones RPC:**
+- `increment_group_members(group_id)` - Incrementa contador de miembros
+- `decrement_group_members(group_id)` - Decrementa contador de miembros
 
-### External Dependencies
+### Tablas Faltantes
+- `products` - Productos del marketplace
+- `posts` - Publicaciones de la comunidad
+- `favorites` - Favoritos de usuarios
+- `messages` - Sistema de mensajería
+- `conversations` - Conversaciones
 
-**Core Framework:**
-- Flutter SDK (Dart)
-- Cross-platform compilation targets: dart2js for web, native compilation for mobile
+## Configuración
 
-**Third-Party Packages:**
-- `cupertino_icons`: iOS-style icons
-- `flutter_dotenv`: Environment variable management
-- `get_it`: Simple service locator for dependency injection
-- `supabase_flutter`: Supabase client for Flutter (authentication and database integration)
+### Variables de Entorno
+Archivo: `.env`
+```
+SUPABASE_URL=https://wrshdeghtdcrgeqbqihh.supabase.co
+SUPABASE_ANON_KEY=eyJhbGci...
+```
 
-**Supabase Integration:**
-- Authentication provider
-- PostgreSQL database backend
-- Requires configuration via `.env` file (not committed to version control)
-- Setup includes SQL schema migration script
-- API credentials: SUPABASE_URL and SUPABASE_ANON_KEY
+### Dependency Injection
+El proyecto usa `get_it` para DI. Configuración en `lib/core/di/locator.dart`:
+- `SupabaseAuthService` (singleton)
+- `ServiceRepository` (usa SupabaseServiceRepository)
+- `GroupRepository` (usa SupabaseGroupRepository)
+- `PostRepository` (usa InMemoryPostRepository - temporal)
 
-**Development Dependencies:**
-- `flutter_lints`: Dart linting rules
-- `flutter_test`: Testing framework
+## Patrones de Diseño
 
-**Platform Support:**
-- Web (CanvasKit renderer)
-- Windows (CMake build system)
-- Mobile platforms (iOS/Android via Flutter)
+### Repository Pattern
+Cada dominio tiene una interfaz abstracta y múltiples implementaciones:
+- `ServiceRepository` → `SupabaseServiceRepository` | `InMemoryServiceRepository`
+- `GroupRepository` → `SupabaseGroupRepository` | `InMemoryGroupRepository`
 
-**Build Tools:**
-- CMake for Windows builds
-- Flutter build system for cross-platform compilation
-- Service worker for PWA functionality on web
+### Singleton Pattern
+- `SupabaseAuthService.instance`
+- `supabase` client (desde `supabase_service.dart`)
 
-**Testing Approach:**
-- Example test: `test/post_repository_test.dart` validates unique likes logic
-- Focus on domain logic validation
+## Problemas Conocidos
+
+1. **Editar perfil no funcional**: El método `updateUser` no existe en `SupabaseAuthService`. Requiere implementación.
+2. **Servicios de usuario**: `ManageServicesPage` no actualiza servicios en Supabase (comentado temporalmente).
+3. **Datos mock**: Muchas features aún usan datos en memoria en lugar de Supabase.
+
+## Próximos Pasos Recomendados
+
+1. **Implementar ProductRepository con Supabase**
+   - Crear tabla `products` en Supabase
+   - Implementar SupabaseProductRepository
+   - Actualizar ProductsPage para usar repositorio real
+
+2. **Implementar actualización de perfil**
+   - Agregar método `updateProfile` a SupabaseAuthService
+   - Implementar en EditProfilePage
+   - Permitir actualización de avatar, bio, etc.
+
+3. **Sistema de Favoritos**
+   - Crear tabla `favorites` en Supabase
+   - Implementar FavoritesRepository
+   - Agregar UI para marcar/desmarcar favoritos
+
+4. **Mensajería con Realtime**
+   - Crear tablas `conversations` y `messages`
+   - Implementar listeners de Supabase Realtime
+   - UI para chat en tiempo real
+
+## Notas de Desarrollo
+
+- **Compilación**: `flutter build web --release`
+- **Servidor local**: El workflow sirve desde `build/web` en puerto 5000
+- **Hot reload**: No disponible en web release, requiere rebuild completo
+- **Arquitectura limpia**: Priorizar interfaces sobre implementaciones concretas
+
+## Historial de Cambios Importantes
+
+### 2025-11-07
+- ✅ Refactorización completa de autenticación (Opción B)
+- ✅ Migración de ServiceRepository y GroupRepository a Supabase
+- ✅ Corrección de 15+ archivos para usar SupabaseAuthService correctamente
+- ✅ Implementación de métodos fromJson/toJson en modelos
+- ✅ Protección de contadores de miembros en grupos
+- ✅ Compilación exitosa después de arquitectura refactoring
+
+---
+
+**Última actualización**: 7 de noviembre de 2025

@@ -80,4 +80,50 @@ class Service {
   String get rateDisplay {
     return '\$${rate.toStringAsFixed(0)}/hora';
   }
+
+  /// Constructor desde JSON (Supabase)
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      rate: (json['rate'] as num).toDouble(),
+      authorId: json['author_id'] as String,
+      authorName: json['author_name'] as String? ?? '',
+      authorDisplayName: json['author_display_name'] as String? ?? '',
+      authorAccountType: json['author_account_type'] as String? ?? 'individual',
+      authorAvatarUrl: json['author_avatar_url'] as String?,
+      authorRating: (json['author_rating'] as num?)?.toDouble() ?? 0.0,
+      authorReviewCount: json['author_review_count'] as int? ?? 0,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : null,
+      tags: (json['tags'] as List<dynamic>?)?.cast<String>() ?? [],
+      category: json['category'] as String?,
+      isAvailable: json['is_available'] as bool? ?? true,
+      location: json['location'] as String?,
+    );
+  }
+
+  /// Convertir a JSON (para Supabase)
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'rate': rate,
+      'author_id': authorId,
+      'author_name': authorName,
+      'author_display_name': authorDisplayName,
+      'author_account_type': authorAccountType,
+      'author_avatar_url': authorAvatarUrl,
+      'author_rating': authorRating,
+      'author_review_count': authorReviewCount,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
+      'tags': tags,
+      'category': category,
+      'is_available': isAvailable,
+      'location': location,
+    };
+  }
 }

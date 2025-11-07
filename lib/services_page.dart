@@ -57,7 +57,7 @@ class _ServicesPageState extends State<ServicesPage>
   }
 
   Future<void> _computeMatches() async {
-    final user = SupabaseAuthService.instance.currentUser;
+    final user = SupabaseAuthService.instance.currentUserModel;
     final posts = await _postRepo
         .getAll()
         .timeout(const Duration(seconds: 8), onTimeout: () => <Post>[]);
@@ -876,22 +876,21 @@ class _ServicesPageState extends State<ServicesPage>
   }
 
   void _createNewService(String name, String description, double rate, String category, String location) {
-    // En una app real, esto se enviaría al servidor
-    final currentUser = SupabaseAuthService.instance.currentUser;
-    if (currentUser == null) return;
+    final profile = SupabaseAuthService.instance.currentUserProfile;
+    if (profile == null) return;
 
     final newService = Service(
       id: 's${DateTime.now().millisecondsSinceEpoch}',
       name: name,
       description: description,
       rate: rate,
-      authorId: currentUser.id,
-      authorName: currentUser.name,
-      authorDisplayName: currentUser.accountDisplayName,
-      authorAccountType: currentUser.accountType.name,
-      authorAvatarUrl: currentUser.avatarUrl,
-      authorRating: currentUser.ratingAvg,
-      authorReviewCount: currentUser.ratingCount,
+      authorId: profile['id'],
+      authorName: profile['name'] ?? '',
+      authorDisplayName: profile['name'] ?? '',
+      authorAccountType: profile['account_type'] ?? 'individual',
+      authorAvatarUrl: profile['profile_image_url'],
+      authorRating: (profile['rating_avg'] ?? 0.0).toDouble(),
+      authorReviewCount: profile['rating_count'] ?? 0,
       category: category.isNotEmpty ? category : null,
       location: location.isNotEmpty ? location : null,
       tags: _extractTagsFromDescription(description),

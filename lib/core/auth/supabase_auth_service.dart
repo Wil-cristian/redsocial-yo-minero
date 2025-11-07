@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../supabase/supabase_service.dart';
+import 'package:yominero/shared/models/user.dart' as models;
 
 /// Servicio de autenticación usando Supabase
 /// Reemplaza el AuthenticationService anterior basado en localStorage
@@ -20,6 +21,38 @@ class SupabaseAuthService {
   /// Datos del perfil del usuario actual (desde tabla users)
   Map<String, dynamic>? _currentUserProfile;
   Map<String, dynamic>? get currentUserProfile => _currentUserProfile;
+
+  /// Obtener el usuario actual como modelo User local
+  models.User? get currentUserModel {
+    if (_currentUserProfile == null || currentUser == null) return null;
+    
+    final profile = _currentUserProfile!;
+    
+    return models.User(
+      id: currentUser!.id,
+      email: currentUser!.email ?? '',
+      username: profile['username'] ?? '',
+      name: profile['name'] ?? '',
+      accountType: _parseAccountType(profile['account_type']),
+      avatarUrl: profile['profile_image_url'],
+      bio: profile['bio'],
+      ratingAvg: (profile['rating_avg'] ?? 0.0).toDouble(),
+      ratingCount: profile['rating_count'] ?? 0,
+    );
+  }
+
+  models.AccountType _parseAccountType(String? type) {
+    switch (type) {
+      case 'individual':
+        return models.AccountType.individual;
+      case 'worker':
+        return models.AccountType.worker;
+      case 'company':
+        return models.AccountType.company;
+      default:
+        return models.AccountType.individual;
+    }
+  }
 
   /// Inicializar el servicio y cargar sesión existente
   Future<void> initialize() async {
