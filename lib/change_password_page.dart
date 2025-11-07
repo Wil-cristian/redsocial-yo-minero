@@ -120,13 +120,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF4ECDC4).withValues(alpha: 0.1),
+                          color: const AppColorsUnified.success.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
                           Icons.lock_reset,
                           size: 64,
-                          color: Color(0xFF4ECDC4),
+                          color: AppColorsUnified.success,
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -144,7 +144,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF4ECDC4),
+                          color: AppColorsUnified.success,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -322,7 +322,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _changePassword,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4ECDC4),
+                      backgroundColor: const AppColorsUnified.success,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

@@ -14,7 +14,7 @@ class DashboardGridItem extends StatefulWidget {
     required this.label,
     required this.icon,
     this.backgroundColor = const Color(0xFFF0F0F0),
-    this.iconColor = const Color(0xFF6C63FF),
+    this.iconColor = const AppColorsUnified.companyBlue,
     required this.onTap,
     this.isHighlighted = false,
   });

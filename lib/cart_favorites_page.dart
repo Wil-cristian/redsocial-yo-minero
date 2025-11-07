@@ -187,7 +187,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF6C63FF),
+                        color: AppColorsUnified.companyBlue,
                       ),
                     ),
                   ],
@@ -270,7 +270,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF6C63FF),
+                    color: AppColorsUnified.companyBlue,
                   ),
                 ),
               ],
@@ -382,7 +382,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF6C63FF),
+                    color: AppColorsUnified.companyBlue,
                   ),
                 ),
               ],

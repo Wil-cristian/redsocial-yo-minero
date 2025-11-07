@@ -99,7 +99,7 @@ class OptimizedPostContent extends StatelessWidget {
                     height: 6,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: post.productStock! > 5 ? accentColor : const Color(0xFF999999),
+                      color: post.productStock! > 5 ? accentColor : const AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -108,7 +108,7 @@ class OptimizedPostContent extends StatelessWidget {
                         ? 'En stock'
                         : 'Últimas ${post.productStock} unidades',
                     style: const TextStyle(
-                      color: Color(0xFF666666),
+                      color: AppColorsUnified.textSecondary,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       letterSpacing: -0.1,

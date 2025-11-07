@@ -13,8 +13,8 @@ class BadgeIcon extends StatelessWidget {
     super.key,
     required this.icon,
     this.count = 0,
-    this.backgroundColor = const Color(0xFF6C63FF),
-    this.iconColor = const Color(0xFF6C63FF),
+    this.backgroundColor = const AppColorsUnified.companyBlue,
+    this.iconColor = const AppColorsUnified.companyBlue,
     required this.onTap,
     this.showBadge = true,
   });

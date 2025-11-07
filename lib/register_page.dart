@@ -90,9 +90,9 @@ class _RegisterPageState extends State<RegisterPage>
   Color get _accountTypeColor {
     switch (widget.accountType) {
       case AccountType.individual:
-        return const Color(0xFF6C63FF);
+        return const AppColorsUnified.companyBlue;
       case AccountType.worker:
-        return const Color(0xFF4ECDC4);
+        return const AppColorsUnified.success;
       case AccountType.company:
         return AppColorsUnified.companySecondary;
     }

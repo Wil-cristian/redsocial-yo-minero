@@ -49,17 +49,17 @@ class _PremiumProductCardState extends State<PremiumProductCard>
   // Colores premium basados en gemas
   static const List<List<Color>> _gemGradients = [
     // Oro Imperial
-    [Color(0xFFFFD700), Color(0xFFFFA500), Color(0xFFFFE55C)],
+    [AppColorsUnified.gold, AppColorsUnified.orange, AppColorsUnified.lighten(AppColorsUnified.gold, 0.2)],
     // Plata Lunar
-    [Color(0xFFE8E8E8), Color(0xFFC0C0C0), Color(0xFFFFFFFF)],
+    [AppColorsUnified.lighten(AppColorsUnified.surface, 0.05), AppColorsUnified.lighten(AppColorsUnified.gold, 0.3), AppColorsUnified.surface],
     // Esmeralda
     [Color(0xFF50C878), Color(0xFF00A86B), Color(0xFF7FFFD4)],
     // Zafiro
     [Color(0xFF0F52BA), Color(0xFF082567), Color(0xFF6495ED)],
     // Rubí
-    [Color(0xFFE0115F), Color(0xFF9B111E), Color(0xFFFF6B9D)],
+    [AppColorsUnified.error, AppColorsUnified.darken(AppColorsUnified.error, 0.2), AppColorsUnified.lighten(AppColorsUnified.error, 0.2)],
     // Amatista
-    [Color(0xFF9966CC), Color(0xFF6A0DAD), Color(0xFFDA70D6)],
+    [Color(0xFF9966CC), Color(0xFF6A0DAD), AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.3)],
   ];
 
   List<Color> get _cardGradient => _gemGradients[widget.index % _gemGradients.length];
@@ -178,7 +178,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
             // Borde más interno plateado
             border: Border.all(
               width: 1,
-              color: const Color(0xFFE8E8E8),
+              color: const AppColorsUnified.lighten(AppColorsUnified.surface, 0.05),
             ),
             // Fondo blanco premium
             color: Colors.white,
@@ -304,13 +304,13 @@ class _PremiumProductCardState extends State<PremiumProductCard>
         borderRadius: BorderRadius.circular(20),
         gradient: const LinearGradient(
           colors: [
-            Color(0xFFFFD700), // Oro
-            Color(0xFFFFA500), // Naranja dorado
+            AppColorsUnified.gold, // Oro
+            AppColorsUnified.orange, // Naranja dorado
           ],
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFFD700).withValues(alpha: 0.4),
+            color: const AppColorsUnified.gold.withValues(alpha: 0.4),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),

@@ -212,8 +212,8 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
                 // Sombra ambiental dorada/plateada
                 BoxShadow(
                   color: (isGold
-                          ? const Color(0xFFD4AF37)
-                          : const Color(0xFFC0C0C0))
+                          ? const AppColorsUnified.gold
+                          : const AppColorsUnified.lighten(AppColorsUnified.gold, 0.3))
                       .withValues(alpha: 0.18 * shadowIntensity),
                   blurRadius: 42 * shadowIntensity,
                   offset: const Offset(0, 0),
@@ -244,7 +244,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
   /// 📋 Contenedor de información COMPLETA - Todo abajo (autor, título, precio, acciones)
   Widget _buildInfoContainer(Product product, int index) {
     final isGold = index % 2 == 0;
-    final accentColor = isGold ? const Color(0xFFD4AF37) : const Color(0xFFC0C0C0);
+    final accentColor = isGold ? const AppColorsUnified.gold : const AppColorsUnified.lighten(AppColorsUnified.gold, 0.3);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -289,13 +289,13 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 13,
-                          color: Color(0xFF1A1A1A),
+                          color: AppColorsUnified.textPrimary,
                         ),
                       ),
                       if (widget.createdAt != null)
                         Text(
                           'Producto · ${_getTimeAgo(widget.createdAt!)}',
-                          style: const TextStyle(color: Color(0xFF999999), fontSize: 11),
+                          style: const TextStyle(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2), fontSize: 11),
                         ),
                     ],
                   ),
@@ -311,7 +311,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: Color(0xFF1A1A1A),
+              color: AppColorsUnified.textPrimary,
               letterSpacing: -0.3,
               height: 1.3,
             ),
@@ -386,14 +386,14 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Row(
           children: [
-            Icon(icon, size: 20, color: const Color(0xFF666666)),
+            Icon(icon, size: 20, color: const AppColorsUnified.textSecondary),
             if (label.isNotEmpty) ...[
               const SizedBox(width: 4),
               Text(
                 label,
                 style: const TextStyle(
                   fontSize: 13,
-                  color: Color(0xFF666666),
+                  color: AppColorsUnified.textSecondary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -423,8 +423,8 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFFFAFAFA),
-            const Color(0xFFF5F5F5),
+            const AppColorsUnified.surface,
+            const AppColorsUnified.background,
           ],
         ),
       ),
@@ -433,8 +433,8 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
           _getProductIcon(productName),
           size: 100,
           color: isGold
-              ? const Color(0xFFD4AF37).withValues(alpha: 0.3)
-              : const Color(0xFFC0C0C0).withValues(alpha: 0.3),
+              ? const AppColorsUnified.gold.withValues(alpha: 0.3)
+              : const AppColorsUnified.lighten(AppColorsUnified.gold, 0.3).withValues(alpha: 0.3),
         ),
       ),
     );

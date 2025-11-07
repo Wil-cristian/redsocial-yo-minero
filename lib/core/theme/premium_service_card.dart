@@ -49,15 +49,15 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
   // Colores premium de gemas (tema violeta/púrpura)
   static const List<List<Color>> _gemGradients = [
     // Amatista
-    [Color(0xFF9966CC), Color(0xFF6A0DAD), Color(0xFFDA70D6)],
+    [Color(0xFF9966CC), Color(0xFF6A0DAD), AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.3)],
     // Zafiro
     [Color(0xFF0F52BA), Color(0xFF082567), Color(0xFF6495ED)],
     // Esmeralda
     [Color(0xFF50C878), Color(0xFF00A86B), Color(0xFF7FFFD4)],
     // Rubí
-    [Color(0xFFE0115F), Color(0xFF9B111E), Color(0xFFFF6B9D)],
+    [AppColorsUnified.error, AppColorsUnified.darken(AppColorsUnified.error, 0.2), AppColorsUnified.lighten(AppColorsUnified.error, 0.2)],
     // Oro
-    [Color(0xFFFFD700), Color(0xFFFFA500), Color(0xFFFFE55C)],
+    [AppColorsUnified.gold, AppColorsUnified.orange, AppColorsUnified.lighten(AppColorsUnified.gold, 0.2)],
     // Turquesa
     [Color(0xFF40E0D0), Color(0xFF00CED1), Color(0xFF48D1CC)],
   ];
@@ -171,7 +171,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               width: 1,
-              color: const Color(0xFFE8E8E8),
+              color: const AppColorsUnified.lighten(AppColorsUnified.surface, 0.05),
             ),
             color: Colors.white,
           ),

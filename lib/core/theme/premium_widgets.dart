@@ -19,7 +19,7 @@ class PremiumWidgets {
     return RichDecorations.doubleBorderCard(
       child: child,
       outerColor: DashboardColors.primary,
-      innerColor: const Color(0xFFFFFFFF),
+      innerColor: const AppColorsUnified.surface,
     );
   }
 
@@ -99,12 +99,12 @@ class PremiumWidgets {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: isNew ? const Color(0xFF10B981) : const Color(0xFF6B7280),
+        color: isNew ? const AppColorsUnified.success : const AppColorsUnified.textSecondary,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white, width: 1),
         boxShadow: [
           BoxShadow(
-            color: (isNew ? const Color(0xFF10B981) : const Color(0xFF6B7280)).withValues(alpha: 0.4),
+            color: (isNew ? const AppColorsUnified.success : const AppColorsUnified.textSecondary).withValues(alpha: 0.4),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -127,12 +127,12 @@ class PremiumWidgets {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: hasStock ? const Color(0xFF3B82F6) : const Color(0xFFEF4444),
+        color: hasStock ? const AppColorsUnified.companyBlue : const AppColorsUnified.error,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white, width: 1),
         boxShadow: [
           BoxShadow(
-            color: (hasStock ? const Color(0xFF3B82F6) : const Color(0xFFEF4444)).withValues(alpha: 0.4),
+            color: (hasStock ? const AppColorsUnified.companyBlue : const AppColorsUnified.error).withValues(alpha: 0.4),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -409,7 +409,7 @@ class PremiumWidgets {
     bool isUrgent = false,
   }) {
     return pulsingBorder(
-      color: isUrgent ? const Color(0xFFFF6B00) : const Color(0xFF10B981),
+      color: isUrgent ? const Color(0xFFFF6B00) : const AppColorsUnified.success,
       duration: isUrgent
           ? const Duration(milliseconds: 800)
           : const Duration(milliseconds: 1500),

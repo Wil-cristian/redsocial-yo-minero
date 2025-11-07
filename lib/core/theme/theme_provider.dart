@@ -24,7 +24,7 @@ class ThemeProvider extends ChangeNotifier {
         seedColor: const Color(0xFF1E3A8A),
         brightness: Brightness.light,
       ),
-      scaffoldBackgroundColor: const Color(0xFFF5F5F5),
+      scaffoldBackgroundColor: const AppColorsUnified.background,
       appBarTheme: const AppBarTheme(
         centerTitle: true,
         elevation: 0,
@@ -68,7 +68,7 @@ class ThemeProvider extends ChangeNotifier {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF3B82F6),
+        seedColor: const AppColorsUnified.companyBlue,
         brightness: Brightness.dark,
       ),
       scaffoldBackgroundColor: const Color(0xFF121212),
@@ -97,7 +97,7 @@ class ThemeProvider extends ChangeNotifier {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF3B82F6), width: 2),
+          borderSide: const BorderSide(color: AppColorsUnified.companyBlue, width: 2),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
