@@ -22,10 +22,14 @@ The application features a comprehensive UI for various functionalities, includi
 - **Backend**: Supabase (PostgreSQL, Auth, Realtime).
 - **Deployment**: Replit.
 - **Authentication**: Supabase-based authentication with user registration (individual, worker, company types), login, and session persistence. Includes `SupabaseAuthService` for managing user sessions and profiles.
-- **Data Repositories**: Implemented with a Repository Pattern, using abstract interfaces (e.g., `ServiceRepository`, `GroupRepository`, `ProductRepository`, `PostRepository`, `FavoriteRepository`, `MessagingRepository`, `MetricsRepository`) backed by Supabase implementations.
-- **Real-time Features**: Supabase Realtime is used for instant messaging and conversation updates, including automatic message read receipts and refreshing.
+- **Data Repositories**: Implemented with a Repository Pattern, using abstract interfaces (e.g., `ServiceRepository`, `GroupRepository`, `ProductRepository`, `PostRepository`, `FavoriteRepository`, `MessagingRepository`, `MetricsRepository`, `NotificationsRepository`) backed by Supabase implementations.
+- **Real-time Features**: Supabase Realtime is used for instant messaging, conversation updates, and push notifications, including automatic message read receipts and refreshing.
 - **Professional Profiles**: Expanded user profiles with fields like phone, profession, company, job title, website, location (JSONB), birth date, experience level, specializations, and interests. Optimized indexing for search.
-- **Messaging Optimization**: Implemented pagination with infinite scroll for conversations, real-time user search with debouncing, and concurrency control.
+- **Messaging Optimization**: Implemented pagination with infinite scroll for conversations, real-time user search with debouncing (300ms), and concurrency control via versioning system.
+- **Error Handling**: Comprehensive typed exception system with `AppException` hierarchy: `DatabaseException`, `NetworkException`, `AuthException`, `ValidationException`, and `NotFoundException`. All repositories use consistent try-catch patterns with descriptive Spanish error messages.
+- **UI Components**: Reusable widgets including `SkeletonLoader` with shimmer animation, `ErrorView`, `EmptyView`, and `CachedImage` with lazy loading and placeholder support.
+- **Theming**: Dark Mode support via `ThemeProvider` with system-level persistence and smooth theme transitions.
+- **Pull-to-Refresh**: Implemented across major pages (products, services, groups, posts) for improved data freshness.
 - **Dependency Injection**: `get_it` is used for managing dependencies like `SupabaseAuthService` and various repository implementations.
 - **Design Patterns**: Employs the Repository Pattern for data access and the Singleton Pattern for core services like `SupabaseAuthService` and the Supabase client.
 
@@ -38,11 +42,16 @@ The application features a comprehensive UI for various functionalities, includi
     - **Favorites**: Mark/unmark products and services, retrieve by type.
     - **Messaging**: Real-time chat with conversation management, message sending/receiving, and automatic updates.
     - **Metrics**: Track projects (planning, in_progress, completed) and financial transactions (income, expenses) with period-based analytics.
+    - **Notifications**: Real-time push notifications system with Supabase Realtime subscriptions. Secure RLS policies with SECURITY DEFINER function for system-generated notifications. Support for message notifications with automatic trigger on new messages. Users can view, mark as read, and delete notifications.
 - **User Management**: Comprehensive user profile editing, including newly added professional fields.
 
 ### System Design Choices
-- **Database Schema**: PostgreSQL on Supabase, with tables for `users`, `services`, `groups`, `group_members`, `products`, `posts`, `favorites`, `conversations`, `messages`, `projects`, and `transactions`.
-- **Database Functions & Triggers**: RPC functions (`increment_group_members`, `decrement_group_members`) and triggers (`update_conversation_on_message`, `update_updated_at`) are used for data integrity and real-time updates.
+- **Database Schema**: PostgreSQL on Supabase, with tables for `users`, `services`, `groups`, `group_members`, `products`, `posts`, `favorites`, `conversations`, `messages`, `projects`, `transactions`, and `notifications`.
+- **Database Functions & Triggers**: 
+    - RPC functions: `increment_group_members`, `decrement_group_members`
+    - SECURITY DEFINER function: `create_notification(UUID, TEXT, TEXT, TEXT, JSONB, TEXT)` - restricted to triggers only (EXECUTE revoked from PUBLIC/anon/authenticated)
+    - Triggers: `update_conversation_on_message`, `update_updated_at`, `trigger_notify_new_message` (automatically creates notifications for new messages)
+- **Security**: Row Level Security (RLS) enabled on all tables with strict policies. Notifications use special SECURITY DEFINER pattern to allow system-generated notifications while preventing client abuse.
 
 ## External Dependencies
 - **Supabase**: Used as the primary backend for database (PostgreSQL), authentication, and real-time functionalities.
