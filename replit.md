@@ -25,25 +25,48 @@ lib/
 │       ├── supabase_service.dart         # Cliente Supabase singleton
 │       └── supabase_config.dart          # Configuración de Supabase
 ├── features/
-│   └── services/
-│       ├── domain/
-│       │   └── service_repository.dart   # Interfaz abstracta para servicios
+│   ├── services/
+│   │   ├── domain/
+│   │   │   └── service_repository.dart   # Interfaz abstracta
+│   │   └── data/
+│   │       └── supabase_service_repository.dart # Implementación Supabase
+│   ├── products/
+│   │   ├── domain/
+│   │   │   └── product_repository.dart   # Interfaz abstracta
+│   │   └── data/
+│   │       └── supabase_product_repository.dart # Implementación Supabase
+│   ├── posts/
+│   │   ├── domain/
+│   │   │   └── post_repository.dart      # Interfaz abstracta
+│   │   └── data/
+│   │       └── supabase_post_repository.dart # Implementación Supabase
+│   ├── favorites/
+│   │   └── data/
+│   │       └── supabase_favorite_repository.dart # Favoritos
+│   ├── messaging/
+│   │   └── data/
+│   │       └── supabase_messaging_repository.dart # Chat con Realtime
+│   └── metrics/
 │       └── data/
-│           ├── supabase_service_repository.dart # Implementación con Supabase
-│           └── in_memory_service_repository.dart # Implementación legacy (mock data)
+│           └── supabase_metrics_repository.dart # Dashboard y analytics
 ├── shared/
 │   └── models/
-│       ├── user.dart                     # Modelo de usuario (local)
-│       ├── service.dart                  # Modelo de servicio con fromJson/toJson
-│       ├── group.dart                    # Modelo de grupo con fromJson/toJson
+│       ├── user.dart                     # Modelo de usuario
+│       ├── service.dart                  # Modelo de servicio
+│       ├── group.dart                    # Modelo de grupo
 │       ├── product.dart                  # Modelo de producto
-│       └── post.dart                     # Modelo de publicación
+│       ├── post.dart                     # Modelo de publicación
+│       ├── favorite.dart                 # Modelo de favorito
+│       ├── conversation.dart             # Modelo de conversación
+│       ├── message.dart                  # Modelo de mensaje
+│       ├── project.dart                  # Modelo de proyecto
+│       └── transaction.dart              # Modelo de transacción
 └── pages/
     ├── login_page.dart
     ├── services_page.dart                # Página de servicios
     ├── products_page.dart                # Página de productos
     ├── groups_page.dart                  # Página de grupos
-    ├── group_detail_page.dart            # Detalle de grupo
+    ├── company_metrics_page.dart         # Dashboard con métricas reales
     └── ... (otras páginas)
 ```
 
@@ -69,60 +92,82 @@ lib/
   - Gestión de miembros con protección contra duplicados
   - Contadores de miembros sincronizados correctamente
   - fromJson/toJson en modelo Group
+- [x] **SupabaseProductRepository**: Marketplace completo
+  - CRUD completo (create, update, delete, getById, getAll)
+  - Búsqueda por categoría, vendedor, query
+  - JOIN con users para info del vendedor
+  - Modelo compatible con código legacy
+- [x] **SupabasePostRepository**: Feed social
+  - getAll() con información del autor
+  - fromJson/toJson implementados
+- [x] **SupabaseFavoriteRepository**: Sistema de favoritos
+  - Marcar/desmarcar productos y servicios como favoritos
+  - Obtener favoritos por tipo (producto/servicio)
+  - Toggle de favoritos en UI
+- [x] **MessagingRepository**: Chat en tiempo real
+  - Gestión de conversaciones
+  - Envío y recepción de mensajes
+  - Supabase Realtime para chat instantáneo
+  - Triggers de BD para actualización automática
+- [x] **MetricsRepository**: Analytics y dashboard
+  - Proyectos con estados (planning, in_progress, completed, etc.)
+  - Transacciones (ingresos, gastos)
+  - Métricas calculadas por período (week, month, quarter, year)
 
 #### 3. Refactorización Arquitectónica (Opción B)
 - [x] Eliminado `auth_service.dart` legacy
 - [x] Todas las referencias actualizadas a `SupabaseAuthService`
 - [x] Uso correcto de `currentUserProfile` (Map) vs `currentUser` (Supabase User)
 - [x] Helper `currentUserModel` para obtener modelo User local
-- [x] Corrección de referencias en 15+ archivos
+- [x] Corrección de referencias en 20+ archivos
 - [x] Compilación exitosa sin errores
 
 #### 4. Integración con UI
 - [x] Páginas actualizadas para usar repositorios de Supabase
 - [x] MatchEngine funciona con `currentUserModel`
 - [x] Creación de productos/servicios usa `currentUserProfile`
+- [x] Dashboard de métricas muestra datos reales
+- [x] Selector de período funcional (semana, mes, trimestre, año)
 
 ### ⚠️ Pendientes / TODOs
 
-#### 1. Funcionalidades No Implementadas
+#### 1. Funcionalidades Pendientes
 - [ ] **Editar Perfil**: Método para actualizar perfil de usuario en Supabase
-- [ ] **Favoritos**: Tabla y lógica para marcar servicios/productos favoritos
-- [ ] **Mensajería**: Sistema de mensajes en tiempo real con Supabase Realtime
-- [ ] **Métricas Dashboard**: Estadísticas y analytics del usuario
+- [ ] **UI de Chat**: Páginas de mensajería usando MessagingRepository
+- [ ] **Notificaciones**: Sistema de notificaciones push
 
-#### 2. Repositorios Pendientes
-- [ ] ProductRepository con Supabase (actualmente usa datos mock)
-- [ ] PostRepository con Supabase (actualmente usa datos mock)
-- [ ] FavoritesRepository (requiere tabla en BD)
-
-#### 3. Mejoras Técnicas
-- [ ] Manejo de errores más robusto
+#### 2. Mejoras Técnicas
+- [ ] Manejo de errores más robusto con try-catch
 - [ ] Loading states en todas las operaciones async
-- [ ] Refresh de datos después de crear/actualizar
+- [ ] Refresh automático de datos después de crear/actualizar
 - [ ] Tests unitarios e integración
+- [ ] Implementar ManageServicesPage para editar servicios
 
 ## Base de Datos
 
 ### Esquema Actual (Supabase)
-Ver: `database/supabase_schema.sql`
+Ver: `database/supabase_schema.sql` y `database/additional_tables.sql`
 
-**Tablas Principales:**
+**Tablas Implementadas:**
 - `users` - Perfiles de usuario
 - `services` - Servicios ofrecidos
 - `groups` - Grupos de trabajo
 - `group_members` - Relación usuarios-grupos
+- `products` - Productos del marketplace
+- `posts` - Publicaciones de la comunidad
+- `favorites` - Favoritos de usuarios (productos y servicios)
+- `conversations` - Conversaciones entre usuarios
+- `messages` - Mensajes de chat (con Realtime habilitado)
+- `projects` - Proyectos de usuarios/empresas
+- `transactions` - Transacciones financieras (ingresos/gastos)
 
 **Funciones RPC:**
 - `increment_group_members(group_id)` - Incrementa contador de miembros
 - `decrement_group_members(group_id)` - Decrementa contador de miembros
 
-### Tablas Faltantes
-- `products` - Productos del marketplace
-- `posts` - Publicaciones de la comunidad
-- `favorites` - Favoritos de usuarios
-- `messages` - Sistema de mensajería
-- `conversations` - Conversaciones
+**Triggers:**
+- `update_conversation_on_message` - Actualiza conversaciones cuando se envía un mensaje
+- `update_updated_at` - Actualiza timestamp de updated_at automáticamente
 
 ## Configuración
 
@@ -189,12 +234,25 @@ Cada dominio tiene una interfaz abstracta y múltiples implementaciones:
 ## Historial de Cambios Importantes
 
 ### 2025-11-07
+
+**Primera Sesión:**
 - ✅ Refactorización completa de autenticación (Opción B)
 - ✅ Migración de ServiceRepository y GroupRepository a Supabase
 - ✅ Corrección de 15+ archivos para usar SupabaseAuthService correctamente
 - ✅ Implementación de métodos fromJson/toJson en modelos
 - ✅ Protección de contadores de miembros en grupos
 - ✅ Compilación exitosa después de arquitectura refactoring
+
+**Segunda Sesión:**
+- ✅ Creación de esquema SQL adicional con 5 nuevas tablas (favorites, conversations, messages, projects, transactions)
+- ✅ Implementación completa de Sistema de Favoritos
+- ✅ Migración de Products a Supabase con modelo actualizado
+- ✅ Implementación de Proyectos y Transacciones para métricas
+- ✅ Dashboard de Company Metrics conectado a datos reales de Supabase
+- ✅ Sistema de Mensajería con Realtime implementado
+- ✅ Triggers de base de datos para actualización automática de conversaciones
+- ✅ Todos los repositorios registrados en locator.dart
+- ✅ Compilación exitosa de toda la aplicación web
 
 ---
 
