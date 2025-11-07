@@ -4,6 +4,7 @@ import 'shared/models/user.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'register_page.dart';
 import 'main_navigation_shell.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class UserTypeSelectionPage extends StatefulWidget {
   const UserTypeSelectionPage({super.key});
@@ -406,7 +407,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                             title: 'Empresa',
                             subtitle: 'Para organizaciones mineras y corporaciones',
                             icon: Icons.business,
-                            color: const Color(0xFF45B7D1),
+                            color: const AppColorsUnified.companySecondary,
                             delay: 200,
                           ),
                         ],

@@ -3,6 +3,7 @@ import 'core/theme/colors.dart';
 import 'core/di/locator.dart';
 import 'features/metrics/data/supabase_metrics_repository.dart';
 import 'shared/models/project.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class CompanyMetricsPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -67,7 +68,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Análisis y Reportes'),
-        backgroundColor: const Color(0xFF45B7D1),
+        backgroundColor: const AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -402,7 +403,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
             minHeight: 6,
             backgroundColor: Colors.grey[200],
             valueColor: const AlwaysStoppedAnimation<Color>(
-              Color(0xFF45B7D1),
+              AppColorsUnified.companySecondary,
             ),
           ),
         ),
@@ -453,7 +454,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        const Color(0xFF45B7D1).withValues(alpha: 0.7),
+                        const AppColorsUnified.companySecondary.withValues(alpha: 0.7),
                         const Color(0xFF2980B9).withValues(alpha: 0.7),
                       ],
                     ),
@@ -580,7 +581,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
             minHeight: 6,
             backgroundColor: Colors.grey[200],
             valueColor: const AlwaysStoppedAnimation<Color>(
-              Color(0xFF45B7D1),
+              AppColorsUnified.companySecondary,
             ),
           ),
         ),

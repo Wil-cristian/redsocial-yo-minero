@@ -3,6 +3,7 @@ import 'core/theme/colors.dart';
 import 'shared/models/user.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'main_navigation_shell.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class RegisterPage extends StatefulWidget {
   final AccountType accountType;
@@ -93,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage>
       case AccountType.worker:
         return const Color(0xFF4ECDC4);
       case AccountType.company:
-        return const Color(0xFF45B7D1);
+        return const AppColorsUnified.companySecondary;
     }
   }
 

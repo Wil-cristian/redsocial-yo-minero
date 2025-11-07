@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// 🎨 SISTEMA UNIFICADO DE COLORES - YoMinero
 /// 
@@ -22,12 +23,12 @@ class AppColorsUnified {
   /// Perfecto para industria minera, cálido y vibrante
   
   // Naranja base (usarlo para colores planos)
-  static const Color orange = Color(0xFFFF6B35);  // Naranja vibrante principal
-  static const Color orangeLight = Color(0xFFFFB84D);  // Naranja claro brillante
-  static const Color orangeDark = Color(0xFFE06800);  // Naranja oscuro profundo
-  static const Color orangeMedium = Color(0xFFF7931E);  // Naranja medio
-  static const Color orangeApple = Color(0xFFFF9500);  // Naranja Apple style
-  static const Color orangeBright = Color(0xFFFFAA33);  // Naranja muy brillante
+  static const Color orange = AppColorsUnified.orange;  // Naranja vibrante principal
+  static const Color orangeLight = AppColorsUnified.orangeLight;  // Naranja claro brillante
+  static const Color orangeDark = AppColorsUnified.orangeDark;  // Naranja oscuro profundo
+  static const Color orangeMedium = AppColorsUnified.orangeMedium;  // Naranja medio
+  static const Color orangeApple = AppColorsUnified.orangeApple;  // Naranja Apple style
+  static const Color orangeBright = AppColorsUnified.orangeBright;  // Naranja muy brillante
   
   /// Gradiente NARANJA Principal (5 capas) - Efecto 3D
   /// Usar para botones principales, headers, FAB
@@ -35,11 +36,11 @@ class AppColorsUnified {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFFFB84D),  // Highlight superior brillante
-      Color(0xFFFF9500),  // Capa clara
-      Color(0xFFFF6B35),  // Naranja principal (centro)
-      Color(0xFFF7931E),  // Capa media-oscura
-      Color(0xFFE06800),  // Sombra profunda
+      AppColorsUnified.orangeLight,  // Highlight superior brillante
+      AppColorsUnified.orangeApple,  // Capa clara
+      AppColorsUnified.orange,  // Naranja principal (centro)
+      AppColorsUnified.orangeMedium,  // Capa media-oscura
+      AppColorsUnified.orangeDark,  // Sombra profunda
     ],
     stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
@@ -49,11 +50,11 @@ class AppColorsUnified {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFFFB84D),  // Top highlight
-      Color(0xFFFF9500),
-      Color(0xFFFF6B35),  // Centro
-      Color(0xFFF7931E),
-      Color(0xFFE06800),  // Bottom shadow
+      AppColorsUnified.orangeLight,  // Top highlight
+      AppColorsUnified.orangeApple,
+      AppColorsUnified.orange,  // Centro
+      AppColorsUnified.orangeMedium,
+      AppColorsUnified.orangeDark,  // Bottom shadow
     ],
     stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
@@ -65,12 +66,12 @@ class AppColorsUnified {
     end: Alignment.bottomRight,
     colors: [
       Color(0xFFFFFAF0),  // Blanco cálido (reflejo)
-      Color(0xFFFFB84D),  // Amarillo-naranja brillante
-      Color(0xFFFFAA33),  // Naranja muy claro
-      Color(0xFFFF9500),  // Naranja medio-claro
-      Color(0xFFFF6B35),  // Naranja principal
-      Color(0xFFF7931E),  // Naranja medio-oscuro
-      Color(0xFFE06800),  // Naranja profundo
+      AppColorsUnified.orangeLight,  // Amarillo-naranja brillante
+      AppColorsUnified.orangeBright,  // Naranja muy claro
+      AppColorsUnified.orangeApple,  // Naranja medio-claro
+      AppColorsUnified.orange,  // Naranja principal
+      AppColorsUnified.orangeMedium,  // Naranja medio-oscuro
+      AppColorsUnified.orangeDark,  // Naranja profundo
     ],
     stops: [0.0, 0.15, 0.3, 0.45, 0.6, 0.8, 1.0],
   );
@@ -81,9 +82,9 @@ class AppColorsUnified {
     radius: 1.5,
     colors: [
       Color(0xFFFFFAF0),  // Centro brillante
-      Color(0xFFFFB84D),
-      Color(0xFFFF6B35),  // Naranja principal
-      Color(0xFFE06800),  // Borde oscuro
+      AppColorsUnified.orangeLight,
+      AppColorsUnified.orange,  // Naranja principal
+      AppColorsUnified.orangeDark,  // Borde oscuro
     ],
     stops: [0.0, 0.3, 0.7, 1.0],
   );
@@ -97,15 +98,15 @@ class AppColorsUnified {
   // ============================================
   
   /// ORO - Para elementos premium, badges, achievements
-  static const Color gold = Color(0xFFD4AF37);  // Oro clásico
-  static const Color goldLight = Color(0xFFF4E4C1);  // Oro claro brillante
-  static const Color goldDark = Color(0xFFB8941E);  // Oro oscuro
-  static const Color goldPure = Color(0xFFFFD700);  // Oro puro 24K
+  static const Color gold = AppColorsUnified.gold;  // Oro clásico
+  static const Color goldLight = AppColorsUnified.goldLight;  // Oro claro brillante
+  static const Color goldDark = AppColorsUnified.goldDark;  // Oro oscuro
+  static const Color goldPure = AppColorsUnified.goldPure;  // Oro puro 24K
   
   /// PLATA - Para elementos secundarios, badges plateados
-  static const Color silver = Color(0xFFC0C0C0);  // Plata base
-  static const Color silverLight = Color(0xFFE8E8E8);  // Plata clara
-  static const Color silverDark = Color(0xFFA8A8A8);  // Plata oscura
+  static const Color silver = AppColorsUnified.silver;  // Plata base
+  static const Color silverLight = AppColorsUnified.silverLight;  // Plata clara
+  static const Color silverDark = AppColorsUnified.silverDark;  // Plata oscura
   
   /// Gradiente ORO (5 capas)
   static const LinearGradient goldGradient = LinearGradient(
@@ -113,9 +114,9 @@ class AppColorsUnified {
     end: Alignment.bottomRight,
     colors: [
       Color(0xFFFFFAF0),  // Highlight blanco dorado
-      Color(0xFFF4E4C1),  // Oro brillante
-      Color(0xFFD4AF37),  // Oro puro
-      Color(0xFFB8941E),  // Oro medio
+      AppColorsUnified.goldLight,  // Oro brillante
+      AppColorsUnified.gold,  // Oro puro
+      AppColorsUnified.goldDark,  // Oro medio
       Color(0xFFAA8C3A),  // Oro oscuro
     ],
     stops: [0.0, 0.25, 0.5, 0.75, 1.0],
@@ -126,10 +127,10 @@ class AppColorsUnified {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFFFFFFF),  // Highlight blanco
+      AppColorsUnified.white,  // Highlight blanco
       Color(0xFFF5F5F5),
-      Color(0xFFE8E8E8),  // Plata brillante
-      Color(0xFFC0C0C0),  // Plata media
+      AppColorsUnified.silverLight,  // Plata brillante
+      AppColorsUnified.silver,  // Plata media
       Color(0xFF9E9E9E),  // Plata oscura
     ],
     stops: [0.0, 0.2, 0.5, 0.8, 1.0],
@@ -140,11 +141,11 @@ class AppColorsUnified {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      Color(0xFFF4E4C1),  // Oro claro
-      Color(0xFFD4AF37),  // Oro base
-      Color(0xFFE8E8E8),  // Plata clara
-      Color(0xFFC0C0C0),  // Plata base
-      Color(0xFFD4AF37),  // Oro base final
+      AppColorsUnified.goldLight,  // Oro claro
+      AppColorsUnified.gold,  // Oro base
+      AppColorsUnified.silverLight,  // Plata clara
+      AppColorsUnified.silver,  // Plata base
+      AppColorsUnified.gold,  // Oro base final
     ],
     stops: [0.0, 0.2, 0.5, 0.8, 1.0],
   );
@@ -153,97 +154,97 @@ class AppColorsUnified {
   // 🎨 FONDOS Y SUPERFICIES
   // ============================================
   
-  static const Color background = Color(0xFFF8F5EF);  // Fondo principal cálido
-  static const Color backgroundAlt = Color(0xFFF2EEE7);  // Fondo alternativo
-  static const Color surface = Color(0xFFFFFFFF);  // Superficie blanca
-  static const Color surfaceAlt = Color(0xFFFAF7F2);  // Superficie cálida
-  static const Color cardBackground = Color(0xFFFFFFFF);  // Fondo de cards
-  static const Color divider = Color(0xFFE5E7EB);  // Divisores
-  static const Color outline = Color(0xFFD5CBBF);  // Bordes
+  static const Color background = AppColorsUnified.background;  // Fondo principal cálido
+  static const Color backgroundAlt = AppColorsUnified.backgroundAlt;  // Fondo alternativo
+  static const Color surface = AppColorsUnified.white;  // Superficie blanca
+  static const Color surfaceAlt = AppColorsUnified.surfaceAlt;  // Superficie cálida
+  static const Color cardBackground = AppColorsUnified.white;  // Fondo de cards
+  static const Color divider = AppColorsUnified.divider;  // Divisores
+  static const Color outline = AppColorsUnified.outline;  // Bordes
 
   // ============================================
   // ✍️ TEXTO
   // ============================================
   
-  static const Color textPrimary = Color(0xFF282523);  // Texto principal
-  static const Color textSecondary = Color(0xFF5E574F);  // Texto secundario
-  static const Color textDisabled = Color(0xFF9E948B);  // Texto deshabilitado
-  static const Color textOnOrange = Color(0xFFFFFFFF);  // Texto sobre naranja
-  static const Color textOnGold = Color(0xFF000000);  // Texto sobre oro
+  static const Color textPrimary = AppColorsUnified.textPrimary;  // Texto principal
+  static const Color textSecondary = AppColorsUnified.textSecondary;  // Texto secundario
+  static const Color textDisabled = AppColorsUnified.textDisabled;  // Texto deshabilitado
+  static const Color textOnOrange = AppColorsUnified.white;  // Texto sobre naranja
+  static const Color textOnGold = AppColorsUnified.black;  // Texto sobre oro
 
   // ============================================
   // ✅ ESTADOS (Success, Error, Warning, Info)
   // ============================================
   
   /// Verde ÉXITO
-  static const Color success = Color(0xFF10B981);  // Verde esmeralda
-  static const Color successLight = Color(0xFF34D399);
-  static const Color successDark = Color(0xFF059669);
-  static const Color successContainer = Color(0xFFE4F3E5);  // Fondo verde claro
+  static const Color success = AppColorsUnified.success;  // Verde esmeralda
+  static const Color successLight = AppColorsUnified.successLight;
+  static const Color successDark = AppColorsUnified.successDark;
+  static const Color successContainer = AppColorsUnified.successContainer;  // Fondo verde claro
   
   /// Rojo ERROR
-  static const Color error = Color(0xFFDC2626);  // Rojo rubí
-  static const Color errorLight = Color(0xFFF87171);
-  static const Color errorDark = Color(0xFFB91C1C);
-  static const Color errorContainer = Color(0xFFFCE4E4);  // Fondo rojo claro
+  static const Color error = AppColorsUnified.error;  // Rojo rubí
+  static const Color errorLight = AppColorsUnified.errorLight;
+  static const Color errorDark = AppColorsUnified.errorDark;
+  static const Color errorContainer = AppColorsUnified.errorContainer;  // Fondo rojo claro
   
   /// Amarillo WARNING
-  static const Color warning = Color(0xFFFBBF24);  // Amarillo ámbar
-  static const Color warningLight = Color(0xFFFDE68A);
-  static const Color warningDark = Color(0xFFF59E0B);
-  static const Color warningContainer = Color(0xFFFFF6DA);  // Fondo amarillo claro
+  static const Color warning = AppColorsUnified.warning;  // Amarillo ámbar
+  static const Color warningLight = AppColorsUnified.warningLight;
+  static const Color warningDark = AppColorsUnified.warningDark;
+  static const Color warningContainer = AppColorsUnified.warningContainer;  // Fondo amarillo claro
   
   /// Azul INFO
-  static const Color info = Color(0xFF3B82F6);  // Azul zafiro
-  static const Color infoLight = Color(0xFF60A5FA);
-  static const Color infoDark = Color(0xFF2563EB);
-  static const Color infoContainer = Color(0xFFE0F0FA);  // Fondo azul claro
+  static const Color info = AppColorsUnified.companyPrimary;  // Azul zafiro
+  static const Color infoLight = AppColorsUnified.infoLight;
+  static const Color infoDark = AppColorsUnified.sapphire;
+  static const Color infoContainer = AppColorsUnified.infoContainer;  // Fondo azul claro
 
   // ============================================
   // 💎 GEMAS PRECIOSAS (para badges premium)
   // ============================================
   
   /// ESMERALDA (Verde premium)
-  static const Color emerald = Color(0xFF00D084);
-  static const Color emeraldLight = Color(0xFF4ADE80);
-  static const Color emeraldDark = Color(0xFF00875A);
+  static const Color emerald = AppColorsUnified.emerald;
+  static const Color emeraldLight = AppColorsUnified.emeraldLight;
+  static const Color emeraldDark = AppColorsUnified.emeraldDark;
   static const LinearGradient emeraldGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF6EE7B7), Color(0xFF34D399), Color(0xFF10B981), Color(0xFF059669), Color(0xFF047857)],
+    colors: [Color(0xFF6EE7B7), AppColorsUnified.successLight, AppColorsUnified.success, AppColorsUnified.successDark, Color(0xFF047857)],
     stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
   
   /// RUBÍ (Rojo premium)
-  static const Color ruby = Color(0xFFDC2626);
-  static const Color rubyLight = Color(0xFFF87171);
-  static const Color rubyDark = Color(0xFF7F1D1D);
+  static const Color ruby = AppColorsUnified.error;
+  static const Color rubyLight = AppColorsUnified.errorLight;
+  static const Color rubyDark = AppColorsUnified.rubyDark;
   static const LinearGradient rubyGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFFDA4AF), Color(0xFFF87171), Color(0xFFEF4444), Color(0xFFDC2626), Color(0xFFB91C1C)],
+    colors: [Color(0xFFFDA4AF), AppColorsUnified.errorLight, AppColorsUnified.ruby, AppColorsUnified.error, AppColorsUnified.errorDark],
     stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
   
   /// ZAFIRO (Azul premium)
-  static const Color sapphire = Color(0xFF2563EB);
-  static const Color sapphireLight = Color(0xFF60A5FA);
-  static const Color sapphireDark = Color(0xFF1E3A8A);
+  static const Color sapphire = AppColorsUnified.sapphire;
+  static const Color sapphireLight = AppColorsUnified.infoLight;
+  static const Color sapphireDark = AppColorsUnified.sapphireDark;
   static const LinearGradient sapphireGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF93C5FD), Color(0xFF60A5FA), Color(0xFF3B82F6), Color(0xFF2563EB), Color(0xFF1E40AF)],
+    colors: [AppColorsUnified.sapphireLight, AppColorsUnified.infoLight, AppColorsUnified.companyPrimary, AppColorsUnified.sapphire, Color(0xFF1E40AF)],
     stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
   
   /// AMATISTA (Púrpura premium)
-  static const Color amethyst = Color(0xFF9333EA);
-  static const Color amethystLight = Color(0xFFC084FC);
+  static const Color amethyst = AppColorsUnified.amethyst;
+  static const Color amethystLight = AppColorsUnified.amethystLight;
   static const Color amethystDark = Color(0xFF6B21A8);
   static const LinearGradient amethystGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFE9D5FF), Color(0xFFC084FC), Color(0xFF9333EA), Color(0xFF7C3AED), Color(0xFF6B21A8)],
+    colors: [Color(0xFFE9D5FF), AppColorsUnified.amethystLight, AppColorsUnified.amethyst, AppColorsUnified.amethystDark, Color(0xFF6B21A8)],
     stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
   
@@ -268,7 +269,7 @@ class AppColorsUnified {
   
   /// Colores para cards de productos
   static const Color productPrimary = orange;
-  static const Color productBackground = Color(0xFFFAF6ED);  // Fondo cálido oro
+  static const Color productBackground = AppColorsUnified.productBackground;  // Fondo cálido oro
   static const LinearGradient productGradient = goldGradient;  // Usar gradiente oro
   static const Color productBadge = gold;
   static const Color productPrice = orange;
@@ -279,14 +280,14 @@ class AppColorsUnified {
   // ============================================
   
   /// Colores para cards de servicios
-  static const Color servicePrimary = Color(0xFF9F7AEA);  // Púrpura
-  static const Color serviceBackground = Color(0xFFF3EBFF);  // Fondo púrpura claro
+  static const Color servicePrimary = AppColorsUnified.servicePrimary;  // Púrpura
+  static const Color serviceBackground = AppColorsUnified.serviceBackground;  // Fondo púrpura claro
   static const LinearGradient serviceGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFFB794F6), Color(0xFF9F7AEA), Color(0xFF7C3AED)],
+    colors: [AppColorsUnified.servicePrimary, AppColorsUnified.servicePrimary, AppColorsUnified.amethystDark],
   );
-  static const Color serviceBadge = Color(0xFF8B5CF6);
+  static const Color serviceBadge = AppColorsUnified.serviceBadge;
   static const Color servicePrice = servicePrimary;
 
   // ============================================
@@ -294,8 +295,8 @@ class AppColorsUnified {
   // ============================================
   
   /// Colores para grupos
-  static const Color groupPrimary = Color(0xFF10B981);  // Verde
-  static const Color groupBackground = Color(0xFFE6F9F3);  // Fondo verde claro
+  static const Color groupPrimary = AppColorsUnified.success;  // Verde
+  static const Color groupBackground = AppColorsUnified.groupBackground;  // Fondo verde claro
   static const LinearGradient groupGradient = emeraldGradient;
   static const Color groupMemberCount = textSecondary;
   static const Color groupBadge = emerald;
@@ -308,8 +309,8 @@ class AppColorsUnified {
   static const Color postPrimary = orange;
   static const Color postBackground = surface;
   static const Color postLikeActive = error;
-  static const Color postLikeInactive = Color(0xFFCBD5E1);
-  static const Color postCommentIcon = Color(0xFF3B82F6);
+  static const Color postLikeInactive = AppColorsUnified.favoriteInactive;
+  static const Color postCommentIcon = AppColorsUnified.companyPrimary;
   static const Color postShareIcon = success;
   
   /// Gradientes por tipo de post
@@ -321,7 +322,7 @@ class AppColorsUnified {
   );
   static const LinearGradient postNewsGradient = sapphireGradient;
   static const LinearGradient postPollGradient = LinearGradient(
-    colors: [Color(0xFF34D399), Color(0xFF10B981), Color(0xFF059669)],
+    colors: [AppColorsUnified.successLight, AppColorsUnified.success, AppColorsUnified.successDark],
   );
 
   // ============================================
@@ -329,8 +330,8 @@ class AppColorsUnified {
   // ============================================
   
   /// Colores para chat y mensajería
-  static const Color messagePrimary = Color(0xFFEC4899);  // Rosa
-  static const Color messageBackground = Color(0xFFFCE7F3);  // Fondo rosa claro
+  static const Color messagePrimary = AppColorsUnified.messagePrimary;  // Rosa
+  static const Color messageBackground = AppColorsUnified.messageBackground;  // Fondo rosa claro
   static const Color messageBubbleUser = orange;  // Burbuja del usuario
   static const Color messageBubbleOther = Color(0xFFF3F4F6);  // Burbuja del otro
   static const Color messageTextUser = Colors.white;
@@ -348,7 +349,7 @@ class AppColorsUnified {
   static const Color profileHeaderGradientEnd = gold;
   static const Color profileBadgeGold = gold;
   static const Color profileBadgeSilver = silver;
-  static const Color profileBadgeBronze = Color(0xFFCD7F32);
+  static const Color profileBadgeBronze = AppColorsUnified.profileBadgeBronze;
   static const Color profileStatsBackground = surfaceAlt;
   static const Color profileStatsIcon = orange;
 
@@ -357,20 +358,20 @@ class AppColorsUnified {
   // ============================================
   
   /// Colores para sección de empresa
-  static const Color companyPrimary = Color(0xFF3B82F6);  // Azul corporativo
-  static const Color companySecondary = Color(0xFF45B7D1);  // Azul turquesa
-  static const Color companyBackground = Color(0xFFEBF5FF);  // Fondo azul claro
+  static const Color companyPrimary = AppColorsUnified.companyPrimary;  // Azul corporativo
+  static const Color companySecondary = AppColorsUnified.companySecondary;  // Azul turquesa
+  static const Color companyBackground = AppColorsUnified.companyBackground;  // Fondo azul claro
   static const Color companyAccent = gold;  // Oro para elementos premium
   
   /// Cards de empresa
   static const Color companyCardOrange = orange;
   static const Color companyCardPurple = Color(0xFFA78BFA);
-  static const Color companyCardPink = Color(0xFFF472B6);
+  static const Color companyCardPink = AppColorsUnified.companyCardPink;
   static const Color companyCardBlue = companyPrimary;
   
   /// Gradientes de empresa
   static const LinearGradient companyGradient = LinearGradient(
-    colors: [Color(0xFF60A5FA), Color(0xFF3B82F6), Color(0xFF2563EB)],
+    colors: [AppColorsUnified.infoLight, AppColorsUnified.companyPrimary, AppColorsUnified.sapphire],
   );
   static const LinearGradient companyPremiumGradient = goldGradient;
 
@@ -382,10 +383,10 @@ class AppColorsUnified {
   static const Color employeePrimary = companySecondary;  // Azul turquesa
   static const Color employeeBackground = Color(0xFFE0F2F7);
   static const Color employeeActive = success;
-  static const Color employeeInactive = Color(0xFF9CA3AF);
-  static const Color employeeBadgeGreen = Color(0xFF059669);
-  static const Color employeeBadgePurple = Color(0xFF8B5CF6);
-  static const Color employeeBadgePink = Color(0xFFDB2777);
+  static const Color employeeInactive = AppColorsUnified.employeeInactive;
+  static const Color employeeBadgeGreen = AppColorsUnified.successDark;
+  static const Color employeeBadgePurple = AppColorsUnified.serviceBadge;
+  static const Color employeeBadgePink = AppColorsUnified.employeeBadgePink;
 
   // ============================================
   // 📊 MÓDULO: MÉTRICAS (Metrics/Dashboard)
@@ -423,8 +424,8 @@ class AppColorsUnified {
   // ============================================
   
   /// Colores para sistema de favoritos
-  static const Color favoriteActive = Color(0xFFFFB800);  // Dorado brillante
-  static const Color favoriteInactive = Color(0xFFCBD5E1);  // Gris claro
+  static const Color favoriteActive = AppColorsUnified.favoriteActive;  // Dorado brillante
+  static const Color favoriteInactive = AppColorsUnified.favoriteInactive;  // Gris claro
   static const Color favoriteBackground = Color(0xFFFFF9E6);  // Fondo amarillo muy claro
 
   // ============================================
@@ -432,18 +433,18 @@ class AppColorsUnified {
   // ============================================
   
   /// Colores específicos del menú radial flotante
-  static const Color radialButtonGradientStart = Color(0xFFFF6B35);  // Naranja oscuro
-  static const Color radialButtonGradientMid = Color(0xFFF7931E);  // Naranja medio
-  static const Color radialButtonGradientEnd = Color(0xFFFFB84D);  // Naranja dorado
+  static const Color radialButtonGradientStart = AppColorsUnified.orange;  // Naranja oscuro
+  static const Color radialButtonGradientMid = AppColorsUnified.orangeMedium;  // Naranja medio
+  static const Color radialButtonGradientEnd = AppColorsUnified.orangeLight;  // Naranja dorado
   
   /// Gradiente del botón flotante (3 capas)
   static const LinearGradient radialButtonGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFFF6B35),
-      Color(0xFFF7931E),
-      Color(0xFFFFB84D),
+      AppColorsUnified.orange,
+      AppColorsUnified.orangeMedium,
+      AppColorsUnified.orangeLight,
     ],
   );
   
@@ -469,9 +470,9 @@ class AppColorsUnified {
   static const Color userIndividualAccent = gold;
   
   /// WORKER (Trabajador)
-  static const Color userWorkerPrimary = Color(0xFF059669);  // Verde oscuro
+  static const Color userWorkerPrimary = AppColorsUnified.successDark;  // Verde oscuro
   static const Color userWorkerAccent = emerald;
-  static const Color userWorkerBadge = Color(0xFF8B5CF6);  // Púrpura
+  static const Color userWorkerBadge = AppColorsUnified.serviceBadge;  // Púrpura
   
   /// COMPANY (Empresa)
   static const Color userCompanyPrimary = companyPrimary;
@@ -485,7 +486,7 @@ class AppColorsUnified {
   /// Colores para modo oscuro (preparación futura)
   static const Color darkBackground = Color(0xFF121212);
   static const Color darkSurface = Color(0xFF1E1E1E);
-  static const Color darkTextPrimary = Color(0xFFFFFFFF);
+  static const Color darkTextPrimary = AppColorsUnified.white;
   static const Color darkTextSecondary = Color(0xFFB0B0B0);
 
   // ============================================
@@ -494,8 +495,8 @@ class AppColorsUnified {
   
   /// Colores utilitarios
   static const Color transparent = Color(0x00000000);
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color black = Color(0xFF000000);
+  static const Color white = AppColorsUnified.white;
+  static const Color black = AppColorsUnified.black;
   
   /// Overlays con opacidad
   static Color overlay(Color color, double opacity) {
@@ -560,7 +561,7 @@ extension AppColorsContext on BuildContext {
 /// Text('Hola', style: TextStyle(color: context.colorOrange))
 /// 
 /// // ❌ INCORRECTO - NO usar colores hardcoded
-/// Container(color: Color(0xFFFF6B35))  // ¡NO HACER ESTO!
+/// Container(color: AppColorsUnified.orange)  // ¡NO HACER ESTO!
 /// ```
 /// 
 /// 📌 REGLAS:

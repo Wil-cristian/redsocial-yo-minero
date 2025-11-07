@@ -3,6 +3,7 @@ import '../models/post.dart';
 import '../models/product.dart';
 import '../../core/theme/dashboard_colors.dart';
 import '../../core/theme/premium_3d_carousel.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// Widget optimizado y adaptable que maneja TODOS los tipos de contenido de posts
 /// Reemplaza: _buildProductCard, _buildNewsCard, _buildServiceCard, _buildQuestionCard, _buildOfferCard, _buildPollCard
@@ -61,7 +62,7 @@ class OptimizedPostContent extends StatelessWidget {
   Widget _buildProductContent() {
     // Determinar si es oro o plata basado en el índice del precio
     final isGold = (post.productPrice?.toInt() ?? 0) % 2 == 0;
-    final accentColor = isGold ? const Color(0xFFD4AF37) : const Color(0xFFC0C0C0);
+    final accentColor = isGold ? const AppColorsUnified.gold : const AppColorsUnified.silver;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,8 +162,8 @@ class OptimizedPostContent extends StatelessWidget {
   Widget _buildServiceContent() {
     // Determinar si es oro o plata basado en el índice del precio
     final isGold = (post.pricingFrom?.toInt() ?? 0) % 2 == 0;
-    final accentColor = isGold ? const Color(0xFFD4AF37) : const Color(0xFFC0C0C0);
-    final lightAccent = isGold ? const Color(0xFFF4E4C1) : const Color(0xFFE8E8E8);
+    final accentColor = isGold ? const AppColorsUnified.gold : const AppColorsUnified.silver;
+    final lightAccent = isGold ? const AppColorsUnified.goldLight : const AppColorsUnified.silverLight;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

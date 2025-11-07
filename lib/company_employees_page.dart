@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
 import 'employee_chat_page.dart';
 import 'create_employee_credentials_page.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class CompanyEmployeesPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -95,7 +96,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Gestión de Empleados'),
-        backgroundColor: const Color(0xFF45B7D1),
+        backgroundColor: const AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -174,7 +175,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                       });
                     },
                     backgroundColor: Colors.white,
-                    selectedColor: const Color(0xFF45B7D1),
+                    selectedColor: const AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
                       color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -283,7 +284,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        const Color(0xFF45B7D1).withValues(alpha: 0.7),
+                        const AppColorsUnified.companySecondary.withValues(alpha: 0.7),
                         const Color(0xFF2980B9).withValues(alpha: 0.7),
                       ],
                     ),
@@ -473,7 +474,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                 icon: const Icon(Icons.edit),
                 label: const Text('Editar Empleado'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF45B7D1),
+                  backgroundColor: const AppColorsUnified.companySecondary,
                   foregroundColor: Colors.white,
                 ),
               ),
@@ -526,7 +527,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF45B7D1),
+              backgroundColor: const AppColorsUnified.companySecondary,
             ),
             child: const Text('Guardar'),
           ),
@@ -637,7 +638,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF45B7D1),
+                backgroundColor: const AppColorsUnified.companySecondary,
               ),
               child: const Text('Asignar'),
             ),

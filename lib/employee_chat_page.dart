@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class EmployeeChatPage extends StatefulWidget {
   final Map<String, dynamic> employee;
@@ -94,7 +95,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.employee['name'] as String),
-        backgroundColor: const Color(0xFF45B7D1),
+        backgroundColor: const AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -198,7 +199,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                     ),
                     decoration: BoxDecoration(
                       color: isMe
-                          ? const Color(0xFF45B7D1)
+                          ? const AppColorsUnified.companySecondary
                           : Colors.grey[200],
                       borderRadius: BorderRadius.circular(18),
                       boxShadow: [
@@ -252,7 +253,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.add_circle_outline),
-                  color: const Color(0xFF45B7D1),
+                  color: const AppColorsUnified.companySecondary,
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,
@@ -323,7 +324,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                 const SizedBox(width: 8),
                 IconButton(
                   icon: const Icon(Icons.send),
-                  color: const Color(0xFF45B7D1),
+                  color: const AppColorsUnified.companySecondary,
                   onPressed: _sendMessage,
                 ),
               ],
@@ -365,7 +366,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                 icon: const Icon(Icons.close),
                 label: const Text('Cerrar'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF45B7D1),
+                  backgroundColor: const AppColorsUnified.companySecondary,
                   foregroundColor: Colors.white,
                 ),
               ),

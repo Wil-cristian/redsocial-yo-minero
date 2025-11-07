@@ -5,6 +5,7 @@ import 'core/auth/supabase_auth_service.dart';
 import 'user_type_selection_page.dart';
 import 'main_navigation_shell.dart';
 import 'change_password_page.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -171,10 +172,10 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
             end: Alignment.bottomRight,
             colors: [
               // Gradiente ORO → PLATA con brillo metalizado
-              const Color(0xFFC0C0C0), // Plata base
-              const Color(0xFFE8E8E8), // Plata clara (brillo)
-              const Color(0xFFD4AF37), // Oro base
-              const Color(0xFFF4E4C1), // Oro claro (brillo metalizado)
+              const AppColorsUnified.silver, // Plata base
+              const AppColorsUnified.silverLight, // Plata clara (brillo)
+              const AppColorsUnified.gold, // Oro base
+              const AppColorsUnified.goldLight, // Oro claro (brillo metalizado)
             ],
             stops: const [0.0, 0.3, 0.7, 1.0],
           ),
@@ -384,13 +385,13 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         borderRadius: BorderRadius.circular(16),
         gradient: const LinearGradient(
           colors: [
-            Color(0xFFD4AF37), // Oro base
-            Color(0xFFF4E4C1), // Oro claro (brillo metalizado)
+            AppColorsUnified.gold, // Oro base
+            AppColorsUnified.goldLight, // Oro claro (brillo metalizado)
           ],
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFD4AF37).withValues(alpha: 0.5),
+            color: const AppColorsUnified.gold.withValues(alpha: 0.5),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'radial_menu.dart';
 import '../../core/theme/dashboard_colors.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class FloatingRadialButton extends StatefulWidget {
   final String? accountType;
@@ -196,21 +197,21 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Color(0xFFFF6B35),
-                          Color(0xFFF7931E),
-                          Color(0xFFFFB84D),
+                          AppColorsUnified.orange,
+                          AppColorsUnified.orangeMedium,
+                          AppColorsUnified.orangeLight,
                         ],
                         stops: [0.0, 0.5, 1.0],
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFFF6B35)
+                          color: const AppColorsUnified.orange
                               .withOpacity(0.6 * _pulseController.value),
                           blurRadius: 30 * (1 + _pulseController.value),
                           spreadRadius: 5 * _pulseController.value,
                         ),
                         BoxShadow(
-                          color: const Color(0xFFF7931E).withOpacity(0.4),
+                          color: const AppColorsUnified.orangeMedium.withOpacity(0.4),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),

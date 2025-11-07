@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class CompanyRequestedProductsPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -117,7 +118,7 @@ class _CompanyRequestedProductsPageState
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Productos Pedidos'),
-        backgroundColor: const Color(0xFF45B7D1),
+        backgroundColor: const AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -165,7 +166,7 @@ class _CompanyRequestedProductsPageState
                       });
                     },
                     backgroundColor: Colors.white,
-                    selectedColor: const Color(0xFF45B7D1),
+                    selectedColor: const AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
                       color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -479,7 +480,7 @@ class _CompanyRequestedProductsPageState
                     icon: const Icon(Icons.track_changes),
                     label: const Text('Rastrear'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF45B7D1),
+                      backgroundColor: const AppColorsUnified.companySecondary,
                       foregroundColor: Colors.white,
                     ),
                   ),
@@ -562,7 +563,7 @@ class _CompanyRequestedProductsPageState
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF45B7D1),
+              backgroundColor: const AppColorsUnified.companySecondary,
             ),
             child: const Text('Ordenar'),
           ),

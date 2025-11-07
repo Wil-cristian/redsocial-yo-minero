@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class RadialMenuItem {
   final IconData icon;
@@ -204,14 +205,14 @@ class _RadialMenuState extends State<RadialMenu>
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Color(0xFFFF6B35),
-                          Color(0xFFF7931E),
-                          Color(0xFFFFB84D),
+                          AppColorsUnified.orange,
+                          AppColorsUnified.orangeMedium,
+                          AppColorsUnified.orangeLight,
                         ],
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFFF6B35)
+                          color: const AppColorsUnified.orange
                               .withOpacity(0.6 * _pulseController.value),
                           blurRadius: 30 * _pulseController.value,
                           spreadRadius: 8 * _pulseController.value,
@@ -407,17 +408,17 @@ class _RadialBackgroundPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Círculos concéntricos animados
     final paint1 = Paint()
-      ..color = const Color(0xFFFF6B35).withOpacity(0.15)
+      ..color = const AppColorsUnified.orange.withOpacity(0.15)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
     final paint2 = Paint()
-      ..color = const Color(0xFFF7931E).withOpacity(0.1)
+      ..color = const AppColorsUnified.orangeMedium.withOpacity(0.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
     final paint3 = Paint()
-      ..color = const Color(0xFFFFB84D).withOpacity(0.08)
+      ..color = const AppColorsUnified.orangeLight.withOpacity(0.08)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 

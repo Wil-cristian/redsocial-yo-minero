@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'core/theme/dashboard_colors.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class HomePage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -534,9 +535,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [
-                      Color(0xFFFF6B35),
-                      Color(0xFFF7931E),
-                      Color(0xFFFFB84D),
+                      AppColorsUnified.orange,
+                      AppColorsUnified.orangeMedium,
+                      AppColorsUnified.orangeLight,
                     ],
                   ),
                   borderRadius: BorderRadius.circular(16),
@@ -871,7 +872,7 @@ class _GoldPatternPainter extends CustomPainter {
     
     // Capas naranja flotantes
     final orangePaint = Paint()
-      ..color = const Color(0xFFFF9500).withValues(alpha: 0.2)
+      ..color = const AppColorsUnified.orangeApple.withValues(alpha: 0.2)
       ..style = PaintingStyle.fill;
     
     for (int i = 0; i < 3; i++) {
@@ -883,7 +884,7 @@ class _GoldPatternPainter extends CustomPainter {
     
     // Capas madera (rectángulos suaves)
     final woodPaint = Paint()
-      ..color = const Color(0xFF8B4513).withValues(alpha: 0.1)
+      ..color = const AppColorsUnified.textSecondary.withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
     
     for (int i = 0; i < 2; i++) {

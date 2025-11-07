@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class CompanyRequestedServicesPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -96,7 +97,7 @@ class _CompanyRequestedServicesPageState
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Servicios Pedidos'),
-        backgroundColor: const Color(0xFF45B7D1),
+        backgroundColor: const AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -138,7 +139,7 @@ class _CompanyRequestedServicesPageState
                       });
                     },
                     backgroundColor: Colors.white,
-                    selectedColor: const Color(0xFF45B7D1),
+                    selectedColor: const AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
                       color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -394,7 +395,7 @@ class _CompanyRequestedServicesPageState
                     icon: const Icon(Icons.chat),
                     label: const Text('Contactar Proveedor'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF45B7D1),
+                      backgroundColor: const AppColorsUnified.companySecondary,
                       foregroundColor: Colors.white,
                     ),
                   ),
@@ -478,7 +479,7 @@ class _CompanyRequestedServicesPageState
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF45B7D1),
+              backgroundColor: const AppColorsUnified.companySecondary,
             ),
             child: const Text('Solicitar'),
           ),
