@@ -29,7 +29,7 @@ Este directorio contiene los scripts SQL para configurar y actualizar la base de
 
 **Ejecutar**: Después de `supabase_schema.sql`.
 
-### 3. `profile_expansion.sql` ⭐ NUEVO
+### 3. `profile_expansion.sql`
 **Descripción**: Ampliación del esquema de perfil de usuario con campos profesionales.
 
 **Campos agregados**:
@@ -45,6 +45,24 @@ Este directorio contiene los scripts SQL para configurar y actualizar la base de
 - `interests` - Lista de intereses o áreas de interés
 
 **Ejecutar**: Después de `additional_tables.sql`.
+
+### 4. `notifications_table.sql` ⭐ NUEVO
+**Descripción**: Sistema de notificaciones en tiempo real.
+
+**Tabla incluida**:
+- `notifications` - Notificaciones de usuarios
+
+**Funcionalidades**:
+- Notificaciones en tiempo real con Supabase Realtime
+- Tipos: message, group_invite, product_liked, service_request, new_follower, comment, mention
+- Trigger automático para nuevos mensajes
+- Contador de no leídas
+- Políticas RLS para seguridad
+
+**Trigger incluido**:
+- `notify_new_message()` - Crea notificación cuando llega un nuevo mensaje
+
+**Ejecutar**: Después de `profile_expansion.sql`.
 
 ## Cómo Ejecutar las Migraciones
 
@@ -91,6 +109,7 @@ Para una configuración completa desde cero:
 1. supabase_schema.sql          # Esquema base
 2. additional_tables.sql        # Tablas adicionales
 3. profile_expansion.sql        # Expansión de perfiles
+4. notifications_table.sql      # Sistema de notificaciones
 ```
 
 ## Verificar Migraciones
