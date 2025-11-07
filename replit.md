@@ -109,6 +109,9 @@ lib/
   - Envío y recepción de mensajes
   - Supabase Realtime para chat instantáneo
   - Triggers de BD para actualización automática
+  - UI completa: ConversationsPage y ChatPage
+  - Refresco automático cada 10 segundos
+  - Marca automática de mensajes como leídos
 - [x] **MetricsRepository**: Analytics y dashboard
   - Proyectos con estados (planning, in_progress, completed, etc.)
   - Transacciones (ingresos, gastos)
@@ -128,20 +131,21 @@ lib/
 - [x] Creación de productos/servicios usa `currentUserProfile`
 - [x] Dashboard de métricas muestra datos reales
 - [x] Selector de período funcional (semana, mes, trimestre, año)
+- [x] EditProfilePage actualiza perfil en Supabase (name y bio)
+- [x] ConversationsPage con lista de chats y refresco automático
+- [x] ChatPage con mensajería en tiempo real usando Realtime
 
 ### ⚠️ Pendientes / TODOs
 
 #### 1. Funcionalidades Pendientes
-- [ ] **Editar Perfil**: Método para actualizar perfil de usuario en Supabase
-- [ ] **UI de Chat**: Páginas de mensajería usando MessagingRepository
 - [ ] **Notificaciones**: Sistema de notificaciones push
+- [ ] **Ampliar campos de perfil**: Agregar phone, profession, company, job_title, website al esquema de BD
 
 #### 2. Mejoras Técnicas
-- [ ] Manejo de errores más robusto con try-catch
-- [ ] Loading states en todas las operaciones async
-- [ ] Refresh automático de datos después de crear/actualizar
+- [ ] Manejo de errores más robusto con try-catch en servicios
 - [ ] Tests unitarios e integración
 - [ ] Implementar ManageServicesPage para editar servicios
+- [ ] Optimización de rendimiento con muchas conversaciones
 
 ## Base de Datos
 
@@ -253,6 +257,18 @@ Cada dominio tiene una interfaz abstracta y múltiples implementaciones:
 - ✅ Triggers de base de datos para actualización automática de conversaciones
 - ✅ Todos los repositorios registrados en locator.dart
 - ✅ Compilación exitosa de toda la aplicación web
+
+**Tercera Sesión:**
+- ✅ EditProfilePage actualizado para usar updateCurrentUser de Supabase
+- ✅ Implementación de feedback visual (loading, success, error) en edición de perfil
+- ✅ ConversationsPage creada con lista de conversaciones
+- ✅ Refresco automático cada 10 segundos en ConversationsPage
+- ✅ ChatPage creada con chat en tiempo real
+- ✅ Suscripción/desuscripción correcta de Supabase Realtime
+- ✅ Scroll automático al recibir mensajes nuevos
+- ✅ Marca automática de mensajes como leídos
+- ✅ Limpieza correcta de timers y suscripciones en dispose()
+- ✅ Compilación y aprobación del arquitecto
 
 ---
 
