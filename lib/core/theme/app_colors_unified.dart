@@ -29,7 +29,7 @@ class AppColorsUnified {
   // ============================================
   
   /// 1️⃣ NARANJA - Acción, energía, CTAs
-  static const Color orange = Color(0xFFFF6B35);
+  static const Color orange = Color(0xFFE91E63);  // ⚡ CAMBIADO A ROSA VIBRANTE
   
   /// 2️⃣ ORO - Identidad de marca, premium
   static const Color gold = Color(0xFFFFD700);
@@ -112,6 +112,19 @@ class AppColorsUnified {
   static const Color textOnGold = Color(0xFF1F2937);
   static const Color textOnCompanyBlue = Color(0xFFFFFFFF);
   static Color get textDisabled => textSecondary.withOpacity(0.5);
+  
+  // ============================================
+  // 🔄 HELPERS DE COMPATIBILIDAD (para código legacy)
+  // ============================================
+  
+  // Variaciones de NARANJA (basadas en orange)
+  static Color get orangeLight => _lighten(orange, 0.15);
+  static Color get orangeMedium => _darken(orange, 0.05);
+  static Color get orangeDark => _darken(orange, 0.15);
+  
+  // Variaciones de ORO (basadas en gold)
+  static Color get goldLight => _lighten(gold, 0.12);
+  static Color get goldDark => _darken(gold, 0.12);
 
   // ============================================
   // 🎨 ALIASES SEMÁNTICOS (usando los 10)

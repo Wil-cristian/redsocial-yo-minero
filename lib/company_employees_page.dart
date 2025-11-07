@@ -96,7 +96,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Gestión de Empleados'),
-        backgroundColor: const AppColorsUnified.companySecondary,
+        backgroundColor: AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -175,7 +175,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                       });
                     },
                     backgroundColor: Colors.white,
-                    selectedColor: const AppColorsUnified.companySecondary,
+                    selectedColor: AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
                       color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -284,7 +284,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        const AppColorsUnified.companySecondary.withValues(alpha: 0.7),
+                        AppColorsUnified.companySecondary.withValues(alpha: 0.7),
                         const Color(0xFF2980B9).withValues(alpha: 0.7),
                       ],
                     ),
@@ -474,7 +474,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                 icon: const Icon(Icons.edit),
                 label: const Text('Editar Empleado'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const AppColorsUnified.companySecondary,
+                  backgroundColor: AppColorsUnified.companySecondary,
                   foregroundColor: Colors.white,
                 ),
               ),
@@ -527,7 +527,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const AppColorsUnified.companySecondary,
+              backgroundColor: AppColorsUnified.companySecondary,
             ),
             child: const Text('Guardar'),
           ),
@@ -638,7 +638,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const AppColorsUnified.companySecondary,
+                backgroundColor: AppColorsUnified.companySecondary,
               ),
               child: const Text('Asignar'),
             ),

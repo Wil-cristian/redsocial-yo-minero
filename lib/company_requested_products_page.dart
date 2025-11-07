@@ -118,7 +118,7 @@ class _CompanyRequestedProductsPageState
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Productos Pedidos'),
-        backgroundColor: const AppColorsUnified.companySecondary,
+        backgroundColor: AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -166,7 +166,7 @@ class _CompanyRequestedProductsPageState
                       });
                     },
                     backgroundColor: Colors.white,
-                    selectedColor: const AppColorsUnified.companySecondary,
+                    selectedColor: AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
                       color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -480,7 +480,7 @@ class _CompanyRequestedProductsPageState
                     icon: const Icon(Icons.track_changes),
                     label: const Text('Rastrear'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const AppColorsUnified.companySecondary,
+                      backgroundColor: AppColorsUnified.companySecondary,
                       foregroundColor: Colors.white,
                     ),
                   ),
@@ -563,7 +563,7 @@ class _CompanyRequestedProductsPageState
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const AppColorsUnified.companySecondary,
+              backgroundColor: AppColorsUnified.companySecondary,
             ),
             child: const Text('Ordenar'),
           ),

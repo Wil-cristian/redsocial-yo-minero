@@ -193,7 +193,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                     height: 70,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: const LinearGradient(
+                      gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
@@ -201,17 +201,17 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                           AppColorsUnified.orangeMedium,
                           AppColorsUnified.orangeLight,
                         ],
-                        stops: [0.0, 0.5, 1.0],
+                        stops: const [0.0, 0.5, 1.0],
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const AppColorsUnified.orange
+                          color: AppColorsUnified.orange
                               .withOpacity(0.6 * _pulseController.value),
                           blurRadius: 30 * (1 + _pulseController.value),
                           spreadRadius: 5 * _pulseController.value,
                         ),
                         BoxShadow(
-                          color: const AppColorsUnified.orangeMedium.withOpacity(0.4),
+                          color: AppColorsUnified.orangeMedium.withOpacity(0.4),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),

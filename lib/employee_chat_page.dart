@@ -95,7 +95,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.employee['name'] as String),
-        backgroundColor: const AppColorsUnified.companySecondary,
+        backgroundColor: AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -199,7 +199,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                     ),
                     decoration: BoxDecoration(
                       color: isMe
-                          ? const AppColorsUnified.companySecondary
+                          ? AppColorsUnified.companySecondary
                           : Colors.grey[200],
                       borderRadius: BorderRadius.circular(18),
                       boxShadow: [
@@ -253,7 +253,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.add_circle_outline),
-                  color: const AppColorsUnified.companySecondary,
+                  color: AppColorsUnified.companySecondary,
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,
@@ -324,7 +324,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                 const SizedBox(width: 8),
                 IconButton(
                   icon: const Icon(Icons.send),
-                  color: const AppColorsUnified.companySecondary,
+                  color: AppColorsUnified.companySecondary,
                   onPressed: _sendMessage,
                 ),
               ],
@@ -366,7 +366,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                 icon: const Icon(Icons.close),
                 label: const Text('Cerrar'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const AppColorsUnified.companySecondary,
+                  backgroundColor: AppColorsUnified.companySecondary,
                   foregroundColor: Colors.white,
                 ),
               ),

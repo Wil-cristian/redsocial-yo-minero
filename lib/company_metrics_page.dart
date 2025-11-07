@@ -68,7 +68,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Análisis y Reportes'),
-        backgroundColor: const AppColorsUnified.companySecondary,
+        backgroundColor: AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -454,7 +454,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        const AppColorsUnified.companySecondary.withValues(alpha: 0.7),
+                        AppColorsUnified.companySecondary.withValues(alpha: 0.7),
                         const Color(0xFF2980B9).withValues(alpha: 0.7),
                       ],
                     ),

@@ -131,7 +131,7 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Gestión de Recursos'),
-        backgroundColor: const AppColorsUnified.companySecondary,
+        backgroundColor: AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -177,7 +177,7 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                       });
                     },
                     backgroundColor: Colors.white,
-                    selectedColor: const AppColorsUnified.companySecondary,
+                    selectedColor: AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
                       color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -281,13 +281,13 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const AppColorsUnified.companySecondary.withValues(alpha: 0.1),
+                        color: AppColorsUnified.companySecondary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
                         child: Icon(
                           _getCategoryIcon(resource['category']),
-                          color: const AppColorsUnified.companySecondary,
+                          color: AppColorsUnified.companySecondary,
                           size: 28,
                         ),
                       ),
@@ -452,7 +452,7 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                 icon: const Icon(Icons.edit),
                 label: const Text('Editar Recurso'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const AppColorsUnified.companySecondary,
+                  backgroundColor: AppColorsUnified.companySecondary,
                   foregroundColor: Colors.white,
                 ),
               ),
@@ -521,7 +521,7 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const AppColorsUnified.companySecondary,
+              backgroundColor: AppColorsUnified.companySecondary,
             ),
             child: const Text('Agregar'),
           ),

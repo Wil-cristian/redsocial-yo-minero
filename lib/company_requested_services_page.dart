@@ -97,7 +97,7 @@ class _CompanyRequestedServicesPageState
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Servicios Pedidos'),
-        backgroundColor: const AppColorsUnified.companySecondary,
+        backgroundColor: AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -139,7 +139,7 @@ class _CompanyRequestedServicesPageState
                       });
                     },
                     backgroundColor: Colors.white,
-                    selectedColor: const AppColorsUnified.companySecondary,
+                    selectedColor: AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
                       color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -395,7 +395,7 @@ class _CompanyRequestedServicesPageState
                     icon: const Icon(Icons.chat),
                     label: const Text('Contactar Proveedor'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const AppColorsUnified.companySecondary,
+                      backgroundColor: AppColorsUnified.companySecondary,
                       foregroundColor: Colors.white,
                     ),
                   ),
@@ -479,7 +479,7 @@ class _CompanyRequestedServicesPageState
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const AppColorsUnified.companySecondary,
+              backgroundColor: AppColorsUnified.companySecondary,
             ),
             child: const Text('Solicitar'),
           ),

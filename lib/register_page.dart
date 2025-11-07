@@ -94,7 +94,7 @@ class _RegisterPageState extends State<RegisterPage>
       case AccountType.worker:
         return const Color(0xFF4ECDC4);
       case AccountType.company:
-        return const AppColorsUnified.companySecondary;
+        return AppColorsUnified.companySecondary;
     }
   }
 

@@ -407,7 +407,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                             title: 'Empresa',
                             subtitle: 'Para organizaciones mineras y corporaciones',
                             icon: Icons.business,
-                            color: const AppColorsUnified.companySecondary,
+                            color: AppColorsUnified.companySecondary,
                             delay: 200,
                           ),
                         ],

@@ -105,7 +105,7 @@ class _CompanyProjectsPageState extends State<CompanyProjectsPage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Gestión de Proyectos'),
-        backgroundColor: const AppColorsUnified.companySecondary,
+        backgroundColor: AppColorsUnified.companySecondary,
         foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
@@ -147,7 +147,7 @@ class _CompanyProjectsPageState extends State<CompanyProjectsPage> {
                       });
                     },
                     backgroundColor: Colors.white,
-                    selectedColor: const AppColorsUnified.companySecondary,
+                    selectedColor: AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
                       color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: FontWeight.w600,
@@ -426,7 +426,7 @@ class _CompanyProjectsPageState extends State<CompanyProjectsPage> {
                 icon: const Icon(Icons.edit),
                 label: const Text('Editar Proyecto'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const AppColorsUnified.companySecondary,
+                  backgroundColor: AppColorsUnified.companySecondary,
                   foregroundColor: Colors.white,
                 ),
               ),
@@ -486,7 +486,7 @@ class _CompanyProjectsPageState extends State<CompanyProjectsPage> {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const AppColorsUnified.companySecondary,
+              backgroundColor: AppColorsUnified.companySecondary,
             ),
             child: const Text('Crear'),
           ),

@@ -201,7 +201,7 @@ class _RadialMenuState extends State<RadialMenu>
                     height: 70,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: const LinearGradient(
+                      gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
@@ -212,7 +212,7 @@ class _RadialMenuState extends State<RadialMenu>
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const AppColorsUnified.orange
+                          color: AppColorsUnified.orange
                               .withOpacity(0.6 * _pulseController.value),
                           blurRadius: 30 * _pulseController.value,
                           spreadRadius: 8 * _pulseController.value,
@@ -408,17 +408,17 @@ class _RadialBackgroundPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Círculos concéntricos animados
     final paint1 = Paint()
-      ..color = const AppColorsUnified.orange.withOpacity(0.15)
+      ..color = AppColorsUnified.orange.withOpacity(0.15)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
     final paint2 = Paint()
-      ..color = const AppColorsUnified.orangeMedium.withOpacity(0.1)
+      ..color = AppColorsUnified.orangeMedium.withOpacity(0.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
     final paint3 = Paint()
-      ..color = const AppColorsUnified.orangeLight.withOpacity(0.08)
+      ..color = AppColorsUnified.orangeLight.withOpacity(0.08)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
