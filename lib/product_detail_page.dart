@@ -314,7 +314,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                     const SizedBox(height: 16),
                     Text(
                       widget.product.description,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         height: 1.6,
                         color: AppColors.textPrimary,
@@ -365,7 +365,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                     colors: [AppColors.secondary, AppColors.primary],
                   ),
                   borderRadius: BorderRadius.circular(20),
@@ -387,10 +387,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                             scale: 1.0 + (_cartAnimationController.value * 0.05),
                             child: ElevatedButton.icon(
                               onPressed: widget.product.inStock ? _addToCart : null,
-                              icon: const Icon(Icons.shopping_cart, color: AppColors.primary),
+                              icon: Icon(Icons.shopping_cart, color: AppColors.primary),
                               label: Text(
                                 widget.product.inStock ? 'Agregar al Carrito' : 'No Disponible',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -430,7 +430,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             flex: 2,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w500,
                 color: AppColors.textSecondary,
               ),
@@ -440,7 +440,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             flex: 3,
             child: Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
               ),

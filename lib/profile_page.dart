@@ -96,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading || _userData == null) {
-      return const Scaffold(
+      return Scaffold(
         backgroundColor: AppColors.background,
         body: Center(
           child: Column(
@@ -299,7 +299,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Header esmeralda
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
                       DashboardColors.emeraldDeep,
@@ -599,7 +599,7 @@ class _ProfilePageState extends State<ProfilePage> {
             // Header dorado
             Container(
               padding: const EdgeInsets.all(20),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: DashboardColors.primaryGradient,
               ),
               child: Row(

@@ -53,7 +53,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                 ),
                 child: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.arrow_back, color: AppColors.primary),
+                  icon: Icon(Icons.arrow_back, color: AppColors.primary),
                   tooltip: 'Volver al perfil',
                 ),
               ),
@@ -73,7 +73,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                   ),
                   child: TextButton.icon(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close, size: 18, color: AppColors.primary),
+                    icon: Icon(Icons.close, size: 18, color: AppColors.primary),
                     label: const Text('Cerrar'),
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -101,7 +101,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [AppColors.primary, AppColors.secondary],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -109,7 +109,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                         child: const Icon(Icons.build, color: Colors.white, size: 20),
                       ),
                       const SizedBox(width: 8),
-                      const Text(
+                      Text(
                         'Mis Servicios',
                         style: TextStyle(
                           color: AppColors.primary,
@@ -169,7 +169,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              gradient: const LinearGradient(
+                              gradient: LinearGradient(
                                 colors: [AppColors.primary, AppColors.secondary],
                               ),
                               borderRadius: BorderRadius.circular(16),
@@ -247,7 +247,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                                     ),
                                     borderRadius: BorderRadius.circular(16),
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.add_circle_outline,
                                     size: 48,
                                     color: AppColors.primary,
@@ -365,7 +365,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 colors: [AppColors.primary, AppColors.secondary],
               ),
               borderRadius: BorderRadius.circular(25),
@@ -435,7 +435,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [AppColors.primary, AppColors.secondary],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -494,7 +494,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           color: AppColors.primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.edit,
                           size: 20,
                           color: AppColors.primary,
@@ -585,7 +585,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                         ),
                         child: Text(
                           tag,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.primary,
                             fontSize: 12,
                             fontWeight: FontWeight.w600,

@@ -488,13 +488,13 @@ class _RegisterPageState extends State<RegisterPage>
       keyboardType: keyboardType,
       obscureText: obscureText,
       validator: validator,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 16,
         color: AppColors.textPrimary,
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(
+        labelStyle: TextStyle(
           color: AppColors.textSecondary,
           fontSize: 14,
         ),
@@ -512,7 +512,7 @@ class _RegisterPageState extends State<RegisterPage>
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: AppColors.outline,
             width: 1,
           ),
@@ -526,14 +526,14 @@ class _RegisterPageState extends State<RegisterPage>
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: AppColors.error,
             width: 1,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: AppColors.error,
             width: 2,
           ),

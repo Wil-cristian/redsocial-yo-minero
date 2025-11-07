@@ -204,7 +204,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                   child: Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.add_circle_outline),
+                        icon: Icon(Icons.add_circle_outline),
                         color: DashboardColors.primary,
                         onPressed: () => _showAttachmentMenu(context),
                       ),
@@ -230,7 +230,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: DashboardColors.primary,
                           shape: BoxShape.circle,
                         ),

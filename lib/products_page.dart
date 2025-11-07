@@ -287,7 +287,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       ],
                     ),
                     child: TextField(
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: 'Buscar productos...',
                         prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
                         border: InputBorder.none,
@@ -358,14 +358,14 @@ class _ProductsPageState extends State<ProductsPage> {
                         border: Border.all(
                             color: AppColors.error.withValues(alpha: 0.2)),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Error al cargar productos remotos',
                         style: TextStyle(color: AppColors.error),
                       ),
                     ),
                   Text(
                     '${filtered.length} productos encontrados',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -422,7 +422,7 @@ class _ProductsPageState extends State<ProductsPage> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   colors: [AppColors.secondary, AppColors.primary],
                 ),
                 borderRadius: BorderRadius.circular(12),
@@ -476,7 +476,7 @@ class _ProductsPageState extends State<ProductsPage> {
           ),
           Container(
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 colors: [AppColors.secondary, AppColors.primary],
               ),
               borderRadius: BorderRadius.circular(12),

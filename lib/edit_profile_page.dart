@@ -178,7 +178,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                                         ),
                                       ],
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.camera_alt,
                                       color: AppColors.primary,
                                       size: 16,
@@ -375,7 +375,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                             color: AppColors.primary.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Icon(Icons.cake_outlined, color: AppColors.primary, size: 20),
+                          child: Icon(Icons.cake_outlined, color: AppColors.primary, size: 20),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -526,7 +526,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                               color: AppColors.primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: const Icon(Icons.trending_up, color: AppColors.primary, size: 20),
+                            child: Icon(Icons.trending_up, color: AppColors.primary, size: 20),
                           ),
                           const SizedBox(width: 12),
                           Text(
@@ -587,7 +587,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                               color: AppColors.primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: const Icon(Icons.science_outlined, color: AppColors.primary, size: 20),
+                            child: Icon(Icons.science_outlined, color: AppColors.primary, size: 20),
                           ),
                           const SizedBox(width: 12),
                           Text(
@@ -744,8 +744,8 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    icon: const Icon(Icons.my_location, color: AppColors.primary),
-                    label: const Text(
+                    icon: Icon(Icons.my_location, color: AppColors.primary),
+                    label: Text(
                       'Usar ubicación actual',
                       style: TextStyle(
                         color: AppColors.primary,
@@ -959,7 +959,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   void _selectAvatar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Función de selección de avatar en desarrollo'),
+        content: Text('Función de selección de avatar en desarrollo'),
         backgroundColor: AppColors.primary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -995,7 +995,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   void _getCurrentLocation() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text('Función de geolocalización en desarrollo'),
+        content: Text('Función de geolocalización en desarrollo'),
         backgroundColor: AppColors.primary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

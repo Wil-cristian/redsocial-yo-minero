@@ -273,7 +273,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
               width: 48,
               height: 48,
               decoration: hasUnread
-                  ? const BoxDecoration(
+                  ? BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
                           DashboardColors.accentLight,
@@ -390,7 +390,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
         leading: CircleAvatar(
           radius: 24,
           backgroundColor: AppColors.info.withValues(alpha: 0.2),
-          child: const Icon(
+          child: Icon(
             Icons.group,
             color: AppColors.info,
             size: 20,
@@ -430,7 +430,7 @@ class _MessagesPageState extends State<MessagesPage> with TickerProviderStateMix
             const SizedBox(height: 4),
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.people,
                   size: 14,
                   color: AppColors.textSecondary,

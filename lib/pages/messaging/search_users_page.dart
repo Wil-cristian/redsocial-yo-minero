@@ -106,8 +106,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
           context,
           MaterialPageRoute(
             builder: (context) => ChatPage(
-              conversationId: conversation.id,
-              otherUserName: user['name'] ?? 'Usuario',
+              otherUserId: user['id'],
             ),
           ),
         );
@@ -153,7 +152,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
                   borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide.none,
                 ),
-                prefixIcon: const Icon(Icons.search, color: AppColors.primary),
+                prefixIcon: Icon(Icons.search, color: AppColors.primary),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear),
@@ -179,7 +178,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
 
   Widget _buildResults() {
     if (_isSearching) {
-      return const Center(
+      return Center(
         child: CircularProgressIndicator(color: AppColors.primary),
       );
     }
@@ -271,7 +270,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
         child: user['avatar_url'] == null
             ? Text(
                 (user['name'] ?? 'U')[0].toUpperCase(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
@@ -308,7 +307,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
         ],
       ),
       trailing: IconButton(
-        icon: const Icon(Icons.message, color: AppColors.primary),
+        icon: Icon(Icons.message, color: AppColors.primary),
         onPressed: () => _startConversation(user),
         tooltip: 'Enviar mensaje',
       ),

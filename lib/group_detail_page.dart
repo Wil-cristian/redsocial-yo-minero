@@ -303,7 +303,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                     const SizedBox(height: 16),
                     Text(
                       _group.description,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         height: 1.6,
                         color: AppColors.textPrimary,
@@ -355,7 +355,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                           ),
                           child: Text(
                             tag,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.success,
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
@@ -408,7 +408,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                              gradient: const LinearGradient(
+                              gradient: LinearGradient(
                                 colors: [AppColors.success, AppColors.primary],
                               ),
                               borderRadius: BorderRadius.circular(10),
@@ -422,13 +422,13 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                               children: [
                                 Text(
                                   'Publicación del grupo #${i + 1}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
-                                const Text(
+                                Text(
                                   'Conversación interesante sobre el tema',
                                   style: TextStyle(
                                     color: AppColors.textSecondary,

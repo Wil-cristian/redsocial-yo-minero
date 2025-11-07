@@ -134,7 +134,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
             // Botón cancelar
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text(
+              child: Text(
                 'Cancelar',
                 style: TextStyle(color: AppColors.textSecondary),
               ),
@@ -299,7 +299,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,

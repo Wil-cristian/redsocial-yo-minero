@@ -27,7 +27,7 @@ ThemeData _buildTheme() {
     colorScheme: scheme,
     scaffoldBackgroundColor: DashboardColors.white,
     primaryColor: DashboardColors.primary,
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: DashboardColors.white,
       foregroundColor: DashboardColors.charcoal,
       elevation: 0,

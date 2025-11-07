@@ -327,7 +327,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.calendar_today,
                       size: 16,
                       color: AppColors.textSecondary,
@@ -360,7 +360,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                       onPressed: () => _rejectRequest(request['id']),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.error,
-                        side: BorderSide(color: DashboardColors.error),
+                        side: BorderSide(color: AppColors.error),
                       ),
                       child: const Text('Rechazar'),
                     ),
@@ -513,7 +513,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 _pendingRequests.removeWhere((req) => req['id'] == requestId);
               });
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   content: Text('Solicitud aceptada exitosamente'),
                   backgroundColor: AppColors.success,
                 ),
@@ -548,7 +548,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 _pendingRequests.removeWhere((req) => req['id'] == requestId);
               });
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   content: Text('Solicitud rechazada'),
                   backgroundColor: AppColors.error,
                 ),

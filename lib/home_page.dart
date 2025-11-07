@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           stops: [0.0, 0.3, 0.7, 1.0],
         ),
         boxShadow: [
-          const BoxShadow(
+          BoxShadow(
             color: DashboardColors.orangeShadow,
             blurRadius: 30,
             offset: Offset(0, 10),
@@ -387,7 +387,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               colors: [DashboardColors.orange, DashboardColors.orangeGlow],
             ),
             borderRadius: BorderRadius.circular(12),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
                 color: DashboardColors.orangeShadow,
                 blurRadius: 8,
@@ -400,7 +400,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         const SizedBox(width: 12),
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: DashboardColors.charcoal,
@@ -568,7 +568,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       '✨ Menú Rápido Disponible',
                       style: TextStyle(
                         fontSize: 18,
@@ -807,7 +807,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       children: [
                         Text(
                           title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: DashboardColors.charcoal,
@@ -816,7 +816,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         const SizedBox(height: 6),
                         Text(
                           subtitle,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             color: DashboardColors.gray600,
                           ),

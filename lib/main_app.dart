@@ -136,7 +136,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [AppColors.primary, AppColors.secondary],
                     ),
                     shape: BoxShape.circle,

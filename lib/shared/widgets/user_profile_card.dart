@@ -48,7 +48,7 @@ class UserProfileCard extends StatelessWidget {
                 ? NetworkImage(user.avatarUrl!) 
                 : null,
               child: user.avatarUrl == null 
-                ? const Icon(Icons.person, size: 30, color: AppColors.primary)
+                ? Icon(Icons.person, size: 30, color: AppColors.primary)
                 : null,
             ),
             
@@ -75,7 +75,7 @@ class UserProfileCard extends StatelessWidget {
                         Container(
                           width: 8,
                           height: 8,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             color: AppColors.success,
                             shape: BoxShape.circle,
                           ),
@@ -87,7 +87,7 @@ class UserProfileCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       user.profession!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 14,
                       ),
@@ -98,12 +98,12 @@ class UserProfileCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Row(
                       children: [
-                        const Icon(Icons.business, size: 14, color: AppColors.textSecondary),
+                        Icon(Icons.business, size: 14, color: AppColors.textSecondary),
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
                             user.company!,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.textSecondary,
                               fontSize: 12,
                             ),
@@ -126,7 +126,7 @@ class UserProfileCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.success, width: 1),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.verified, size: 14, color: AppColors.success),
@@ -150,12 +150,12 @@ class UserProfileCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              const Icon(Icons.location_on, size: 14, color: AppColors.textSecondary),
+              Icon(Icons.location_on, size: 14, color: AppColors.textSecondary),
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
                   _getLocationText(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 12,
                   ),
@@ -173,7 +173,7 @@ class UserProfileCard extends StatelessWidget {
             onTap: onPhoneTap,
             child: Row(
               children: [
-                const Icon(Icons.phone, size: 14, color: AppColors.primary),
+                Icon(Icons.phone, size: 14, color: AppColors.primary),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
@@ -195,11 +195,11 @@ class UserProfileCard extends StatelessWidget {
         const SizedBox(height: 8),
         Row(
           children: [
-            const Icon(Icons.trending_up, size: 14, color: AppColors.primary),
+            Icon(Icons.trending_up, size: 14, color: AppColors.primary),
             const SizedBox(width: 4),
             Text(
               _getExperienceLevelText(user.experienceLevel),
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.primary,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
@@ -209,7 +209,7 @@ class UserProfileCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 '${user.yearsOfExperience} años',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 12,
                 ),
@@ -235,7 +235,7 @@ class UserProfileCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 '(${user.ratingCount} reviews)',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 11,
                 ),
@@ -243,7 +243,7 @@ class UserProfileCard extends StatelessWidget {
               const Spacer(),
               Text(
                 '${user.completedJobsCount} trabajos',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.textSecondary,
                   fontSize: 11,
                 ),
@@ -267,7 +267,7 @@ class UserProfileCard extends StatelessWidget {
                 ),
                 child: Text(
                   _getSpecializationText(spec),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.primary,
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
@@ -283,7 +283,7 @@ class UserProfileCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             user.bio!,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 13,
             ),
@@ -306,7 +306,7 @@ class UserProfileCard extends StatelessWidget {
             ? NetworkImage(user.avatarUrl!) 
             : null,
           child: user.avatarUrl == null 
-            ? const Icon(Icons.person, size: 20, color: AppColors.primary)
+            ? Icon(Icons.person, size: 20, color: AppColors.primary)
             : null,
         ),
         
@@ -330,13 +330,13 @@ class UserProfileCard extends StatelessWidget {
                     ),
                   ),
                   if (user.verificationStatus == VerificationStatus.verified)
-                    const Icon(Icons.verified, size: 16, color: AppColors.success),
+                    Icon(Icons.verified, size: 16, color: AppColors.success),
                   if (user.isOnline) ...[
                     const SizedBox(width: 4),
                     Container(
                       width: 6,
                       height: 6,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: AppColors.success,
                         shape: BoxShape.circle,
                       ),
@@ -348,7 +348,7 @@ class UserProfileCard extends StatelessWidget {
               if (user.profession != null)
                 Text(
                   user.profession!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.textSecondary,
                     fontSize: 12,
                   ),
@@ -371,7 +371,7 @@ class UserProfileCard extends StatelessWidget {
                     if (showDistance && distanceKm != null)
                       Text(
                         '• ${distanceKm!.toStringAsFixed(1)} km',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 11,
                         ),

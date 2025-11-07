@@ -95,7 +95,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                 ),
                 child: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.arrow_back, color: AppColors.secondary),
+                  icon: Icon(Icons.arrow_back, color: AppColors.secondary),
                   tooltip: 'Volver al perfil',
                 ),
               ),
@@ -115,7 +115,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                   ),
                   child: TextButton.icon(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close, size: 18, color: AppColors.secondary),
+                    icon: Icon(Icons.close, size: 18, color: AppColors.secondary),
                     label: const Text('Cerrar'),
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -143,7 +143,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [AppColors.secondary, AppColors.primary],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -151,7 +151,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                         child: const Icon(Icons.inventory, color: Colors.white, size: 20),
                       ),
                       const SizedBox(width: 8),
-                      const Text(
+                      Text(
                         'Mis Productos',
                         style: TextStyle(
                           color: AppColors.secondary,
@@ -211,7 +211,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              gradient: const LinearGradient(
+                              gradient: LinearGradient(
                                 colors: [AppColors.secondary, AppColors.primary],
                               ),
                               borderRadius: BorderRadius.circular(16),
@@ -289,7 +289,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                     ),
                                     borderRadius: BorderRadius.circular(16),
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.add_shopping_cart,
                                     size: 48,
                                     color: AppColors.secondary,
@@ -407,7 +407,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 colors: [AppColors.secondary, AppColors.primary],
               ),
               borderRadius: BorderRadius.circular(25),
@@ -497,10 +497,10 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                             product.imageUrl!,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) => 
-                              const Icon(Icons.inventory_2, color: AppColors.secondary, size: 40),
+                              Icon(Icons.inventory_2, color: AppColors.secondary, size: 40),
                           ),
                         )
-                      : const Icon(Icons.inventory_2, color: AppColors.secondary, size: 40),
+                      : Icon(Icons.inventory_2, color: AppColors.secondary, size: 40),
                   ),
                   
                   const SizedBox(width: 20),
@@ -527,7 +527,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                 color: AppColors.secondary.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.edit,
                                 size: 20,
                                 color: AppColors.secondary,
@@ -719,7 +719,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Icon(Icons.inventory_2, color: AppColors.primary),
+                    Icon(Icons.inventory_2, color: AppColors.primary),
                     const SizedBox(width: 12),
                     const Text('En stock:'),
                     const Spacer(),
@@ -856,7 +856,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
               Navigator.of(context).pop(); // Close edit dialog
               
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   content: Text('Producto eliminado exitosamente'),
                   backgroundColor: AppColors.success,
                 ),

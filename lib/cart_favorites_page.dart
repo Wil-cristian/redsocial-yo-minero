@@ -239,7 +239,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
               color: DashboardColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.shopping_bag,
               color: DashboardColors.primary,
             ),
@@ -392,8 +392,8 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
             children: [
               ElevatedButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.shopping_cart, size: 16),
-                label: const Text('Agregar'),
+                icon: Icon(Icons.shopping_cart, size: 16),
+                label: Text('Agregar'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: DashboardColors.primary,
                   foregroundColor: Colors.white,

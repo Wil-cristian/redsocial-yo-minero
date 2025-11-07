@@ -172,7 +172,7 @@ class PremiumWidgets {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [
             DashboardColors.accent,
             DashboardColors.accentLight,

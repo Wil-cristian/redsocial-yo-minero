@@ -353,14 +353,14 @@ class _ServicesPageState extends State<ServicesPage>
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(p.type.name,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 11,
                             color: AppColors.primary,
                             fontWeight: FontWeight.w600)),
                   ),
                   const Spacer(),
                   Text('${mr.score} pts',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primary)),
@@ -368,15 +368,13 @@ class _ServicesPageState extends State<ServicesPage>
               ),
               const SizedBox(height: 8),
               Text(p.title,
-                  style: Theme.of(context).textTheme
-                      AppColors.titleSmall
+                  style: Theme.of(context).textTheme.titleSmall
                       ?.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
               Text(p.content,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme
-                      AppColors.bodyMedium
+                  style: Theme.of(context).textTheme.bodyMedium
                       ?.copyWith(color: Colors.grey[700])),
               if (p.tags.isNotEmpty) ...[
                 const SizedBox(height: 8),
@@ -427,7 +425,7 @@ class _ServicesPageState extends State<ServicesPage>
                           width: 60,
                           height: 60,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
+                            gradient: LinearGradient(
                               colors: [
                                 DashboardColors.emeraldLight,
                                 DashboardColors.emerald,
@@ -522,7 +520,7 @@ class _ServicesPageState extends State<ServicesPage>
                           ),
                           child: Text(
                             tag,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: DashboardColors.emeraldDeep,
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
@@ -541,7 +539,7 @@ class _ServicesPageState extends State<ServicesPage>
                           width: 40,
                           height: 40,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
+                            gradient: LinearGradient(
                               colors: [
                                 DashboardColors.emeraldGlow,
                                 DashboardColors.emeraldLight,
@@ -588,7 +586,7 @@ class _ServicesPageState extends State<ServicesPage>
                                   ),
                                   if (false) ...[
                                     const SizedBox(width: 4),
-                                    const Icon(
+                                    Icon(
                                       Icons.verified,
                                       size: 16,
                                       color: DashboardColors.emerald,
@@ -765,7 +763,7 @@ class _ServicesPageState extends State<ServicesPage>
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   colors: [AppColors.primary, AppColors.secondary],
                 ),
                 borderRadius: BorderRadius.circular(12),
@@ -837,7 +835,7 @@ class _ServicesPageState extends State<ServicesPage>
           ),
           Container(
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 colors: [AppColors.primary, AppColors.secondary],
               ),
               borderRadius: BorderRadius.circular(12),

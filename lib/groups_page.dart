@@ -398,7 +398,7 @@ class _GroupsPageState extends State<GroupsPage> {
                               Container(
                                 width: 36,
                                 height: 36,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   gradient: DashboardColors.primaryGradient,
                                   shape: BoxShape.circle,
                                 ),
@@ -418,7 +418,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 6),
                                 decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
+                                  gradient: LinearGradient(
                                     colors: [
                                       DashboardColors.accent,
                                       DashboardColors.accentLight,
@@ -454,16 +454,14 @@ class _GroupsPageState extends State<GroupsPage> {
                           Text(g.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme
-                                  AppColors.bodyMedium
+                              style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(fontWeight: FontWeight.bold)),
                           const SizedBox(height: 4),
                           Text(
                             g.description,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme
-                                AppColors.bodySmall
+                            style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(color: Colors.grey[700]),
                           ),
                         ],
@@ -546,7 +544,7 @@ class _GroupsPageState extends State<GroupsPage> {
                           backgroundColor: AppColors.secondaryContainer
                               .withValues(alpha: 0.6),
                           child: Text(g.name[0].toUpperCase(),
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.bold)),
                         ),
@@ -561,8 +559,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                     child: Text(g.name,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context).textTheme
-                                            AppColors.titleSmall
+                                        style: Theme.of(context).textTheme.titleSmall
                                             ?.copyWith(
                                                 fontWeight: FontWeight.bold)),
                                   ),
@@ -576,7 +573,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Text('$score',
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 11,
                                               color: AppColors.primary,
                                               fontWeight: FontWeight.bold)),
@@ -603,8 +600,7 @@ class _GroupsPageState extends State<GroupsPage> {
                               Text(g.description,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme
-                                      AppColors.bodyMedium
+                                  style: Theme.of(context).textTheme.bodyMedium
                                       ?.copyWith(color: Colors.grey[700])),
                               const SizedBox(height: 10),
                               Wrap(

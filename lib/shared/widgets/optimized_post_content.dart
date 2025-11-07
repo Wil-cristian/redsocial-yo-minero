@@ -133,7 +133,7 @@ class OptimizedPostContent extends StatelessWidget {
             decoration: BoxDecoration(color: DashboardColors.cardPurple.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
             child: Row(
               children: [
-                const Icon(Icons.article, color: DashboardColors.cardPurple, size: 20),
+                Icon(Icons.article, color: DashboardColors.cardPurple, size: 20),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Column(
@@ -324,13 +324,13 @@ class OptimizedPostContent extends StatelessWidget {
       child: Row(
         children: [
           if (post.budgetAmount != null) ...[
-            const Icon(Icons.attach_money, size: 18, color: DashboardColors.cardYellow),
+            Icon(Icons.attach_money, size: 18, color: DashboardColors.cardYellow),
             const SizedBox(width: 4),
             Text('Presupuesto: \$${post.budgetAmount!.toStringAsFixed(0)}', style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(width: 16),
           ],
           if (post.deadline != null) ...[
-            const Icon(Icons.event, size: 18, color: DashboardColors.cardYellow),
+            Icon(Icons.event, size: 18, color: DashboardColors.cardYellow),
             const SizedBox(width: 4),
             Text('Hasta: ${_formatDate(post.deadline!)}', style: const TextStyle(fontSize: 13)),
           ],
@@ -350,13 +350,13 @@ class OptimizedPostContent extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.local_offer, color: DashboardColors.cardPink, size: 32),
+          Icon(Icons.local_offer, color: DashboardColors.cardPink, size: 32),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(DashboardColors.cardPink)),
+                Text('¡Oferta Especial!', style: TextStyle(color: DashboardColors.cardPink, fontWeight: FontWeight.bold, fontSize: 18)),
                 if (post.serviceName != null) Text(post.serviceName!, style: const TextStyle(fontSize: 14)),
               ],
             ),

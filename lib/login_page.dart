@@ -230,7 +230,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
               shape: BoxShape.circle,
               color: Colors.white,
             ),
-            child: const Icon(
+            child: Icon(
               Icons.diamond_outlined,
               size: 48,
               color: AppColors.primary,
@@ -337,7 +337,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         decoration: InputDecoration(
           labelText: 'Correo electrónico',
           labelStyle: TextStyle(color: Colors.grey[600]),
-          prefixIcon: const Icon(Icons.email_outlined, color: AppColors.primary),
+          prefixIcon: Icon(Icons.email_outlined, color: AppColors.primary),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         ),
@@ -359,7 +359,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         decoration: InputDecoration(
           labelText: 'Contraseña',
           labelStyle: TextStyle(color: Colors.grey[600]),
-          prefixIcon: const Icon(Icons.lock_outline, color: AppColors.primary),
+          prefixIcon: Icon(Icons.lock_outline, color: AppColors.primary),
           suffixIcon: IconButton(
             icon: Icon(
               _isPasswordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined,

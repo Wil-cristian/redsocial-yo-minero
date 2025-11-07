@@ -184,7 +184,7 @@ class _ChatPageState extends State<ChatPage> {
               backgroundColor: AppColors.primary.withOpacity(0.2),
               child: Text(
                 widget.otherUserId.substring(0, 2).toUpperCase(),
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
@@ -221,7 +221,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildMessagesList() {
     if (_isLoading) {
-      return const Center(
+      return Center(
         child: CircularProgressIndicator(color: AppColors.primary),
       );
     }
@@ -237,8 +237,8 @@ class _ChatPageState extends State<ChatPage> {
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _initializeChat,
-              icon: const Icon(Icons.refresh),
-              label: const Text('Reintentar'),
+              icon: Icon(Icons.refresh),
+              label: Text('Reintentar'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
@@ -355,7 +355,7 @@ class _ChatPageState extends State<ChatPage> {
               backgroundColor: AppColors.primary.withOpacity(0.2),
               child: Text(
                 message.senderId.substring(0, 1).toUpperCase(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,

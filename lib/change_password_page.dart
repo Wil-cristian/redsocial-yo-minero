@@ -60,7 +60,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           updatedUser['mustChangePassword'] = false;
           
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
+            SnackBar(
               content: Text('Contraseña cambiada exitosamente'),
               backgroundColor: AppColors.success,
             ),
@@ -132,7 +132,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const SizedBox(height: 24),
                       Text(
                         widget.isFirstLogin ? '¡Bienvenido!' : 'Cambiar Contraseña',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: AppColors.textPrimary,
@@ -150,7 +150,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const SizedBox(height: 4),
                       Text(
                         companyName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           color: AppColors.textSecondary,
                         ),
@@ -187,7 +187,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 const SizedBox(height: 32),
 
                 // Contraseña actual
-                const Text(
+                Text(
                   'Contraseña Temporal',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -227,7 +227,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 const SizedBox(height: 24),
 
                 // Nueva contraseña
-                const Text(
+                Text(
                   'Nueva Contraseña',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -273,7 +273,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 const SizedBox(height: 24),
 
                 // Confirmar contraseña
-                const Text(
+                Text(
                   'Confirmar Contraseña',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,

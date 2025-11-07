@@ -304,7 +304,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                     const SizedBox(height: 16),
                     Text(
                       widget.post.content,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         height: 1.6,
                         color: AppColors.textPrimary,
@@ -345,7 +345,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                               decoration: BoxDecoration(
                                 gradient: _isLiked 
-                                    ? const LinearGradient(
+                                    ? LinearGradient(
                                         colors: [AppColors.primary, AppColors.secondary],
                                       )
                                     : null,
@@ -387,7 +387,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: Colors.grey.shade300),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.comment_outlined, color: AppColors.textSecondary, size: 20),
@@ -411,7 +411,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: Colors.grey.shade300),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.share_outlined, color: AppColors.textSecondary, size: 20),

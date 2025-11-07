@@ -345,7 +345,7 @@ class _CommunityPageState extends State<CommunityPage> {
                           color: AppColors.primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(Icons.search, color: AppColors.primary, size: 20),
+                        child: Icon(Icons.search, color: AppColors.primary, size: 20),
                       ),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -381,7 +381,7 @@ class _CommunityPageState extends State<CommunityPage> {
                       ),
                       child: Text(
                         '${list.length} posts',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.primary,
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
@@ -501,7 +501,7 @@ class _CommunityPageState extends State<CommunityPage> {
                             ),
                             child: Text(
                               p.type.name,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 11,
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.w600),
@@ -509,7 +509,7 @@ class _CommunityPageState extends State<CommunityPage> {
                           ),
                           const Spacer(),
                           Text('${mr.score} pts',
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.primary)),
@@ -661,7 +661,7 @@ class _PostCard extends StatelessWidget {
                       AppColors.secondaryContainer.withValues(alpha: .6),
                   child: Text(
                     post.title[0].toUpperCase(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.primary,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -698,7 +698,7 @@ class _PostCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text('$score pts',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             color: AppColors.primary)),

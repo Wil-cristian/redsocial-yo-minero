@@ -24,11 +24,11 @@ class RichDecorations {
   }
 
   // Gold/Amber family
-  static BoxDecoration goldCardRich({bool isElevated = false}) => _createRich(gradientColors: [DashboardColors.cardOrange.withValues(alpha: 0.9), DashboardColors.gold, const Color(0xFFD4A574)], borderColor: DashboardColors.gold, isElevated: isElevated);
+  static BoxDecoration goldCardRich({bool isElevated = false}) => _createRich(gradientColors: [DashboardColors.cardOrange.withValues(alpha: 0.9), DashboardColors.gold, Color(0xFFD4A574)], borderColor: DashboardColors.gold, isElevated: isElevated);
   static BoxDecoration goldCardTextured() => _createRich(gradientColors: [const Color(0xFFF5E6D3), const Color(0xFFE8D5B7), const Color(0xFFD4A574)], borderColor: const Color(0xFFB8935E), borderWidth: 3);
-  static BoxDecoration goldButton3D({bool isPressed = false}) => _createRich(gradientColors: isPressed ? [DashboardColors.gold.withValues(alpha: 0.7), DashboardColors.cardOrange.withValues(alpha: 0.8)] : [DashboardColors.gold, DashboardColors.cardOrange], borderColor: const Color(0xFFB8935E), borderRadius: 12, isPressed: isPressed, isElevated: true);
+  static BoxDecoration goldButton3D({bool isPressed = false}) => _createRich(gradientColors: isPressed ? [DashboardColors.gold.withValues(alpha: 0.7), DashboardColors.cardOrange.withValues(alpha: 0.8)] : [DashboardColors.gold, DashboardColors.cardOrange], borderColor: Color(0xFFB8935E), borderRadius: 12, isPressed: isPressed, isElevated: true);
   static BoxDecoration amberCardRich() => _createRich(gradientColors: [Colors.amber.shade100, Colors.amber.shade200, Colors.amber.shade300], borderColor: Colors.amber.shade600, isElevated: true);
-  static BoxDecoration fabGold() => _createRich(gradientColors: [DashboardColors.gold, const Color(0xFFD4A574), DashboardColors.cardOrange], borderColor: const Color(0xFFB8935E), borderRadius: 28, isElevated: true);
+  static BoxDecoration fabGold() => _createRich(gradientColors: [DashboardColors.gold, Color(0xFFD4A574), DashboardColors.cardOrange], borderColor: const Color(0xFFB8935E), borderRadius: 28, isElevated: true);
 
   // Emerald/Green family
   static BoxDecoration emeraldCardRich() => _createRich(gradientColors: [DashboardColors.emeraldLight, DashboardColors.emerald, DashboardColors.emeraldDeep], borderColor: DashboardColors.emeraldGlow, isElevated: true);
@@ -60,10 +60,11 @@ class RichDecorations {
   static BoxDecoration chip({required Color color, bool isSelected = false}) => BoxDecoration(color: isSelected ? color : color.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(20), border: Border.all(color: color, width: isSelected ? 2 : 1));
 
   // Complex widgets
-  static Widget doubleBorderCard({required Widget child, Color outerColor = DashboardColors.gold, Color innerColor = Colors.white}) {
+  static Widget doubleBorderCard({required Widget child, Color? outerColor, Color innerColor = Colors.white}) {
+    final effectiveOuterColor = outerColor ?? DashboardColors.gold;
     return Container(
       padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(color: outerColor, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: outerColor.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))]),
+      decoration: BoxDecoration(color: effectiveOuterColor, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: effectiveOuterColor.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))]),
       child: Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: innerColor, borderRadius: BorderRadius.circular(16)), child: child),
     );
   }
@@ -78,7 +79,7 @@ class RichDecorations {
   static Widget goldFoilOverlay({required Widget child, double opacity = 0.2}) {
     return Stack(children: [
       child,
-      Positioned.fill(child: IgnorePointer(child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [DashboardColors.gold.withValues(alpha: opacity), Colors.transparent, const Color(0xFFD4A574).withValues(alpha: opacity)], stops: const [0.0, 0.5, 1.0], begin: Alignment.topLeft, end: Alignment.bottomRight))))),
+      Positioned.fill(child: IgnorePointer(child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [DashboardColors.gold.withValues(alpha: opacity), Colors.transparent, Color(0xFFD4A574).withValues(alpha: opacity)], stops: const [0.0, 0.5, 1.0], begin: Alignment.topLeft, end: Alignment.bottomRight))))),
     ]);
   }
 

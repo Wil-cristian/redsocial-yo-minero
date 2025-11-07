@@ -223,7 +223,7 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Crear Credenciales de Empleado'),
+        title: Text('Crear Credenciales de Empleado'),
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         elevation: 0,

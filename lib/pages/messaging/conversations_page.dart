@@ -173,7 +173,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
 
   Widget _buildBody() {
     if (_isLoading) {
-      return const Center(
+      return Center(
         child: CircularProgressIndicator(
           color: AppColors.primary,
         ),
@@ -202,8 +202,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _loadConversations,
-              icon: const Icon(Icons.refresh),
-              label: const Text('Reintentar'),
+              icon: Icon(Icons.refresh),
+              label: Text('Reintentar'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
@@ -256,7 +256,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
         padding: const EdgeInsets.symmetric(vertical: 8),
         itemBuilder: (context, index) {
           if (index == _conversations.length) {
-            return const Center(
+            return Center(
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: CircularProgressIndicator(color: AppColors.primary),
@@ -299,7 +299,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                     backgroundColor: AppColors.primary.withOpacity(0.1),
                     child: Text(
                       otherUserId.substring(0, 2).toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -312,7 +312,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                       top: 0,
                       child: Container(
                         padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: AppColors.error,
                           shape: BoxShape.circle,
                         ),

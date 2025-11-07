@@ -314,7 +314,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                     const SizedBox(height: 16),
                     Text(
                       widget.service.description,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         height: 1.6,
                         color: AppColors.textPrimary,
@@ -393,7 +393,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                           width: 60,
                           height: 60,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
+                            gradient: LinearGradient(
                               colors: [AppColors.info, AppColors.primary],
                             ),
                             borderRadius: BorderRadius.circular(15),
@@ -409,7 +409,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Profesional Certificado',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
@@ -420,7 +420,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                               const SizedBox(height: 4),
                               Text(
                                 'Especialista en ${widget.service.name}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.textSecondary,
                                 ),
                               ),
@@ -433,7 +433,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                                   Icon(Icons.star, color: Colors.amber.shade600, size: 16),
                                   Icon(Icons.star, color: Colors.amber.shade600, size: 16),
                                   const SizedBox(width: 8),
-                                  const Text(
+                                  Text(
                                     '4.9 (127 reseñas)',
                                     style: TextStyle(
                                       color: AppColors.textSecondary,
@@ -457,7 +457,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                     colors: [AppColors.info, AppColors.primary],
                   ),
                   borderRadius: BorderRadius.circular(20),
@@ -481,8 +481,8 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               onPressed: _requestQuote,
-                              icon: const Icon(Icons.request_quote, color: AppColors.primary),
-                              label: const Text(
+                              icon: Icon(Icons.request_quote, color: AppColors.primary),
+                              label: Text(
                                 'Solicitar Cotización',
                                 style: TextStyle(
                                   color: AppColors.primary,
@@ -554,7 +554,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
             flex: 2,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w500,
                 color: AppColors.textSecondary,
               ),
@@ -564,7 +564,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
             flex: 3,
             child: Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimary,
               ),
