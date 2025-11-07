@@ -1003,39 +1003,109 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
     );
   }
 
-  void _saveProfile() {
-    // TODO: Implementar actualización de perfil con Supabase
-    // final updatedUser = widget.user.copyWith(
-    //   name: _nameController.text.trim(),
-    //   bio: _bioController.text.trim().isNotEmpty ? _bioController.text.trim() : null,
-    //   phone: _phoneController.text.trim().isNotEmpty ? _phoneController.text.trim() : null,
-    //   profession: _professionController.text.trim().isNotEmpty ? _professionController.text.trim() : null,
-    //   company: _companyController.text.trim().isNotEmpty ? _companyController.text.trim() : null,
-    //   jobTitle: _jobTitleController.text.trim().isNotEmpty ? _jobTitleController.text.trim() : null,
-    //   website: _websiteController.text.trim().isNotEmpty ? _websiteController.text.trim() : null,
-    //   experienceLevel: _experienceLevel,
-    //   specializations: _selectedSpecializations,
-    //   interests: _interests,
-    //   birthDate: _birthDate,
-    // );
+  Future<void> _saveProfile() async {
+    final authService = SupabaseAuthService.instance;
     
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Row(
-          children: [
-            Icon(Icons.check_circle, color: Colors.white),
-            SizedBox(width: 12),
-            Text('¡Perfil actualizado exitosamente!'),
-          ],
+    // Preparar los datos a actualizar
+    final Map<String, dynamic> updates = {
+      'name': _nameController.text.trim(),
+    };
+    
+    // Solo incluir campos que no estén vacíos
+    if (_bioController.text.trim().isNotEmpty) {
+      updates['bio'] = _bioController.text.trim();
+    }
+    
+    // Nota: Los siguientes campos requieren migración del esquema de BD
+    // para incluir phone, profession, company, job_title, website, etc.
+    // Por ahora solo actualizamos name y bio que ya existen en la tabla users
+    
+    try {
+      // Mostrar loading
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Row(
+            children: [
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+              SizedBox(width: 12),
+              Text('Guardando cambios...'),
+            ],
+          ),
+          backgroundColor: AppColors.primary,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          duration: const Duration(seconds: 30),
         ),
-        backgroundColor: AppColors.success,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-    
-    Navigator.of(context).pop();
+      );
+      
+      // Actualizar perfil en Supabase
+      final result = await authService.updateCurrentUser(updates);
+      
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      
+      if (result.isSuccess) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 12),
+                Text('¡Perfil actualizado exitosamente!'),
+              ],
+            ),
+            backgroundColor: AppColors.success,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+        
+        Navigator.of(context).pop(true); // Retornar true para indicar que se actualizó
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error, color: Colors.white),
+                const SizedBox(width: 12),
+                Expanded(child: Text('Error: ${result.errorMessage}')),
+              ],
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.error, color: Colors.white),
+              const SizedBox(width: 12),
+              Expanded(child: Text('Error inesperado: $e')),
+            ],
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   @override
