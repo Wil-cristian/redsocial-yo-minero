@@ -14,13 +14,13 @@ class SupabaseServiceRepository implements ServiceRepository {
           .from('services')
           .select('''
             *,
-            provider:users!services_provider_id_fkey(id, name, username, account_type)
+            provider:users!services_provider_id_fkey(id, name, username, account_type, profile_image_url)
           ''')
           .eq('is_available', true)
           .order('created_at', ascending: false);
 
-      return (response as List)
-          .map((json) => Service.fromJson(json))
+      return (response as List<dynamic>)
+          .map((json) => Service.fromJson(json as Map<String, dynamic>))
           .toList();
     } catch (e) {
       debugPrint('❌ Error al obtener servicios: $e');
@@ -35,7 +35,7 @@ class SupabaseServiceRepository implements ServiceRepository {
           .from('services')
           .select('''
             *,
-            provider:users!services_provider_id_fkey(id, name, username, account_type)
+            provider:users!services_provider_id_fkey(id, name, username, account_type, profile_image_url)
           ''')
           .eq('id', id)
           .single();
@@ -84,7 +84,7 @@ class SupabaseServiceRepository implements ServiceRepository {
           .insert(serviceData)
           .select('''
             *,
-            provider:users!services_provider_id_fkey(id, name, username, account_type)
+            provider:users!services_provider_id_fkey(id, name, username, account_type, profile_image_url)
           ''')
           .single();
 
@@ -135,7 +135,7 @@ class SupabaseServiceRepository implements ServiceRepository {
           .eq('provider_id', currentUser.id)
           .select('''
             *,
-            provider:users!services_provider_id_fkey(id, name, username, account_type)
+            provider:users!services_provider_id_fkey(id, name, username, account_type, profile_image_url)
           ''')
           .single();
 
@@ -191,13 +191,13 @@ class SupabaseServiceRepository implements ServiceRepository {
           .from('services')
           .select('''
             *,
-            provider:users!services_provider_id_fkey(id, name, username, account_type)
+            provider:users!services_provider_id_fkey(id, name, username, account_type, profile_image_url)
           ''')
           .eq('provider_id', providerId)
           .order('created_at', ascending: false);
 
-      return (response as List)
-          .map((json) => Service.fromJson(json))
+      return (response as List<dynamic>)
+          .map((json) => Service.fromJson(json as Map<String, dynamic>))
           .toList();
     } catch (e) {
       debugPrint('❌ Error al obtener servicios del proveedor: $e');
@@ -211,14 +211,14 @@ class SupabaseServiceRepository implements ServiceRepository {
           .from('services')
           .select('''
             *,
-            provider:users!services_provider_id_fkey(id, name, username, account_type)
+            provider:users!services_provider_id_fkey(id, name, username, account_type, profile_image_url)
           ''')
           .eq('category', category)
           .eq('is_available', true)
           .order('created_at', ascending: false);
 
-      return (response as List)
-          .map((json) => Service.fromJson(json))
+      return (response as List<dynamic>)
+          .map((json) => Service.fromJson(json as Map<String, dynamic>))
           .toList();
     } catch (e) {
       debugPrint('❌ Error al buscar servicios por categoría: $e');
@@ -232,14 +232,14 @@ class SupabaseServiceRepository implements ServiceRepository {
           .from('services')
           .select('''
             *,
-            provider:users!services_provider_id_fkey(id, name, username, account_type)
+            provider:users!services_provider_id_fkey(id, name, username, account_type, profile_image_url)
           ''')
           .contains('tags', tags)
           .eq('is_available', true)
           .order('created_at', ascending: false);
 
-      return (response as List)
-          .map((json) => Service.fromJson(json))
+      return (response as List<dynamic>)
+          .map((json) => Service.fromJson(json as Map<String, dynamic>))
           .toList();
     } catch (e) {
       debugPrint('❌ Error al buscar servicios por tags: $e');

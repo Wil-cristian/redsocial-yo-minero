@@ -477,7 +477,7 @@ class _ServicesPageState extends State<ServicesPage>
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: RichDecorations.emeraldGemBadge(),
                           child: Text(
-                            service.rateDisplay,
+                            service.priceDisplay,
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -555,18 +555,19 @@ class _ServicesPageState extends State<ServicesPage>
                               width: 2,
                             ),
                           ),
-                          child: service.authorAvatarUrl != null
+                          child: service.providerAvatarUrl != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(18),
                                 child: Image.network(
-                                  service.authorAvatarUrl!,
+                                  service.providerAvatarUrl!,
                                   fit: BoxFit.cover,
                                 ),
                               )
                             : Center(
-                                child: Text(
-                                  service.authorIcon,
-                                  style: const TextStyle(fontSize: 18),
+                                child: Icon(
+                                  Icons.engineering,
+                                  size: 24,
+                                  color: DashboardColors.emerald,
                                 ),
                               ),
                         ),
@@ -577,14 +578,9 @@ class _ServicesPageState extends State<ServicesPage>
                             children: [
                               Row(
                                 children: [
-                                  Text(
-                                    service.authorIcon,
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
-                                  const SizedBox(width: 4),
                                   Flexible(
                                     child: Text(
-                                      service.authorDisplayName,
+                                      service.providerName ?? "Proveedor",
                                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                         fontWeight: FontWeight.bold,
                                         color: DashboardColors.emeraldDeep,
@@ -592,7 +588,7 @@ class _ServicesPageState extends State<ServicesPage>
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  if (service.isAuthorVerified) ...[
+                                  if (false) ...[
                                     const SizedBox(width: 4),
                                     const Icon(
                                       Icons.verified,
@@ -602,14 +598,14 @@ class _ServicesPageState extends State<ServicesPage>
                                   ],
                                 ],
                               ),
-                              if (service.authorRating > 0) ...[
+                              if (0.0 > 0) ...[
                                 const SizedBox(height: 2),
                                 Row(
                                   children: [
                                     const Icon(Icons.star, size: 14, color: Colors.amber),
                                     const SizedBox(width: 2),
                                     Text(
-                                      '${service.authorRating.toStringAsFixed(1)} (${service.authorReviewCount})',
+                                      '${0.0.toStringAsFixed(1)} (${0})',
                                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                         color: Colors.grey[600],
                                         fontSize: 11,
@@ -653,14 +649,14 @@ class _ServicesPageState extends State<ServicesPage>
                     ),
                     
                     // Información adicional
-                    if (service.location != null) ...[
+                    if (service.availability != null) ...[
                       const SizedBox(height: 8),
                       Row(
                         children: [
                             Icon(Icons.location_on, size: 14, color: Colors.grey[600]),
                           const SizedBox(width: 4),
                           Text(
-                            service.location!,
+                            service.availability!,
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Colors.grey[600],
                               fontSize: 11,
@@ -718,9 +714,8 @@ class _ServicesPageState extends State<ServicesPage>
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Row(
           children: [
-            Text(service.authorIcon),
             const SizedBox(width: 8),
-            Expanded(child: Text('Contactar a ${service.authorDisplayName}')),
+            Expanded(child: Text('Contactar a ${service.providerName ?? "Proveedor"}')),
           ],
         ),
         content: Column(
@@ -728,9 +723,9 @@ class _ServicesPageState extends State<ServicesPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Servicio: ${service.name}'),
-            Text('Tarifa: ${service.rateDisplay}'),
-            if (service.authorRating > 0)
-              Text('Rating: ${service.authorRating.toStringAsFixed(1)} ⭐'),
+            Text('Tarifa: ${service.priceDisplay}'),
+            if (0.0 > 0)
+              Text('Rating: ${0.0.toStringAsFixed(1)} ⭐'),
             const SizedBox(height: 16),
             const Text('¿Cómo te gustaría contactar?'),
           ],
@@ -745,7 +740,7 @@ class _ServicesPageState extends State<ServicesPage>
               Navigator.pop(context);
               // Aquí iría la lógica para enviar mensaje
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Mensaje enviado a ${service.authorDisplayName}')),
+                SnackBar(content: Text('Mensaje enviado a ${service.providerName ?? "Proveedor"}')),
               );
             },
             icon: const Icon(Icons.send),
@@ -881,19 +876,16 @@ class _ServicesPageState extends State<ServicesPage>
 
     final newService = Service(
       id: 's${DateTime.now().millisecondsSinceEpoch}',
+      providerId: profile['id'],
       name: name,
       description: description,
-      rate: rate,
-      authorId: profile['id'],
-      authorName: profile['name'] ?? '',
-      authorDisplayName: profile['name'] ?? '',
-      authorAccountType: profile['account_type'] ?? 'individual',
-      authorAvatarUrl: profile['profile_image_url'],
-      authorRating: (profile['rating_avg'] ?? 0.0).toDouble(),
-      authorReviewCount: profile['rating_count'] ?? 0,
-      category: category.isNotEmpty ? category : null,
-      location: location.isNotEmpty ? location : null,
+      category: category.isNotEmpty ? category : 'General',
       tags: _extractTagsFromDescription(description),
+      pricingFrom: rate,
+      pricingUnit: 'hora',
+      providerName: profile['name'] ?? '',
+      providerAccountType: profile['account_type'] ?? 'individual',
+      providerAvatarUrl: profile['profile_image_url'],
     );
 
     setState(() {

@@ -144,7 +144,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                 const SizedBox(height: 8),
                 // Rate
                 Text(
-                  '\$${widget.service.rate.toStringAsFixed(2)}/hora',
+                  widget.service.priceDisplay,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -351,7 +351,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                       ),
                     ),
                     const SizedBox(height: 16),
-                    _buildDetailRow('Tarifa', '\$${widget.service.rate.toStringAsFixed(2)}/hora'),
+                    _buildDetailRow('Tarifa', widget.service.priceDisplay),
                     _buildDetailRow('Disponibilidad', 'Lunes a Viernes'),
                     _buildDetailRow('Experiencia', '5+ años'),
                     _buildDetailRow('Ubicación', 'Disponible en toda la ciudad'),
