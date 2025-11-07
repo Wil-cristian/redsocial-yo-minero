@@ -5,6 +5,7 @@ import 'community_feed_page.dart';  // MURO conectado a Supabase
 import 'notifications_page.dart';
 import 'settings_page.dart';
 import 'profile_page.dart';
+import 'shared/widgets/floating_radial_button.dart';
 
 /// Widget contenedor con navegación fija
 /// Mantiene la barra de navegación visible en todas las pantallas
@@ -44,9 +45,19 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
 
   @override
   Widget build(BuildContext context) {
+    final accountType = widget.currentUser?['accountType'] as String?;
+    
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _pages[_selectedIndex],
+      body: Stack(
+        children: [
+          _pages[_selectedIndex],
+          // Botón flotante radial global
+          FloatingRadialButton(
+            accountType: accountType,
+          ),
+        ],
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,

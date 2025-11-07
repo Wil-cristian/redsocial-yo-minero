@@ -80,16 +80,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
             
-            // Accesos rápidos con efectos
+            // Sección de acceso rápido compacta
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               sliver: SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildSectionTitle('Explorar', Icons.explore),
+                    _buildSectionTitle('Acceso Rápido', Icons.explore),
                     const SizedBox(height: 16),
-                    _buildQuickAccessGrid(context, accountType),
+                    _buildQuickAccessMessage(),
                   ],
                 ),
               ),
@@ -499,89 +499,104 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildQuickAccessGrid(BuildContext context, String accountType) {
-    final items = _getQuickAccessItems(accountType);
-    
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-        childAspectRatio: 1.1,
-      ),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return _buildQuickAccessCard(
-          icon: item['icon'],
-          label: item['label'],
-          color: item['color'],
-          onTap: () => item['onTap'](context),
+  Widget _buildQuickAccessMessage() {
+    return AnimatedBuilder(
+      animation: _shimmerController,
+      builder: (context, child) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                DashboardColors.orange.withOpacity(0.1),
+                DashboardColors.orangeGlow.withOpacity(0.05),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: DashboardColors.orange.withOpacity(0.3),
+              width: 2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: DashboardColors.orange.withOpacity(0.1),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFFFF6B35),
+                      Color(0xFFF7931E),
+                      Color(0xFFFFB84D),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: DashboardColors.orange.withOpacity(0.4),
+                      blurRadius: 12,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Transform.rotate(
+                      angle: _shimmerController.value * 2 * math.pi * 0.5,
+                      child: const Icon(
+                        Icons.apps_rounded,
+                        color: Colors.white,
+                        size: 32,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '✨ Menú Rápido Disponible',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: DashboardColors.charcoal,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Toca el botón flotante naranja para acceder a todas las secciones desde cualquier pantalla',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.touch_app,
+                color: DashboardColors.orange.withOpacity(0.6),
+                size: 32,
+              ),
+            ],
+          ),
         );
       },
     );
-  }
-
-  List<Map<String, dynamic>> _getQuickAccessItems(String accountType) {
-    final baseItems = [
-      {
-        'icon': Icons.shopping_bag,
-        'label': 'Productos',
-        'color': DashboardColors.orange,
-        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/products'),
-      },
-      {
-        'icon': Icons.handyman,
-        'label': 'Servicios',
-        'color': DashboardColors.wood,
-        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/services'),
-      },
-      {
-        'icon': Icons.groups,
-        'label': 'Comunidad',
-        'color': DashboardColors.orangeBright,
-        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/community'),
-      },
-      {
-        'icon': Icons.group_work,
-        'label': 'Grupos',
-        'color': DashboardColors.woodLight,
-        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/groups'),
-      },
-      {
-        'icon': Icons.chat,
-        'label': 'Mensajes',
-        'color': DashboardColors.cardPink,
-        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/messages'),
-      },
-      {
-        'icon': Icons.person,
-        'label': 'Perfil',
-        'color': DashboardColors.accent,
-        'onTap': (BuildContext context) => Navigator.pushNamed(context, '/profile'),
-      },
-    ];
-
-    if (accountType == 'company') {
-      baseItems.addAll([
-        {
-          'icon': Icons.people,
-          'label': 'Empleados',
-          'color': DashboardColors.cardBlue,
-          'onTap': (BuildContext context) => Navigator.pushNamed(context, '/company/employees'),
-        },
-        {
-          'icon': Icons.analytics,
-          'label': 'Métricas',
-          'color': DashboardColors.cardGreen,
-          'onTap': (BuildContext context) => Navigator.pushNamed(context, '/company/metrics'),
-        },
-      ]);
-    }
-
-    return baseItems;
   }
 
   Widget _buildQuickAccessCard({
