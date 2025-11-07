@@ -27,37 +27,36 @@ class AppColorsUnified {
   // ============================================
   // 🎨 LOS 10 COLORES BASE (ÚNICOS)
   // ============================================
-  // 🎬 MODO BLANCO Y NEGRO - Prueba del sistema
   
-  /// 1️⃣ NARANJA → Gris muy oscuro
-  static const Color orange = Color(0xFF333333);
+  /// 1️⃣ NARANJA - Acción, energía, CTAs
+  static const Color orange = Color(0xFFFF6B35);  // Tu favorito original
   
-  /// 2️⃣ ORO → Gris medio-oscuro
-  static const Color gold = Color(0xFF666666);
+  /// 2️⃣ ORO - Identidad de marca, premium
+  static const Color gold = Color(0xFFD4AF37);
   
-  /// 3️⃣ BACKGROUND → Blanco puro
-  static const Color background = Color(0xFFFFFFFF);
+  /// 3️⃣ BACKGROUND - Fondo principal (60% de la app)
+  static const Color background = Color(0xFFF8F5EF);
   
-  /// 4️⃣ SURFACE → Blanco roto
-  static const Color surface = Color(0xFFF5F5F5);
+  /// 4️⃣ SURFACE - Cards, superficies elevadas
+  static const Color surface = Color(0xFFFFFFFF);
   
-  /// 5️⃣ TEXTO PRINCIPAL → Negro puro
-  static const Color textPrimary = Color(0xFF000000);
+  /// 5️⃣ TEXTO PRINCIPAL - Negro/gris oscuro
+  static const Color textPrimary = Color(0xFF1F2937);
   
-  /// 6️⃣ TEXTO SECUNDARIO → Gris medio
-  static const Color textSecondary = Color(0xFF666666);
+  /// 6️⃣ TEXTO SECUNDARIO - Gris medio
+  static const Color textSecondary = Color(0xFF6B7280);
   
-  /// 7️⃣ SUCCESS → Gris oscuro
-  static const Color success = Color(0xFF4A4A4A);
+  /// 7️⃣ SUCCESS - Verde éxito
+  static const Color success = Color(0xFF10B981);
   
-  /// 8️⃣ ERROR → Gris muy oscuro
-  static const Color error = Color(0xFF2A2A2A);
+  /// 8️⃣ ERROR - Rojo error
+  static const Color error = Color(0xFFEF4444);
   
-  /// 9️⃣ WARNING → Gris medio-claro
-  static const Color warning = Color(0xFF888888);
+  /// 9️⃣ WARNING - Amarillo advertencia
+  static const Color warning = Color(0xFFF59E0B);
   
-  /// 🔟 COMPANY BLUE → Gris medio-oscuro
-  static const Color companyBlue = Color(0xFF555555);
+  /// 🔟 COMPANY BLUE - Azul empresa
+  static const Color companyBlue = Color(0xFF45B7D1);
 
   // ============================================
   // 🎨 GRADIENTES (usando los 10 colores base)
