@@ -1016,9 +1016,51 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
       updates['bio'] = _bioController.text.trim();
     }
     
-    // Nota: Los siguientes campos requieren migración del esquema de BD
-    // para incluir phone, profession, company, job_title, website, etc.
-    // Por ahora solo actualizamos name y bio que ya existen en la tabla users
+    // Campos profesionales
+    if (_phoneController.text.trim().isNotEmpty) {
+      updates['phone'] = _phoneController.text.trim();
+    }
+    if (_professionController.text.trim().isNotEmpty) {
+      updates['profession'] = _professionController.text.trim();
+    }
+    if (_companyController.text.trim().isNotEmpty) {
+      updates['company'] = _companyController.text.trim();
+    }
+    if (_jobTitleController.text.trim().isNotEmpty) {
+      updates['job_title'] = _jobTitleController.text.trim();
+    }
+    if (_websiteController.text.trim().isNotEmpty) {
+      updates['website'] = _websiteController.text.trim();
+    }
+    
+    // Ubicación
+    if (_cityController.text.trim().isNotEmpty || 
+        _stateController.text.trim().isNotEmpty ||
+        _countryController.text.trim().isNotEmpty ||
+        _addressController.text.trim().isNotEmpty) {
+      updates['location'] = {
+        'city': _cityController.text.trim(),
+        'state': _stateController.text.trim(),
+        'country': _countryController.text.trim(),
+        'address': _addressController.text.trim(),
+      };
+    }
+    
+    // Nivel de experiencia
+    updates['experience_level'] = _experienceLevel.name;
+    
+    // Especializaciones (convertir enum a strings)
+    updates['specializations'] = _selectedSpecializations
+        .map((s) => s.name)
+        .toList();
+    
+    // Intereses
+    updates['interests'] = _interests;
+    
+    // Fecha de nacimiento
+    if (_birthDate != null) {
+      updates['birth_date'] = _birthDate!.toIso8601String().split('T')[0];
+    }
     
     try {
       // Mostrar loading
