@@ -30,24 +30,24 @@ class AppColorsUnified {
   /// Psicología: Prestigio, confianza, éxito, calidad premium
   /// Industria: Minería de oro, riqueza, logros
   
-  // Oro base
-  static const Color gold = Color(0xFFD4AF37);  // Oro metalizado clásico (BASE)
-  static const Color goldLight = Color(0xFFF4E4C1);  // Oro brillante (highlights)
-  static const Color goldDark = Color(0xFFB8941E);  // Oro oscuro (sombras)
-  static const Color goldPure = Color(0xFFFFD700);  // Oro puro 24K (premiums)
-  static const Color goldWarm = Color(0xFFDAA520);  // Goldenrod cálido
+  // Oro base - ⚡ CAMBIADO A ORO BRILLANTE PARA PRUEBA
+  static const Color gold = Color(0xFFFFD700);  // Oro puro 24K BRILLANTE (BASE) ⭐
+  static const Color goldLight = Color(0xFFFFE873);  // Oro super brillante (highlights)
+  static const Color goldDark = Color(0xFFD4AF37);  // Oro metalizado (sombras)
+  static const Color goldPure = Color(0xFFFFEA00);  // Oro amarillo puro (premiums)
+  static const Color goldWarm = Color(0xFFFFB300);  // Goldenrod brillante
   
-  /// Gradiente ORO (5 capas) - Efecto metalizado 3D
+  /// Gradiente ORO (5 capas) - Efecto BRILLANTE 3D ⚡
   /// Uso: Badges premium, headers especiales, productos destacados
   static const LinearGradient goldGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFFFFFAF0),  // Highlight blanco dorado
-      Color(0xFFF4E4C1),  // Oro brillante
-      Color(0xFFD4AF37),  // Oro base
-      Color(0xFFB8941E),  // Oro medio
-      Color(0xFFAA8C3A),  // Oro oscuro profundo
+      Color(0xFFFFFFF0),  // Highlight blanco puro
+      Color(0xFFFFE873),  // Oro super brillante
+      Color(0xFFFFD700),  // Oro puro 24K (base) ⭐
+      Color(0xFFD4AF37),  // Oro metalizado (medio)
+      Color(0xFFB8941E),  // Oro oscuro
     ],
     stops: [0.0, 0.25, 0.5, 0.75, 1.0],
   );
