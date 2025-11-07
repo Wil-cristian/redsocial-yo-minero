@@ -220,8 +220,8 @@ class ShimmerLoading extends StatefulWidget {
     Color? baseColor,
     Color? highlightColor,
     this.duration = const Duration(milliseconds: 1500),
-  })  : baseColor = baseColor ?? AppColorsUnified._lighten(AppColorsUnified.textSecondary, 0.2),
-        highlightColor = highlightColor ?? AppColorsUnified._lighten(AppColorsUnified.surface, 0.01);
+  })  : baseColor = baseColor ?? AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
+        highlightColor = highlightColor ?? AppColorsUnified.lighten(AppColorsUnified.surface, 0.01);
 
   @override
   State<ShimmerLoading> createState() => _ShimmerLoadingState();

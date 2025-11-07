@@ -73,25 +73,25 @@ ThemeData _buildTheme() {
       fillColor: DashboardColors.gray50,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: DashboardColors.gray300, width: 1),
+        borderSide: BorderSide(color: DashboardColors.gray300, width: 1),
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: DashboardColors.gray300, width: 1),
+        borderSide: BorderSide(color: DashboardColors.gray300, width: 1),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: DashboardColors.primary, width: 2),
+        borderSide: BorderSide(color: DashboardColors.primary, width: 2),
       ),
     ),
     chipTheme: ChipThemeData(
       backgroundColor: DashboardColors.gray100,
       selectedColor: DashboardColors.primaryLight,
-      labelStyle: const TextStyle(color: DashboardColors.charcoal),
+      labelStyle: TextStyle(color: DashboardColors.charcoal),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     ),
-    snackBarTheme: const SnackBarThemeData(
+    snackBarTheme: SnackBarThemeData(
       backgroundColor: DashboardColors.charcoal,
       contentTextStyle: TextStyle(color: DashboardColors.white),
     ),
@@ -103,7 +103,7 @@ ThemeData _buildTheme() {
       margin: const EdgeInsets.all(8),
     ),
     dividerColor: DashboardColors.gray200,
-    iconTheme: const IconThemeData(color: DashboardColors.gray700),
+    iconTheme: IconThemeData(color: DashboardColors.gray700),
   );
 }
 

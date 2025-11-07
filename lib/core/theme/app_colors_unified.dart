@@ -68,9 +68,9 @@ class AppColorsUnified {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      _lighten(orange, 0.15),  // Más claro
+      lighten(orange, 0.15),  // Más claro
       orange,                   // Base
-      _darken(orange, 0.15),   // Más oscuro
+      darken(orange, 0.15),   // Más oscuro
     ],
   );
   
@@ -79,9 +79,9 @@ class AppColorsUnified {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      _lighten(gold, 0.12),    // Más claro
+      lighten(gold, 0.12),    // Más claro
       gold,                     // Base
-      _darken(gold, 0.12),     // Más oscuro
+      darken(gold, 0.12),     // Más oscuro
     ],
   );
   
@@ -90,9 +90,9 @@ class AppColorsUnified {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      _lighten(companyBlue, 0.12),  // Más claro
+      lighten(companyBlue, 0.12),  // Más claro
       companyBlue,                   // Base
-      _darken(companyBlue, 0.12),   // Más oscuro
+      darken(companyBlue, 0.12),   // Más oscuro
     ],
   );
 
@@ -101,36 +101,36 @@ class AppColorsUnified {
   // ============================================
   
   // Variaciones de FONDO (usando background)
-  static Color get backgroundDark => _darken(background, 0.05);
-  static Color get backgroundLight => _lighten(background, 0.03);
+  static Color get backgroundDark => darken(background, 0.05);
+  static Color get backgroundLight => lighten(background, 0.03);
   
   // Variaciones de SUPERFICIE (usando surface)
   static Color get surfaceElevated => surface;
-  static Color get divider => _fade(textSecondary, 0.2);
+  static Color get divider => fade(textSecondary, 0.2);
   
   // Texto sobre colores (derivados de los 10 base)
   static Color get textOnOrange => surface;  // Blanco - usa surface
   static Color get textOnGold => textPrimary;  // Negro - usa textPrimary
   static Color get textOnCompanyBlue => surface;  // Blanco - usa surface
-  static Color get textDisabled => _fade(textSecondary, 0.5);
+  static Color get textDisabled => fade(textSecondary, 0.5);
   
   // ============================================
   // 🔄 HELPERS DE COMPATIBILIDAD (para código legacy)
   // ============================================
   
   // Variaciones de NARANJA (basadas en orange - uno de los 10 base)
-  static Color get orangeLight => _lighten(orange, 0.15);
-  static Color get orangeMedium => _darken(orange, 0.05);
-  static Color get orangeDark => _darken(orange, 0.15);
-  static Color get orangeApple => _lighten(orange, 0.08);  // Naranja más claro derivado de orange
+  static Color get orangeLight => lighten(orange, 0.15);
+  static Color get orangeMedium => darken(orange, 0.05);
+  static Color get orangeDark => darken(orange, 0.15);
+  static Color get orangeApple => lighten(orange, 0.08);  // Naranja más claro derivado de orange
   
   // Variaciones de ORO (basadas en gold)
-  static Color get goldLight => _lighten(gold, 0.12);
-  static Color get goldDark => _darken(gold, 0.12);
+  static Color get goldLight => lighten(gold, 0.12);
+  static Color get goldDark => darken(gold, 0.12);
   
   // Variaciones de PLATA (derivadas de textSecondary - uno de los 10 base)
-  static Color get silver => _lighten(textSecondary, 0.3);  // Plata derivada de textSecondary
-  static Color get silverLight => _lighten(textSecondary, 0.4);  // Plata clara
+  static Color get silver => lighten(textSecondary, 0.3);  // Plata derivada de textSecondary
+  static Color get silverLight => lighten(textSecondary, 0.4);  // Plata clara
 
   // ============================================
   // 🎨 ALIASES SEMÁNTICOS (usando los 10)
@@ -159,12 +159,12 @@ class AppColorsUnified {
   // MENSAJERÍA
   static Color get messagePrimary => orange;  // Usa naranja de los 10 base
   static Color get messageBubbleUser => orange;
-  static Color get messageBubbleOther => _fade(textSecondary, 0.1);
+  static Color get messageBubbleOther => fade(textSecondary, 0.1);
   
   // PERFIL
   static Color get profileBadgeGold => gold;
   static Color get profileBadgeSilver => silver;  // Usa helper basado en base
-  static Color get profileBadgeBronze => _darken(gold, 0.3);  // Derivado de gold
+  static Color get profileBadgeBronze => darken(gold, 0.3);  // Derivado de gold
   
   // EMPRESA
   static Color get companyPrimary => companyBlue;
@@ -187,35 +187,38 @@ class AppColorsUnified {
   
   // FAVORITOS
   static Color get favoriteActive => gold;
-  static Color get favoriteInactive => _fade(textSecondary, 0.3);
+  static Color get favoriteInactive => fade(textSecondary, 0.3);
   
   // MENÚ RADIAL
   static Color get radialButton => orange;
   static LinearGradient get radialButtonGradient => orangeGradient;
 
   // DARK MODE (derivados de los 10 base - para implementación futura)
-  static Color get darkBackground => _darken(background, 0.8);  // Fondo muy oscuro
-  static Color get darkSurface => _darken(surface, 0.7);  // Surface oscuro
-  static Color get darkTextPrimary => _lighten(textPrimary, 0.7);  // Texto claro
-  static Color get darkTextSecondary => _lighten(textSecondary, 0.5);  // Texto secundario claro
+  static Color get darkBackground => darken(background, 0.8);  // Fondo muy oscuro
+  static Color get darkSurface => darken(surface, 0.7);  // Surface oscuro
+  static Color get darkTextPrimary => lighten(textPrimary, 0.7);  // Texto claro
+  static Color get darkTextSecondary => lighten(textSecondary, 0.5);  // Texto secundario claro
 
   // ============================================
-  // 🛠️ FUNCIONES AUXILIARES
+  // 🛠️ FUNCIONES AUXILIARES (PÚBLICAS)
   // ============================================
   
-  static Color _darken(Color color, double amount) {
+  /// Oscurece un color (público para uso en archivos legacy)
+  static Color darken(Color color, double amount) {
     final hsl = HSLColor.fromColor(color);
     final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
     return hslDark.toColor();
   }
   
-  static Color _lighten(Color color, double amount) {
+  /// Aclara un color (público para uso en archivos legacy)
+  static Color lighten(Color color, double amount) {
     final hsl = HSLColor.fromColor(color);
     final hslLight = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
     return hslLight.toColor();
   }
   
-  static Color _fade(Color color, double opacity) {
+  /// Agrega transparencia (público para uso en archivos legacy)
+  static Color fade(Color color, double opacity) {
     return color.withOpacity(opacity.clamp(0.0, 1.0));
   }
 }

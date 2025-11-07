@@ -356,7 +356,7 @@ class OptimizedPostContent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Oferta Especial', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: DashboardColors.cardPink)),
+                Text(.cardPink)),
                 if (post.serviceName != null) Text(post.serviceName!, style: const TextStyle(fontSize: 14)),
               ],
             ),

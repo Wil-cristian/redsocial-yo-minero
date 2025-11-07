@@ -22,11 +22,11 @@ class MetallicColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      AppColorsUnified._lighten(AppColorsUnified.success, 0.3),
-      AppColorsUnified._lighten(AppColorsUnified.success, 0.2),
+      AppColorsUnified.lighten(AppColorsUnified.success, 0.3),
+      AppColorsUnified.lighten(AppColorsUnified.success, 0.2),
       AppColorsUnified.success,
-      AppColorsUnified._darken(AppColorsUnified.success, 0.2),
-      AppColorsUnified._darken(AppColorsUnified.success, 0.3),
+      AppColorsUnified.darken(AppColorsUnified.success, 0.2),
+      AppColorsUnified.darken(AppColorsUnified.success, 0.3),
     ],
   );
   
@@ -41,10 +41,10 @@ class MetallicColors {
     end: Alignment.bottomRight,
     colors: [
       AppColorsUnified.surface,
-      AppColorsUnified._lighten(AppColorsUnified.textSecondary, 0.4),
-      AppColorsUnified._lighten(AppColorsUnified.textSecondary, 0.3),
+      AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
+      AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.3),
       AppColorsUnified.textSecondary,
-      AppColorsUnified._darken(AppColorsUnified.textSecondary, 0.1),
+      AppColorsUnified.darken(AppColorsUnified.textSecondary, 0.1),
     ],
   );
   
@@ -58,11 +58,11 @@ class MetallicColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      AppColorsUnified._darken(AppColorsUnified.gold, 0.1),
-      AppColorsUnified._darken(AppColorsUnified.gold, 0.2),
-      AppColorsUnified._darken(AppColorsUnified.gold, 0.3),
-      AppColorsUnified._darken(AppColorsUnified.gold, 0.4),
-      AppColorsUnified._darken(AppColorsUnified.gold, 0.5),
+      AppColorsUnified.darken(AppColorsUnified.gold, 0.1),
+      AppColorsUnified.darken(AppColorsUnified.gold, 0.2),
+      AppColorsUnified.darken(AppColorsUnified.gold, 0.3),
+      AppColorsUnified.darken(AppColorsUnified.gold, 0.4),
+      AppColorsUnified.darken(AppColorsUnified.gold, 0.5),
     ],
   );
 
@@ -74,11 +74,11 @@ class MetallicColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.3),
-      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.3),
+      AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.2),
       AppColorsUnified.companyBlue,
-      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.2),
-      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.3),
+      AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.3),
     ],
   );
 
@@ -90,11 +90,11 @@ class MetallicColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.3),
-      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.3),
+      AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.2),
       AppColorsUnified.companyBlue,
-      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.2),
-      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.3),
+      AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.3),
     ],
   );
 
@@ -106,11 +106,11 @@ class MetallicColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      AppColorsUnified._lighten(AppColorsUnified.warning, 0.3),
-      AppColorsUnified._lighten(AppColorsUnified.warning, 0.2),
+      AppColorsUnified.lighten(AppColorsUnified.warning, 0.3),
+      AppColorsUnified.lighten(AppColorsUnified.warning, 0.2),
       AppColorsUnified.warning,
-      AppColorsUnified._darken(AppColorsUnified.warning, 0.2),
-      AppColorsUnified._darken(AppColorsUnified.warning, 0.3),
+      AppColorsUnified.darken(AppColorsUnified.warning, 0.2),
+      AppColorsUnified.darken(AppColorsUnified.warning, 0.3),
     ],
   );
 
@@ -122,11 +122,11 @@ class MetallicColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      AppColorsUnified._lighten(AppColorsUnified.error, 0.3),
-      AppColorsUnified._lighten(AppColorsUnified.error, 0.2),
+      AppColorsUnified.lighten(AppColorsUnified.error, 0.3),
+      AppColorsUnified.lighten(AppColorsUnified.error, 0.2),
       AppColorsUnified.error,
-      AppColorsUnified._darken(AppColorsUnified.error, 0.2),
-      AppColorsUnified._darken(AppColorsUnified.error, 0.3),
+      AppColorsUnified.darken(AppColorsUnified.error, 0.2),
+      AppColorsUnified.darken(AppColorsUnified.error, 0.3),
     ],
   );
 
@@ -138,11 +138,11 @@ class MetallicColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.3),
-      AppColorsUnified._lighten(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.3),
+      AppColorsUnified.lighten(AppColorsUnified.companyBlue, 0.2),
       AppColorsUnified.companyBlue,
-      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.2),
-      AppColorsUnified._darken(AppColorsUnified.companyBlue, 0.3),
+      AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.2),
+      AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.3),
     ],
   );
 
@@ -154,10 +154,10 @@ class MetallicColors {
     center: const Alignment(0.3, -0.5),
     radius: 1.5,
     colors: [
-      AppColorsUnified._lighten(AppColorsUnified.gold, 0.3),
-      AppColorsUnified._lighten(AppColorsUnified.gold, 0.2),
+      AppColorsUnified.lighten(AppColorsUnified.gold, 0.3),
+      AppColorsUnified.lighten(AppColorsUnified.gold, 0.2),
       AppColorsUnified.gold,
-      AppColorsUnified._darken(AppColorsUnified.gold, 0.2),
+      AppColorsUnified.darken(AppColorsUnified.gold, 0.2),
     ],
   );
   
@@ -165,10 +165,10 @@ class MetallicColors {
     center: const Alignment(0.3, -0.5),
     radius: 1.5,
     colors: [
-      AppColorsUnified._lighten(AppColorsUnified.success, 0.3),
-      AppColorsUnified._lighten(AppColorsUnified.success, 0.2),
+      AppColorsUnified.lighten(AppColorsUnified.success, 0.3),
+      AppColorsUnified.lighten(AppColorsUnified.success, 0.2),
       AppColorsUnified.success,
-      AppColorsUnified._darken(AppColorsUnified.success, 0.2),
+      AppColorsUnified.darken(AppColorsUnified.success, 0.2),
     ],
   );
 
@@ -180,17 +180,17 @@ class MetallicColors {
     begin: const Alignment(-1.0, -0.3),
     end: const Alignment(1.0, 0.3),
     colors: [
-      AppColorsUnified._fade(AppColorsUnified.gold, 0.0),
-      AppColorsUnified._fade(AppColorsUnified.gold, 0.3),
-      AppColorsUnified._fade(AppColorsUnified.gold, 0.5),
-      AppColorsUnified._fade(AppColorsUnified.gold, 0.3),
-      AppColorsUnified._fade(AppColorsUnified.gold, 0.0),
+      AppColorsUnified.fade(AppColorsUnified.gold, 0.0),
+      AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
+      AppColorsUnified.fade(AppColorsUnified.gold, 0.5),
+      AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
+      AppColorsUnified.fade(AppColorsUnified.gold, 0.0),
     ],
   );
   
-  static Color get goldOverlay => AppColorsUnified._fade(AppColorsUnified.gold, 0.1);
-  static Color get emeraldOverlay => AppColorsUnified._fade(AppColorsUnified.success, 0.1);
-  static Color get silverOverlay => AppColorsUnified._fade(AppColorsUnified.textSecondary, 0.1);
+  static Color get goldOverlay => AppColorsUnified.fade(AppColorsUnified.gold, 0.1);
+  static Color get emeraldOverlay => AppColorsUnified.fade(AppColorsUnified.success, 0.1);
+  static Color get silverOverlay => AppColorsUnified.fade(AppColorsUnified.textSecondary, 0.1);
 }
 
 /// 🎨 HELPER: Decoraciones metálicas usando AppColorsUnified
@@ -205,12 +205,12 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: AppColorsUnified._fade(AppColorsUnified.gold, 0.3),
+                color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
               BoxShadow(
-                color: AppColorsUnified._fade(AppColorsUnified.goldLight, 0.2),
+                color: AppColorsUnified.fade(AppColorsUnified.goldLight, 0.2),
                 blurRadius: 24,
                 offset: const Offset(0, 8),
               ),
@@ -229,7 +229,7 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: AppColorsUnified._fade(AppColorsUnified.success, 0.3),
+                color: AppColorsUnified.fade(AppColorsUnified.success, 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -248,7 +248,7 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: AppColorsUnified._fade(AppColorsUnified.textPrimary, 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.textPrimary, 0.1),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -267,7 +267,7 @@ class MetallicDecoration {
       boxShadow: withShadow
           ? [
               BoxShadow(
-                color: AppColorsUnified._fade(AppColorsUnified.companyBlue, 0.3),
+                color: AppColorsUnified.fade(AppColorsUnified.companyBlue, 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
