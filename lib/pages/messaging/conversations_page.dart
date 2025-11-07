@@ -6,6 +6,7 @@ import 'package:yominero/core/theme/colors.dart';
 import 'package:yominero/features/messaging/data/supabase_messaging_repository.dart';
 import 'package:yominero/shared/models/conversation.dart';
 import 'chat_page.dart';
+import 'search_users_page.dart';
 
 class ConversationsPage extends StatefulWidget {
   const ConversationsPage({super.key});
@@ -17,17 +18,29 @@ class ConversationsPage extends StatefulWidget {
 class _ConversationsPageState extends State<ConversationsPage> {
   final _messagingRepo = sl<MessagingRepository>();
   final _authService = SupabaseAuthService.instance;
+  final _scrollController = ScrollController();
   
   List<Conversation> _conversations = [];
   bool _isLoading = true;
+  bool _isLoadingMore = false;
+  bool _hasMoreData = true;
   String? _error;
   Timer? _autoRefreshTimer;
+  int _currentOffset = 0;
+  static const int _pageSize = 20;
 
   @override
   void initState() {
     super.initState();
     _loadConversations();
     _startAutoRefresh();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      _loadMoreConversations();
+    }
   }
 
   void _startAutoRefresh() {
@@ -42,6 +55,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
       setState(() {
         _isLoading = true;
         _error = null;
+        _currentOffset = 0;
+        _hasMoreData = true;
       });
     }
 
@@ -57,11 +72,17 @@ class _ConversationsPageState extends State<ConversationsPage> {
         return;
       }
 
-      final conversations = await _messagingRepo.getUserConversations(currentUser.id);
+      final conversations = await _messagingRepo.getUserConversations(
+        currentUser.id,
+        limit: _pageSize,
+        offset: 0,
+      );
       
       if (mounted) {
         setState(() {
           _conversations = conversations;
+          _currentOffset = conversations.length;
+          _hasMoreData = conversations.length >= _pageSize;
           if (!silent) {
             _isLoading = false;
           }
@@ -77,9 +98,40 @@ class _ConversationsPageState extends State<ConversationsPage> {
     }
   }
 
+  Future<void> _loadMoreConversations() async {
+    if (_isLoadingMore || !_hasMoreData) return;
+
+    setState(() => _isLoadingMore = true);
+
+    try {
+      final currentUser = _authService.currentUser;
+      if (currentUser == null) return;
+
+      final newConversations = await _messagingRepo.getUserConversations(
+        currentUser.id,
+        limit: _pageSize,
+        offset: _currentOffset,
+      );
+
+      if (mounted) {
+        setState(() {
+          _conversations.addAll(newConversations);
+          _currentOffset += newConversations.length;
+          _hasMoreData = newConversations.length >= _pageSize;
+          _isLoadingMore = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoadingMore = false);
+      }
+    }
+  }
+
   @override
   void dispose() {
     _autoRefreshTimer?.cancel();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -96,6 +148,18 @@ class _ConversationsPageState extends State<ConversationsPage> {
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchUsersPage(),
+                ),
+              ).then((_) => _loadConversations(silent: true));
+            },
+            tooltip: 'Buscar usuarios',
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _loadConversations,
@@ -187,9 +251,18 @@ class _ConversationsPageState extends State<ConversationsPage> {
       onRefresh: _loadConversations,
       color: AppColors.primary,
       child: ListView.builder(
-        itemCount: _conversations.length,
+        controller: _scrollController,
+        itemCount: _conversations.length + (_isLoadingMore ? 1 : 0),
         padding: const EdgeInsets.symmetric(vertical: 8),
         itemBuilder: (context, index) {
+          if (index == _conversations.length) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: CircularProgressIndicator(color: AppColors.primary),
+              ),
+            );
+          }
           final conversation = _conversations[index];
           return _buildConversationItem(conversation);
         },

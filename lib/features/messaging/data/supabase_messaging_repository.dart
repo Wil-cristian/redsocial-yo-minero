@@ -9,19 +9,41 @@ class MessagingRepository {
 
   // ==================== CONVERSATIONS ====================
 
-  Future<List<Conversation>> getUserConversations(String userId) async {
+  Future<List<Conversation>> getUserConversations(
+    String userId, {
+    int limit = 20,
+    int offset = 0,
+  }) async {
     try {
       final response = await _supabase
           .from('conversations')
           .select()
           .or('user1_id.eq.$userId,user2_id.eq.$userId')
-          .order('last_message_at', ascending: false);
+          .order('last_message_at', ascending: false)
+          .range(offset, offset + limit - 1);
 
       return (response as List)
           .map((json) => Conversation.fromJson(json))
           .toList();
     } catch (e) {
       print('Error getting conversations: $e');
+      return [];
+    }
+  }
+
+  // ==================== USER SEARCH ====================
+
+  Future<List<Map<String, dynamic>>> searchUsers(String query, {int limit = 20}) async {
+    try {
+      final response = await _supabase
+          .from('users')
+          .select('id, name, email, avatar_url, profession, company')
+          .or('name.ilike.%$query%,email.ilike.%$query%,profession.ilike.%$query%')
+          .limit(limit);
+
+      return (response as List).cast<Map<String, dynamic>>();
+    } catch (e) {
+      print('Error searching users: $e');
       return [];
     }
   }
