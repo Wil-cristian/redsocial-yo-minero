@@ -18,7 +18,7 @@
 static const Color orange = Color(0xFFFF6B35);
 
 /// 2️⃣ ORO - Identidad (línea 36)
-static const Color gold = Color(0xFFFFD700);
+static const Color gold = Color(0xFFD4AF37);
 
 /// 3️⃣ BACKGROUND - Fondo (línea 39)
 static const Color background = Color(0xFFF8F5EF);
@@ -69,7 +69,7 @@ static const Color orange = Color(0xFFFF6B35);  // ← CAMBIAR AQUÍ
 
 ```dart
 // app_colors_unified.dart - Línea 36
-static const Color gold = Color(0xFFFFD700);  // ← CAMBIAR AQUÍ
+static const Color gold = Color(0xFFD4AF37);  // ← CAMBIAR AQUÍ
 
 // Se actualiza AUTOMÁTICAMENTE en:
 ✓ Badges premium
@@ -365,7 +365,7 @@ static const Color orange = Color(0xFFNUEVO);
 
 ```
 1️⃣  #FF6B35  ████ Naranja (acción)
-2️⃣  #FFD700  ████ Oro (identidad)
+2️⃣  #D4AF37  ████ Oro (identidad)
 3️⃣  #F8F5EF  ████ Background (fondo)
 4️⃣  #FFFFFF  ████ Surface (cards)
 5️⃣  #1F2937  ████ Text Primary (texto)
