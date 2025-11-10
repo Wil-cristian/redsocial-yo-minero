@@ -38,8 +38,8 @@ class MessagingRepository {
     try {
       final response = await _supabase
           .from('users')
-          .select('id, name, email, avatar_url, profession, company')
-          .or('name.ilike.%$query%,email.ilike.%$query%,profession.ilike.%$query%')
+          .select('id, name, email, username, account_type, profile_image_url, profession, company')
+          .or('name.ilike.%$query%,email.ilike.%$query%,username.ilike.%$query%,profession.ilike.%$query%,company.ilike.%$query%')
           .limit(limit);
 
       return (response as List).cast<Map<String, dynamic>>();

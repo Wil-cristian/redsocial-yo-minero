@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:math' as math;
 import 'core/theme/dashboard_colors.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
@@ -412,16 +413,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget _buildAnimatedStats() {
     return Row(
       children: [
-        Expanded(child: _buildAnimatedStatCard('Ofertas', '12', Icons.local_offer, DashboardColors.orange, 0)),
+        Expanded(child: _buildAnimatedStatCard('Ofertas', '12', Icons.local_offer, DashboardColors.orange, 0, '/requests')),
         const SizedBox(width: 12),
-        Expanded(child: _buildAnimatedStatCard('Mensajes', '5', Icons.chat_bubble, DashboardColors.woodLight, 100)),
+        Expanded(child: _buildAnimatedStatCard('Mensajes', '5', Icons.chat_bubble, DashboardColors.woodLight, 100, '/messages')),
         const SizedBox(width: 12),
-        Expanded(child: _buildAnimatedStatCard('Grupos', '3', Icons.groups, DashboardColors.orangeBright, 200)),
+        Expanded(child: _buildAnimatedStatCard('Grupos', '3', Icons.groups, DashboardColors.orangeBright, 200, '/groups')),
       ],
     );
   }
 
-  Widget _buildAnimatedStatCard(String label, String value, IconData icon, Color color, int delay) {
+  Widget _buildAnimatedStatCard(String label, String value, IconData icon, Color color, int delay, String route) {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: 1),
       duration: Duration(milliseconds: 600 + delay),
@@ -432,64 +433,78 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           child: AnimatedBuilder(
             animation: _pulseController,
             builder: (context, child) {
-              return Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [color.withValues(alpha: 0.9), color],
-                  ),
+              return Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    // Feedback háptico
+                    HapticFeedback.mediumImpact();
+                    // Navegación con animación
+                    Navigator.pushNamed(context, route);
+                  },
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: color.withValues(alpha: 0.4),
-                      blurRadius: 15,
-                      offset: const Offset(0, 8),
-                    ),
-                    BoxShadow(
-                      color: color.withValues(alpha: 0.2 * _pulseController.value),
-                      blurRadius: 25 * _pulseController.value,
-                      spreadRadius: 3 * _pulseController.value,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.3),
-                        shape: BoxShape.circle,
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [color.withValues(alpha: 0.9), color],
                       ),
-                      child: Icon(icon, color: Colors.white, size: 28),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: color.withValues(alpha: 0.4),
+                          blurRadius: 15,
+                          offset: const Offset(0, 8),
+                        ),
+                        BoxShadow(
+                          color: color.withValues(alpha: 0.2 * _pulseController.value),
+                          blurRadius: 25 * _pulseController.value,
+                          spreadRadius: 3 * _pulseController.value,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      value,
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black26,
-                            offset: Offset(0, 2),
-                            blurRadius: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.3),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(icon, color: Colors.white, size: 28),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            value,
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            label,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white.withValues(alpha: 0.9),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      label,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.white.withValues(alpha: 0.9),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               );
             },

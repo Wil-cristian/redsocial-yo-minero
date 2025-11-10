@@ -262,10 +262,10 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
       leading: CircleAvatar(
         radius: 28,
         backgroundColor: AppColors.primary.withValues(alpha: 0.1),
-        backgroundImage: user['avatar_url'] != null 
-            ? NetworkImage(user['avatar_url']) 
+        backgroundImage: user['profile_image_url'] != null 
+            ? NetworkImage(user['profile_image_url']) 
             : null,
-        child: user['avatar_url'] == null
+        child: user['profile_image_url'] == null
             ? Text(
                 (user['name'] ?? 'U')[0].toUpperCase(),
                 style: TextStyle(
