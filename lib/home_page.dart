@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final accountType = (widget.currentUser?['accountType'] as String?) ?? 'individual';
     
     return Scaffold(
       body: Container(
@@ -134,13 +133,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             DashboardColors.primary,
             DashboardColors.primaryDark,
           ],
-          stops: [0.0, 0.3, 0.7, 1.0],
+          stops: const [0.0, 0.3, 0.7, 1.0],
         ),
         boxShadow: [
           BoxShadow(
             color: DashboardColors.orangeShadow,
             blurRadius: 30,
-            offset: Offset(0, 10),
+            offset: const Offset(0, 10),
             spreadRadius: 5,
           ),
           BoxShadow(
@@ -511,18 +510,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                DashboardColors.orange.withOpacity(0.1),
-                DashboardColors.orangeGlow.withOpacity(0.05),
+                DashboardColors.orange.withValues(alpha: 0.1),
+                DashboardColors.orangeGlow.withValues(alpha: 0.05),
               ],
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: DashboardColors.orange.withOpacity(0.3),
+              color: DashboardColors.orange.withValues(alpha: 0.3),
               width: 2,
             ),
             boxShadow: [
               BoxShadow(
-                color: DashboardColors.orange.withOpacity(0.1),
+                color: DashboardColors.orange.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -543,7 +542,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: DashboardColors.orange.withOpacity(0.4),
+                      color: DashboardColors.orange.withValues(alpha: 0.4),
                       blurRadius: 12,
                       spreadRadius: 2,
                     ),
@@ -590,121 +589,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
               Icon(
                 Icons.touch_app,
-                color: DashboardColors.orange.withOpacity(0.6),
+                color: DashboardColors.orange.withValues(alpha: 0.6),
                 size: 32,
               ),
             ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildQuickAccessCard({
-    required IconData icon,
-    required String label,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: 1),
-      duration: const Duration(milliseconds: 400),
-      builder: (context, value, child) {
-        return Transform.scale(
-          scale: value,
-          child: GestureDetector(
-            onTap: onTap,
-            child: AnimatedBuilder(
-              animation: _shimmerController,
-              builder: (context, child) {
-                return Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [color.withValues(alpha: 0.85), color, color.withValues(alpha: 0.9)],
-                    ),
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                        color: color.withValues(alpha: 0.4),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
-                      ),
-                      BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.1 * math.sin(_shimmerController.value * math.pi)),
-                        blurRadius: 20,
-                        spreadRadius: -5,
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      // Brillo animado
-                      Positioned(
-                        top: -20,
-                        right: -20,
-                        child: Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: RadialGradient(
-                              colors: [
-                                Colors.white.withValues(alpha: 0.2 * math.sin(_shimmerController.value * 2 * math.pi).abs()),
-                                Colors.transparent,
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      
-                      // Contenido
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(18),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.25),
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.white.withValues(alpha: 0.3),
-                                    blurRadius: 12,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
-                              ),
-                              child: Icon(icon, size: 36, color: Colors.white),
-                            ),
-                            const SizedBox(height: 14),
-                            Text(
-                              label,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black26,
-                                    offset: Offset(0, 1),
-                                    blurRadius: 3,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
           ),
         );
       },

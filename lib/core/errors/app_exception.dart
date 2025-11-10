@@ -14,36 +14,32 @@ class AppException implements Exception {
 }
 
 class NetworkException extends AppException {
-  NetworkException({String? message, dynamic originalError})
+  NetworkException({String? message, super.originalError})
       : super(
           message: message ?? 'Error de conexión. Verifica tu internet.',
           code: 'NETWORK_ERROR',
-          originalError: originalError,
         );
 }
 
 class AuthException extends AppException {
-  AuthException({String? message, dynamic originalError})
+  AuthException({String? message, super.originalError})
       : super(
           message: message ?? 'Error de autenticación',
           code: 'AUTH_ERROR',
-          originalError: originalError,
         );
 }
 
 class DatabaseException extends AppException {
-  DatabaseException({String? message, dynamic originalError})
+  DatabaseException({String? message, super.originalError})
       : super(
           message: message ?? 'Error al acceder a la base de datos',
           code: 'DATABASE_ERROR',
-          originalError: originalError,
         );
 }
 
 class ValidationException extends AppException {
-  ValidationException({required String message})
+  ValidationException({required super.message})
       : super(
-          message: message,
           code: 'VALIDATION_ERROR',
         );
 }

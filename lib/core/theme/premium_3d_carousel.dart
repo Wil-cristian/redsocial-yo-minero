@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/product.dart';
 import 'dart:math' as math;
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// 💎 PREMIUM 3D CAROUSEL - Estilo Apple/Dior
@@ -155,9 +156,9 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
             child: Transform(
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.003) // Perspectiva pronunciada
-                ..translate(0.0, verticalOffset, zDepth)
+                ..translateByVector3(Vector3(0.0, verticalOffset, zDepth))
                 ..rotateY(rotationY)
-                ..scale(scale),
+                ..scaleByVector3(Vector3.all(scale)),
               alignment: Alignment.center,
               child: Opacity(
                 opacity: opacity,
@@ -419,7 +420,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
   /// Placeholder minimalista cuando no hay imagen
   Widget _buildPlaceholder(bool isGold, String productName) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

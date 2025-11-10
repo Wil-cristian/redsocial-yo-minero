@@ -960,7 +960,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   void _selectAvatar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Función de selección de avatar en desarrollo'),
+        content: const Text('Función de selección de avatar en desarrollo'),
         backgroundColor: AppColors.primary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -996,7 +996,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   void _getCurrentLocation() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Función de geolocalización en desarrollo'),
+        content: const Text('Función de geolocalización en desarrollo'),
         backgroundColor: AppColors.primary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

@@ -43,8 +43,42 @@ class MyApp extends StatelessWidget {
 }
 
 /// Widget que determina qué pantalla mostrar según el estado de autenticación
-class AuthWrapper extends StatelessWidget {
+class AuthWrapper extends StatefulWidget {
   const AuthWrapper({super.key});
+
+  @override
+  State<AuthWrapper> createState() => _AuthWrapperState();
+}
+
+class _AuthWrapperState extends State<AuthWrapper> {
+  Map<String, dynamic>? _userProfile;
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+    
+    // Escuchar cambios en el estado de autenticación
+    SupabaseService.instance.client.auth.onAuthStateChange.listen((data) {
+      if (data.event == AuthChangeEvent.signedIn) {
+        // Esperar un poco para que el perfil se cargue
+        Future.delayed(const Duration(milliseconds: 500), () {
+          _loadProfile();
+        });
+      } else if (data.event == AuthChangeEvent.signedOut) {
+        setState(() {
+          _userProfile = null;
+        });
+      }
+    });
+  }
+  
+  void _loadProfile() {
+    setState(() {
+      _userProfile = SupabaseAuthService.instance.currentUserProfile;
+    });
+    debugPrint('🔄 AuthWrapper - Perfil actualizado: $_userProfile');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +97,12 @@ class AuthWrapper extends StatelessWidget {
 
         // Si hay un usuario logueado, mostrar el navigation shell
         if (snapshot.hasData && snapshot.data?.session != null) {
-          final userProfile = SupabaseAuthService.instance.currentUserProfile;
-          return MainNavigationShell(currentUser: userProfile);
+          // Recargar perfil si está null
+          if (_userProfile == null) {
+            Future.delayed(Duration.zero, _loadProfile);
+          }
+          
+          return MainNavigationShell(currentUser: _userProfile);
         }
         
         // Si no hay usuario logueado, mostrar login

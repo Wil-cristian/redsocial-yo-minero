@@ -62,7 +62,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Contraseña cambiada exitosamente'),
+              content: const Text('Contraseña cambiada exitosamente'),
               backgroundColor: AppColors.success,
             ),
           );
@@ -171,10 +171,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: AppColorsUnified.orange),
                     ),
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(Icons.info_outline, color: AppColorsUnified.orange),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             'Por seguridad, debes cambiar tu contraseña temporal antes de continuar.',
@@ -361,10 +361,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      const Row(
                         children: [
                           Icon(Icons.tips_and_updates, color: AppColorsUnified.companyBlue, size: 20),
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Text(
                             'Consejos para una contraseña segura:',
                             style: TextStyle(
@@ -396,12 +396,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
         children: [
-          Icon(Icons.check_circle, size: 16, color: AppColorsUnified.companyBlue),
+          const Icon(Icons.check_circle, size: 16, color: AppColorsUnified.companyBlue),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(fontSize: 12, color: AppColorsUnified.companyBlue),
+              style: const TextStyle(fontSize: 12, color: AppColorsUnified.companyBlue),
             ),
           ),
         ],

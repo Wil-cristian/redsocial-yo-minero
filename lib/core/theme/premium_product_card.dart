@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/product.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// 💎 PREMIUM PRODUCT CARD - Diseño ultra sofisticado con efectos fetichistas
@@ -77,7 +78,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
             ? (Matrix4.identity()
               ..setEntry(3, 2, 0.001)
               ..rotateX(-0.05)
-              ..scale(1.02))
+              ..scaleByVector3(Vector3.all(1.02)))
             : Matrix4.identity(),
         child: GestureDetector(
           onTap: widget.onTap,

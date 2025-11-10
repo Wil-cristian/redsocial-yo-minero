@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../shared/models/product.dart';
 import '../domain/product_repository.dart';
@@ -30,12 +31,11 @@ class SupabaseProductRepository implements ProductRepository {
           .map((json) => Product.fromJson(json))
           .toList();
     } catch (e) {
-      print('Error getting products: $e');
+      debugPrint('Error getting products: $e');
       return [];
     }
   }
 
-  @override
   Future<Product?> getProductById(String id) async {
     try {
       final response = await _supabase
@@ -50,12 +50,11 @@ class SupabaseProductRepository implements ProductRepository {
       if (response == null) return null;
       return Product.fromJson(response);
     } catch (e) {
-      print('Error getting product by ID: $e');
+      debugPrint('Error getting product by ID: $e');
       return null;
     }
   }
 
-  @override
   Future<List<Product>> getProductsByCategory(String category) async {
     try {
       final response = await _supabase
@@ -72,14 +71,13 @@ class SupabaseProductRepository implements ProductRepository {
           .map((json) => Product.fromJson(json))
           .toList();
     } catch (e) {
-      print('Error getting products by category: $e');
+      debugPrint('Error getting products by category: $e');
       return [];
     }
   }
 
-  @override
   Future<List<Product>> getProductsBySeller(String sellerId) async {
-    try {
+    try{
       final response = await _supabase
           .from('products')
           .select('''
@@ -93,7 +91,7 @@ class SupabaseProductRepository implements ProductRepository {
           .map((json) => Product.fromJson(json))
           .toList();
     } catch (e) {
-      print('Error getting products by seller: $e');
+      debugPrint('Error getting products by seller: $e');
       return [];
     }
   }
@@ -111,7 +109,7 @@ class SupabaseProductRepository implements ProductRepository {
 
       return Product.fromJson(response);
     } catch (e) {
-      print('Error creating product: $e');
+      debugPrint('Error creating product: $e');
       rethrow;
     }
   }
@@ -130,7 +128,7 @@ class SupabaseProductRepository implements ProductRepository {
 
       return Product.fromJson(response);
     } catch (e) {
-      print('Error updating product: $e');
+      debugPrint('Error updating product: $e');
       rethrow;
     }
   }
@@ -142,12 +140,11 @@ class SupabaseProductRepository implements ProductRepository {
           .delete()
           .eq('id', id);
     } catch (e) {
-      print('Error deleting product: $e');
+      debugPrint('Error deleting product: $e');
       rethrow;
     }
   }
 
-  @override
   Future<List<Product>> searchProducts(String query) async {
     try {
       final response = await _supabase
@@ -164,7 +161,7 @@ class SupabaseProductRepository implements ProductRepository {
           .map((json) => Product.fromJson(json))
           .toList();
     } catch (e) {
-      print('Error searching products: $e');
+      debugPrint('Error searching products: $e');
       return [];
     }
   }

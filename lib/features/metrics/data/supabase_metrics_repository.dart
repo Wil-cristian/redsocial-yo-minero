@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../shared/models/project.dart';
 import '../../../shared/models/transaction.dart';
@@ -19,7 +20,7 @@ class MetricsRepository {
           .map((json) => Project.fromJson(json))
           .toList();
     } catch (e) {
-      print('Error getting company projects: $e');
+      debugPrint('Error getting company projects: $e');
       return [];
     }
   }
@@ -34,7 +35,7 @@ class MetricsRepository {
 
       return Project.fromJson(response);
     } catch (e) {
-      print('Error creating project: $e');
+      debugPrint('Error creating project: $e');
       rethrow;
     }
   }
@@ -50,7 +51,7 @@ class MetricsRepository {
 
       return Project.fromJson(response);
     } catch (e) {
-      print('Error updating project: $e');
+      debugPrint('Error updating project: $e');
       rethrow;
     }
   }
@@ -62,7 +63,7 @@ class MetricsRepository {
           .delete()
           .eq('id', id);
     } catch (e) {
-      print('Error deleting project: $e');
+      debugPrint('Error deleting project: $e');
       rethrow;
     }
   }
@@ -89,7 +90,7 @@ class MetricsRepository {
           .map((json) => Transaction.fromJson(json))
           .toList();
     } catch (e) {
-      print('Error getting company transactions: $e');
+      debugPrint('Error getting company transactions: $e');
       return [];
     }
   }
@@ -104,7 +105,7 @@ class MetricsRepository {
 
       return Transaction.fromJson(response);
     } catch (e) {
-      print('Error creating transaction: $e');
+      debugPrint('Error creating transaction: $e');
       rethrow;
     }
   }
@@ -116,7 +117,7 @@ class MetricsRepository {
           .delete()
           .eq('id', id);
     } catch (e) {
-      print('Error deleting transaction: $e');
+      debugPrint('Error deleting transaction: $e');
       rethrow;
     }
   }
@@ -175,7 +176,7 @@ class MetricsRepository {
         'transactions_count': transactions.length,
       };
     } catch (e) {
-      print('Error getting company metrics: $e');
+      debugPrint('Error getting company metrics: $e');
       return {
         'income': 0.0,
         'expense': 0.0,

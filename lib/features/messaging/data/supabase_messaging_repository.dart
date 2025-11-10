@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../shared/models/conversation.dart';
@@ -26,7 +27,7 @@ class MessagingRepository {
           .map((json) => Conversation.fromJson(json))
           .toList();
     } catch (e) {
-      print('Error getting conversations: $e');
+      debugPrint('Error getting conversations: $e');
       return [];
     }
   }
@@ -43,7 +44,7 @@ class MessagingRepository {
 
       return (response as List).cast<Map<String, dynamic>>();
     } catch (e) {
-      print('Error searching users: $e');
+      debugPrint('Error searching users: $e');
       return [];
     }
   }
@@ -62,7 +63,7 @@ class MessagingRepository {
       if (response == null) return null;
       return Conversation.fromJson(response);
     } catch (e) {
-      print('Error getting conversation: $e');
+      debugPrint('Error getting conversation: $e');
       return null;
     }
   }
@@ -77,7 +78,7 @@ class MessagingRepository {
 
       return Conversation.fromJson(response);
     } catch (e) {
-      print('Error creating conversation: $e');
+      debugPrint('Error creating conversation: $e');
       rethrow;
     }
   }
@@ -105,7 +106,7 @@ class MessagingRepository {
           .reversed
           .toList();
     } catch (e) {
-      print('Error getting messages: $e');
+      debugPrint('Error getting messages: $e');
       return [];
     }
   }
@@ -137,7 +138,7 @@ class MessagingRepository {
 
       return Message.fromJson(response);
     } catch (e) {
-      print('Error sending message: $e');
+      debugPrint('Error sending message: $e');
       rethrow;
     }
   }
@@ -173,7 +174,7 @@ class MessagingRepository {
             .eq('id', conversationId);
       }
     } catch (e) {
-      print('Error marking messages as read: $e');
+      debugPrint('Error marking messages as read: $e');
     }
   }
 
@@ -198,7 +199,7 @@ class MessagingRepository {
               final message = Message.fromJson(payload.newRecord);
               controller.add(message);
             } catch (e) {
-              print('Error processing realtime message: $e');
+              debugPrint('Error processing realtime message: $e');
             }
           },
         )

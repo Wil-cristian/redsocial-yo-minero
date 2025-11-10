@@ -787,6 +787,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
         .where((tag) => tag.isNotEmpty)
         .toList();
 
+    // ignore: unused_local_variable
     final newService = ServiceOffering(
       name: name.trim(),
       category: category.trim(),

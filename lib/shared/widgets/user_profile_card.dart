@@ -131,7 +131,7 @@ class UserProfileCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.verified, size: 14, color: AppColors.success),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       'Verificado',
                       style: TextStyle(

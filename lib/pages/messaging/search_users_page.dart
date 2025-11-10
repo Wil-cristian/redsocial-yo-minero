@@ -23,7 +23,6 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
   bool _isSearching = false;
   String? _error;
   Timer? _debounceTimer;
-  String _currentQuery = '';
   int _searchVersion = 0;
 
   @override
@@ -42,14 +41,12 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
         _searchResults = [];
         _error = null;
         _isSearching = false;
-        _currentQuery = query;
       });
       return;
     }
 
     setState(() {
       _isSearching = true;
-      _currentQuery = query;
     });
 
     _debounceTimer = Timer(const Duration(milliseconds: 300), () {
@@ -95,7 +92,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
 
     try {
       // Crear o obtener conversación existente
-      final conversation = await _messagingRepo.getOrCreateConversation(
+      await _messagingRepo.getOrCreateConversation(
         currentUser.id,
         user['id'],
       );
@@ -189,7 +186,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 64, color: AppColorsUnified.error),
+            const Icon(Icons.error_outline, size: 64, color: AppColorsUnified.error),
             const SizedBox(height: 16),
             Text(
               _error!,
@@ -264,7 +261,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
       contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       leading: CircleAvatar(
         radius: 28,
-        backgroundColor: AppColors.primary.withOpacity(0.1),
+        backgroundColor: AppColors.primary.withValues(alpha: 0.1),
         backgroundImage: user['avatar_url'] != null 
             ? NetworkImage(user['avatar_url']) 
             : null,

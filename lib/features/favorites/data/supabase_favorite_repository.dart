@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../shared/models/favorite.dart';
 
@@ -26,7 +27,7 @@ class SupabaseFavoriteRepository implements FavoriteRepository {
           .map((json) => Favorite.fromJson(json))
           .toList();
     } catch (e) {
-      print('Error getting favorites: $e');
+      debugPrint('Error getting favorites: $e');
       return [];
     }
   }
@@ -48,7 +49,7 @@ class SupabaseFavoriteRepository implements FavoriteRepository {
       final response = await query.maybeSingle();
       return response != null;
     } catch (e) {
-      print('Error checking favorite: $e');
+      debugPrint('Error checking favorite: $e');
       return false;
     }
   }
@@ -70,7 +71,7 @@ class SupabaseFavoriteRepository implements FavoriteRepository {
 
       return Favorite.fromJson(response);
     } catch (e) {
-      print('Error adding favorite: $e');
+      debugPrint('Error adding favorite: $e');
       rethrow;
     }
   }
@@ -91,7 +92,7 @@ class SupabaseFavoriteRepository implements FavoriteRepository {
 
       await query;
     } catch (e) {
-      print('Error removing favorite: $e');
+      debugPrint('Error removing favorite: $e');
       rethrow;
     }
   }
@@ -109,7 +110,7 @@ class SupabaseFavoriteRepository implements FavoriteRepository {
           .map((item) => item['product_id'] as String)
           .toList();
     } catch (e) {
-      print('Error getting favorite product IDs: $e');
+      debugPrint('Error getting favorite product IDs: $e');
       return [];
     }
   }
@@ -127,7 +128,7 @@ class SupabaseFavoriteRepository implements FavoriteRepository {
           .map((item) => item['service_id'] as String)
           .toList();
     } catch (e) {
-      print('Error getting favorite service IDs: $e');
+      debugPrint('Error getting favorite service IDs: $e');
       return [];
     }
   }

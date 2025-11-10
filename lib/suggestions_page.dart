@@ -452,7 +452,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.trending_up, size: 14, color: AppColors.success),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text(
                         'Oportunidad',
                         style: TextStyle(
@@ -831,7 +831,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
       ),
     );
 
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       if (!mounted) return;
       Navigator.pop(context);
       _refreshSuggestions();

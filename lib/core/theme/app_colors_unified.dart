@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// 🎨 SISTEMA CENTRALIZADO DE COLORES - YoMinero
 /// 
@@ -29,35 +28,35 @@ class AppColorsUnified {
   // 🎨 LOS 10 COLORES BASE (ÚNICOS)
   // ============================================
   
-  /// 1️⃣ NARANJA - Acción, energía, CTAs
-  static const Color orange = Color(0xFFFF6B35);  // Tu favorito original
+  /// 1️⃣ NARANJA → NEGRO (prueba blanco/negro)
+  static const Color orange = Color(0xFF000000);
   
-  /// 2️⃣ ORO - Identidad de marca, premium
-  static const Color gold = Color(0xFFD4AF37);
+  /// 2️⃣ ORO → BLANCO (prueba blanco/negro)
+  static const Color gold = Color(0xFFFFFFFF);
   
-  /// 3️⃣ BACKGROUND - Fondo principal (60% de la app)
-  static const Color background = Color(0xFFF8F5EF);
+  /// 3️⃣ BACKGROUND → GRIS CLARO (prueba blanco/negro)
+  static const Color background = Color(0xFFF0F0F0);
   
-  /// 4️⃣ SURFACE - Cards, superficies elevadas
+  /// 4️⃣ SURFACE → BLANCO (prueba blanco/negro)
   static const Color surface = Color(0xFFFFFFFF);
   
-  /// 5️⃣ TEXTO PRINCIPAL - Negro/gris oscuro
-  static const Color textPrimary = Color(0xFF1F2937);
+  /// 5️⃣ TEXTO PRINCIPAL → NEGRO (prueba blanco/negro)
+  static const Color textPrimary = Color(0xFF000000);
   
-  /// 6️⃣ TEXTO SECUNDARIO - Gris medio
-  static const Color textSecondary = Color(0xFF6B7280);
+  /// 6️⃣ TEXTO SECUNDARIO → GRIS MEDIO (prueba blanco/negro)
+  static const Color textSecondary = Color(0xFF808080);
   
-  /// 7️⃣ SUCCESS - Verde éxito
-  static const Color success = Color(0xFF10B981);
+  /// 7️⃣ SUCCESS → GRIS OSCURO (prueba blanco/negro)
+  static const Color success = Color(0xFF404040);
   
-  /// 8️⃣ ERROR - Rojo error
-  static const Color error = Color(0xFFEF4444);
+  /// 8️⃣ ERROR → NEGRO (prueba blanco/negro)
+  static const Color error = Color(0xFF000000);
   
-  /// 9️⃣ WARNING - Amarillo advertencia
-  static const Color warning = Color(0xFFF59E0B);
+  /// 9️⃣ WARNING → GRIS MEDIO (prueba blanco/negro)
+  static const Color warning = Color(0xFF808080);
   
-  /// 🔟 COMPANY BLUE - Azul empresa
-  static const Color companyBlue = Color(0xFF45B7D1);
+  /// 🔟 COMPANY BLUE → GRIS (prueba blanco/negro)
+  static const Color companyBlue = Color(0xFF606060);
 
   // ============================================
   // 🎨 GRADIENTES (usando los 10 colores base)
@@ -234,7 +233,7 @@ class AppColorsUnified {
   
   /// Agrega transparencia (público para uso en archivos legacy)
   static Color fade(Color color, double opacity) {
-    return color.withOpacity(opacity.clamp(0.0, 1.0));
+    return color.withValues(alpha: opacity.clamp(0.0, 1.0));
   }
 }
 

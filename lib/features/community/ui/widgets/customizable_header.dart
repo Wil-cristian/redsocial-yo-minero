@@ -39,7 +39,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
+        color: Colors.white.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Icon(config.icon, size: 32, color: Colors.white),
@@ -56,7 +56,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
         Text(config.subtitle, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
         if (config.description != null) ...[
           const SizedBox(height: 4),
-          Text(config.description!, style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 12)),
+          Text(config.description!, style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12)),
         ],
       ],
     );
@@ -71,7 +71,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: '${data['activeUsers'] ?? 0} activos',
           description: '${data['todayOffers'] ?? 0} ofertas hoy',
           gradientColors: [DashboardColors.primaryLight, DashboardColors.primary],
-          shadowColor: DashboardColors.primary.withOpacity(0.3),
+          shadowColor: DashboardColors.primary.withValues(alpha: 0.3),
         );
       case HeaderWidgetType.dailyStreak:
         return _WidgetConfig(
@@ -80,7 +80,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: '${data['streak'] ?? 0} días',
           description: '¡Sigue así!',
           gradientColors: [AppColorsUnified.orange, AppColorsUnified.darken(AppColorsUnified.orange, 0.2)],
-          shadowColor: AppColorsUnified.orange.withOpacity(0.3),
+          shadowColor: AppColorsUnified.orange.withValues(alpha: 0.3),
         );
       case HeaderWidgetType.hotOpportunity:
         return _WidgetConfig(
@@ -89,7 +89,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: data['title'] ?? 'Sin ofertas',
           description: '\$${data['price'] ?? 0}',
           gradientColors: [AppColorsUnified.error, AppColorsUnified.error],
-          shadowColor: AppColorsUnified.error.withOpacity(0.3),
+          shadowColor: AppColorsUnified.error.withValues(alpha: 0.3),
         );
       case HeaderWidgetType.weatherAlert:
         return _WidgetConfig(
@@ -98,7 +98,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: '${data['temp'] ?? 22}°C',
           description: data['condition'] ?? 'Soleado',
           gradientColors: [AppColorsUnified.warning, AppColorsUnified.orange],
-          shadowColor: AppColorsUnified.warning.withOpacity(0.3),
+          shadowColor: AppColorsUnified.warning.withValues(alpha: 0.3),
         );
       case HeaderWidgetType.aiSuggestion:
         return _WidgetConfig(
@@ -107,7 +107,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: data['suggestion'] ?? 'Explora nuevas ofertas',
           description: 'Basado en tu actividad',
           gradientColors: [AppColorsUnified.companyBlueDark, AppColorsUnified.companyBlueDarker],
-          shadowColor: AppColorsUnified.companyBlueDark.withOpacity(0.3),
+          shadowColor: AppColorsUnified.companyBlueDark.withValues(alpha: 0.3),
         );
       case HeaderWidgetType.weeklyMission:
         return _WidgetConfig(
@@ -116,7 +116,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: '${data['progress'] ?? 0}%',
           description: 'Completa 5 tareas',
           gradientColors: [AppColorsUnified.success, AppColorsUnified.success],
-          shadowColor: AppColorsUnified.success.withOpacity(0.3),
+          shadowColor: AppColorsUnified.success.withValues(alpha: 0.3),
         );
       case HeaderWidgetType.communityFeed:
         return _WidgetConfig(
@@ -125,7 +125,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: '${data['newPosts'] ?? 0} nuevos',
           description: 'Últimas 24h',
           gradientColors: [AppColorsUnified.companyBlue, AppColorsUnified.companyBlue],
-          shadowColor: AppColorsUnified.companyBlue.withOpacity(0.3),
+          shadowColor: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
         );
       case HeaderWidgetType.videoHighlight:
         return _WidgetConfig(
@@ -134,7 +134,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: data['videoTitle'] ?? 'Sin video',
           description: '${data['views'] ?? 0} vistas',
           gradientColors: [AppColorsUnified.companyBlue, AppColorsUnified.companyBlue],
-          shadowColor: AppColorsUnified.companyBlue.withOpacity(0.3),
+          shadowColor: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
         );
     }
   }

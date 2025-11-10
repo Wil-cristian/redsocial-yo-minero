@@ -129,9 +129,7 @@ class NotificationsRepository {
             value: userId,
           ),
           callback: (payload) {
-            if (payload.newRecord != null) {
-              onNotification(NotificationModel.fromJson(payload.newRecord!));
-            }
+            onNotification(NotificationModel.fromJson(payload.newRecord));
           },
         )
         .subscribe();

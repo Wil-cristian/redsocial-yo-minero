@@ -304,7 +304,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           color: isSelected ? DashboardColors.cardOrange : Colors.white,
           borderRadius: BorderRadius.circular(25),
           border: Border.all(color: isSelected ? DashboardColors.cardOrange : Colors.grey.shade300),
-          boxShadow: isSelected ? [BoxShadow(color: DashboardColors.cardOrange.withValues(alpha: 0.3), blurRadius: 8, offset: Offset(0, 4))] : [],
+          boxShadow: isSelected ? [BoxShadow(color: DashboardColors.cardOrange.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))] : [],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

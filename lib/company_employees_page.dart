@@ -602,7 +602,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
-                value: priority,
+                initialValue: priority,
                 decoration: InputDecoration(
                   labelText: 'Prioridad',
                   border: OutlineInputBorder(

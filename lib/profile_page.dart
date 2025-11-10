@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularProgressIndicator(color: AppColors.primary),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Cargando perfil...', style: TextStyle(color: AppColors.textSecondary)),
             ],
           ),
@@ -124,7 +124,17 @@ class _ProfilePageState extends State<ProfilePage> {
             pinned: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
-            automaticallyImplyLeading: false,
+            leading: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
             actions: [
               Container(
                 margin: const EdgeInsets.all(8),

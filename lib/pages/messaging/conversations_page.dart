@@ -186,7 +186,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.error_outline,
               size: 64,
               color: AppColorsUnified.error,
@@ -203,8 +203,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _loadConversations,
-              icon: Icon(Icons.refresh),
-              label: Text('Reintentar'),
+              icon: const Icon(Icons.refresh),
+              label: const Text('Reintentar'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
@@ -259,7 +259,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
           if (index == _conversations.length) {
             return Center(
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: CircularProgressIndicator(color: AppColors.primary),
               ),
             );
@@ -297,7 +297,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                 children: [
                   CircleAvatar(
                     radius: 28,
-                    backgroundColor: AppColors.primary.withOpacity(0.1),
+                    backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                     child: Text(
                       otherUserId.substring(0, 2).toUpperCase(),
                       style: TextStyle(

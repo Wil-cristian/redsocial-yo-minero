@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/service.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// 💎 PREMIUM SERVICE CARD - Diseño ultra sofisticado tema AMATISTA/VIOLETA
@@ -77,7 +78,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
             ? (Matrix4.identity()
               ..setEntry(3, 2, 0.001)
               ..rotateX(-0.03)
-              ..scale(1.01))
+              ..scaleByVector3(Vector3.all(1.01)))
             : Matrix4.identity(),
         margin: const EdgeInsets.only(bottom: 20),
         child: GestureDetector(
@@ -222,8 +223,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
               const SizedBox(height: 16),
               
               // Tags/Características
-              if (widget.service.category != null)
-                _buildCategoryTag(),
+              _buildCategoryTag(),
             ],
           ),
         ),
@@ -304,15 +304,14 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
                 ),
               ),
               const SizedBox(height: 4),
-              if (widget.service.category != null)
-                Text(
-                  widget.service.category!,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: _cardGradient[0],
-                  ),
+              Text(
+                widget.service.category,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: _cardGradient[0],
                 ),
+              ),
             ],
           ),
         ),

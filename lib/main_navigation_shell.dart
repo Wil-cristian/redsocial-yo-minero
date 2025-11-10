@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'core/theme/dashboard_colors.dart';
+import 'core/services/preferences_service.dart';
 import 'home_page.dart';
 import 'community_feed_page.dart';  // MURO conectado a Supabase
 import 'notifications_page.dart';
 import 'settings_page.dart';
 import 'profile_page.dart';
+import 'shared/widgets/custom_side_drawer.dart';
 import 'shared/widgets/floating_radial_button.dart';
 
 /// Widget contenedor con navegación fija
@@ -24,6 +26,7 @@ class MainNavigationShell extends StatefulWidget {
 class _MainNavigationShellState extends State<MainNavigationShell> {
   int _selectedIndex = 0;
   late List<Widget> _pages;
+  final _prefsService = PreferencesService();
 
   @override
   void initState() {
@@ -45,19 +48,42 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
 
   @override
   Widget build(BuildContext context) {
-    final accountType = widget.currentUser?['accountType'] as String?;
+    // ⚠️ IMPORTANTE: La base de datos usa snake_case (account_type) no camelCase
+    final accountType = widget.currentUser?['account_type'] as String?;
+    
+    // Debug: ver qué datos tenemos del usuario
+    debugPrint('🔍 MainNavigationShell - currentUser: ${widget.currentUser}');
+    debugPrint('🔍 MainNavigationShell - accountType: $accountType');
     
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
           _pages[_selectedIndex],
-          // Botón flotante radial global
-          FloatingRadialButton(
+          // Drawer lateral deslizable
+          CustomSideDrawer(
             accountType: accountType,
+            currentUser: widget.currentUser,
+            onNavigateToIndex: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
           ),
         ],
       ),
+      // ✨ Botón flotante de acceso rápido (controlado por switch en configuración)
+      floatingActionButton: ValueListenableBuilder<bool>(
+        valueListenable: _prefsService.floatingMenuEnabled,
+        builder: (context, enabled, child) {
+          return enabled
+              ? FloatingRadialButton(
+                  accountType: accountType,
+                )
+              : const SizedBox.shrink();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,

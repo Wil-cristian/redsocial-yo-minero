@@ -458,16 +458,16 @@ class _ServicesPageState extends State<ServicesPage>
                                   fontWeight: FontWeight.bold,
                                   color: DashboardColors.emeraldDeep,
                                 ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              service.category,
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: DashboardColors.emerald,
+                                fontWeight: FontWeight.w500,
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                service.category ?? 'Servicio General',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: DashboardColors.emerald,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+                            ),
+                          ],
                           ),
                         ),
                         Container(
@@ -585,32 +585,22 @@ class _ServicesPageState extends State<ServicesPage>
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  if (false) ...[
-                                    const SizedBox(width: 4),
-                                    Icon(
-                                      Icons.verified,
-                                      size: 16,
-                                      color: DashboardColors.emerald,
-                                    ),
-                                  ],
                                 ],
                               ),
-                              if (0.0 > 0) ...[
-                                const SizedBox(height: 2),
-                                Row(
-                                  children: [
-                                    const Icon(Icons.star, size: 14, color: AppColorsUnified.warning),
-                                    const SizedBox(width: 2),
-                                    Text(
-                                      '${0.0.toStringAsFixed(1)} (${0})',
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                        color: Colors.grey[600],
-                                        fontSize: 11,
-                                      ),
+                              const SizedBox(height: 2),
+                              Row(
+                                children: [
+                                  const Icon(Icons.star, size: 14, color: AppColorsUnified.warning),
+                                  const SizedBox(width: 2),
+                                  Text(
+                                    '${0.0.toStringAsFixed(1)} (${0})',
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Colors.grey[600],
+                                      fontSize: 11,
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),

@@ -52,6 +52,9 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
   }
 
   List<RadialMenuItem> _getMenuItems(BuildContext context) {
+    // Debug: ver qué tipo de cuenta tenemos
+    debugPrint('🔍 FloatingRadialButton - accountType: ${widget.accountType}');
+    
     final baseItems = [
       RadialMenuItem(
         icon: Icons.shopping_bag_rounded,
@@ -113,6 +116,13 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
           route: '/company/metrics',
           onTap: () => Navigator.pushNamed(context, '/company/metrics'),
         ),
+        RadialMenuItem(
+          icon: Icons.diamond,
+          label: 'Producción',
+          color: const Color(0xFFD4AF37), // Dorado minero
+          route: '/company/production',
+          onTap: () => Navigator.pushNamed(context, '/company/production'),
+        ),
       ]);
     }
 
@@ -130,10 +140,10 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
     final size = MediaQuery.of(context).size;
     
     // Calcular posición óptima del botón basándose en el tamaño de pantalla
-    final navbarHeight = 90.0;
-    final minRadiusNeeded = 100.0; // Radio ideal para menú circular
-    final itemHalfSize = 35.0;
-    final safeMargin = 10.0;
+    const navbarHeight = 90.0;
+    const minRadiusNeeded = 100.0; // Radio ideal para menú circular
+    const itemHalfSize = 35.0;
+    const safeMargin = 10.0;
     
     // HORIZONTAL: En pantallas grandes, centrar más el botón para permitir radio mayor
     // En pantallas pequeñas, mantener en esquina derecha
@@ -143,8 +153,8 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
     
     // VERTICAL: En pantallas grandes (círculo completo), SUBIR el botón lo suficiente
     // para que haya espacio tanto arriba como abajo
-    final spaceNeededBelow = minRadiusNeeded + itemHalfSize + safeMargin + navbarHeight;
-    final spaceNeededAbove = minRadiusNeeded + itemHalfSize + safeMargin;
+    const spaceNeededBelow = minRadiusNeeded + itemHalfSize + safeMargin + navbarHeight;
+    const spaceNeededAbove = minRadiusNeeded + itemHalfSize + safeMargin;
     
     final buttonBottom = size.width > 600
         // Desktop/Tablet: centrar verticalmente para permitir círculo completo
@@ -206,12 +216,12 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                       boxShadow: [
                         BoxShadow(
                           color: AppColorsUnified.orange
-                              .withOpacity(0.6 * _pulseController.value),
+                              .withValues(alpha: 0.6 * _pulseController.value),
                           blurRadius: 30 * (1 + _pulseController.value),
                           spreadRadius: 5 * _pulseController.value,
                         ),
                         BoxShadow(
-                          color: AppColorsUnified.orangeMedium.withOpacity(0.4),
+                          color: AppColorsUnified.orangeMedium.withValues(alpha: 0.4),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
@@ -236,9 +246,9 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                                   shape: BoxShape.circle,
                                   gradient: SweepGradient(
                                     colors: [
-                                      Colors.white.withOpacity(0.3),
+                                      Colors.white.withValues(alpha: 0.3),
                                       Colors.transparent,
-                                      Colors.white.withOpacity(0.2),
+                                      Colors.white.withValues(alpha: 0.2),
                                       Colors.transparent,
                                     ],
                                     stops: const [0.0, 0.25, 0.5, 1.0],
@@ -283,7 +293,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                             builder: (context, child) {
                               final angle = (2 * math.pi / 8) * index +
                                   (_rotateController.value * 2 * math.pi);
-                              final distance = 28.0;
+                              const distance = 28.0;
                               final x = distance * math.cos(angle);
                               final y = distance * math.sin(angle);
 
@@ -294,11 +304,11 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                                   height: 3,
                                   decoration: BoxDecoration(
                                     color: Colors.white
-                                        .withOpacity(0.6 * _pulseController.value),
+                                        .withValues(alpha: 0.6 * _pulseController.value),
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.white.withOpacity(0.5),
+                                        color: Colors.white.withValues(alpha: 0.5),
                                         blurRadius: 4,
                                         spreadRadius: 1,
                                       ),

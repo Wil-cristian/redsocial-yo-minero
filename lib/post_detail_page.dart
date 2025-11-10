@@ -391,7 +391,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.comment_outlined, color: AppColors.textSecondary, size: 20),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Text(
                             'Comentar',
                             style: TextStyle(
@@ -415,7 +415,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.share_outlined, color: AppColors.textSecondary, size: 20),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Text(
                             'Compartir',
                             style: TextStyle(

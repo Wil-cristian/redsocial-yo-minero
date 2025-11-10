@@ -393,8 +393,8 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
             children: [
               ElevatedButton.icon(
                 onPressed: () {},
-                icon: Icon(Icons.shopping_cart, size: 16),
-                label: Text('Agregar'),
+                icon: const Icon(Icons.shopping_cart, size: 16),
+                label: const Text('Agregar'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: DashboardColors.primary,
                   foregroundColor: Colors.white,

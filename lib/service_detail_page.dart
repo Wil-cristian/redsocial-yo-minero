@@ -428,11 +428,11 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                               const SizedBox(height: 8),
                               Row(
                                 children: [
-                                  Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
-                                  Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
-                                  Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
-                                  Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
-                                  Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
+                                  const Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
+                                  const Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
+                                  const Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
+                                  const Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
+                                  const Icon(Icons.star, color: AppColorsUnified.warning, size: 16),
                                   const SizedBox(width: 8),
                                   Text(
                                     '4.9 (127 reseñas)',

@@ -291,7 +291,7 @@ class _ProductsPageState extends State<ProductsPage> {
                         hintText: 'Buscar productos...',
                         prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(16),
+                        contentPadding: const EdgeInsets.all(16),
                       ),
                       onChanged: (value) =>
                           setState(() => _searchQuery = value),

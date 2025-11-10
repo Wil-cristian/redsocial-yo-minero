@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'core/auth/supabase_auth_service.dart';
+import 'core/services/preferences_service.dart';
 import 'login_page.dart';
 
 /// Página de configuración del usuario
@@ -22,6 +23,8 @@ class _SettingsPageState extends State<SettingsPage> {
   late bool notificationsEnabled;
   late bool emailNotifications;
   late bool darkMode;
+  late bool floatingMenuEnabled;
+  final _prefsService = PreferencesService();
 
   @override
   void initState() {
@@ -29,6 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
     notificationsEnabled = true;
     emailNotifications = true;
     darkMode = false;
+    floatingMenuEnabled = _prefsService.isFloatingMenuEnabled;
   }
 
   @override
@@ -44,7 +48,18 @@ class _SettingsPageState extends State<SettingsPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        automaticallyImplyLeading: false,
+        leading: Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF0F0F0),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFE0E0E0)),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black87),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -151,6 +166,28 @@ class _SettingsPageState extends State<SettingsPage> {
                       });
                     },
                     enabled: false,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Sección de acceso rápido
+            _buildSectionHeader('Acceso Rápido'),
+            Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  _buildToggleSetting(
+                    '✨ Menú Flotante Rápido',
+                    'Botón naranja flotante para acceder a todas las secciones',
+                    floatingMenuEnabled,
+                    (value) {
+                      setState(() {
+                        floatingMenuEnabled = value;
+                        _prefsService.toggleFloatingMenu(value);
+                      });
+                    },
                   ),
                 ],
               ),

@@ -514,7 +514,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
               });
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Solicitud aceptada exitosamente'),
+                  content: const Text('Solicitud aceptada exitosamente'),
                   backgroundColor: AppColors.success,
                 ),
               );
@@ -549,7 +549,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
               });
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Solicitud rechazada'),
+                  content: const Text('Solicitud rechazada'),
                   backgroundColor: AppColors.error,
                 ),
               );

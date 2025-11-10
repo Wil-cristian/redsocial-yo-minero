@@ -858,7 +858,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
               
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Producto eliminado exitosamente'),
+                  content: const Text('Producto eliminado exitosamente'),
                   backgroundColor: AppColors.success,
                 ),
               );

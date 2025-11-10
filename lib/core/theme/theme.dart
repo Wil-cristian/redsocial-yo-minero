@@ -32,7 +32,7 @@ ThemeData _buildTheme() {
       foregroundColor: DashboardColors.charcoal,
       elevation: 0,
       shadowColor: DashboardColors.gray200,
-      systemOverlayStyle: SystemUiOverlayStyle(
+      systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
       ),

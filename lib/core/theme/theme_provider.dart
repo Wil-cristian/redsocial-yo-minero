@@ -73,7 +73,7 @@ class ThemeProvider extends ChangeNotifier {
         brightness: Brightness.dark,
       ),
       scaffoldBackgroundColor: AppColorsUnified.textPrimary,
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppColorsUnified.textPrimary,
