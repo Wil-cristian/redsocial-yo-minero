@@ -6,9 +6,9 @@ import 'core/di/locator.dart';
 import 'core/supabase/supabase_service.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'core/theme/theme.dart';
-import 'core/theme/colors.dart';
 import 'login_page.dart';
 import 'main_navigation_shell.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,10 +87,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
       builder: (context, snapshot) {
         // Mostrar loading mientras se verifica la autenticación
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            backgroundColor: AppColors.background,
+          return const Scaffold(
+            backgroundColor: AppColorsUnified.background,
             body: Center(
-              child: CircularProgressIndicator(color: AppColors.primary),
+              child: CircularProgressIndicator(color: AppColorsUnified.orange),
             ),
           );
         }

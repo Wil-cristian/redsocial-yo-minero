@@ -140,7 +140,7 @@ class OptimizedPostContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (post.newsSource != null) Text(post.newsSource!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                      if (post.newsAuthor != null) Text('Por ${post.newsAuthor}', style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                      if (post.newsAuthor != null) Text('Por ${post.newsAuthor}', style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12)),
                     ],
                   ),
                 ),
@@ -169,15 +169,15 @@ class OptimizedPostContent extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.06),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.03),
             blurRadius: 40,
             offset: const Offset(0, 16),
           ),
@@ -202,10 +202,10 @@ class OptimizedPostContent extends StatelessWidget {
                   ),
                   child: Text(
                     '\$${post.pricingFrom!.toStringAsFixed(2)}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: AppColorsUnified.pureWhite,
                       letterSpacing: -0.5,
                     ),
                   ),
@@ -387,9 +387,9 @@ class OptimizedPostContent extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(pollEnded ? Icons.lock : Icons.access_time, color: Colors.white, size: 14),
+                Icon(pollEnded ? Icons.lock : Icons.access_time, color: AppColorsUnified.pureWhite, size: 14),
                 const SizedBox(width: 4),
-                Text(pollEnded ? 'Finalizada' : _getTimeRemaining(post.pollEndsAt!), style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                Text(pollEnded ? 'Finalizada' : _getTimeRemaining(post.pollEndsAt!), style: TextStyle(color: AppColorsUnified.pureWhite, fontSize: 12, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
@@ -406,9 +406,9 @@ class OptimizedPostContent extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: DashboardColors.cardOrange.withValues(alpha: 0.1),
+                  color: AppColorsUnified.orange.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: DashboardColors.cardOrange.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.orange.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   children: [
@@ -418,7 +418,7 @@ class OptimizedPostContent extends StatelessWidget {
                         children: [
                           Text(option, style: const TextStyle(fontWeight: FontWeight.w500)),
                           const SizedBox(height: 4),
-                          LinearProgressIndicator(value: percentage / 100, backgroundColor: Colors.grey.shade200, color: DashboardColors.cardOrange),
+                          LinearProgressIndicator(value: percentage / 100, backgroundColor: AppColorsUnified.background, color: AppColorsUnified.orange),
                         ],
                       ),
                     ),
@@ -432,7 +432,7 @@ class OptimizedPostContent extends StatelessWidget {
         }),
         Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Text('$totalVotes votos totales', style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+          child: Text('$totalVotes votos totales', style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12)),
         ),
       ],
     );

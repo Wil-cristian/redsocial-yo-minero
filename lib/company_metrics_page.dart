@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'core/theme/colors.dart';
 import 'core/di/locator.dart';
 import 'features/metrics/data/supabase_metrics_repository.dart';
 import 'shared/models/project.dart';
@@ -65,21 +64,21 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       appBar: AppBar(
         title: const Text('Análisis y Reportes'),
         backgroundColor: AppColorsUnified.companySecondary,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -259,11 +258,11 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColorsUnified.pureWhite,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.08),
               blurRadius: 8,
             ),
           ],
@@ -276,9 +275,9 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
-                    color: Colors.grey[600],
+                    color: AppColorsUnified.textSecondary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -302,7 +301,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
@@ -325,21 +324,21 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
       return Container(
         padding: const EdgeInsets.all(32),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColorsUnified.pureWhite,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.08),
               blurRadius: 8,
             ),
           ],
         ),
-        child: Center(
+        child: const Center(
           child: Text(
             'No hay proyectos activos',
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[600],
+              color: AppColorsUnified.textSecondary,
             ),
           ),
         ),
@@ -349,11 +348,11 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.08),
             blurRadius: 8,
           ),
         ],
@@ -382,7 +381,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
             Text(
@@ -390,7 +389,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
           ],
@@ -401,7 +400,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
           child: LinearProgressIndicator(
             value: progress,
             minHeight: 6,
-            backgroundColor: Colors.grey[200],
+            backgroundColor: AppColorsUnified.background,
             valueColor: AlwaysStoppedAnimation<Color>(
               AppColorsUnified.companySecondary,
             ),
@@ -433,11 +432,11 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.08),
             blurRadius: 8,
           ),
         ],
@@ -454,8 +453,8 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColorsUnified.companySecondary.withValues(alpha: 0.7),
-                        AppColorsUnified.companyBlue.withValues(alpha: 0.7),
+                        AppColorsUnified.fade(AppColorsUnified.companySecondary, 0.7),
+                        AppColorsUnified.fade(AppColorsUnified.companyBlue, 0.7),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(8),
@@ -463,8 +462,8 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                   child: Center(
                     child: Text(
                       employee['avatar'] as String,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: AppColorsUnified.pureWhite,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
@@ -481,15 +480,15 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: Colors.black87,
+                          color: AppColorsUnified.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 2),
-                      Text(
+                      const Text(
                         'Productividad',
                         style: TextStyle(
                           fontSize: 11,
-                          color: Colors.grey[600],
+                          color: AppColorsUnified.textSecondary,
                         ),
                       ),
                     ],
@@ -501,7 +500,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColorsUnified.success.withValues(alpha: 0.1),
+                    color: AppColorsUnified.fade(AppColorsUnified.success, 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
@@ -525,11 +524,11 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.08),
             blurRadius: 8,
           ),
         ],
@@ -560,7 +559,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
             Text(
@@ -568,7 +567,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
           ],
@@ -579,7 +578,7 @@ class _CompanyMetricsPageState extends State<CompanyMetricsPage> {
           child: LinearProgressIndicator(
             value: usage,
             minHeight: 6,
-            backgroundColor: Colors.grey[200],
+            backgroundColor: AppColorsUnified.background,
             valueColor: AlwaysStoppedAnimation<Color>(
               AppColorsUnified.companySecondary,
             ),

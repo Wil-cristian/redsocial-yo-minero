@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/dashboard_colors.dart';
 import '../../core/di/locator.dart';
 import '../../features/posts/domain/post_repository.dart';
 import '../models/post.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class CreatePostModal extends StatefulWidget {
   final String userId;
@@ -81,9 +81,9 @@ class _CreatePostModalState extends State<CreatePostModal> {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.85,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: AppColorsUnified.pureWhite,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         children: [
@@ -91,8 +91,8 @@ class _CreatePostModalState extends State<CreatePostModal> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+              color: AppColorsUnified.pureWhite,
+              border: const Border(bottom: BorderSide(color: AppColorsUnified.background)),
             ),
             child: Row(
               children: [
@@ -187,8 +187,8 @@ class _CreatePostModalState extends State<CreatePostModal> {
                             }
                           });
                         },
-                        selectedColor: DashboardColors.cardOrange.withValues(alpha: 0.3),
-                        checkmarkColor: DashboardColors.cardOrange,
+                        selectedColor: AppColorsUnified.orange.withValues(alpha: 0.3),
+                        checkmarkColor: AppColorsUnified.orange,
                       );
                     }).toList(),
                   ),
@@ -207,7 +207,7 @@ class _CreatePostModalState extends State<CreatePostModal> {
       label: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 18, color: isSelected ? Colors.white : Colors.grey.shade600),
+          Icon(icon, size: 18, color: isSelected ? AppColorsUnified.pureWhite : AppColorsUnified.textSecondary),
           const SizedBox(width: 6),
           Text(label),
         ],
@@ -216,9 +216,9 @@ class _CreatePostModalState extends State<CreatePostModal> {
       onSelected: (selected) {
         if (selected) setState(() => _selectedType = type);
       },
-      selectedColor: DashboardColors.cardOrange,
+      selectedColor: AppColorsUnified.orange,
       labelStyle: TextStyle(
-        color: isSelected ? Colors.white : Colors.grey.shade700,
+        color: isSelected ? AppColorsUnified.pureWhite : AppColorsUnified.charcoal,
         fontWeight: FontWeight.w600,
       ),
     );

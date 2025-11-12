@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'core/theme/colors.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class CompanyResourcesPage extends StatefulWidget {
@@ -104,7 +103,7 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
       case 'Necesita Mantenimiento':
         return AppColorsUnified.error;
       default:
-        return Colors.grey;
+        return AppColorsUnified.textSecondary;
     }
   }
 
@@ -121,28 +120,28 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
       case 'Nueva':
         return AppColorsUnified.success;
       default:
-        return Colors.grey;
+        return AppColorsUnified.textSecondary;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       appBar: AppBar(
         title: const Text('Gestión de Recursos'),
         backgroundColor: AppColorsUnified.companySecondary,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -176,10 +175,10 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                         _selectedCategory = category;
                       });
                     },
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColorsUnified.pureWhite,
                     selectedColor: AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
-                      color: isSelected ? Colors.white : Colors.grey[700],
+                      color: isSelected ? AppColorsUnified.pureWhite : AppColorsUnified.charcoal,
                       fontWeight: FontWeight.w600,
                     ),
                   );
@@ -194,9 +193,9 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                 children: [
                   Text(
                     '${_filteredResources.length} recursos',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[600],
+                      color: AppColorsUnified.textSecondary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -215,14 +214,14 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                     Icon(
                       Icons.inventory,
                       size: 48,
-                      color: Colors.grey[300],
+                      color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
                     ),
                     const SizedBox(height: 16),
-                    Text(
+                    const Text(
                       'No se encontraron recursos',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey[600],
+                        color: AppColorsUnified.textSecondary,
                       ),
                     ),
                   ],
@@ -254,11 +253,11 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -281,7 +280,7 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: AppColorsUnified.companySecondary.withValues(alpha: 0.1),
+                        color: AppColorsUnified.fade(AppColorsUnified.companySecondary, 0.1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
@@ -302,15 +301,15 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: AppColorsUnified.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             '${resource['category']} • ${resource['location']}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 12,
-                              color: Colors.grey[600],
+                              color: AppColorsUnified.textSecondary,
                             ),
                           ),
                         ],
@@ -372,7 +371,7 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                        color: AppColorsUnified.textPrimary,
                       ),
                     ),
                   ],
@@ -385,9 +384,9 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                   resource['hours'] != null
                       ? 'Horas de uso: ${resource['hours']}'
                       : 'Cantidad: ${resource['quantity']}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 11,
-                    color: Colors.grey[600],
+                    color: AppColorsUnified.textSecondary,
                   ),
                 ),
               ],
@@ -453,7 +452,7 @@ class _CompanyResourcesPageState extends State<CompanyResourcesPage> {
                 label: const Text('Editar Recurso'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColorsUnified.companySecondary,
-                  foregroundColor: Colors.white,
+                  foregroundColor: AppColorsUnified.pureWhite,
                 ),
               ),
             ),

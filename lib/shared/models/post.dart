@@ -98,8 +98,6 @@ class Post {
     this.pollEndsAt,
   });
 
-
-
   Post copyWith({
     PostType? type,
     String? authorId,

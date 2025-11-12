@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'pages/messaging/conversations_page.dart';
 
 class MessagesPage extends StatelessWidget {

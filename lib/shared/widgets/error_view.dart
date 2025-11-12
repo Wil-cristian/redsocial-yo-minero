@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yominero/core/theme/colors.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class ErrorView extends StatelessWidget {
@@ -33,15 +32,15 @@ class ErrorView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey.shade800,
+                color: AppColorsUnified.textSecondary.shade800,
               ),
             ),
             const SizedBox(height: 12),
             Text(
               message,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
-                color: Colors.grey.shade600,
+                color: AppColorsUnified.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -52,8 +51,8 @@ class ErrorView extends StatelessWidget {
                 icon: const Icon(Icons.refresh),
                 label: const Text('Reintentar'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
+                  backgroundColor: AppColorsUnified.orange,
+                  foregroundColor: AppColorsUnified.pureWhite,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 32,
                     vertical: 16,
@@ -96,7 +95,7 @@ class EmptyView extends StatelessWidget {
             Icon(
               icon ?? Icons.inbox_outlined,
               size: 80,
-              color: Colors.grey.shade300,
+              color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
             ),
             const SizedBox(height: 24),
             Text(
@@ -104,7 +103,7 @@ class EmptyView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade700,
+                color: AppColorsUnified.charcoal,
               ),
               textAlign: TextAlign.center,
             ),
@@ -112,9 +111,9 @@ class EmptyView extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 subtitle!,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
-                  color: Colors.grey.shade500,
+                  color: AppColorsUnified.textSecondary,
                 ),
                 textAlign: TextAlign.center,
               ),

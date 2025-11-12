@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:yominero/core/auth/supabase_auth_service.dart';
 import 'package:yominero/core/di/locator.dart';
-import 'package:yominero/core/theme/colors.dart';
 import 'package:yominero/features/messaging/data/supabase_messaging_repository.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'chat_page.dart';
@@ -124,33 +123,33 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       appBar: AppBar(
         title: const Text(
           'Buscar Usuarios',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.orange,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
       ),
       body: Column(
         children: [
           // Barra de búsqueda
           Container(
-            color: AppColors.primary,
+            color: AppColorsUnified.orange,
             padding: const EdgeInsets.all(16),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Buscar por nombre, email o profesión...',
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: AppColorsUnified.pureWhite,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide.none,
                 ),
-                prefixIcon: Icon(Icons.search, color: AppColors.primary),
+                prefixIcon: const Icon(Icons.search, color: AppColorsUnified.orange),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear),
@@ -176,8 +175,8 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
 
   Widget _buildResults() {
     if (_isSearching) {
-      return Center(
-        child: CircularProgressIndicator(color: AppColors.primary),
+      return const Center(
+        child: CircularProgressIndicator(color: AppColorsUnified.orange),
       );
     }
 
@@ -190,7 +189,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
             const SizedBox(height: 16),
             Text(
               _error!,
-              style: TextStyle(color: Colors.grey.shade600),
+              style: const TextStyle(color: AppColorsUnified.textSecondary),
               textAlign: TextAlign.center,
             ),
           ],
@@ -206,14 +205,14 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
             Icon(
               Icons.people_outline,
               size: 80,
-              color: Colors.grey.shade300,
+              color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               'Busca usuarios para iniciar una conversación',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.grey.shade600,
+                color: AppColorsUnified.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -230,14 +229,14 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
             Icon(
               Icons.search_off,
               size: 80,
-              color: Colors.grey.shade300,
+              color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               'No se encontraron usuarios',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.grey.shade600,
+                color: AppColorsUnified.textSecondary,
               ),
             ),
           ],
@@ -261,17 +260,17 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
       contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       leading: CircleAvatar(
         radius: 28,
-        backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+        backgroundColor: AppColorsUnified.orange.withValues(alpha: 0.1),
         backgroundImage: user['profile_image_url'] != null 
             ? NetworkImage(user['profile_image_url']) 
             : null,
         child: user['profile_image_url'] == null
             ? Text(
                 (user['name'] ?? 'U')[0].toUpperCase(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+                  color: AppColorsUnified.orange,
                 ),
               )
             : null,
@@ -290,22 +289,22 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
             Text(
               user['profession'],
               style: TextStyle(
-                color: Colors.grey.shade700,
+                color: AppColorsUnified.charcoal,
                 fontSize: 14,
               ),
             ),
           if (user['company'] != null)
             Text(
               user['company'],
-              style: TextStyle(
-                color: Colors.grey.shade600,
+              style: const TextStyle(
+                color: AppColorsUnified.textSecondary,
                 fontSize: 12,
               ),
             ),
         ],
       ),
       trailing: IconButton(
-        icon: Icon(Icons.message, color: AppColors.primary),
+        icon: const Icon(Icons.message, color: AppColorsUnified.orange),
         onPressed: () => _startConversation(user),
         tooltip: 'Enviar mensaje',
       ),

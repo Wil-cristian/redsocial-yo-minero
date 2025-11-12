@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class SkeletonLoader extends StatefulWidget {
   final double? width;
@@ -54,9 +55,9 @@ class _SkeletonLoaderState extends State<SkeletonLoader>
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [
-                Colors.grey.shade300,
-                Colors.grey.shade100,
-                Colors.grey.shade300,
+                AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
+                AppColorsUnified.background,
+                AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
               ],
               stops: [
                 _animation.value - 0.3,

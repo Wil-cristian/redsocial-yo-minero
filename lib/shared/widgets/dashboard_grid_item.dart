@@ -66,7 +66,7 @@ class _DashboardGridItemState extends State<DashboardGridItem>
               BoxShadow(
                 color: widget.isHighlighted
                     ? widget.iconColor.withValues(alpha: 0.4)
-                    : Colors.grey.withValues(alpha: 0.15),
+                    : AppColorsUnified.fade(AppColorsUnified.textSecondary, 0.15),
                 blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
@@ -79,14 +79,14 @@ class _DashboardGridItemState extends State<DashboardGridItem>
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: widget.isHighlighted
-                      ? Colors.white.withValues(alpha: 0.2)
+                      ? AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2)
                       : widget.iconColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(
                   widget.icon,
                   size: 40,
-                  color: widget.isHighlighted ? Colors.white : widget.iconColor,
+                  color: widget.isHighlighted ? AppColorsUnified.pureWhite : widget.iconColor,
                 ),
               ),
               const SizedBox(height: 12),
@@ -96,7 +96,7 @@ class _DashboardGridItemState extends State<DashboardGridItem>
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: widget.isHighlighted ? Colors.white : Colors.grey[800],
+                  color: widget.isHighlighted ? AppColorsUnified.pureWhite : AppColorsUnified.darken(AppColorsUnified.textSecondary, 0.2),
                   letterSpacing: 0.5,
                 ),
               ),

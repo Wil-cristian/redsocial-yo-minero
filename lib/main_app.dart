@@ -5,6 +5,7 @@ import 'products_page.dart';
 import 'services_page.dart';
 import 'groups_page.dart';
 import 'profile_page.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -90,18 +91,18 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.white,
-              Colors.white.withValues(alpha: 0.95),
+              AppColorsUnified.pureWhite,
+              AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.95),
             ],
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.08),
               blurRadius: 20,
               offset: const Offset(0, -4),
             ),
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.05),
+              color: AppColorsUnified.orange.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),
@@ -137,20 +138,20 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
                   height: 60,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [AppColors.primary, AppColors.secondary],
+                      colors: [AppColorsUnified.orange, AppColors.secondary],
                     ),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.4),
+                        color: AppColorsUnified.orange.withValues(alpha: 0.4),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
                       ),
                     ],
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.person,
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     size: 28,
                   ),
                 ),
@@ -172,7 +173,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected 
-              ? AppColors.primary.withValues(alpha: 0.1)
+              ? AppColorsUnified.orange.withValues(alpha: 0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
@@ -184,15 +185,15 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: isSelected 
-                    ? AppColors.primary
+                    ? AppColorsUnified.orange
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 icon,
                 color: isSelected 
-                    ? Colors.white
-                    : AppColors.textSecondary,
+                    ? AppColorsUnified.pureWhite
+                    : AppColorsUnified.textSecondary,
                 size: 24,
               ),
             ),
@@ -201,8 +202,8 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
               label,
               style: TextStyle(
                 color: isSelected 
-                    ? AppColors.primary
-                    : AppColors.textSecondary,
+                    ? AppColorsUnified.orange
+                    : AppColorsUnified.textSecondary,
                 fontSize: 12,
                 fontWeight: isSelected 
                     ? FontWeight.bold

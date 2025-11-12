@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
-import '../../../../core/theme/dashboard_colors.dart';
 
 /// Widget unificado optimizado que reemplaza 8 widgets similares
 class UnifiedHeaderWidget extends StatelessWidget {
@@ -39,10 +38,10 @@ class UnifiedHeaderWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
+        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Icon(config.icon, size: 32, color: Colors.white),
+      child: Icon(config.icon, size: 32, color: AppColorsUnified.pureWhite),
     );
   }
 
@@ -51,12 +50,12 @@ class UnifiedHeaderWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(config.title, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600)),
+        Text(config.title, style: TextStyle(color: AppColorsUnified.pureWhite, fontSize: 14, fontWeight: FontWeight.w600)),
         const SizedBox(height: 4),
-        Text(config.subtitle, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+        Text(config.subtitle, style: TextStyle(color: AppColorsUnified.pureWhite, fontSize: 24, fontWeight: FontWeight.bold)),
         if (config.description != null) ...[
           const SizedBox(height: 4),
-          Text(config.description!, style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12)),
+          Text(config.description!, style: TextStyle(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.8), fontSize: 12)),
         ],
       ],
     );
@@ -70,8 +69,8 @@ class UnifiedHeaderWidget extends StatelessWidget {
           title: 'En vivo ahora',
           subtitle: '${data['activeUsers'] ?? 0} activos',
           description: '${data['todayOffers'] ?? 0} ofertas hoy',
-          gradientColors: [DashboardColors.primaryLight, DashboardColors.primary],
-          shadowColor: DashboardColors.primary.withValues(alpha: 0.3),
+          gradientColors: [AppColorsUnified.orangeLight, AppColorsUnified.orange],
+          shadowColor: AppColorsUnified.fade(AppColorsUnified.orange, 0.3),
         );
       case HeaderWidgetType.dailyStreak:
         return _WidgetConfig(
@@ -80,7 +79,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: '${data['streak'] ?? 0} días',
           description: '¡Sigue así!',
           gradientColors: [AppColorsUnified.orange, AppColorsUnified.darken(AppColorsUnified.orange, 0.2)],
-          shadowColor: AppColorsUnified.orange.withValues(alpha: 0.3),
+          shadowColor: AppColorsUnified.fade(AppColorsUnified.orange, 0.3),
         );
       case HeaderWidgetType.hotOpportunity:
         return _WidgetConfig(
@@ -89,7 +88,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: data['title'] ?? 'Sin ofertas',
           description: '\$${data['price'] ?? 0}',
           gradientColors: [AppColorsUnified.error, AppColorsUnified.error],
-          shadowColor: AppColorsUnified.error.withValues(alpha: 0.3),
+          shadowColor: AppColorsUnified.fade(AppColorsUnified.error, 0.3),
         );
       case HeaderWidgetType.weatherAlert:
         return _WidgetConfig(
@@ -98,7 +97,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: '${data['temp'] ?? 22}°C',
           description: data['condition'] ?? 'Soleado',
           gradientColors: [AppColorsUnified.warning, AppColorsUnified.orange],
-          shadowColor: AppColorsUnified.warning.withValues(alpha: 0.3),
+          shadowColor: AppColorsUnified.fade(AppColorsUnified.warning, 0.3),
         );
       case HeaderWidgetType.aiSuggestion:
         return _WidgetConfig(
@@ -107,7 +106,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: data['suggestion'] ?? 'Explora nuevas ofertas',
           description: 'Basado en tu actividad',
           gradientColors: [AppColorsUnified.companyBlueDark, AppColorsUnified.companyBlueDarker],
-          shadowColor: AppColorsUnified.companyBlueDark.withValues(alpha: 0.3),
+          shadowColor: AppColorsUnified.fade(AppColorsUnified.companyBlueDark, 0.3),
         );
       case HeaderWidgetType.weeklyMission:
         return _WidgetConfig(
@@ -116,7 +115,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: '${data['progress'] ?? 0}%',
           description: 'Completa 5 tareas',
           gradientColors: [AppColorsUnified.success, AppColorsUnified.success],
-          shadowColor: AppColorsUnified.success.withValues(alpha: 0.3),
+          shadowColor: AppColorsUnified.fade(AppColorsUnified.success, 0.3),
         );
       case HeaderWidgetType.communityFeed:
         return _WidgetConfig(
@@ -125,7 +124,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: '${data['newPosts'] ?? 0} nuevos',
           description: 'Últimas 24h',
           gradientColors: [AppColorsUnified.companyBlue, AppColorsUnified.companyBlue],
-          shadowColor: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
+          shadowColor: AppColorsUnified.fade(AppColorsUnified.companyBlue, 0.3),
         );
       case HeaderWidgetType.videoHighlight:
         return _WidgetConfig(
@@ -134,7 +133,7 @@ class UnifiedHeaderWidget extends StatelessWidget {
           subtitle: data['videoTitle'] ?? 'Sin video',
           description: '${data['views'] ?? 0} vistas',
           gradientColors: [AppColorsUnified.companyBlue, AppColorsUnified.companyBlue],
-          shadowColor: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
+          shadowColor: AppColorsUnified.fade(AppColorsUnified.companyBlue, 0.3),
         );
     }
   }

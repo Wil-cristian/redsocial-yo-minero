@@ -31,13 +31,13 @@ class AppColors {
 
   // Secondary / accent
   static Color get secondary => AppColorsUnified.gold;
-  static Color get secondaryContainer => AppColorsUnified.lighten(AppColorsUnified.gold, 0.4);
+  static Color get secondaryContainer => AppColorsUnified.grey200;  // Blanco perla medio en vez de oro aclarado
 
   // Neutrals / backgrounds
   static Color get background => AppColorsUnified.background;
-  static Color get backgroundAlt => AppColorsUnified.backgroundDark;
+  static Color get backgroundAlt => AppColorsUnified.backgroundDark;  // Blanco perla cálido
   static Color get surface => AppColorsUnified.surface;
-  static Color get surfaceAlt => AppColorsUnified.lighten(AppColorsUnified.surface, 0.02);
+  static Color get surfaceAlt => AppColorsUnified.surfaceTinted;  // Blanco perla ultra claro
   static Color get outline => AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.3);
 
   // Text
@@ -70,13 +70,13 @@ class AppColors {
 /// Context extension - Delegated to AppColorsUnified
 extension AppColorScheme on BuildContext {
   Color get cPrimary => AppColorsUnified.orange;
-  Color get cPrimaryContainer => AppColorsUnified.lighten(AppColorsUnified.orange, 0.4);
+  Color get cPrimaryContainer => AppColorsUnified.grey200;  // Blanco perla medio
   Color get cSecondary => AppColorsUnified.gold;
-  Color get cSecondaryContainer => AppColorsUnified.lighten(AppColorsUnified.gold, 0.4);
+  Color get cSecondaryContainer => AppColorsUnified.grey200;  // Blanco perla medio
   Color get cBg => AppColorsUnified.background;
-  Color get cBgAlt => AppColorsUnified.backgroundDark;
+  Color get cBgAlt => AppColorsUnified.backgroundDark;  // Blanco perla cálido
   Color get cSurface => AppColorsUnified.surface;
-  Color get cSurfaceAlt => AppColorsUnified.lighten(AppColorsUnified.surface, 0.02);
+  Color get cSurfaceAlt => AppColorsUnified.surfaceTinted;  // Blanco perla ultra claro
   Color get cOutline => AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.3);
   Color get cText => AppColorsUnified.textPrimary;
   Color get cTextSecondary => AppColorsUnified.textSecondary;

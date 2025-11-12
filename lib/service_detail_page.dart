@@ -70,19 +70,11 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
   Widget _buildServiceHeaderContent() {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColors.info,
-            AppColors.info.withValues(alpha: 0.8),
-            AppColors.primary.withValues(alpha: 0.9),
-          ],
-        ),
+        gradient: AppColorsUnified.greySoftGradient,
       ),
       child: Stack(
         children: [
-          // Decorative elements
+          // Decorative elements con oro sutil
           Positioned(
             top: 50,
             right: -35,
@@ -91,7 +83,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
               height: 130,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.gold, 0.05),
               ),
             ),
           ),
@@ -103,7 +95,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
               height: 85,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.05),
+                color: AppColorsUnified.fade(AppColorsUnified.gold, 0.03),
               ),
             ),
           ),
@@ -115,18 +107,24 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Service icon
+                // Service icon con gradiente oro
                 Container(
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    gradient: AppColorsUnified.goldGradient,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: Icon(
                     _getServiceIcon(),
-                    color: Colors.white,
+                    color: AppColorsUnified.textPrimary,
                     size: 30,
                   ),
                 ),
@@ -134,8 +132,8 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                 // Service name
                 Text(
                   widget.service.name,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: AppColorsUnified.textPrimary,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
@@ -146,8 +144,8 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                 // Rate
                 Text(
                   widget.service.priceDisplay,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: AppColorsUnified.gold,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -173,17 +171,17 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
+        color: AppColorsUnified.grey200,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColorsUnified.grey300),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: AppColorsUnified.gold,
               fontWeight: FontWeight.bold,
               fontSize: 12,
             ),
@@ -191,7 +189,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.8),
+              color: AppColorsUnified.textSecondary,
               fontSize: 10,
             ),
           ),
@@ -228,12 +226,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColorsUnified.grey200,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                border: Border.all(color: AppColorsUnified.grey300),
               ),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -241,9 +239,9 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
               Container(
                 margin: const EdgeInsets.only(right: 4),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.grey200,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.grey300),
                 ),
                 child: AnimatedBuilder(
                   animation: _bookmarkAnimationController,
@@ -253,7 +251,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                       child: IconButton(
                         icon: Icon(
                           _isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
-                          color: Colors.white,
+                          color: _isBookmarked ? AppColorsUnified.gold : AppColorsUnified.textPrimary,
                         ),
                         onPressed: _toggleBookmark,
                       ),
@@ -264,12 +262,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
               Container(
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.grey200,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.grey300),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.share, color: Colors.white),
+                  icon: Icon(Icons.share, color: AppColorsUnified.textPrimary),
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Compartir servicio próximamente')),
@@ -309,7 +307,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                       'Descripción del Servicio',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.gold,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -348,7 +346,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                       'Detalles del Servicio',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.gold,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -384,7 +382,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                       'Proveedor del Servicio',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.gold,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -394,14 +392,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                           width: 60,
                           height: 60,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [AppColors.info, AppColors.primary],
-                            ),
+                            gradient: AppColorsUnified.goldGradient,
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.person,
-                            color: Colors.white,
+                            color: AppColorsUnified.textPrimary,
                             size: 30,
                           ),
                         ),
@@ -454,17 +450,15 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
               
               const SizedBox(height: 24),
               
-              // Action buttons
+              // Action buttons con gradiente oro
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [AppColors.info, AppColors.primary],
-                  ),
+                  gradient: AppColorsUnified.goldGradient,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.info.withValues(alpha: 0.3),
+                      color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
                       blurRadius: 15,
                       offset: const Offset(0, 8),
                     ),
@@ -482,17 +476,17 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               onPressed: _requestQuote,
-                              icon: Icon(Icons.request_quote, color: AppColors.primary),
+                              icon: Icon(Icons.request_quote, color: AppColorsUnified.gold),
                               label: Text(
                                 'Solicitar Cotización',
                                 style: TextStyle(
-                                  color: AppColors.primary,
+                                  color: AppColorsUnified.textPrimary,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
+                                backgroundColor: AppColorsUnified.pureWhite,
                                 padding: const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -516,18 +510,18 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                             const SnackBar(content: Text('Contactar próximamente')),
                           );
                         },
-                        icon: const Icon(Icons.message, color: Colors.white),
-                        label: const Text(
+                        icon: Icon(Icons.message, color: AppColorsUnified.textPrimary),
+                        label: Text(
                           'Contactar Proveedor',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: AppColorsUnified.textPrimary,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                           ),
                         ),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14),
-                          side: const BorderSide(color: Colors.white, width: 2),
+                          side: BorderSide(color: AppColorsUnified.textPrimary, width: 2),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),

@@ -44,8 +44,8 @@ class BadgeIcon extends StatelessWidget {
               ),
               child: Text(
                 count > 99 ? '99+' : count.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColorsUnified.pureWhite,
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),

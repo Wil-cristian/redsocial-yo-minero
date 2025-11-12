@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class SuggestionsPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -35,13 +36,13 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
   Color _getUserColor() {
     switch (_userType) {
       case 'individual':
-        return AppColors.primary;
+        return AppColorsUnified.orange;
       case 'worker':
         return AppColors.secondary;
       case 'company':
-        return AppColors.warning;
+        return AppColorsUnified.warning;
       default:
-        return AppColors.primary;
+        return AppColorsUnified.orange;
     }
   }
 
@@ -174,17 +175,17 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
       appBar: AppBar(
         title: const Text('Sugerencias Inteligentes'),
         backgroundColor: userColor,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -200,9 +201,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
         ],
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: Colors.white,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
+          indicatorColor: AppColorsUnified.pureWhite,
+          labelColor: AppColorsUnified.pureWhite,
+          unselectedLabelColor: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.7),
           tabs: const [
             Tab(
               icon: Icon(Icons.comment),
@@ -226,7 +227,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
             end: Alignment.bottomCenter,
             colors: [
               userColor.withValues(alpha: 0.05),
-              Colors.grey[50]!,
+              AppColorsUnified.background,
             ],
           ),
         ),
@@ -242,8 +243,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _generateNewSuggestions(),
         backgroundColor: userColor,
-        icon: const Icon(Icons.auto_awesome, color: Colors.white),
-        label: const Text('Nueva IA', style: TextStyle(color: Colors.white)),
+        icon: Icon(Icons.auto_awesome, color: AppColorsUnified.pureWhite),
+        label: Text('Nueva IA', style: TextStyle(color: AppColorsUnified.pureWhite)),
       ),
     );
   }
@@ -287,11 +288,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -349,14 +350,14 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
               comment['title'],
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               comment['content'],
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary,
+                color: AppColorsUnified.textSecondary,
                 height: 1.5,
               ),
             ),
@@ -407,7 +408,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                     label: const Text('Publicar'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: userColor,
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColorsUnified.pureWhite,
                     ),
                   ),
                 ),
@@ -425,11 +426,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -445,18 +446,18 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.success.withValues(alpha: 0.1),
+                    color: AppColorsUnified.success.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.trending_up, size: 14, color: AppColors.success),
-                      const SizedBox(width: 4),
+                      Icon(Icons.trending_up, size: 14, color: AppColorsUnified.success),
+                      SizedBox(width: 4),
                       Text(
                         'Oportunidad',
                         style: TextStyle(
-                          color: AppColors.success,
+                          color: AppColorsUnified.success,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
@@ -467,8 +468,8 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                 const Spacer(),
                 Text(
                   'Confianza: ${(offer['confidence'] * 100).toInt()}%',
-                  style: TextStyle(
-                    color: AppColors.textSecondary,
+                  style: const TextStyle(
+                    color: AppColorsUnified.textSecondary,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
@@ -480,14 +481,14 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
               offer['title'],
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               offer['description'],
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary,
+                color: AppColorsUnified.textSecondary,
                 height: 1.5,
               ),
             ),
@@ -560,7 +561,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                     label: const Text('Crear Oferta'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: userColor,
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColorsUnified.pureWhite,
                     ),
                   ),
                 ),
@@ -578,11 +579,11 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -616,20 +617,20 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                         user['name'],
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: AppColorsUnified.textPrimary,
                         ),
                       ),
                       Text(
                         user['title'],
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.textSecondary,
+                          color: AppColorsUnified.textSecondary,
                         ),
                       ),
                       if (user['company'] != null)
                         Text(
                           user['company'],
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.textSecondary,
+                            color: AppColorsUnified.textSecondary,
                             fontStyle: FontStyle.italic,
                           ),
                         ),
@@ -639,13 +640,13 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppColors.success.withValues(alpha: 0.1),
+                    color: AppColorsUnified.success.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     '${(user['compatibility'] * 100).toInt()}% match',
-                    style: TextStyle(
-                      color: AppColors.success,
+                    style: const TextStyle(
+                      color: AppColorsUnified.success,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),
@@ -658,14 +659,14 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
               'Razón de sugerencia:',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               user['reason'],
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary,
+                color: AppColorsUnified.textSecondary,
                 height: 1.4,
               ),
             ),
@@ -738,7 +739,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
                     label: const Text('Conectar'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: userColor,
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColorsUnified.pureWhite,
                     ),
                   ),
                 ),
@@ -757,7 +758,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: AppColors.textSecondary,
+            color: AppColorsUnified.textSecondary,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -765,7 +766,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
         Text(
           value,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppColors.textPrimary,
+            color: AppColorsUnified.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -776,26 +777,26 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
   Color _getRelevanceColor(String relevance) {
     switch (relevance) {
       case 'Alta':
-        return AppColors.success;
+        return AppColorsUnified.success;
       case 'Media':
-        return AppColors.warning;
+        return AppColorsUnified.warning;
       case 'Baja':
         return AppColors.info;
       default:
-        return AppColors.textSecondary;
+        return AppColorsUnified.textSecondary;
     }
   }
 
   Color _getTypeColor(String type) {
     switch (type) {
       case 'individual':
-        return AppColors.primary;
+        return AppColorsUnified.orange;
       case 'worker':
         return AppColors.secondary;
       case 'company':
-        return AppColors.warning;
+        return AppColorsUnified.warning;
       default:
-        return AppColors.primary;
+        return AppColorsUnified.orange;
     }
   }
 
@@ -836,9 +837,9 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
       Navigator.pop(context);
       _refreshSuggestions();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('¡Nuevas sugerencias generadas con IA!'),
-          backgroundColor: AppColors.success,
+        const SnackBar(
+          content: Text('¡Nuevas sugerencias generadas con IA!'),
+          backgroundColor: AppColorsUnified.success,
         ),
       );
     });
@@ -900,7 +901,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Comentario "${comment['title']}" publicado exitosamente'),
-        backgroundColor: AppColors.success,
+        backgroundColor: AppColorsUnified.success,
       ),
     );
   }
@@ -953,7 +954,7 @@ class _SuggestionsPageState extends State<SuggestionsPage> with TickerProviderSt
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Solicitud de conexión enviada a ${user['name']}'),
-        backgroundColor: AppColors.success,
+        backgroundColor: AppColorsUnified.success,
       ),
     );
   }

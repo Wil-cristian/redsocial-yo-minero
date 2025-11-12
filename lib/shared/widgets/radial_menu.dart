@@ -105,8 +105,8 @@ class _RadialMenuState extends State<RadialMenu>
     final size = MediaQuery.of(context).size;
     final center = widget.buttonPosition;
     
-    // Calcular radio mÃ¡ximo que no se salga de la pantalla
-    // Los items tienen 70px de tamaÃ±o, el centro del item estÃ¡ en el radio
+    // Calcular radio máximo que no se salga de la pantalla
+    // Los items tienen 70px de tamaño, el centro del item está en el radio
     // entonces necesitamos itemSize/2 (35px) de espacio desde el centro del item hasta su borde
     const itemSize = 70.0;
     const halfItemSize = itemSize / 2; // 35px
@@ -117,43 +117,43 @@ class _RadialMenuState extends State<RadialMenu>
     final maxRadiusTop = center.dy - halfItemSize - safeMargin;
     final maxRadiusBottom = size.height - center.dy - halfItemSize - safeMargin - 90; // 90px margen para navbar
     
-    // Calcular espacio horizontal disponible (determina si usamos cÃ­rculo o arco)
+    // Calcular espacio horizontal disponible (determina si usamos círculo o arco)
     final horizontalRadius = math.min(maxRadiusRight, maxRadiusLeft);
     
     // FALLBACK: Si el espacio horizontal es insuficiente (<50px), usar arco superior
-    // Esto asegura que desktop/tablet con amplio espacio horizontal use cÃ­rculo completo
+    // Esto asegura que desktop/tablet con amplio espacio horizontal use círculo completo
     final useFallbackLayout = horizontalRadius < 50.0;
     
-    // Calcular radio segÃºn el modo (cÃ­rculo vs arco)
+    // Calcular radio según el modo (círculo vs arco)
     final double radius;
     
     if (useFallbackLayout) {
       // FALLBACK (arco superior): Solo considerar espacio horizontal y superior
       final fallbackRadius = math.max(0.0, math.min(
-        math.min(maxRadiusRight, maxRadiusLeft),  // LÃ­mites horizontales
-        maxRadiusTop                               // Solo lÃ­mite superior
+        math.min(maxRadiusRight, maxRadiusLeft),  // Límites horizontales
+        maxRadiusTop                               // Solo límite superior
       ));
       radius = fallbackRadius;
     } else {
-      // CÃRCULO COMPLETO: Considerar espacio horizontal y vertical disponibles
+      // CÍRCULO COMPLETO: Considerar espacio horizontal y vertical disponibles
       // Para el sector inferior, usar maxRadiusBottom solo si es positivo
       // Si es negativo, limitar con otro criterio
       final bottomLimit = maxRadiusBottom > 0 ? maxRadiusBottom : maxRadiusTop;
       final calculatedRadius = math.min(
-        math.min(maxRadiusRight, maxRadiusLeft),  // LÃ­mites horizontales
-        math.min(maxRadiusTop, bottomLimit)        // LÃ­mites verticales
+        math.min(maxRadiusRight, maxRadiusLeft),  // Límites horizontales
+        math.min(maxRadiusTop, bottomLimit)        // Límites verticales
       );
       radius = math.min(180.0, math.max(0.0, calculatedRadius));
     }
     
     // Escala de items adaptativa
     final itemScale = useFallbackLayout 
-        ? (radius < 20 ? 0.4 : 0.65)  // Super compacto si radius muy pequeÃ±o
+        ? (radius < 20 ? 0.4 : 0.65)  // Super compacto si radius muy pequeño
         : (radius / 80.0).clamp(0.6, 1.0);
 
     return Stack(
       children: [
-        // Overlay oscuro con animaciÃ³n (no cubre la navbar inferior)
+        // Overlay oscuro con animación (no cubre la navbar inferior)
         AnimatedBuilder(
           animation: _expandController,
           builder: (context, child) {
@@ -169,7 +169,7 @@ class _RadialMenuState extends State<RadialMenu>
           },
         ),
 
-        // CÃ­rculos de fondo animados
+        // Círculos de fondo animados
         AnimatedBuilder(
           animation: Listenable.merge([_expandController, _rotateController]),
           builder: (context, child) {
@@ -184,7 +184,7 @@ class _RadialMenuState extends State<RadialMenu>
           },
         ),
 
-        // BotÃ³n central con efecto de pulso
+        // Botón central con efecto de pulso
         AnimatedBuilder(
           animation: Listenable.merge([_expandController, _pulseController]),
           builder: (context, child) {
@@ -239,13 +239,13 @@ class _RadialMenuState extends State<RadialMenu>
           },
         ),
 
-        // Items del menÃº en cÃ­rculo o semicÃ­rculo (fallback)
+        // Items del menú en círculo o semicírculo (fallback)
         ...List.generate(widget.items.length, (index) {
-          // Layout adaptativo: semicÃ­rculo superior si no hay espacio
-          // Fallback: de -5Ï€/6 a -Ï€/6 (semicÃ­rculo superior evitando bordes laterales)
+          // Layout adaptativo: semicírculo superior si no hay espacio
+          // Fallback: de -5π/6 a -π/6 (semicírculo superior evitando bordes laterales)
           final angleStep = useFallbackLayout
-              ? (2 * math.pi / 3) / math.max(1, widget.items.length - 1)  // Arco de 120Â°
-              : (2 * math.pi / widget.items.length);                       // CÃ­rculo completo
+              ? (2 * math.pi / 3) / math.max(1, widget.items.length - 1)  // Arco de 120°
+              : (2 * math.pi / widget.items.length);                       // Círculo completo
           final startAngle = useFallbackLayout ? -5 * math.pi / 6 : -math.pi / 2;
           final angle = startAngle + (angleStep * index);
           
@@ -262,7 +262,7 @@ class _RadialMenuState extends State<RadialMenu>
               final x = center.dx + distance * math.cos(angle);
               final y = center.dy + distance * math.sin(angle);
 
-              // Item size escalado segÃºn el radio disponible
+              // Item size escalado según el radio disponible
               final scaledItemSize = 70.0 * itemScale;
               final halfScaledSize = scaledItemSize / 2;
 
@@ -285,7 +285,7 @@ class _RadialMenuState extends State<RadialMenu>
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            // Icono con efecto (tamaÃ±o escalado)
+                            // Icono con efecto (tamaño escalado)
                             Container(
                               width: scaledItemSize,
                               height: scaledItemSize,
@@ -360,11 +360,11 @@ class _RadialMenuState extends State<RadialMenu>
                                 decoration: BoxDecoration(
                                   color: Colors.black87,
                                   borderRadius: BorderRadius.circular(12),
-                                  boxShadow: const [
+                                  boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black26,
+                                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.26),
                                       blurRadius: 8,
-                                      offset: Offset(0, 2),
+                                      offset: const Offset(0, 2),
                                     ),
                                   ],
                                 ),
@@ -406,7 +406,7 @@ class _RadialBackgroundPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // CÃ­rculos concÃ©ntricos animados
+    // Círculos concéntricos animados
     final paint1 = Paint()
       ..color = AppColorsUnified.orange.withValues(alpha: 0.15)
       ..style = PaintingStyle.stroke
@@ -422,13 +422,13 @@ class _RadialBackgroundPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
-    // Dibujar cÃ­rculos con rotaciÃ³n
+    // Dibujar círculos con rotación
     final offset = animation * 20;
     canvas.drawCircle(center, radius * 0.3 + offset, paint1);
     canvas.drawCircle(center, radius * 0.6 - offset, paint2);
     canvas.drawCircle(center, radius * 0.9 + offset / 2, paint3);
 
-    // LÃ­neas radiales
+    // Líneas radiales
     final linePaint = Paint()
       ..color = Colors.white.withValues(alpha: 0.05)
       ..strokeWidth = 1;

@@ -3,7 +3,7 @@ import 'package:yominero/core/di/locator.dart';
 import 'package:yominero/core/groups/group_repository.dart';
 import 'package:yominero/shared/models/group.dart';
 import 'core/auth/supabase_auth_service.dart';
-import 'core/theme/colors.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class GroupDetailPage extends StatefulWidget {
   final Group group;
@@ -57,7 +57,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Has salido del grupo ${_group.name}'),
-          backgroundColor: AppColors.warning,
+          backgroundColor: AppColorsUnified.warning,
         ),
       );
     } else {
@@ -69,7 +69,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Te has unido al grupo ${_group.name}'),
-          backgroundColor: AppColors.success,
+          backgroundColor: AppColorsUnified.success,
         ),
       );
     }
@@ -82,9 +82,9 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.success,
-            AppColors.success.withValues(alpha: 0.8),
-            AppColors.primary.withValues(alpha: 0.9),
+            AppColorsUnified.success,
+            AppColorsUnified.success.withValues(alpha: 0.8),
+            AppColorsUnified.orange.withValues(alpha: 0.9),
           ],
         ),
       ),
@@ -99,7 +99,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
               height: 110,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1),
               ),
             ),
           ),
@@ -111,7 +111,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
               height: 95,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.05),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.05),
               ),
             ),
           ),
@@ -128,13 +128,13 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                    border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.group_work,
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     size: 30,
                   ),
                 ),
@@ -142,8 +142,8 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                 // Group name
                 Text(
                   _group.name,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: AppColorsUnified.pureWhite,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
@@ -155,7 +155,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                 Text(
                   _isMember ? 'Ya eres miembro' : 'Descubre este grupo',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                     fontSize: 16,
                   ),
                 ),
@@ -180,17 +180,17 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
+        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: AppColorsUnified.pureWhite,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -199,7 +199,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.8),
+              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.8),
               fontSize: 12,
             ),
           ),
@@ -211,7 +211,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
@@ -223,12 +223,12 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
               ),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -236,12 +236,12 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
               Container(
                 margin: const EdgeInsets.only(right: 4),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.more_vert, color: Colors.white),
+                  icon: Icon(Icons.more_vert, color: AppColorsUnified.pureWhite),
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Opciones próximamente')),
@@ -252,12 +252,12 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
               Container(
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.share, color: Colors.white),
+                  icon: Icon(Icons.share, color: AppColorsUnified.pureWhite),
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Compartir grupo próximamente')),
@@ -280,11 +280,11 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
                       blurRadius: 15,
                       offset: const Offset(0, 5),
                     ),
@@ -297,16 +297,16 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                       'Descripción',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       _group.description,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         height: 1.6,
-                        color: AppColors.textPrimary,
+                        color: AppColorsUnified.textPrimary,
                       ),
                     ),
                   ],
@@ -320,11 +320,11 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
+                        color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
                       ),
@@ -337,7 +337,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                         'Intereses del Grupo',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
+                          color: AppColorsUnified.orange,
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -348,15 +348,15 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [AppColors.success.withValues(alpha: 0.1), AppColors.primary.withValues(alpha: 0.1)],
+                              colors: [AppColorsUnified.success.withValues(alpha: 0.1), AppColorsUnified.orange.withValues(alpha: 0.1)],
                             ),
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
+                            border: Border.all(color: AppColorsUnified.success.withValues(alpha: 0.3)),
                           ),
                           child: Text(
                             tag,
-                            style: TextStyle(
-                              color: AppColors.success,
+                            style: const TextStyle(
+                              color: AppColorsUnified.success,
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
@@ -373,11 +373,11 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
                       blurRadius: 15,
                       offset: const Offset(0, 5),
                     ),
@@ -390,7 +390,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                       'Actividad Reciente',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -398,9 +398,9 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                       margin: EdgeInsets.only(bottom: i < 2 ? 16 : 0),
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppColors.background,
+                        color: AppColorsUnified.background,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey.shade200),
+                        border: Border.all(color: AppColorsUnified.background),
                       ),
                       child: Row(
                         children: [
@@ -408,12 +408,12 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [AppColors.success, AppColors.primary],
+                              gradient: const LinearGradient(
+                                colors: [AppColorsUnified.success, AppColorsUnified.orange],
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(Icons.chat_bubble_outline, color: Colors.white, size: 20),
+                            child: Icon(Icons.chat_bubble_outline, color: AppColorsUnified.pureWhite, size: 20),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -422,16 +422,16 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                               children: [
                                 Text(
                                   'Publicación del grupo #${i + 1}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.textPrimary,
+                                    color: AppColorsUnified.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
-                                Text(
+                                const Text(
                                   'Conversación interesante sobre el tema',
                                   style: TextStyle(
-                                    color: AppColors.textSecondary,
+                                    color: AppColorsUnified.textSecondary,
                                     fontSize: 14,
                                   ),
                                 ),
@@ -453,13 +453,13 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: _isMember 
-                        ? [AppColors.warning, AppColors.error]
-                        : [AppColors.success, AppColors.primary],
+                        ? [AppColorsUnified.warning, AppColorsUnified.error]
+                        : [AppColorsUnified.success, AppColorsUnified.orange],
                   ),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: (_isMember ? AppColors.warning : AppColors.success).withValues(alpha: 0.3),
+                      color: (_isMember ? AppColorsUnified.warning : AppColorsUnified.success).withValues(alpha: 0.3),
                       blurRadius: 15,
                       offset: const Offset(0, 8),
                     ),
@@ -476,18 +476,18 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                           onPressed: _toggleMembership,
                           icon: Icon(
                             _isMember ? Icons.logout : Icons.group_add,
-                            color: _isMember ? AppColors.warning : AppColors.success,
+                            color: _isMember ? AppColorsUnified.warning : AppColorsUnified.success,
                           ),
                           label: Text(
                             _isMember ? 'Salir del Grupo' : 'Unirse al Grupo',
                             style: TextStyle(
-                              color: _isMember ? AppColors.warning : AppColors.success,
+                              color: _isMember ? AppColorsUnified.warning : AppColorsUnified.success,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
+                            backgroundColor: AppColorsUnified.pureWhite,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),

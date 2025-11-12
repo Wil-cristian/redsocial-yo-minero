@@ -141,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage>
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('¡Cuenta ${_accountTypeTitle.toLowerCase()} creada exitosamente!'),
-              backgroundColor: AppColors.success,
+              backgroundColor: AppColorsUnified.success,
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -157,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage>
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(result.errorMessage ?? 'Error al crear la cuenta'),
-              backgroundColor: AppColors.error,
+              backgroundColor: AppColorsUnified.error,
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -172,7 +172,7 @@ class _RegisterPageState extends State<RegisterPage>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error inesperado: $e'),
-            backgroundColor: AppColors.error,
+            backgroundColor: AppColorsUnified.error,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -191,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage>
             colors: [
               _accountTypeColor,
               _accountTypeColor.withValues(alpha: 0.8),
-              AppColors.primary.withValues(alpha: 0.6),
+              AppColorsUnified.orange.withValues(alpha: 0.6),
             ],
           ),
         ),
@@ -207,9 +207,9 @@ class _RegisterPageState extends State<RegisterPage>
                     children: [
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.arrow_back,
-                          color: Colors.white,
+                          color: AppColorsUnified.pureWhite,
                           size: 28,
                         ),
                       ),
@@ -217,12 +217,12 @@ class _RegisterPageState extends State<RegisterPage>
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
+                          color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Icon(
                           _accountTypeIcon,
-                          color: Colors.white,
+                          color: AppColorsUnified.pureWhite,
                           size: 24,
                         ),
                       ),
@@ -233,17 +233,17 @@ class _RegisterPageState extends State<RegisterPage>
                           children: [
                             Text(
                               _accountTypeTitle,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: AppColorsUnified.pureWhite,
                               ),
                             ),
                             Text(
                               'Completa tu información',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.white.withValues(alpha: 0.9),
+                                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                               ),
                             ),
                           ],
@@ -264,14 +264,14 @@ class _RegisterPageState extends State<RegisterPage>
                       margin: const EdgeInsets.symmetric(horizontal: 24),
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(30),
                           topRight: Radius.circular(30),
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
+                            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
                             blurRadius: 20,
                             offset: const Offset(0, -5),
                           ),
@@ -375,7 +375,7 @@ class _RegisterPageState extends State<RegisterPage>
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                                    color: AppColors.textSecondary,
+                                    color: AppColorsUnified.textSecondary,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -404,7 +404,7 @@ class _RegisterPageState extends State<RegisterPage>
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
-                                    color: AppColors.textSecondary,
+                                    color: AppColorsUnified.textSecondary,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -432,7 +432,7 @@ class _RegisterPageState extends State<RegisterPage>
                                   onPressed: _isLoading ? null : _register,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: _accountTypeColor,
-                                    foregroundColor: Colors.white,
+                                    foregroundColor: AppColorsUnified.pureWhite,
                                     elevation: 8,
                                     shadowColor: _accountTypeColor.withValues(alpha: 0.4),
                                     shape: RoundedRectangleBorder(
@@ -440,11 +440,11 @@ class _RegisterPageState extends State<RegisterPage>
                                     ),
                                   ),
                                   child: _isLoading
-                                      ? const SizedBox(
+                                      ? SizedBox(
                                           width: 24,
                                           height: 24,
                                           child: CircularProgressIndicator(
-                                            color: Colors.white,
+                                            color: AppColorsUnified.pureWhite,
                                             strokeWidth: 2,
                                           ),
                                         )
@@ -488,14 +488,14 @@ class _RegisterPageState extends State<RegisterPage>
       keyboardType: keyboardType,
       obscureText: obscureText,
       validator: validator,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 16,
-        color: AppColors.textPrimary,
+        color: AppColorsUnified.textPrimary,
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(
-          color: AppColors.textSecondary,
+        labelStyle: const TextStyle(
+          color: AppColorsUnified.textSecondary,
           fontSize: 14,
         ),
         prefixIcon: Icon(
@@ -505,7 +505,7 @@ class _RegisterPageState extends State<RegisterPage>
         ),
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: AppColors.backgroundAlt,
+        fillColor: AppColorsUnified.background,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -526,15 +526,15 @@ class _RegisterPageState extends State<RegisterPage>
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: AppColors.error,
+          borderSide: const BorderSide(
+            color: AppColorsUnified.error,
             width: 1,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: AppColors.error,
+          borderSide: const BorderSide(
+            color: AppColorsUnified.error,
             width: 2,
           ),
         ),

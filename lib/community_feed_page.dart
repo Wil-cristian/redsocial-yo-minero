@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'core/theme/dashboard_colors.dart';
 import 'core/theme/rich_decorations.dart';
 import 'core/di/locator.dart';
@@ -110,7 +111,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [DashboardColors.cardOrange, DashboardColors.cardOrange.withValues(alpha: 0.8)],
+                  colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.8)],
                 ),
               ),
               child: SafeArea(
@@ -301,10 +302,10 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? DashboardColors.cardOrange : Colors.white,
+          color: isSelected ? AppColorsUnified.orange : Colors.white,
           borderRadius: BorderRadius.circular(25),
-          border: Border.all(color: isSelected ? DashboardColors.cardOrange : Colors.grey.shade300),
-          boxShadow: isSelected ? [BoxShadow(color: DashboardColors.cardOrange.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))] : [],
+          border: Border.all(color: isSelected ? AppColorsUnified.orange : Colors.grey.shade300),
+          boxShadow: isSelected ? [BoxShadow(color: AppColorsUnified.orange.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))] : [],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -380,11 +381,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                   radius: 24,
                   backgroundColor: isUrgent
                       ? DashboardColors.rubyLight.withValues(alpha: 0.3)
-                      : DashboardColors.cardOrange.withValues(alpha: 0.2),
+                      : AppColorsUnified.orange.withValues(alpha: 0.2),
                   child: Text(
                     post.authorId.substring(0, 1).toUpperCase(),
                     style: TextStyle(
-                      color: isUrgent ? DashboardColors.rubyDeep : DashboardColors.cardOrange,
+                      color: isUrgent ? DashboardColors.rubyDeep : AppColorsUnified.orange,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
@@ -461,13 +462,13 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                                 ),
                               )
                             : BoxDecoration(
-                                color: DashboardColors.cardOrange.withValues(alpha: 0.1),
+                                color: AppColorsUnified.orange.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                         child: Text(
                           cat,
                           style: TextStyle(
-                            color: isUrgentTag ? DashboardColors.rubyDeep : DashboardColors.cardOrange,
+                            color: isUrgentTag ? DashboardColors.rubyDeep : AppColorsUnified.orange,
                             fontSize: 12,
                             fontWeight: isUrgentTag ? FontWeight.w700 : FontWeight.w600,
                           ),
@@ -669,7 +670,7 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                             ? loadingProgress.cumulativeBytesLoaded /
                                 loadingProgress.expectedTotalBytes!
                             : null,
-                        color: DashboardColors.cardOrange,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                   );
@@ -774,7 +775,7 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
                       color: _currentPage == index
-                          ? DashboardColors.cardOrange
+                          ? AppColorsUnified.orange
                           : Colors.white.withValues(alpha: 0.6),
                       boxShadow: [
                         BoxShadow(

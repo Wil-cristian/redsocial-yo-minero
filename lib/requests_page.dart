@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class RequestsPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -81,13 +82,13 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
   Color _getUserColor() {
     switch (_userType) {
       case 'individual':
-        return AppColors.primary;
+        return AppColorsUnified.orange;
       case 'worker':
         return AppColors.secondary;
       case 'company':
-        return AppColors.warning;
+        return AppColorsUnified.warning;
       default:
-        return AppColors.primary;
+        return AppColorsUnified.orange;
     }
   }
 
@@ -99,25 +100,25 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
       appBar: AppBar(
         title: const Text('Mis Solicitudes'),
         backgroundColor: userColor,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: Colors.white,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
+          indicatorColor: AppColorsUnified.pureWhite,
+          labelColor: AppColorsUnified.pureWhite,
+          unselectedLabelColor: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.7),
           tabs: const [
             Tab(
               icon: Icon(Icons.pending_actions),
@@ -141,7 +142,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
             end: Alignment.bottomCenter,
             colors: [
               userColor.withValues(alpha: 0.1),
-              Colors.grey[50]!,
+              AppColorsUnified.background,
             ],
           ),
         ),
@@ -221,13 +222,13 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           Icon(
             icon,
             size: 80,
-            color: AppColors.textSecondary.withValues(alpha: 0.5),
+            color: AppColorsUnified.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 24),
           Text(
             title,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: AppColors.textSecondary,
+              color: AppColorsUnified.textSecondary,
               fontWeight: FontWeight.w600,
             ),
             textAlign: TextAlign.center,
@@ -236,7 +237,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           Text(
             subtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary.withValues(alpha: 0.7),
+              color: AppColorsUnified.textSecondary.withValues(alpha: 0.7),
             ),
             textAlign: TextAlign.center,
           ),
@@ -251,11 +252,11 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -293,13 +294,13 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                         request['title'],
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: AppColorsUnified.textPrimary,
                         ),
                       ),
                       Text(
                         'De: ${request['requester']}',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.textSecondary,
+                          color: AppColorsUnified.textSecondary,
                         ),
                       ),
                     ],
@@ -320,23 +321,23 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 Text(
                   request['description'],
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textPrimary,
+                    color: AppColorsUnified.textPrimary,
                     height: 1.4,
                   ),
                 ),
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.calendar_today,
                       size: 16,
-                      color: AppColors.textSecondary,
+                      color: AppColorsUnified.textSecondary,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       _formatDate(request['date']),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.textSecondary,
+                        color: AppColorsUnified.textSecondary,
                       ),
                     ),
                   ],
@@ -349,9 +350,9 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           if (isPending)
             Container(
               padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[50],
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
+              decoration: const BoxDecoration(
+                color: AppColorsUnified.background,
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
               ),
               child: Row(
                 children: [
@@ -359,8 +360,8 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                     child: OutlinedButton(
                       onPressed: () => _rejectRequest(request['id']),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.error,
-                        side: BorderSide(color: AppColors.error),
+                        foregroundColor: AppColorsUnified.error,
+                        side: const BorderSide(color: AppColorsUnified.error),
                       ),
                       child: const Text('Rechazar'),
                     ),
@@ -371,7 +372,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                       onPressed: () => _acceptRequest(request['id']),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: userColor,
-                        foregroundColor: Colors.white,
+                        foregroundColor: AppColorsUnified.pureWhite,
                       ),
                       child: const Text('Aceptar'),
                     ),
@@ -390,11 +391,11 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
     
     switch (priority) {
       case 'high':
-        color = AppColors.error;
+        color = AppColorsUnified.error;
         label = 'Alta';
         break;
       case 'medium':
-        color = AppColors.warning;
+        color = AppColorsUnified.warning;
         label = 'Media';
         break;
       case 'low':
@@ -402,7 +403,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
         label = 'Baja';
         break;
       default:
-        color = AppColors.textSecondary;
+        color = AppColorsUnified.textSecondary;
         label = 'Normal';
     }
 
@@ -429,7 +430,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
     
     switch (status) {
       case 'completed':
-        color = AppColors.success;
+        color = AppColorsUnified.success;
         label = 'Completado';
         break;
       case 'in_progress':
@@ -437,7 +438,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
         label = 'En progreso';
         break;
       default:
-        color = AppColors.textSecondary;
+        color = AppColorsUnified.textSecondary;
         label = 'Desconocido';
     }
 
@@ -513,15 +514,15 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 _pendingRequests.removeWhere((req) => req['id'] == requestId);
               });
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Solicitud aceptada exitosamente'),
-                  backgroundColor: AppColors.success,
+                const SnackBar(
+                  content: Text('Solicitud aceptada exitosamente'),
+                  backgroundColor: AppColorsUnified.success,
                 ),
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.success,
-              foregroundColor: Colors.white,
+              backgroundColor: AppColorsUnified.success,
+              foregroundColor: AppColorsUnified.pureWhite,
             ),
             child: const Text('Aceptar'),
           ),
@@ -548,15 +549,15 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 _pendingRequests.removeWhere((req) => req['id'] == requestId);
               });
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Solicitud rechazada'),
-                  backgroundColor: AppColors.error,
+                const SnackBar(
+                  content: Text('Solicitud rechazada'),
+                  backgroundColor: AppColorsUnified.error,
                 ),
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
-              foregroundColor: Colors.white,
+              backgroundColor: AppColorsUnified.error,
+              foregroundColor: AppColorsUnified.pureWhite,
             ),
             child: const Text('Rechazar'),
           ),

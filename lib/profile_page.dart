@@ -1,8 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
-import 'core/theme/colors.dart';
-import 'core/theme/dashboard_colors.dart';
 import 'core/theme/rich_decorations.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'core/achievements/achievement_models.dart';
@@ -67,28 +65,28 @@ class _ProfilePageState extends State<ProfilePage> {
         return {
           'title': 'Minero Individual',
           'subtitle': 'Profesional minero independiente',
-          'color': AppColors.primary,
+          'color': AppColorsUnified.orange,
           'icon': Icons.person,
         };
       case 'worker':
         return {
           'title': 'Trabajador Minero',
           'subtitle': 'Especialista técnico en operaciones',
-          'color': AppColors.secondary,
+          'color': AppColorsUnified.gold,
           'icon': Icons.engineering,
         };
       case 'company':
         return {
           'title': 'Empresa Minera',
           'subtitle': 'Organización líder en proyectos',
-          'color': AppColors.warning,
+          'color': AppColorsUnified.warning,
           'icon': Icons.business,
         };
       default:
         return {
           'title': 'Usuario',
           'subtitle': 'Miembro de la comunidad',
-          'color': AppColors.primary,
+          'color': AppColorsUnified.orange,
           'icon': Icons.person,
         };
     }
@@ -97,15 +95,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading || _userData == null) {
-      return Scaffold(
-        backgroundColor: AppColors.background,
+      return const Scaffold(
+        backgroundColor: AppColorsUnified.background,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(color: AppColors.primary),
-              const SizedBox(height: 16),
-              Text('Cargando perfil...', style: TextStyle(color: AppColors.textSecondary)),
+              CircularProgressIndicator(color: AppColorsUnified.orange),
+              SizedBox(height: 16),
+              Text('Cargando perfil...', style: TextStyle(color: AppColorsUnified.textSecondary)),
             ],
           ),
         ),
@@ -115,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final typeInfo = _getUserTypeInfo();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
@@ -127,11 +125,11 @@ class _ProfilePageState extends State<ProfilePage> {
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.3),
+                color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.3),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -139,22 +137,22 @@ class _ProfilePageState extends State<ProfilePage> {
               Container(
                 margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.3),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.white),
+                  icon: Icon(Icons.edit, color: AppColorsUnified.pureWhite),
                   onPressed: () => _editProfile(),
                 ),
               ),
               Container(
                 margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.3),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.settings, color: Colors.white),
+                  icon: Icon(Icons.settings, color: AppColorsUnified.pureWhite),
                   onPressed: () => _showSettings(),
                 ),
               ),
@@ -183,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 150,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha: 0.1),
+                          color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1),
                         ),
                       ),
                     ),
@@ -195,7 +193,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 100,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.05),
                         ),
                       ),
                     ),
@@ -237,11 +235,11 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         CircleAvatar(
           radius: 40,
-          backgroundColor: Colors.white.withValues(alpha: 0.2),
+          backgroundColor: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
           child: Icon(
             typeInfo['icon'],
             size: 40,
-            color: Colors.white,
+            color: AppColorsUnified.pureWhite,
           ),
         ),
         const SizedBox(width: 20),
@@ -253,20 +251,20 @@ class _ProfilePageState extends State<ProfilePage> {
                 _userData!['name'] ?? 'Usuario',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                 ),
               ),
               const SizedBox(height: 4),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   typeInfo['title'],
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: AppColorsUnified.pureWhite,
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
                   ),
@@ -276,7 +274,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Text(
                 '@${_userData!['username'] ?? _userData!['email']?.split('@')[0] ?? 'usuario'}',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white.withValues(alpha: 0.8),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.8),
                 ),
               ),
             ],
@@ -289,11 +287,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildInfoCard() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: DashboardColors.emerald.withValues(alpha: 0.15),
+            color: AppColorsUnified.fade(AppColorsUnified.orange, 0.15),
             blurRadius: 16,
             offset: const Offset(0, 6),
             spreadRadius: 1,
@@ -307,14 +305,14 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header esmeralda
+              // Header con gradiente oro-naranja
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      DashboardColors.emeraldDeep,
-                      DashboardColors.emerald,
+                      AppColorsUnified.orange,
+                      AppColorsUnified.gold,
                     ],
                   ),
                 ),
@@ -323,12 +321,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.person,
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                         size: 24,
                       ),
                     ),
@@ -337,7 +335,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       'Información Personal',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                       ),
                     ),
                   ],
@@ -346,7 +344,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Contenido
               Container(
                 padding: const EdgeInsets.all(20),
-                color: Colors.white,
+                color: AppColorsUnified.pureWhite,
                 child: Column(
                   children: [
                     _buildInfoRow(Icons.email, 'Email', _userData!['email'] ?? 'No especificado'),
@@ -368,7 +366,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Row(
       children: [
-        Icon(icon, size: 20, color: DashboardColors.emerald),
+        Icon(icon, size: 20, color: AppColorsUnified.orange),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
@@ -377,14 +375,14 @@ class _ProfilePageState extends State<ProfilePage> {
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: DashboardColors.emeraldDeep,
+                  color: AppColorsUnified.gold,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
                 value,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textPrimary,
+                  color: AppColorsUnified.textPrimary,
                 ),
               ),
             ],
@@ -595,7 +593,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: DashboardColors.primary.withValues(alpha: 0.15),
+            color: AppColorsUnified.orange.withValues(alpha: 0.15),
             blurRadius: 16,
             offset: const Offset(0, 6),
             spreadRadius: 1,
@@ -611,7 +609,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                gradient: DashboardColors.primaryGradient,
+                gradient: AppColorsUnified.orangeGradient,
               ),
               child: Row(
                 children: [
@@ -644,11 +642,11 @@ class _ProfilePageState extends State<ProfilePage> {
               color: Colors.white,
               child: Row(
                 children: [
-                  _buildStatItem(Icons.handshake, 'Proyectos', '12', DashboardColors.primary),
+                  _buildStatItem(Icons.handshake, 'Proyectos', '12', AppColorsUnified.orange),
                   const SizedBox(width: 20),
-                  _buildStatItem(Icons.star, 'Calificación', '4.8', DashboardColors.accent),
+                  _buildStatItem(Icons.star, 'Calificación', '4.8', AppColorsUnified.gold),
                   const SizedBox(width: 20),
-                  _buildStatItem(Icons.groups, 'Conexiones', '45', DashboardColors.emerald),
+                  _buildStatItem(Icons.groups, 'Conexiones', '45', AppColorsUnified.orangeMedium),
                 ],
               ),
             ),
@@ -680,7 +678,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Text(
               label,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.textSecondary,
+                color: AppColorsUnified.textSecondary,
               ),
             ),
           ],
@@ -713,7 +711,7 @@ class _ProfilePageState extends State<ProfilePage> {
             'Acciones',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: AppColorsUnified.textPrimary,
             ),
           ),
           const SizedBox(height: 16),
@@ -803,6 +801,35 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  // Helper para convertir location Map a GeoLocation
+  GeoLocation? _parseLocation(dynamic locationData) {
+    if (locationData == null) return null;
+    
+    if (locationData is Map<String, dynamic>) {
+      // Si el mapa está vacío o solo tiene valores null, retornar null
+      if (locationData.isEmpty ||
+          (locationData['city'] == null &&
+           locationData['state'] == null &&
+           locationData['country'] == null &&
+           locationData['lat'] == null &&
+           locationData['lng'] == null)) {
+        return null;
+      }
+      
+      return GeoLocation(
+        city: locationData['city'] as String?,
+        state: locationData['state'] as String?,
+        country: locationData['country'] as String?,
+        lat: locationData['lat'] != null ? (locationData['lat'] as num).toDouble() : null,
+        lng: locationData['lng'] != null ? (locationData['lng'] as num).toDouble() : null,
+        address: locationData['address'] as String?,
+        zipCode: locationData['zipCode'] as String?,
+      );
+    }
+    
+    return null;
+  }
+
   void _editProfile() {
     // Usar los datos cargados en _userData
     if (_userData == null) return;
@@ -831,7 +858,7 @@ class _ProfilePageState extends State<ProfilePage> {
       accountType: accountType,
       createdAt: DateTime.now(),
       bio: userData['bio'],
-      location: userData['location'],
+      location: _parseLocation(userData['location']),
       // Valores por defecto para campos requeridos
       languages: const [],
       servicesOffered: const [],
@@ -867,13 +894,13 @@ class _ProfilePageState extends State<ProfilePage> {
   Color _getUserColor() {
     switch (_userType) {
       case 'individual':
-        return AppColors.primary;
+        return AppColorsUnified.orange;
       case 'worker':
-        return AppColors.secondary;
+        return AppColorsUnified.gold;
       case 'company':
-        return AppColors.warning;
+        return AppColorsUnified.warning;
       default:
-        return AppColors.primary;
+        return AppColorsUnified.orange;
     }
   }
 

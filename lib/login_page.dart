@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'core/theme/colors.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'user_type_selection_page.dart';
 import 'main_navigation_shell.dart';
@@ -122,13 +121,13 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           children: [
             Icon(
               isError ? Icons.error_outline : Icons.check_circle_outline,
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
             ),
             const SizedBox(width: 12),
             Expanded(child: Text(message)),
           ],
         ),
-        backgroundColor: isError ? AppColors.error : AppColors.success,
+        backgroundColor: isError ? AppColorsUnified.error : AppColorsUnified.success,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -215,10 +214,10 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
                 blurRadius: 20,
                 spreadRadius: 5,
               ),
@@ -226,29 +225,29 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           ),
           child: Container(
             padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
             ),
-            child: Icon(
+            child: const Icon(
               Icons.diamond_outlined,
               size: 48,
-              color: AppColors.primary,
+              color: AppColorsUnified.orange,
             ),
           ),
         ),
         const SizedBox(height: 24),
-        const Text(
+        Text(
           'YoMinero',
           style: TextStyle(
             fontSize: 36,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: AppColorsUnified.pureWhite,
             letterSpacing: 1.5,
             shadows: [
               Shadow(
-                color: Colors.black26,
-                offset: Offset(0, 2),
+                color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.26),
+                offset: const Offset(0, 2),
                 blurRadius: 4,
               ),
             ],
@@ -259,7 +258,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           'Gestión Inteligente de Recursos',
           style: TextStyle(
             fontSize: 14,
-            color: Colors.white.withValues(alpha: 0.9),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
             letterSpacing: 0.5,
           ),
         ),
@@ -272,10 +271,10 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       constraints: const BoxConstraints(maxWidth: 440),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
-        color: Colors.white.withValues(alpha: 0.95),
+        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.95),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.2),
             blurRadius: 30,
             spreadRadius: 0,
             offset: const Offset(0, 10),
@@ -301,11 +300,11 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
-                Text(
+                const Text(
                   'Bienvenido de vuelta',
                   style: TextStyle(
                     fontSize: 15,
-                    color: Colors.grey[600],
+                    color: AppColorsUnified.textSecondary,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -327,19 +326,19 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Colors.grey[50],
-        border: Border.all(color: Colors.grey[200]!),
+        color: AppColorsUnified.background,
+        border: Border.all(color: AppColorsUnified.background),
       ),
       child: TextField(
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(fontSize: 16),
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'Correo electrónico',
-          labelStyle: TextStyle(color: Colors.grey[600]),
-          prefixIcon: Icon(Icons.email_outlined, color: AppColors.primary),
+          labelStyle: TextStyle(color: AppColorsUnified.textSecondary),
+          prefixIcon: Icon(Icons.email_outlined, color: AppColorsUnified.orange),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         ),
       ),
     );
@@ -349,8 +348,8 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Colors.grey[50],
-        border: Border.all(color: Colors.grey[200]!),
+        color: AppColorsUnified.background,
+        border: Border.all(color: AppColorsUnified.background),
       ),
       child: TextField(
         controller: _passwordController,
@@ -358,12 +357,12 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         style: const TextStyle(fontSize: 16),
         decoration: InputDecoration(
           labelText: 'Contraseña',
-          labelStyle: TextStyle(color: Colors.grey[600]),
-          prefixIcon: Icon(Icons.lock_outline, color: AppColors.primary),
+          labelStyle: const TextStyle(color: AppColorsUnified.textSecondary),
+          prefixIcon: const Icon(Icons.lock_outline, color: AppColorsUnified.orange),
           suffixIcon: IconButton(
             icon: Icon(
               _isPasswordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-              color: Colors.grey[600],
+              color: AppColorsUnified.textSecondary,
             ),
             onPressed: () {
               setState(() {
@@ -391,7 +390,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColorsUnified.gold.withValues(alpha: 0.5),
+            color: AppColorsUnified.fade(AppColorsUnified.gold, 0.5),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -407,20 +406,20 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
           ),
         ),
         child: _isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.5,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColorsUnified.pureWhite),
                 ),
               )
-            : const Text(
+            : Text(
                 'Iniciar Sesión',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   letterSpacing: 0.5,
                 ),
               ),
@@ -433,15 +432,15 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white.withValues(alpha: 0.15),
+        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.15),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
+          Text(
             '¿No tienes cuenta? ',
             style: TextStyle(
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               fontSize: 15,
             ),
           ),
@@ -450,11 +449,11 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
             style: TextButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             ),
-            child: const Text(
+            child: Text(
               'Crear cuenta',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: AppColorsUnified.pureWhite,
                 fontSize: 15,
                 decoration: TextDecoration.underline,
               ),

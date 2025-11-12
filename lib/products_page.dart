@@ -6,6 +6,7 @@ import 'core/theme/colors.dart';
 import 'core/routing/app_router.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'core/theme/premium_product_card.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
@@ -97,8 +98,8 @@ class _ProductsPageState extends State<ProductsPage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary,
-            AppColors.primary.withValues(alpha: 0.8),
+            AppColorsUnified.orange,
+            AppColorsUnified.orange.withValues(alpha: 0.8),
             AppColors.secondary.withValues(alpha: 0.9),
           ],
         ),
@@ -114,7 +115,7 @@ class _ProductsPageState extends State<ProductsPage> {
               height: 140,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1),
               ),
             ),
           ),
@@ -126,7 +127,7 @@ class _ProductsPageState extends State<ProductsPage> {
               height: 90,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.05),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.05),
               ),
             ),
           ),
@@ -143,22 +144,22 @@ class _ProductsPageState extends State<ProductsPage> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                    border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.shopping_bag,
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     size: 30,
                   ),
                 ),
                 const SizedBox(height: 16),
                 // Title
-                const Text(
+                Text(
                   'Productos',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
@@ -168,7 +169,7 @@ class _ProductsPageState extends State<ProductsPage> {
                 Text(
                   'Encuentra todo lo que necesitas para tu trabajo',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                     fontSize: 16,
                   ),
                 ),
@@ -193,17 +194,17 @@ class _ProductsPageState extends State<ProductsPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
+        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: AppColorsUnified.pureWhite,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -212,7 +213,7 @@ class _ProductsPageState extends State<ProductsPage> {
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.8),
+              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.8),
               fontSize: 12,
             ),
           ),
@@ -226,7 +227,7 @@ class _ProductsPageState extends State<ProductsPage> {
     final filtered = this.filtered;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
@@ -238,12 +239,12 @@ class _ProductsPageState extends State<ProductsPage> {
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
               ),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -251,12 +252,12 @@ class _ProductsPageState extends State<ProductsPage> {
               Container(
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 24),
+                  icon: Icon(Icons.add_circle_outline, color: AppColorsUnified.pureWhite, size: 24),
                   tooltip: 'Publicar producto',
                   onPressed: _showCreateProductDialog,
                 ),
@@ -276,22 +277,22 @@ class _ProductsPageState extends State<ProductsPage> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColorsUnified.pureWhite,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.textPrimary.withValues(alpha: 0.08),
+                          color: AppColorsUnified.textPrimary.withValues(alpha: 0.08),
                           blurRadius: 12,
                           offset: const Offset(0, 2),
                         ),
                       ],
                     ),
                     child: TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Buscar productos...',
-                        prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
+                        prefixIcon: Icon(Icons.search, color: AppColorsUnified.textSecondary),
                         border: InputBorder.none,
-                        contentPadding: const EdgeInsets.all(16),
+                        contentPadding: EdgeInsets.all(16),
                       ),
                       onChanged: (value) =>
                           setState(() => _searchQuery = value),
@@ -315,19 +316,19 @@ class _ProductsPageState extends State<ProductsPage> {
                             onSelected: (_) =>
                                 setState(() => _selectedCategory = category),
                             backgroundColor: AppColors.surface,
-                            selectedColor: AppColors.primaryContainer,
-                            checkmarkColor: AppColors.primary,
+                            selectedColor: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
+                            checkmarkColor: AppColorsUnified.orange,
                             labelStyle: TextStyle(
                               color: isSelected
-                                  ? AppColors.primary
-                                  : AppColors.textSecondary,
+                                  ? AppColorsUnified.orange
+                                  : AppColorsUnified.textSecondary,
                               fontWeight: isSelected
                                   ? FontWeight.w600
                                   : FontWeight.normal,
                             ),
                             side: BorderSide(
                               color: isSelected
-                                  ? AppColors.primary
+                                  ? AppColorsUnified.orange
                                   : AppColors.outline,
                             ),
                           ),
@@ -353,20 +354,20 @@ class _ProductsPageState extends State<ProductsPage> {
                       margin: const EdgeInsets.only(top: 8, bottom: 8),
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.error.withValues(alpha: 0.06),
+                        color: AppColorsUnified.error.withValues(alpha: 0.06),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                            color: AppColors.error.withValues(alpha: 0.2)),
+                            color: AppColorsUnified.error.withValues(alpha: 0.2)),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Error al cargar productos remotos',
-                        style: TextStyle(color: AppColors.error),
+                        style: TextStyle(color: AppColorsUnified.error),
                       ),
                     ),
                   Text(
                     '${filtered.length} productos encontrados',
-                    style: TextStyle(
-                      color: AppColors.textSecondary,
+                    style: const TextStyle(
+                      color: AppColorsUnified.textSecondary,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
@@ -423,11 +424,11 @@ class _ProductsPageState extends State<ProductsPage> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColors.secondary, AppColors.primary],
+                  colors: [AppColors.secondary, AppColorsUnified.orange],
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(Icons.inventory, color: Colors.white, size: 20),
+              child: Icon(Icons.inventory, color: AppColorsUnified.pureWhite, size: 20),
             ),
             const SizedBox(width: 12),
             const Text('Publicar Nuevo Producto'),
@@ -477,7 +478,7 @@ class _ProductsPageState extends State<ProductsPage> {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColors.secondary, AppColors.primary],
+                colors: [AppColors.secondary, AppColorsUnified.orange],
               ),
               borderRadius: BorderRadius.circular(12),
             ),
@@ -494,9 +495,9 @@ class _ProductsPageState extends State<ProductsPage> {
                   Navigator.pop(context);
                 }
               },
-              child: const Text(
+              child: Text(
                 'Publicar Producto',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(color: AppColorsUnified.pureWhite, fontWeight: FontWeight.bold),
               ),
             ),
           ),
@@ -531,12 +532,12 @@ class _ProductsPageState extends State<ProductsPage> {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.check_circle, color: Colors.white),
+            Icon(Icons.check_circle, color: AppColorsUnified.pureWhite),
             const SizedBox(width: 8),
             Text('Producto "$name" publicado exitosamente!'),
           ],
         ),
-        backgroundColor: AppColors.success,
+        backgroundColor: AppColorsUnified.success,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),

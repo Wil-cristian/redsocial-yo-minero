@@ -20,15 +20,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              AppColors.primary.withValues(alpha: 0.05),
-              AppColors.secondary.withValues(alpha: 0.03),
-              Colors.white,
-            ],
-          ),
+          gradient: AppColorsUnified.greySoftGradient,
         ),
         child: CustomScrollView(
           slivers: [
@@ -42,11 +34,11 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
               leading: Container(
                 margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.9),
+                  color: AppColorsUnified.grey200,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
+                      color: AppColorsUnified.shadowLight,
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -54,7 +46,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                 ),
                 child: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(Icons.arrow_back, color: AppColors.primary),
+                  icon: Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
                   tooltip: 'Volver al perfil',
                 ),
               ),
@@ -62,11 +54,11 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                 Container(
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: AppColorsUnified.grey200,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
+                        color: AppColorsUnified.shadowLight,
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -74,7 +66,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                   ),
                   child: TextButton.icon(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: Icon(Icons.close, size: 18, color: AppColors.primary),
+                    icon: Icon(Icons.close, size: 18, color: AppColorsUnified.textPrimary),
                     label: const Text('Cerrar'),
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -86,11 +78,11 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                 title: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: AppColorsUnified.grey200,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
+                        color: AppColorsUnified.shadowLight,
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -102,18 +94,16 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [AppColors.primary, AppColors.secondary],
-                          ),
+                          gradient: AppColorsUnified.goldGradient,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Icon(Icons.build, color: Colors.white, size: 20),
+                        child: Icon(Icons.build, color: AppColorsUnified.textPrimary, size: 20),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         'Mis Servicios',
                         style: TextStyle(
-                          color: AppColors.primary,
+                          color: AppColorsUnified.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
@@ -124,14 +114,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                 centerTitle: true,
                 background: Container(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        AppColors.primary.withValues(alpha: 0.1),
-                        AppColors.secondary.withValues(alpha: 0.05),
-                      ],
-                    ),
+                    gradient: AppColorsUnified.greySoftGradient,
                   ),
                 ),
               ),
@@ -152,14 +135,14 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            AppColors.primary.withValues(alpha: 0.1),
+                            AppColorsUnified.orange.withValues(alpha: 0.1),
                             AppColors.secondary.withValues(alpha: 0.05),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.1),
+                            color: AppColorsUnified.orange.withValues(alpha: 0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
@@ -171,25 +154,25 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [AppColors.primary, AppColors.secondary],
+                                colors: [AppColorsUnified.orange, AppColors.secondary],
                               ),
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.3),
+                                  color: AppColorsUnified.orange.withValues(alpha: 0.3),
                                   blurRadius: 12,
                                   offset: const Offset(0, 4),
                                 ),
                               ],
                             ),
-                            child: const Icon(Icons.engineering, color: Colors.white, size: 32),
+                            child: Icon(Icons.engineering, color: AppColorsUnified.pureWhite, size: 32),
                           ),
                           const SizedBox(height: 16),
                           Text(
                             'Gestiona tus servicios profesionales',
                             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.primary,
+                              color: AppColorsUnified.orange,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -197,7 +180,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           Text(
                             'Crea, edita y organiza los servicios que ofreces a la comunidad minera',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColors.textSecondary,
+                              color: AppColorsUnified.textSecondary,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -215,14 +198,14 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            Colors.white,
-                            AppColors.primary.withValues(alpha: 0.02),
+                            AppColorsUnified.pureWhite,
+                            AppColorsUnified.orange.withValues(alpha: 0.02),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.1),
+                            color: AppColorsUnified.orange.withValues(alpha: 0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
@@ -240,18 +223,20 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                                 Container(
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        AppColors.primary.withValues(alpha: 0.2),
-                                        AppColors.secondary.withValues(alpha: 0.1),
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(16),
+                                    gradient: AppColorsUnified.goldGradient,
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
+                                        blurRadius: 12,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
                                   ),
                                   child: Icon(
                                     Icons.add_circle_outline,
                                     size: 48,
-                                    color: AppColors.primary,
+                                    color: AppColorsUnified.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 16),
@@ -259,14 +244,14 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                                   'Crear Nuevo Servicio',
                                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.primary,
+                                    color: AppColorsUnified.gold,
                                   ),
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
                                   'Agrega un servicio profesional a tu catálogo',
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.textSecondary,
+                                    color: AppColorsUnified.textSecondary,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -309,18 +294,12 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
       width: double.infinity,
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white,
-            AppColors.primary.withValues(alpha: 0.02),
-          ],
-        ),
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColorsUnified.grey300, width: 1),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.1),
+            color: AppColorsUnified.shadowLight,
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -331,25 +310,20 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.primary.withValues(alpha: 0.1),
-                  AppColors.secondary.withValues(alpha: 0.05),
-                ],
-              ),
+              color: AppColorsUnified.grey200,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Icon(
               Icons.work_outline,
               size: 64,
-              color: AppColors.primary.withValues(alpha: 0.7),
+              color: AppColorsUnified.textSecondary,
             ),
           ),
           const SizedBox(height: 20),
           Text(
             'Tu catálogo está vacío',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.primary,
+              color: AppColorsUnified.textPrimary,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -357,7 +331,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
           Text(
             'Comienza agregando tu primer servicio profesional para conectar con clientes en la industria minera',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary,
+              color: AppColorsUnified.textSecondary,
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -366,13 +340,11 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [AppColors.primary, AppColors.secondary],
-              ),
+              gradient: AppColorsUnified.goldGradient,
               borderRadius: BorderRadius.circular(25),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.3),
+                  color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -381,12 +353,12 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.trending_up, color: Colors.white, size: 18),
+                Icon(Icons.trending_up, color: AppColorsUnified.textPrimary, size: 18),
                 const SizedBox(width: 8),
                 Text(
                   'Empieza hoy mismo',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.white,
+                    color: AppColorsUnified.textPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -403,18 +375,12 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
       margin: const EdgeInsets.only(bottom: 20),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.white,
-              AppColors.primary.withValues(alpha: 0.02),
-            ],
-          ),
+          color: AppColorsUnified.pureWhite,
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColorsUnified.grey300, width: 1),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.1),
+              color: AppColorsUnified.shadowLight,
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -436,13 +402,11 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [AppColors.primary, AppColors.secondary],
-                          ),
+                          gradient: AppColorsUnified.goldGradient,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.3),
+                              color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -450,7 +414,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                         ),
                         child: Icon(
                           _getServiceIcon(service.category),
-                          color: Colors.white,
+                          color: AppColorsUnified.textPrimary,
                           size: 24,
                         ),
                       ),
@@ -463,25 +427,21 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                               service.name,
                               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.primary,
+                                color: AppColorsUnified.textPrimary,
                               ),
                             ),
                             const SizedBox(height: 4),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    AppColors.secondary.withValues(alpha: 0.2),
-                                    AppColors.primary.withValues(alpha: 0.1),
-                                  ],
-                                ),
+                                color: AppColorsUnified.grey200,
                                 borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: AppColorsUnified.grey300),
                               ),
                               child: Text(
                                 service.category,
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: AppColors.secondary,
+                                  color: AppColorsUnified.gold,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -492,13 +452,13 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
+                          color: AppColorsUnified.grey200,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Icon(
                           Icons.edit,
                           size: 20,
-                          color: AppColors.primary,
+                          color: AppColorsUnified.gold,
                         ),
                       ),
                     ],
@@ -509,13 +469,14 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppColors.surface.withValues(alpha: 0.5),
+                        color: AppColorsUnified.grey200,
                         borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColorsUnified.grey300),
                       ),
                       child: Text(
                         service.description!,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.textSecondary,
+                          color: AppColorsUnified.textSecondary,
                           height: 1.4,
                         ),
                       ),
@@ -527,34 +488,32 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColors.success.withValues(alpha: 0.1),
-                            AppColors.success.withValues(alpha: 0.05),
-                          ],
-                        ),
+                        gradient: AppColorsUnified.goldGradient,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: AppColors.success.withValues(alpha: 0.3),
-                          width: 1,
-                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
                       child: Row(
                         children: [
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppColors.success,
+                              color: AppColorsUnified.pureWhite,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: const Icon(Icons.attach_money, color: Colors.white, size: 16),
+                            child: Icon(Icons.attach_money, color: AppColorsUnified.gold, size: 16),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
                               service.pricing!.displayRange,
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: AppColors.success,
+                                color: AppColorsUnified.textPrimary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -572,22 +531,17 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                       children: service.tags.map((tag) => Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              AppColors.primaryContainer.withValues(alpha: 0.6),
-                              AppColors.primaryContainer.withValues(alpha: 0.3),
-                            ],
-                          ),
+                          color: AppColorsUnified.grey200,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: AppColors.primary.withValues(alpha: 0.2),
+                            color: AppColorsUnified.grey300,
                             width: 1,
                           ),
                         ),
                         child: Text(
                           tag,
-                          style: TextStyle(
-                            color: AppColors.primary,
+                          style: const TextStyle(
+                            color: AppColorsUnified.textSecondary,
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),
@@ -857,7 +811,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
         content: Text(existingService == null 
           ? 'Servicio creado exitosamente' 
           : 'Servicio actualizado exitosamente'),
-        backgroundColor: AppColors.success,
+        backgroundColor: AppColorsUnified.success,
       ),
     );
   }

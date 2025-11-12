@@ -77,7 +77,7 @@ class _GroupsPageState extends State<GroupsPage> {
                   width: 48,
                   height: 5,
                   decoration: BoxDecoration(
-                    color: Colors.grey[300],
+                    color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
                     borderRadius: BorderRadius.circular(3),
                   ),
                 ),
@@ -175,8 +175,8 @@ class _GroupsPageState extends State<GroupsPage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary,
-            AppColors.primary.withValues(alpha: 0.8),
+            AppColorsUnified.orange,
+            AppColorsUnified.orange.withValues(alpha: 0.8),
             AppColors.secondary.withValues(alpha: 0.9),
           ],
         ),
@@ -192,7 +192,7 @@ class _GroupsPageState extends State<GroupsPage> {
               height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1),
               ),
             ),
           ),
@@ -204,7 +204,7 @@ class _GroupsPageState extends State<GroupsPage> {
               height: 70,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.05),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.05),
               ),
             ),
           ),
@@ -221,22 +221,22 @@ class _GroupsPageState extends State<GroupsPage> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                    border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.group_work,
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     size: 30,
                   ),
                 ),
                 const SizedBox(height: 16),
                 // Title
-                const Text(
+                Text(
                   'Grupos',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
@@ -246,7 +246,7 @@ class _GroupsPageState extends State<GroupsPage> {
                 Text(
                   'Encuentra tu tribu, comparte intereses',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                     fontSize: 16,
                   ),
                 ),
@@ -271,17 +271,17 @@ class _GroupsPageState extends State<GroupsPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
+        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: AppColorsUnified.pureWhite,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -290,7 +290,7 @@ class _GroupsPageState extends State<GroupsPage> {
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.8),
+              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.8),
               fontSize: 12,
             ),
           ),
@@ -303,7 +303,7 @@ class _GroupsPageState extends State<GroupsPage> {
   Widget build(BuildContext context) {
     final groups = _filtered;
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
@@ -315,12 +315,12 @@ class _GroupsPageState extends State<GroupsPage> {
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
               ),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -328,12 +328,12 @@ class _GroupsPageState extends State<GroupsPage> {
               Container(
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 24),
+                  icon: Icon(Icons.add_circle_outline, color: AppColorsUnified.pureWhite, size: 24),
                   tooltip: 'Nuevo grupo',
                   onPressed: _openCreateGroup,
                 ),
@@ -376,7 +376,7 @@ class _GroupsPageState extends State<GroupsPage> {
                     child: Container(
                       width: 200,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
                           color: DashboardColors.accent.withValues(alpha: 0.3),
@@ -384,7 +384,7 @@ class _GroupsPageState extends State<GroupsPage> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: DashboardColors.primary.withValues(alpha: 0.15),
+                            color: AppColorsUnified.fade(AppColorsUnified.orange, 0.15),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           ),
@@ -400,14 +400,14 @@ class _GroupsPageState extends State<GroupsPage> {
                                 width: 36,
                                 height: 36,
                                 decoration: BoxDecoration(
-                                  gradient: DashboardColors.primaryGradient,
+                                  gradient: AppColorsUnified.orangeGradient,
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
                                   child: Text(
                                     g.name[0].toUpperCase(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
+                                    style: TextStyle(
+                                      color: AppColorsUnified.pureWhite,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),
@@ -436,13 +436,13 @@ class _GroupsPageState extends State<GroupsPage> {
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.star, size: 14, color: Colors.white),
+                                    Icon(Icons.star, size: 14, color: AppColorsUnified.pureWhite),
                                     const SizedBox(width: 4),
                                     Text(
                                       '$score',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 12,
-                                        color: Colors.white,
+                                        color: AppColorsUnified.pureWhite,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -463,7 +463,7 @@ class _GroupsPageState extends State<GroupsPage> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(color: Colors.grey[700]),
+                                ?.copyWith(color: AppColorsUnified.charcoal),
                           ),
                         ],
                       ),
@@ -478,11 +478,11 @@ class _GroupsPageState extends State<GroupsPage> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColorsUnified.pureWhite,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -490,13 +490,13 @@ class _GroupsPageState extends State<GroupsPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.search, color: Colors.grey[400], size: 20),
+                  Icon(Icons.search, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2), size: 20),
                   const SizedBox(width: 12),
                   Expanded(
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: 'Buscar grupos...',
-                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        hintStyle: TextStyle(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2)),
                         border: InputBorder.none,
                       ),
                       onChanged: (v) => setState(() => _query = v),
@@ -527,11 +527,11 @@ class _GroupsPageState extends State<GroupsPage> {
                     margin: const EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColorsUnified.pureWhite,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.08),
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.08),
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
@@ -545,8 +545,8 @@ class _GroupsPageState extends State<GroupsPage> {
                           backgroundColor: AppColors.secondaryContainer
                               .withValues(alpha: 0.6),
                           child: Text(g.name[0].toUpperCase(),
-                              style: TextStyle(
-                                  color: AppColors.primary,
+                              style: const TextStyle(
+                                  color: AppColorsUnified.orange,
                                   fontWeight: FontWeight.bold)),
                         ),
                         const SizedBox(width: 16),
@@ -569,14 +569,14 @@ class _GroupsPageState extends State<GroupsPage> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
-                                        color: AppColors.primary
+                                        color: AppColorsUnified.orange
                                             .withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Text('$score',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 11,
-                                              color: AppColors.primary,
+                                              color: AppColorsUnified.orange,
                                               fontWeight: FontWeight.bold)),
                                     ),
                                   if (isMember)
@@ -602,7 +602,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context).textTheme.bodyMedium
-                                      ?.copyWith(color: Colors.grey[700])),
+                                      ?.copyWith(color: AppColorsUnified.charcoal)),
                               const SizedBox(height: 10),
                               Wrap(
                                 spacing: 6,
@@ -613,7 +613,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                           label: Text(t,
                                               style: const TextStyle(
                                                   fontSize: 11)),
-                                          backgroundColor: Colors.grey[100],
+                                          backgroundColor: AppColorsUnified.background,
                                           materialTapTargetSize:
                                               MaterialTapTargetSize.shrinkWrap,
                                           visualDensity: VisualDensity.compact,
@@ -623,13 +623,13 @@ class _GroupsPageState extends State<GroupsPage> {
                               const SizedBox(height: 8),
                               Row(
                                 children: [
-                                  Icon(Icons.people_alt_outlined,
-                                      size: 16, color: Colors.grey[600]),
+                                  const Icon(Icons.people_alt_outlined,
+                                      size: 16, color: AppColorsUnified.textSecondary),
                                   const SizedBox(width: 4),
                                   Text('${g.memberIds.length} miembros',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
-                                          color: Colors.grey[600])),
+                                          color: AppColorsUnified.textSecondary)),
                                 ],
                               ),
                             ],
@@ -637,7 +637,7 @@ class _GroupsPageState extends State<GroupsPage> {
                         ),
                         const SizedBox(width: 12),
                         Icon(Icons.arrow_forward_ios,
-                            size: 16, color: Colors.grey[400]),
+                            size: 16, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2)),
                       ],
                     ),
                   ),

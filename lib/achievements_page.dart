@@ -3,6 +3,7 @@ import 'core/theme/dashboard_colors.dart';
 import 'core/achievements/achievement_models.dart';
 import 'core/achievements/achievements_repository.dart';
 import 'core/achievements/gem_color_helper.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// Página de logros y niveles del usuario
 class AchievementsPage extends StatefulWidget {
@@ -69,22 +70,22 @@ class _AchievementsPageState extends State<AchievementsPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: AppColorsUnified.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.pureWhite,
         elevation: 1,
-        title: const Text(
+        title: Text(
           'Logros y Nivel',
           style: TextStyle(
-            color: Colors.black,
+            color: AppColorsUnified.charcoal,
             fontWeight: FontWeight.bold,
           ),
         ),
         bottom: TabBar(
           controller: _tabController,
-          labelColor: DashboardColors.primary,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: DashboardColors.primary,
+          labelColor: AppColorsUnified.orange,
+          unselectedLabelColor: AppColorsUnified.textSecondary,
+          indicatorColor: AppColorsUnified.orange,
           onTap: (_) => setState(() {}),
           tabs: [
             Tab(
@@ -177,7 +178,7 @@ class _AchievementsPageState extends State<AchievementsPage>
               borderRadius: BorderRadius.circular(20),
               child: CustomPaint(
                 painter: _GemPatternPainter(
-                  color: Colors.white.withValues(alpha: 0.1),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1),
                 ),
               ),
             ),
@@ -194,12 +195,12 @@ class _AchievementsPageState extends State<AchievementsPage>
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
                         GemColorHelper.getIconForTier(userLevel.tier),
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                         size: 32,
                       ),
                     ),
@@ -213,17 +214,17 @@ class _AchievementsPageState extends State<AchievementsPage>
                         children: [
                           Text(
                             'Nivel ${userLevel.level}',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: AppColorsUnified.pureWhite,
                             ),
                           ),
                           Text(
                             'Rango: ${userLevel.tierName}',
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.white.withValues(alpha: 0.9),
+                              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                             ),
                           ),
                         ],
@@ -245,7 +246,7 @@ class _AchievementsPageState extends State<AchievementsPage>
                           'Progreso al nivel ${userLevel.level + 1}',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withValues(alpha: 0.9),
+                            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                           ),
                         ),
                         Text(
@@ -253,7 +254,7 @@ class _AchievementsPageState extends State<AchievementsPage>
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white.withValues(alpha: 0.9),
+                            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                           ),
                         ),
                       ],
@@ -268,7 +269,7 @@ class _AchievementsPageState extends State<AchievementsPage>
                           Container(
                             height: 20,
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
+                              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
@@ -277,11 +278,11 @@ class _AchievementsPageState extends State<AchievementsPage>
                             child: Container(
                               height: 20,
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: AppColorsUnified.pureWhite,
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.white.withValues(alpha: 0.5),
+                                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.5),
                                     blurRadius: 8,
                                     spreadRadius: 2,
                                   ),
@@ -299,7 +300,7 @@ class _AchievementsPageState extends State<AchievementsPage>
                       '${(userLevel.progress * 100).toStringAsFixed(1)}% completado',
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white.withValues(alpha: 0.8),
+                        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.8),
                       ),
                     ),
                   ],
@@ -326,7 +327,7 @@ class _AchievementsPageState extends State<AchievementsPage>
               'Logros',
               '$unlockedCount/$totalCount',
               Icons.emoji_events,
-              DashboardColors.primary,
+              AppColorsUnified.orange,
             ),
           ),
           const SizedBox(width: 12),
@@ -356,7 +357,7 @@ class _AchievementsPageState extends State<AchievementsPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -381,9 +382,9 @@ class _AchievementsPageState extends State<AchievementsPage>
           const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
-              color: Colors.grey.shade600,
+              color: AppColorsUnified.textSecondary,
             ),
           ),
         ],
@@ -399,7 +400,7 @@ class _AchievementsPageState extends State<AchievementsPage>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
         border: achievement.unlocked 
             ? Border.all(color: color.withValues(alpha: 0.3), width: 2)
@@ -408,7 +409,7 @@ class _AchievementsPageState extends State<AchievementsPage>
           BoxShadow(
             color: achievement.unlocked 
                 ? color.withValues(alpha: 0.2)
-                : Colors.grey.withValues(alpha: 0.1),
+                : AppColorsUnified.fade(AppColorsUnified.textSecondary, 0.1),
             blurRadius: achievement.unlocked ? 12 : 8,
             offset: const Offset(0, 2),
           ),
@@ -424,7 +425,7 @@ class _AchievementsPageState extends State<AchievementsPage>
               height: 60,
               decoration: BoxDecoration(
                 gradient: isLocked ? null : gradient,
-                color: isLocked ? Colors.grey.shade300 : null,
+                color: isLocked ? AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4) : null,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: isLocked ? null : [
                   BoxShadow(
@@ -436,7 +437,7 @@ class _AchievementsPageState extends State<AchievementsPage>
               ),
               child: Icon(
                 isLocked ? Icons.lock : achievement.icon,
-                color: isLocked ? Colors.grey.shade500 : Colors.white,
+                color: isLocked ? AppColorsUnified.textSecondary : AppColorsUnified.pureWhite,
                 size: 30,
               ),
             ),
@@ -456,7 +457,7 @@ class _AchievementsPageState extends State<AchievementsPage>
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: isLocked ? Colors.grey.shade600 : Colors.black,
+                            color: isLocked ? AppColorsUnified.textSecondary : AppColorsUnified.charcoal,
                           ),
                         ),
                       ),
@@ -469,9 +470,9 @@ class _AchievementsPageState extends State<AchievementsPage>
                   
                   Text(
                     achievement.description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 13,
-                      color: Colors.grey.shade600,
+                      color: AppColorsUnified.textSecondary,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -483,13 +484,13 @@ class _AchievementsPageState extends State<AchievementsPage>
                   if (achievement.unlocked && achievement.unlockedAt != null) ...[
                     Row(
                       children: [
-                        Icon(Icons.access_time, size: 12, color: Colors.grey.shade400),
+                        Icon(Icons.access_time, size: 12, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2)),
                         const SizedBox(width: 4),
                         Text(
                           'Desbloqueado hace ${DateTime.now().difference(achievement.unlockedAt!).inDays} días',
                           style: TextStyle(
                             fontSize: 11,
-                            color: Colors.grey.shade400,
+                            color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
                           ),
                         ),
                       ],
@@ -505,7 +506,7 @@ class _AchievementsPageState extends State<AchievementsPage>
                               Container(
                                 height: 6,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey.shade200,
+                                  color: AppColorsUnified.background,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                               ),

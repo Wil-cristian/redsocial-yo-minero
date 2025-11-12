@@ -70,9 +70,9 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
       isScrollControlled: true,
       builder: (context) => Container(
         padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(
+        decoration: BoxDecoration(
+          color: AppColorsUnified.pureWhite,
+          borderRadius: const BorderRadius.vertical(
             top: Radius.circular(24),
           ),
         ),
@@ -85,7 +85,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
               height: 4,
               margin: const EdgeInsets.only(bottom: 24),
               decoration: BoxDecoration(
-                color: AppColors.textSecondary.withValues(alpha: 0.3),
+                color: AppColorsUnified.textSecondary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -94,7 +94,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
               '¿Cómo deseas continuar?',
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
             
@@ -103,7 +103,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
             Text(
               'Seleccionaste: ${_getAccountTypeTitle(type)}',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary,
+                color: AppColorsUnified.textSecondary,
               ),
             ),
             
@@ -114,7 +114,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
               icon: Icons.flash_on,
               title: 'Entrar directamente',
               subtitle: 'Crear perfil básico y empezar a usar la app',
-              color: AppColors.primary,
+              color: AppColorsUnified.orange,
               onTap: () => _quickEntry(type),
             ),
             
@@ -134,9 +134,9 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
             // Botón cancelar
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text(
+              child: const Text(
                 'Cancelar',
-                style: TextStyle(color: AppColors.textSecondary),
+                style: TextStyle(color: AppColorsUnified.textSecondary),
               ),
             ),
             
@@ -183,14 +183,14 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                     title,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: AppColorsUnified.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.textSecondary,
+                      color: AppColorsUnified.textSecondary,
                     ),
                   ),
                 ],
@@ -278,7 +278,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: AppColors.error,
+        backgroundColor: AppColorsUnified.error,
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -304,9 +304,9 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.primary,
+              AppColorsUnified.orange,
               AppColors.secondary,
-              AppColors.warning,
+              AppColorsUnified.warning,
             ],
           ),
         ),
@@ -329,27 +329,27 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.15),
+                          color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.15),
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.3),
+                            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3),
                             width: 1,
                           ),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.account_circle_outlined,
                           size: 80,
-                          color: Colors.white,
+                          color: AppColorsUnified.pureWhite,
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const Text(
+                      Text(
                         '¿Qué tipo de cuenta quieres crear?',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: AppColorsUnified.pureWhite,
                           height: 1.2,
                         ),
                       ),
@@ -359,7 +359,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white.withValues(alpha: 0.9),
+                          color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                           height: 1.4,
                         ),
                       ),
@@ -427,10 +427,10 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                   ),
                   child: TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text(
+                    child: Text(
                       'Regresar',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
@@ -473,13 +473,13 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   color: isSelected 
-                      ? Colors.white
-                      : Colors.white.withValues(alpha: 0.15),
+                      ? AppColorsUnified.pureWhite
+                      : AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.15),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                     color: isSelected 
                         ? color
-                        : Colors.white.withValues(alpha: 0.3),
+                        : AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3),
                     width: isSelected ? 3 : 1,
                   ),
                   boxShadow: isSelected ? [
@@ -497,13 +497,13 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                       decoration: BoxDecoration(
                         color: isSelected 
                             ? color.withValues(alpha: 0.1)
-                            : Colors.white.withValues(alpha: 0.2),
+                            : AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Icon(
                         icon,
                         size: 32,
-                        color: isSelected ? color : Colors.white,
+                        color: isSelected ? color : AppColorsUnified.pureWhite,
                       ),
                     ),
                     const SizedBox(width: 20),
@@ -516,7 +516,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: isSelected ? color : Colors.white,
+                              color: isSelected ? color : AppColorsUnified.pureWhite,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -525,8 +525,8 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                             style: TextStyle(
                               fontSize: 14,
                               color: isSelected 
-                                  ? Colors.grey[600]
-                                  : Colors.white.withValues(alpha: 0.8),
+                                  ? AppColorsUnified.textSecondary
+                                  : AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.8),
                               height: 1.3,
                             ),
                           ),
@@ -535,7 +535,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                     ),
                     Icon(
                       isSelected ? Icons.check_circle : Icons.arrow_forward_ios,
-                      color: isSelected ? color : Colors.white.withValues(alpha: 0.7),
+                      color: isSelected ? color : AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.7),
                       size: isSelected ? 28 : 20,
                     ),
                   ],

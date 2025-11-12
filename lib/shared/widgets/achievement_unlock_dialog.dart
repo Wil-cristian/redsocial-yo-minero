@@ -118,7 +118,7 @@ class _AchievementUnlockedDialogState extends State<AchievementUnlockedDialog>
               padding: const EdgeInsets.all(32),
               margin: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColorsUnified.pureWhite,
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
@@ -132,12 +132,12 @@ class _AchievementUnlockedDialogState extends State<AchievementUnlockedDialog>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Título
-                  const Text(
+                  Text(
                     '🎉 ¡LOGRO DESBLOQUEADO! 🎉',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: AppColorsUnified.charcoal,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -163,7 +163,7 @@ class _AchievementUnlockedDialogState extends State<AchievementUnlockedDialog>
                           ),
                           child: Icon(
                             widget.achievement.icon,
-                            color: Colors.white,
+                            color: AppColorsUnified.pureWhite,
                             size: 60,
                           ),
                         ),
@@ -176,10 +176,10 @@ class _AchievementUnlockedDialogState extends State<AchievementUnlockedDialog>
                   // Nombre del logro
                   Text(
                     widget.achievement.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: AppColorsUnified.charcoal,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -189,9 +189,9 @@ class _AchievementUnlockedDialogState extends State<AchievementUnlockedDialog>
                   // Descripción
                   Text(
                     widget.achievement.description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.grey.shade600,
+                      color: AppColorsUnified.textSecondary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -210,14 +210,14 @@ class _AchievementUnlockedDialogState extends State<AchievementUnlockedDialog>
                       children: [
                         Icon(
                           GemColorHelper.getIconForTier(widget.achievement.gemTier),
-                          color: Colors.white,
+                          color: AppColorsUnified.pureWhite,
                           size: 16,
                         ),
                         const SizedBox(width: 8),
                         Text(
                           UserLevel.getTierName(widget.achievement.gemTier),
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: AppColorsUnified.pureWhite,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -232,7 +232,7 @@ class _AchievementUnlockedDialogState extends State<AchievementUnlockedDialog>
                     onPressed: widget.onDismiss,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: color,
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColorsUnified.pureWhite,
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -300,7 +300,7 @@ class _ConfettiPainter extends CustomPainter {
   Color _getConfettiColor(int index, Color baseColor) {
     final colors = [
       baseColor,
-      DashboardColors.primary,
+      AppColorsUnified.orange,
       DashboardColors.emerald,
       DashboardColors.accent,
       AppColorsUnified.companyBlue,
@@ -375,12 +375,12 @@ class AchievementToast extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 achievement.icon,
-                color: Colors.white,
+                color: AppColorsUnified.pureWhite,
                 size: 24,
               ),
             ),
@@ -389,18 +389,18 @@ class AchievementToast extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     '¡Logro desbloqueado!',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColorsUnified.pureWhite,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
                     achievement.title,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: AppColorsUnified.pureWhite,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -408,9 +408,9 @@ class AchievementToast extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(
+            Icon(
               Icons.stars,
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               size: 24,
             ),
           ],

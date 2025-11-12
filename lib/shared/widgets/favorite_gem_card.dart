@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/favorites/favorite_models.dart';
 import '../../core/achievements/gem_color_helper.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class FavoriteGemCard extends StatelessWidget {
   final FavoriteItem favorite;
@@ -40,12 +41,12 @@ class FavoriteGemCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.18),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.18),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
                   favorite.icon,
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   size: 28,
                 ),
               ),
@@ -56,10 +57,10 @@ class FavoriteGemCard extends StatelessWidget {
                   children: [
                     Text(
                       favorite.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -67,7 +68,7 @@ class FavoriteGemCard extends StatelessWidget {
                       favorite.subtitle,
                       style: TextStyle(
                         fontSize: 13,
-                        color: Colors.white.withValues(alpha: 0.85),
+                        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.85),
                       ),
                     ),
                   ],
@@ -77,15 +78,15 @@ class FavoriteGemCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.18),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.18),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   favorite.category.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                   ),
                 ),
               ),

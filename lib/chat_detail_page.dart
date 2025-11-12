@@ -158,13 +158,13 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   Color _getTypeColor(String type) {
     switch (type) {
       case 'individual':
-        return DashboardColors.cardOrange;
+        return AppColorsUnified.orange;
       case 'worker':
         return DashboardColors.cardTeal;
       case 'company':
         return DashboardColors.cardDarkBlue;
       default:
-        return DashboardColors.primary;
+        return AppColorsUnified.orange;
     }
   }
 
@@ -187,22 +187,22 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             else
               Text(
                 'Desconectado',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.grey[400]),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2)),
               ),
           ],
         ),
         backgroundColor: typeColor,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -269,9 +269,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(color: Colors.grey[200]!, width: 1),
+              color: AppColorsUnified.pureWhite,
+              border: const Border(
+                top: BorderSide(color: AppColorsUnified.background, width: 1),
               ),
             ),
             child: SafeArea(
@@ -286,16 +286,16 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[100],
+                        color: AppColorsUnified.background,
                         borderRadius: BorderRadius.circular(24),
                       ),
                       child: TextField(
                         controller: _messageController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: 'Escribe un mensaje...',
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          hintStyle: TextStyle(color: Colors.grey[500]),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          hintStyle: TextStyle(color: AppColorsUnified.textSecondary),
                         ),
                         maxLines: null,
                         textInputAction: TextInputAction.send,
@@ -311,7 +311,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     ),
                     child: IconButton(
                       icon: const Icon(Icons.send),
-                      color: Colors.white,
+                      color: AppColorsUnified.pureWhite,
                       onPressed: _sendMessage,
                     ),
                   ),
@@ -350,7 +350,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: isMine ? typeColor : Colors.grey[200],
+                    color: isMine ? typeColor : AppColorsUnified.background,
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(16),
                       topRight: const Radius.circular(16),
@@ -362,7 +362,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   child: Text(
                     message['content'],
                     style: TextStyle(
-                      color: isMine ? Colors.white : Colors.black87,
+                      color: isMine ? AppColorsUnified.pureWhite : AppColorsUnified.textPrimary,
                       fontSize: 14,
                     ),
                   ),
@@ -370,8 +370,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 const SizedBox(height: 4),
                 Text(
                   message['timestamp'],
-                  style: TextStyle(
-                    color: Colors.grey[500],
+                  style: const TextStyle(
+                    color: AppColorsUnified.textSecondary,
                     fontSize: 12,
                   ),
                 ),
@@ -383,7 +383,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             CircleAvatar(
               radius: 16,
               backgroundColor: typeColor.withValues(alpha: 0.2),
-              child: const Icon(Icons.person, color: Colors.white, size: 12),
+              child: Icon(Icons.person, color: AppColorsUnified.pureWhite, size: 12),
             ),
         ],
       ),
@@ -398,23 +398,23 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           Icon(
             Icons.chat_bubble_outline,
             size: 64,
-            color: Colors.grey[300],
+            color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'Sin mensajes aún',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: Colors.grey[600],
+              color: AppColorsUnified.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
+          const Text(
             'Inicia la conversación',
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[500],
+              color: AppColorsUnified.textSecondary,
             ),
           ),
         ],
@@ -515,14 +515,14 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
         children: [
-          Icon(icon, color: DashboardColors.primary, size: 20),
+          Icon(icon, color: AppColorsUnified.orange, size: 20),
           const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 label,
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                style: const TextStyle(fontSize: 12, color: AppColorsUnified.textSecondary),
               ),
               const SizedBox(height: 4),
               Text(

@@ -1,45 +1,83 @@
 import 'package:flutter/material.dart';
-import '../theme/dashboard_colors.dart';
 import 'achievement_models.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// Helper para obtener colores y gradientes según el tier de gema
 class GemColorHelper {
   static Color getColorForTier(GemTier tier) {
     switch (tier) {
       case GemTier.bronze:
-        return DashboardColors.bronze;
+        return AppColorsUnified.orangeDark; // Bronce más oscuro
       case GemTier.silver:
-        return DashboardColors.silver;
+        return AppColorsUnified.orangeMedium; // Plata con tono medio
       case GemTier.gold:
-        return DashboardColors.primary;
+        return AppColorsUnified.orange;
       case GemTier.emerald:
-        return DashboardColors.emerald;
+        return AppColorsUnified.gold; // Esmeralda → Oro brillante
       case GemTier.diamond:
-        return DashboardColors.diamond;
+        return AppColorsUnified.orangeLight; // Diamante → Naranja claro
     }
   }
 
   static LinearGradient getGradientForTier(GemTier tier) {
     switch (tier) {
       case GemTier.bronze:
-        return DashboardColors.bronzeGradient;
+        // Gradiente bronce: naranja oscuro a naranja medio
+        return LinearGradient(
+          colors: [
+            AppColorsUnified.orangeDark,
+            AppColorsUnified.darken(AppColorsUnified.orange, 0.2),
+          ],
+        );
       case GemTier.silver:
-        return DashboardColors.silverGradient;
+        // Gradiente plata: naranja medio
+        return LinearGradient(
+          colors: [
+            AppColorsUnified.orangeMedium,
+            AppColorsUnified.orange,
+          ],
+        );
       case GemTier.gold:
-        return DashboardColors.primaryGradient;
+        return AppColorsUnified.orangeGradient;
       case GemTier.emerald:
-        return DashboardColors.emeraldGemGradient;
+        // Gradiente esmeralda → oro brillante
+        return LinearGradient(
+          colors: [
+            AppColorsUnified.gold,
+            AppColorsUnified.lighten(AppColorsUnified.gold, 0.1),
+          ],
+        );
       case GemTier.diamond:
-        return DashboardColors.diamondGemGradient;
+        // Gradiente diamante → naranja claro brillante
+        return LinearGradient(
+          colors: [
+            AppColorsUnified.orangeLight,
+            AppColorsUnified.lighten(AppColorsUnified.orange, 0.3),
+          ],
+        );
     }
   }
 
   static RadialGradient? getRadialGradientForTier(GemTier tier) {
     switch (tier) {
       case GemTier.emerald:
-        return DashboardColors.emeraldRadialGradient;
+        // Gradiente radial esmeralda → oro
+        return RadialGradient(
+          colors: [
+            AppColorsUnified.lighten(AppColorsUnified.gold, 0.2),
+            AppColorsUnified.gold,
+            AppColorsUnified.orange,
+          ],
+        );
       case GemTier.diamond:
-        return DashboardColors.diamondRadialGradient;
+        // Gradiente radial diamante → naranja claro
+        return RadialGradient(
+          colors: [
+            AppColorsUnified.pureWhite.withValues(alpha: 0.9),
+            AppColorsUnified.orangeLight,
+            AppColorsUnified.orange,
+          ],
+        );
       default:
         return null;
     }

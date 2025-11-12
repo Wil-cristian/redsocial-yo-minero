@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
-import 'core/theme/dashboard_colors.dart';
 
 /// Página de carrito/favoritos
 class CartFavoritesPage extends StatefulWidget {
@@ -66,26 +65,26 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColorsUnified.pureWhite,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Carrito y Favoritos',
           style: TextStyle(
-            color: Colors.black,
+            color: AppColorsUnified.charcoal,
             fontWeight: FontWeight.bold,
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
+          icon: Icon(Icons.arrow_back_ios, color: AppColorsUnified.charcoal, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
         bottom: TabBar(
           controller: _tabController,
-          labelColor: DashboardColors.primary,
-          unselectedLabelColor: Colors.grey[600],
-          indicatorColor: DashboardColors.primary,
+          labelColor: AppColorsUnified.orange,
+          unselectedLabelColor: AppColorsUnified.textSecondary,
+          indicatorColor: AppColorsUnified.orange,
           tabs: const [
             Tab(
               icon: Icon(Icons.shopping_bag),
@@ -130,9 +129,9 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
           ),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
-                top: BorderSide(color: Colors.grey[200]!, width: 1),
+                top: BorderSide(color: AppColorsUnified.background, width: 1),
               ),
             ),
             child: Column(
@@ -142,7 +141,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                   children: [
                     const Text(
                       'Subtotal:',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(fontSize: 14, color: AppColorsUnified.textSecondary),
                     ),
                     Text(
                       '\$${_calculateSubtotal().toStringAsFixed(0)}',
@@ -159,7 +158,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                   children: [
                     const Text(
                       'Envío:',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(fontSize: 14, color: AppColorsUnified.textSecondary),
                     ),
                     Text(
                       '\$${(50000).toStringAsFixed(0)}',
@@ -171,7 +170,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                   ],
                 ),
                 const SizedBox(height: 12),
-                Divider(color: Colors.grey[300]),
+                Divider(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,18 +198,18 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: DashboardColors.primary,
+                      backgroundColor: AppColorsUnified.orange,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Proceder al pago',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                       ),
                     ),
                   ),
@@ -225,9 +224,9 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
 
   Widget _buildCartItem(Map<String, dynamic> item, int index) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: Colors.grey[200]!, width: 1),
+          bottom: BorderSide(color: AppColorsUnified.background, width: 1),
         ),
       ),
       padding: const EdgeInsets.all(16),
@@ -237,12 +236,12 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: DashboardColors.primary.withValues(alpha: 0.1),
+              color: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(
+            child: const Icon(
               Icons.shopping_bag,
-              color: DashboardColors.primary,
+              color: AppColorsUnified.orange,
             ),
           ),
           const SizedBox(width: 16),
@@ -260,9 +259,9 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                 const SizedBox(height: 4),
                 Text(
                   item['provider'],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
-                    color: Colors.grey[600],
+                    color: AppColorsUnified.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -286,8 +285,8 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
-                    backgroundColor: Colors.grey[200],
-                    foregroundColor: Colors.black,
+                    backgroundColor: AppColorsUnified.background,
+                    foregroundColor: AppColorsUnified.charcoal,
                   ),
                   child: const Text('-', style: TextStyle(fontSize: 18)),
                 ),
@@ -305,8 +304,8 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
-                    backgroundColor: DashboardColors.primary,
-                    foregroundColor: Colors.white,
+                    backgroundColor: AppColorsUnified.orange,
+                    foregroundColor: AppColorsUnified.pureWhite,
                   ),
                   child: const Text('+', style: TextStyle(fontSize: 18)),
                 ),
@@ -337,9 +336,9 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
 
   Widget _buildFavoriteItem(Map<String, dynamic> item, int index) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: Colors.grey[200]!, width: 1),
+          bottom: BorderSide(color: AppColorsUnified.background, width: 1),
         ),
       ),
       padding: const EdgeInsets.all(16),
@@ -349,7 +348,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: AppColorsUnified.error.withValues(alpha: 0.1),
+              color: AppColorsUnified.fade(AppColorsUnified.error, 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
@@ -372,9 +371,9 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                 const SizedBox(height: 4),
                 Text(
                   item['provider'],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
-                    color: Colors.grey[600],
+                    color: AppColorsUnified.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -396,8 +395,8 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
                 icon: const Icon(Icons.shopping_cart, size: 16),
                 label: const Text('Agregar'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: DashboardColors.primary,
-                  foregroundColor: Colors.white,
+                  backgroundColor: AppColorsUnified.orange,
+                  foregroundColor: AppColorsUnified.pureWhite,
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 ),
               ),
@@ -422,22 +421,22 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 80, color: Colors.grey[300]),
+          Icon(icon, size: 80, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
           const SizedBox(height: 16),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.grey[600],
+              color: AppColorsUnified.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             description,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
-              color: Colors.grey[500],
+              color: AppColorsUnified.textSecondary,
             ),
           ),
         ],

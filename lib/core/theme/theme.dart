@@ -1,109 +1,109 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dashboard_colors.dart';
+import 'app_colors_unified.dart';
 
 final ThemeData yoMineroTheme = _buildTheme();
 
 ThemeData _buildTheme() {
   final base = ThemeData(useMaterial3: true, brightness: Brightness.light);
   final scheme = ColorScheme.fromSeed(
-    seedColor: DashboardColors.primary,
+    seedColor: AppColorsUnified.orange,
     brightness: Brightness.light,
-    primary: DashboardColors.primary,
+    primary: AppColorsUnified.orange,
   ).copyWith(
-    primary: DashboardColors.primary,
-    primaryContainer: DashboardColors.primaryLight,
-    secondary: DashboardColors.accent,
-    secondaryContainer: DashboardColors.accentLight,
-    surface: DashboardColors.white,
-    error: DashboardColors.error,
-    onPrimary: Colors.white,
-    onSecondary: Colors.white,
-    onSurface: DashboardColors.charcoal,
-    onError: DashboardColors.white,
+    primary: AppColorsUnified.orange,
+    primaryContainer: AppColorsUnified.lighten(AppColorsUnified.orange, 0.2),
+    secondary: AppColorsUnified.gold,
+    secondaryContainer: AppColorsUnified.lighten(AppColorsUnified.gold, 0.3),
+    surface: AppColorsUnified.pureWhite,
+    error: AppColorsUnified.error,
+    onPrimary: AppColorsUnified.pureWhite,
+    onSecondary: AppColorsUnified.pureWhite,
+    onSurface: AppColorsUnified.charcoal,
+    onError: AppColorsUnified.pureWhite,
   );
 
   return base.copyWith(
     colorScheme: scheme,
-    scaffoldBackgroundColor: DashboardColors.white,
-    primaryColor: DashboardColors.primary,
+    scaffoldBackgroundColor: AppColorsUnified.pureWhite,
+    primaryColor: AppColorsUnified.orange,
     appBarTheme: AppBarTheme(
-      backgroundColor: DashboardColors.white,
-      foregroundColor: DashboardColors.charcoal,
+      backgroundColor: AppColorsUnified.pureWhite,
+      foregroundColor: AppColorsUnified.charcoal,
       elevation: 0,
-      shadowColor: DashboardColors.gray200,
+      shadowColor: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
       ),
       titleTextStyle: TextStyle(
-        color: DashboardColors.charcoal,
+        color: AppColorsUnified.charcoal,
         fontSize: 20,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.15,
       ),
       iconTheme: IconThemeData(
-        color: DashboardColors.charcoal,
+        color: AppColorsUnified.charcoal,
       ),
     ),
     textTheme: base.textTheme.copyWith(
       bodyLarge: base.textTheme.bodyLarge?.copyWith(
-        color: DashboardColors.charcoal,
+        color: AppColorsUnified.charcoal,
       ),
       bodyMedium: base.textTheme.bodyMedium?.copyWith(
-        color: DashboardColors.gray700,
+        color: AppColorsUnified.textSecondary,
       ),
       titleLarge: base.textTheme.titleLarge?.copyWith(
-        color: DashboardColors.charcoal,
+        color: AppColorsUnified.charcoal,
         fontWeight: FontWeight.bold,
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: DashboardColors.primary,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.orange,
+        foregroundColor: AppColorsUnified.pureWhite,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         elevation: 2,
-        shadowColor: DashboardColors.primaryDark.withValues(alpha: 0.3),
+        shadowColor: AppColorsUnified.fade(AppColorsUnified.darken(AppColorsUnified.orange, 0.2), 0.3),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: DashboardColors.gray50,
+      fillColor: AppColorsUnified.background,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: DashboardColors.gray300, width: 1),
+        borderSide: BorderSide(color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.2), width: 1),
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: DashboardColors.gray300, width: 1),
+        borderSide: BorderSide(color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.2), width: 1),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: DashboardColors.primary, width: 2),
+        borderSide: BorderSide(color: AppColorsUnified.orange, width: 2),
       ),
     ),
     chipTheme: ChipThemeData(
-      backgroundColor: DashboardColors.gray100,
-      selectedColor: DashboardColors.primaryLight,
-      labelStyle: TextStyle(color: DashboardColors.charcoal),
+      backgroundColor: AppColorsUnified.lighten(AppColorsUnified.background, 0.05),
+      selectedColor: AppColorsUnified.lighten(AppColorsUnified.orange, 0.2),
+      labelStyle: TextStyle(color: AppColorsUnified.charcoal),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     ),
     snackBarTheme: SnackBarThemeData(
-      backgroundColor: DashboardColors.charcoal,
-      contentTextStyle: TextStyle(color: DashboardColors.white),
+      backgroundColor: AppColorsUnified.charcoal,
+      contentTextStyle: TextStyle(color: AppColorsUnified.pureWhite),
     ),
     cardTheme: CardThemeData(
-      color: DashboardColors.white,
+      color: AppColorsUnified.pureWhite,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 0,
-      shadowColor: DashboardColors.gray300,
+      shadowColor: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.2),
       margin: const EdgeInsets.all(8),
     ),
-    dividerColor: DashboardColors.gray200,
-    iconTheme: IconThemeData(color: DashboardColors.gray700),
+    dividerColor: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
+    iconTheme: IconThemeData(color: AppColorsUnified.textSecondary),
   );
 }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
-import 'core/theme/dashboard_colors.dart';
+import 'package:yominero/shared/models/notification_model.dart';
+import 'package:yominero/features/notifications/data/notifications_repository.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Página de notificaciones mejorada con categorías, filtros y animaciones
 class NotificationsPage extends StatefulWidget {
@@ -20,159 +22,126 @@ class _NotificationsPageState extends State<NotificationsPage>
   late TabController _tabController;
   String _searchQuery = '';
   
-  final List<Map<String, dynamic>> notifications = [
-    {
-      'id': 1,
-      'title': 'Nueva oportunidad de proyecto',
-      'description': 'Un nuevo proyecto minero está disponible en tu área',
-      'icon': Icons.work,
-      'category': 'proyectos',
-      'time': 'Hace 2 horas',
-      'read': false,
-    },
-    {
-      'id': 2,
-      'title': 'Proyecto aceptado',
-      'description': 'Tu propuesta para "Extracción Norte" ha sido aceptada',
-      'icon': Icons.check_circle,
-      'category': 'proyectos',
-      'time': 'Hace 3 horas',
-      'read': false,
-    },
-    {
-      'id': 3,
-      'title': 'Miembro nuevo en tu grupo',
-      'description': 'Juan Pérez se ha unido al grupo "Minería en Antioquia"',
-      'icon': Icons.person_add,
-      'category': 'sistema',
-      'time': 'Hace 4 horas',
-      'read': false,
-    },
-    {
-      'id': 4,
-      'title': 'Mensaje en tu chat',
-      'description': 'Carlos Morales: ¿Estás disponible para el proyecto?',
-      'icon': Icons.message,
-      'category': 'mensajes',
-      'time': 'Hace 6 horas',
-      'read': true,
-    },
-    {
-      'id': 5,
-      'title': 'Servicio solicitado',
-      'description': 'Tu servicio de perforación ha sido solicitado',
-      'icon': Icons.engineering,
-      'category': 'servicios',
-      'time': 'Hace 8 horas',
-      'read': false,
-    },
-    {
-      'id': 6,
-      'title': 'Nuevo mensaje de María González',
-      'description': 'Necesito cotización para servicio de topografía',
-      'icon': Icons.chat_bubble,
-      'category': 'mensajes',
-      'time': 'Hace 10 horas',
-      'read': true,
-    },
-    {
-      'id': 7,
-      'title': 'Actualización de perfil',
-      'description': 'Tu perfil ha sido verificado correctamente',
-      'icon': Icons.verified_user,
-      'category': 'sistema',
-      'time': 'Hace 1 día',
-      'read': true,
-    },
-    {
-      'id': 8,
-      'title': 'Servicio completado',
-      'description': 'El cliente marcó tu servicio como completado. Calificación: 5 estrellas',
-      'icon': Icons.star,
-      'category': 'servicios',
-      'time': 'Hace 2 días',
-      'read': true,
-    },
-  ];
+  final NotificationsRepository _repository = NotificationsRepository();
+  List<NotificationModel> _notifications = [];
+  bool _isLoading = true;
+  RealtimeChannel? _realtimeSubscription;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
+    _loadNotifications();
+    _setupRealtimeSubscription();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _realtimeSubscription?.unsubscribe();
     super.dispose();
   }
 
-  List<Map<String, dynamic>> get _filteredNotifications {
-    var filtered = notifications;
+  Future<void> _loadNotifications() async {
+    setState(() => _isLoading = true);
+    
+    try {
+      final notifications = await _repository.getUserNotifications();
+      setState(() {
+        _notifications = notifications;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('❌ Error al cargar notificaciones: $e');
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _setupRealtimeSubscription() {
+    _realtimeSubscription = _repository.subscribeToNotifications((notification) {
+      setState(() {
+        _notifications.insert(0, notification);
+      });
+    });
+  }
+
+  List<NotificationModel> get _filteredNotifications {
+    var filtered = _notifications;
     
     if (_searchQuery.isNotEmpty) {
       filtered = filtered.where((n) =>
-        n['title'].toLowerCase().contains(_searchQuery.toLowerCase()) ||
-        n['description'].toLowerCase().contains(_searchQuery.toLowerCase())
+        n.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+        n.body.toLowerCase().contains(_searchQuery.toLowerCase())
       ).toList();
     }
     
     final currentTab = _tabController.index;
-    if (currentTab == 1) filtered = filtered.where((n) => n['category'] == 'proyectos').toList();
-    if (currentTab == 2) filtered = filtered.where((n) => n['category'] == 'mensajes').toList();
-    if (currentTab == 3) filtered = filtered.where((n) => n['category'] == 'servicios').toList();
-    if (currentTab == 4) filtered = filtered.where((n) => n['category'] == 'sistema').toList();
+    final typeMap = {
+      1: NotificationType.serviceRequest,
+      2: NotificationType.message,
+      3: NotificationType.serviceRequest,
+      4: null, // sistema - no hay tipo específico, usar notificaciones generales
+    };
+    
+    if (currentTab > 0 && typeMap[currentTab] != null) {
+      filtered = filtered.where((n) => n.type == typeMap[currentTab]).toList();
+    }
     
     return filtered;
   }
 
-  int _getUnreadCount(String? category) {
-    if (category == null) return notifications.where((n) => !n['read']).length;
-    return notifications.where((n) => n['category'] == category && !n['read']).length;
+  int _getUnreadCount(NotificationType? type) {
+    if (type == null) return _notifications.where((n) => !n.isRead).length;
+    return _notifications.where((n) => n.type == type && !n.isRead).length;
   }
 
-  Color _getCategoryColor(String category) {
-    switch (category) {
-      case 'proyectos':
-        return DashboardColors.primary;
-      case 'servicios':
-        return DashboardColors.emerald;
-      case 'mensajes':
-        return DashboardColors.accent;
-      case 'sistema':
+  Color _getNotificationColor(NotificationType type) {
+    switch (type) {
+      case NotificationType.serviceRequest:
+        return AppColorsUnified.orangeMedium;
+      case NotificationType.message:
+        return AppColorsUnified.gold;
+      case NotificationType.groupInvite:
+        return AppColorsUnified.orange;
+      case NotificationType.productLiked:
+        return AppColorsUnified.gold;
+      case NotificationType.newFollower:
         return AppColorsUnified.companyBlue;
-      default:
-        return Colors.grey;
+      case NotificationType.comment:
+        return AppColorsUnified.orangeLight;
+      case NotificationType.mention:
+        return AppColorsUnified.orange;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: AppColorsUnified.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.pureWhite,
         elevation: 1,
-        title: const Text(
+        title: Text(
           'Notificaciones',
           style: TextStyle(
-            color: Colors.black,
+            color: AppColorsUnified.charcoal,
             fontWeight: FontWeight.bold,
           ),
         ),
         automaticallyImplyLeading: false,
         actions: [
           PopupMenuButton<String>(
-            onSelected: (value) {
+            onSelected: (value) async {
               if (value == 'mark_all_read') {
-                setState(() {
-                  for (var notif in notifications) {
-                    notif['read'] = true;
+                final success = await _repository.markAllAsRead();
+                if (success) {
+                  await _loadNotifications();
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Todas las notificaciones marcadas como leídas')),
+                    );
                   }
-                });
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Todas las notificaciones marcadas como leídas')),
-                );
+                }
               } else if (value == 'clear_all') {
                 showDialog(
                   context: context,
@@ -185,11 +154,15 @@ class _NotificationsPageState extends State<NotificationsPage>
                         child: const Text('Cancelar'),
                       ),
                       TextButton(
-                        onPressed: () {
-                          setState(() {
-                            notifications.clear();
-                          });
-                          Navigator.pop(context);
+                        onPressed: () async {
+                          // Eliminar todas las notificaciones
+                          for (var notif in _notifications) {
+                            await _repository.deleteNotification(notif.id);
+                          }
+                          await _loadNotifications();
+                          if (mounted) {
+                            Navigator.pop(context);
+                          }
                         },
                         child: const Text('Limpiar', style: TextStyle(color: AppColorsUnified.error)),
                       ),
@@ -242,7 +215,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                           )
                         : null,
                     filled: true,
-                    fillColor: Colors.grey.shade100,
+                    fillColor: AppColorsUnified.background,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -255,24 +228,26 @@ class _NotificationsPageState extends State<NotificationsPage>
               TabBar(
                 controller: _tabController,
                 isScrollable: true,
-                labelColor: DashboardColors.primary,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: DashboardColors.primary,
+                labelColor: AppColorsUnified.orange,
+                unselectedLabelColor: AppColorsUnified.textSecondary,
+                indicatorColor: AppColorsUnified.orange,
                 indicatorWeight: 3,
                 onTap: (_) => setState(() {}),
                 tabs: [
                   _buildTab('Todas', Icons.notifications, _getUnreadCount(null)),
-                  _buildTab('Proyectos', Icons.work, _getUnreadCount('proyectos')),
-                  _buildTab('Mensajes', Icons.message, _getUnreadCount('mensajes')),
-                  _buildTab('Servicios', Icons.engineering, _getUnreadCount('servicios')),
-                  _buildTab('Sistema', Icons.settings, _getUnreadCount('sistema')),
+                  _buildTab('Proyectos', Icons.work, 0),
+                  _buildTab('Mensajes', Icons.message, _getUnreadCount(NotificationType.message)),
+                  _buildTab('Servicios', Icons.engineering, _getUnreadCount(NotificationType.serviceRequest)),
+                  _buildTab('Sistema', Icons.settings, 0),
                 ],
               ),
             ],
           ),
         ),
       ),
-      body: _filteredNotifications.isEmpty
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _filteredNotifications.isEmpty
           ? _buildEmptyState()
           : ListView.builder(
               padding: const EdgeInsets.only(top: 8, bottom: 80),
@@ -313,16 +288,16 @@ class _NotificationsPageState extends State<NotificationsPage>
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    DashboardColors.emerald,
-                    DashboardColors.emeraldLight,
+                    AppColorsUnified.orange,
+                    AppColorsUnified.orangeLight,
                   ],
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
                 unreadCount > 9 ? '9+' : unreadCount.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColorsUnified.pureWhite,
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
@@ -334,15 +309,14 @@ class _NotificationsPageState extends State<NotificationsPage>
     );
   }
 
-  Widget _buildNotificationItem(Map<String, dynamic> notification, int index) {
-    final bool isImportant = !notification['read'];
-    final String category = notification['category'];
-    final categoryColor = _getCategoryColor(category);
+  Widget _buildNotificationItem(NotificationModel notification, int index) {
+    final bool isImportant = !notification.isRead;
+    final categoryColor = _getNotificationColor(notification.type);
     
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
         border: isImportant 
             ? Border.all(
@@ -354,7 +328,7 @@ class _NotificationsPageState extends State<NotificationsPage>
           BoxShadow(
             color: isImportant
                 ? categoryColor.withValues(alpha: 0.15)
-                : Colors.grey.withValues(alpha: 0.1),
+                : AppColorsUnified.fade(AppColorsUnified.textSecondary, 0.1),
             blurRadius: isImportant ? 12 : 8,
             offset: const Offset(0, 2),
           ),
@@ -363,10 +337,9 @@ class _NotificationsPageState extends State<NotificationsPage>
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
-            setState(() {
-              notification['read'] = true;
-            });
+          onTap: () async {
+            await _repository.markAsRead(notification.id);
+            await _loadNotifications();
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
@@ -401,8 +374,8 @@ class _NotificationsPageState extends State<NotificationsPage>
                               borderRadius: BorderRadius.circular(12),
                             ),
                       child: Icon(
-                        notification['icon'] as IconData,
-                        color: isImportant ? Colors.white : categoryColor,
+                        notification.icon,
+                        color: isImportant ? AppColorsUnified.pureWhite : categoryColor,
                         size: 24,
                       ),
                     ),
@@ -415,11 +388,11 @@ class _NotificationsPageState extends State<NotificationsPage>
                             children: [
                               Expanded(
                                 child: Text(
-                                  notification['title'],
+                                  notification.title,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
-                                    color: isImportant ? Colors.black : Colors.grey.shade700,
+                                    color: isImportant ? AppColorsUnified.charcoal : AppColorsUnified.charcoal,
                                   ),
                                 ),
                               ),
@@ -436,10 +409,10 @@ class _NotificationsPageState extends State<NotificationsPage>
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            notification['description'],
-                            style: TextStyle(
+                            notification.body,
+                            style: const TextStyle(
                               fontSize: 13,
-                              color: Colors.grey.shade600,
+                              color: AppColorsUnified.textSecondary,
                               height: 1.4,
                             ),
                             maxLines: 2,
@@ -448,17 +421,17 @@ class _NotificationsPageState extends State<NotificationsPage>
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              Icon(Icons.access_time, size: 12, color: Colors.grey.shade400),
+                              Icon(Icons.access_time, size: 12, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2)),
                               const SizedBox(width: 4),
                               Text(
-                                notification['time'],
+                                _formatTimeAgo(notification.createdAt),
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: Colors.grey.shade400,
+                                  color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
                                 ),
                               ),
                               const Spacer(),
-                              _buildCategoryChip(category),
+                              _buildTypeChip(notification.type),
                             ],
                           ),
                         ],
@@ -478,7 +451,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                           categoryColor,
                           () {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Responder a: ${notification['title']}')),
+                              SnackBar(content: Text('Responder a: ${notification.title}')),
                             );
                           },
                         ),
@@ -488,7 +461,7 @@ class _NotificationsPageState extends State<NotificationsPage>
                         child: _buildActionButton(
                           'Guardar',
                           Icons.bookmark_outline,
-                          Colors.grey,
+                          AppColorsUnified.textSecondary,
                           () {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Notificación guardada')),
@@ -499,15 +472,11 @@ class _NotificationsPageState extends State<NotificationsPage>
                       const SizedBox(width: 8),
                       IconButton(
                         icon: const Icon(Icons.close, size: 20),
-                        onPressed: () {
-                          setState(() {
-                            final originalIndex = notifications.indexOf(notification);
-                            if (originalIndex != -1) {
-                              notifications.removeAt(originalIndex);
-                            }
-                          });
+                        onPressed: () async {
+                          await _repository.deleteNotification(notification.id);
+                          await _loadNotifications();
                         },
-                        color: Colors.grey,
+                        color: AppColorsUnified.textSecondary,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
                       ),
@@ -522,9 +491,52 @@ class _NotificationsPageState extends State<NotificationsPage>
     );
   }
 
-  Widget _buildCategoryChip(String category) {
-    final categoryColor = _getCategoryColor(category);
-    String label = category[0].toUpperCase() + category.substring(1);
+  String _formatTimeAgo(DateTime dateTime) {
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inMinutes < 1) {
+      return 'Ahora';
+    } else if (difference.inMinutes < 60) {
+      return 'Hace ${difference.inMinutes} min';
+    } else if (difference.inHours < 24) {
+      return 'Hace ${difference.inHours} h';
+    } else if (difference.inDays == 1) {
+      return 'Ayer';
+    } else if (difference.inDays < 7) {
+      return 'Hace ${difference.inDays} días';
+    } else {
+      return 'Hace ${(difference.inDays / 7).floor()} semanas';
+    }
+  }
+
+  Widget _buildTypeChip(NotificationType type) {
+    final categoryColor = _getNotificationColor(type);
+    String label;
+    
+    switch (type) {
+      case NotificationType.message:
+        label = 'Mensaje';
+        break;
+      case NotificationType.groupInvite:
+        label = 'Grupo';
+        break;
+      case NotificationType.productLiked:
+        label = 'Producto';
+        break;
+      case NotificationType.serviceRequest:
+        label = 'Servicio';
+        break;
+      case NotificationType.newFollower:
+        label = 'Seguidor';
+        break;
+      case NotificationType.comment:
+        label = 'Comentario';
+        break;
+      case NotificationType.mention:
+        label = 'Mención';
+        break;
+    }
     
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -585,15 +597,15 @@ class _NotificationsPageState extends State<NotificationsPage>
           Icon(
             Icons.notifications_off_outlined,
             size: 80,
-            color: Colors.grey.shade300,
+            color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'No hay notificaciones',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.grey.shade600,
+              color: AppColorsUnified.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
@@ -602,7 +614,7 @@ class _NotificationsPageState extends State<NotificationsPage>
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey.shade400,
+              color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
             ),
           ),
         ],

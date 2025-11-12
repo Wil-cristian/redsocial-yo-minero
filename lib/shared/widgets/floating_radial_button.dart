@@ -59,7 +59,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
       RadialMenuItem(
         icon: Icons.shopping_bag_rounded,
         label: 'Productos',
-        color: DashboardColors.orange,
+        color: AppColorsUnified.orange,
         route: '/products',
         onTap: () => Navigator.pushNamed(context, '/products'),
       ),
@@ -73,7 +73,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
       RadialMenuItem(
         icon: Icons.groups_rounded,
         label: 'Comunidad',
-        color: DashboardColors.orangeBright,
+        color: AppColorsUnified.orange,
         route: '/community',
         onTap: () => Navigator.pushNamed(context, '/community'),
       ),
@@ -119,7 +119,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
         RadialMenuItem(
           icon: Icons.diamond,
           label: 'Producción',
-          color: const Color(0xFFD4AF37), // Dorado minero
+          color: AppColorsUnified.gold, // Dorado minero
           route: '/company/production',
           onTap: () => Navigator.pushNamed(context, '/company/production'),
         ),
@@ -221,14 +221,14 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                           spreadRadius: 5 * _pulseController.value,
                         ),
                         BoxShadow(
-                          color: AppColorsUnified.orangeMedium.withValues(alpha: 0.4),
+                          color: AppColorsUnified.fade(AppColorsUnified.orangeMedium, 0.4),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),
-                        const BoxShadow(
-                          color: Colors.black26,
+                        BoxShadow(
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.26),
                           blurRadius: 15,
-                          offset: Offset(0, 5),
+                          offset: const Offset(0, 5),
                         ),
                       ],
                     ),
@@ -246,9 +246,9 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                                   shape: BoxShape.circle,
                                   gradient: SweepGradient(
                                     colors: [
-                                      Colors.white.withValues(alpha: 0.3),
+                                      AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3),
                                       Colors.transparent,
-                                      Colors.white.withValues(alpha: 0.2),
+                                      AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                                       Colors.transparent,
                                     ],
                                     stops: const [0.0, 0.25, 0.5, 1.0],
@@ -274,12 +274,12 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                           child: Icon(
                             _isMenuOpen ? Icons.close : Icons.apps_rounded,
                             key: ValueKey(_isMenuOpen),
-                            color: Colors.white,
+                            color: AppColorsUnified.pureWhite,
                             size: 34,
-                            shadows: const [
+                            shadows: [
                               Shadow(
-                                color: Colors.black26,
-                                offset: Offset(0, 2),
+                                color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.26),
+                                offset: const Offset(0, 2),
                                 blurRadius: 4,
                               ),
                             ],
@@ -303,12 +303,12 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                                   width: 3,
                                   height: 3,
                                   decoration: BoxDecoration(
-                                    color: Colors.white
+                                    color: AppColorsUnified.pureWhite
                                         .withValues(alpha: 0.6 * _pulseController.value),
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.white.withValues(alpha: 0.5),
+                                        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.5),
                                         blurRadius: 4,
                                         spreadRadius: 1,
                                       ),

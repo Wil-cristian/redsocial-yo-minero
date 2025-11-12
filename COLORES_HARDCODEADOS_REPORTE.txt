@@ -1,0 +1,111 @@
+🎨 REPORTE DE COLORES HARDCODEADOS - YoMinero
+=====================================================
+Fecha: 12 de Noviembre, 2025
+Total de archivos con colores hardcodeados: 5 archivos principales
+
+⚠️ ARCHIVOS CRÍTICOS QUE NECESITAN MIGRACIÓN:
+=====================================================
+
+1. ❌ custom_side_drawer.dart (SIDEBAR GRIS)
+   Ubicación: lib/shared/widgets/custom_side_drawer.dart
+   Colores hardcodeados: ~45 instancias
+   Problema: TODO el sidebar está en escala de grises hardcodeada
+   Colores encontrados:
+   - Color(0xFF808080) - Gris medio (aparece 3 veces)
+   - Color(0xFF858585) - Gris medio 
+   - Color(0xFF757575) - Gris medio
+   - Color(0xFF959595) - Gris medio-claro
+   - Color(0xFF909090) - Gris medio-claro
+   - Color(0xFF707070) - Gris medio
+   - Color(0xFF606060) - Gris medio-oscuro (aparece 3 veces)
+   - Color(0xFF656565) - Gris medio-oscuro
+   - Color(0xFFA0A0A0) - Gris claro (aparece 2 veces)
+   - Color(0xFFB0B0B0) - Gris claro (aparece 2 veces)
+   - Color(0xFFC0C0C0) - Gris más claro
+   - Color(0xFF2A2A2A) - Gris oscuro (aparece 3 veces)
+   - Color(0xFF1F1F1F) - Gris oscuro 2
+   - Color(0xFF151515) - Gris oscuro 3
+   - Color(0xFF404040) - Gris medio-oscuro (aparece 4 veces)
+   - Color(0xFFE0E0E0) - Gris claro (aparece 3 veces)
+   - Color(0xFF353535) - Gris oscuro medio
+   - Color(0xFF202020) - Gris muy oscuro
+   
+   IMPACTO: ⭐⭐⭐⭐⭐ CRÍTICO
+   Este es el sidebar que se ve en TODAS las páginas.
+   Por eso la app se ve en blanco y negro.
+
+2. ❌ mining_production_dashboard.dart
+   Ubicación: lib/mining_production_dashboard.dart
+   Colores hardcodeados: ~12 instancias
+   Problema: Usa Color(0xFFD4AF37) para oro en vez de AppColorsUnified.gold
+   Colores encontrados:
+   - Color(0xFF1A1A1A) - Negro (en gradiente)
+   - Color(0xFF2D2416) - Carbón (en gradiente)
+   - Color(0xFFD4AF37) - Oro (aparece 6 veces)
+   - Color(0xFFC0C0C0) - Plata
+   - Color(0xFFB87333) - Cobre
+   - Color(0xFF808080) - Gris
+   
+   IMPACTO: ⭐⭐⭐ MEDIO
+   Es un dashboard específico, no afecta toda la app.
+
+3. ❌ floating_radial_button.dart (MENÚ RADIAL)
+   Ubicación: lib/shared/widgets/floating_radial_button.dart
+   Colores hardcodeados: 1 instancia
+   Problema: Usa Color(0xFFD4AF37) en vez de AppColorsUnified.gold
+   Colores encontrados:
+   - Color(0xFFD4AF37) - Dorado minero
+   
+   IMPACTO: ⭐⭐ BAJO
+   Solo el botón flotante, pero se ve en todas las páginas.
+
+4. ❌ settings_page.dart
+   Ubicación: lib/settings_page.dart
+   Colores hardcodeados: 2 instancias
+   Problema: Usa grises hardcodeados
+   Colores encontrados:
+   - Color(0xFFF0F0F0) - Gris muy claro
+   - Color(0xFFE0E0E0) - Gris claro
+   
+   IMPACTO: ⭐ MUY BAJO
+   Solo página de configuración.
+
+5. ✅ app_colors_unified.dart (CORRECTO - ES LA FUENTE)
+   Ubicación: lib/core/theme/app_colors_unified.dart
+   Colores hardcodeados: 13 instancias
+   Estos son CORRECTOS - son los 10 colores base + gradientes.
+   NO necesitan cambio, son la fuente de verdad.
+
+=====================================================
+📊 RESUMEN EJECUTIVO:
+=====================================================
+
+Total de Color(0xFFXXXXXX) encontrados: 100+
+Archivos críticos: 4
+Archivos documentación (.md): Ignorados
+
+🔥 PROBLEMA PRINCIPAL:
+El archivo "custom_side_drawer.dart" es responsable del 80% 
+del problema visual. Tiene 45+ grises hardcodeados que hacen
+que toda la app se vea en blanco y negro.
+
+💡 SOLUCIÓN RECOMENDADA:
+Prioridad 1: Migrar custom_side_drawer.dart (⭐⭐⭐⭐⭐)
+Prioridad 2: Migrar floating_radial_button.dart (⭐⭐)
+Prioridad 3: Migrar mining_production_dashboard.dart (⭐⭐⭐)
+Prioridad 4: Migrar settings_page.dart (⭐)
+
+🎯 ESTIMACIÓN:
+- custom_side_drawer.dart: ~45 reemplazos
+- floating_radial_button.dart: 1 reemplazo
+- mining_production_dashboard.dart: ~12 reemplazos
+- settings_page.dart: 2 reemplazos
+TOTAL: ~60 reemplazos
+
+⏱️ TIEMPO ESTIMADO: 15-20 minutos
+
+=====================================================
+🚀 SIGUIENTE PASO:
+=====================================================
+Empezar con custom_side_drawer.dart ya que es el que
+más impacto visual tiene en toda la aplicación.

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
-import 'core/theme/dashboard_colors.dart';
 
 class GroupChatPage extends StatefulWidget {
   final Map<String, dynamic> group;
@@ -147,18 +146,18 @@ class _GroupChatPageState extends State<GroupChatPage> {
             ),
           ],
         ),
-        backgroundColor: DashboardColors.primary,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.orange,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -195,9 +194,9 @@ class _GroupChatPageState extends State<GroupChatPage> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border(
-                    top: BorderSide(color: Colors.grey[200]!, width: 1),
+                  color: AppColorsUnified.pureWhite,
+                  border: const Border(
+                    top: BorderSide(color: AppColorsUnified.background, width: 1),
                   ),
                 ),
                 child: SafeArea(
@@ -206,22 +205,22 @@ class _GroupChatPageState extends State<GroupChatPage> {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.add_circle_outline),
-                        color: DashboardColors.primary,
+                        color: AppColorsUnified.orange,
                         onPressed: () => _showAttachmentMenu(context),
                       ),
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey[100],
+                            color: AppColorsUnified.background,
                             borderRadius: BorderRadius.circular(24),
                           ),
                           child: TextField(
                             controller: _messageController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Escribe un mensaje...',
                               border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                              hintStyle: TextStyle(color: Colors.grey[500]),
+                              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              hintStyle: TextStyle(color: AppColorsUnified.textSecondary),
                             ),
                             maxLines: null,
                             textInputAction: TextInputAction.send,
@@ -231,13 +230,12 @@ class _GroupChatPageState extends State<GroupChatPage> {
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        decoration: BoxDecoration(
-                          color: DashboardColors.primary,
+                        decoration: const BoxDecoration(
+                          color: AppColorsUnified.orange,
                           shape: BoxShape.circle,
                         ),
                         child: IconButton(
-                          icon: const Icon(Icons.send),
-                          color: Colors.white,
+                          icon: Icon(Icons.send, color: AppColorsUnified.pureWhite),
                           onPressed: _sendMessage,
                         ),
                       ),
@@ -255,10 +253,10 @@ class _GroupChatPageState extends State<GroupChatPage> {
               child: Container(
                 width: 280,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
+                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
                       blurRadius: 10,
                       offset: const Offset(-5, 0),
                     ),
@@ -305,11 +303,11 @@ class _GroupChatPageState extends State<GroupChatPage> {
           if (!isMine)
             CircleAvatar(
               radius: 16,
-              backgroundColor: DashboardColors.primary.withValues(alpha: 0.2),
+              backgroundColor: AppColorsUnified.fade(AppColorsUnified.orange, 0.2),
               child: Text(
                 message['avatar'],
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColorsUnified.pureWhite,
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),
@@ -326,13 +324,13 @@ class _GroupChatPageState extends State<GroupChatPage> {
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: Colors.grey,
+                      color: AppColorsUnified.textSecondary,
                     ),
                   ),
                 if (!isMine) const SizedBox(height: 4),
                 Container(
                   decoration: BoxDecoration(
-                    color: isMine ? DashboardColors.primary : Colors.grey[200],
+                    color: isMine ? AppColorsUnified.orange : AppColorsUnified.background,
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(16),
                       topRight: const Radius.circular(16),
@@ -344,7 +342,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                   child: Text(
                     message['content'],
                     style: TextStyle(
-                      color: isMine ? Colors.white : Colors.black87,
+                      color: isMine ? AppColorsUnified.pureWhite : AppColorsUnified.textPrimary,
                       fontSize: 14,
                     ),
                   ),
@@ -352,8 +350,8 @@ class _GroupChatPageState extends State<GroupChatPage> {
                 const SizedBox(height: 4),
                 Text(
                   message['timestamp'],
-                  style: TextStyle(
-                    color: Colors.grey[500],
+                  style: const TextStyle(
+                    color: AppColorsUnified.textSecondary,
                     fontSize: 12,
                   ),
                 ),
@@ -364,8 +362,8 @@ class _GroupChatPageState extends State<GroupChatPage> {
           if (isMine)
             CircleAvatar(
               radius: 16,
-              backgroundColor: DashboardColors.primary.withValues(alpha: 0.3),
-              child: const Icon(Icons.person, color: Colors.white, size: 12),
+              backgroundColor: AppColorsUnified.fade(AppColorsUnified.orange, 0.3),
+              child: Icon(Icons.person, color: AppColorsUnified.pureWhite, size: 12),
             ),
         ],
       ),
@@ -377,11 +375,11 @@ class _GroupChatPageState extends State<GroupChatPage> {
       leading: Stack(
         children: [
           CircleAvatar(
-            backgroundColor: DashboardColors.primary.withValues(alpha: 0.2),
+            backgroundColor: AppColorsUnified.fade(AppColorsUnified.orange, 0.2),
             child: Text(
               member['avatar'],
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: AppColorsUnified.pureWhite,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -396,7 +394,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
                 decoration: BoxDecoration(
                   color: AppColorsUnified.success,
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 1),
+                  border: Border.all(color: AppColorsUnified.pureWhite, width: 1),
                 ),
               ),
             ),
@@ -408,7 +406,7 @@ class _GroupChatPageState extends State<GroupChatPage> {
           ? Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                color: DashboardColors.primary.withValues(alpha: 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
@@ -428,23 +426,23 @@ class _GroupChatPageState extends State<GroupChatPage> {
           Icon(
             Icons.chat_bubble_outline,
             size: 64,
-            color: Colors.grey[300],
+            color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'Sin mensajes aún',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: Colors.grey[600],
+              color: AppColorsUnified.textSecondary,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
+          const Text(
             'Sé el primero en escribir',
             style: TextStyle(
               fontSize: 14,
-              color: Colors.grey[500],
+              color: AppColorsUnified.textSecondary,
             ),
           ),
         ],
@@ -547,14 +545,14 @@ class _GroupChatPageState extends State<GroupChatPage> {
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
         children: [
-          Icon(icon, color: DashboardColors.primary, size: 20),
+          Icon(icon, color: AppColorsUnified.orange, size: 20),
           const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 label,
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                style: const TextStyle(fontSize: 12, color: AppColorsUnified.textSecondary),
               ),
               const SizedBox(height: 4),
               Text(

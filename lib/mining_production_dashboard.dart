@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../shared/models/mining_production.dart';
-import 'core/theme/colors.dart';
+import 'core/theme/app_colors_unified.dart';
+
 import 'core/theme/dashboard_colors.dart';
 
 class MiningProductionDashboard extends StatefulWidget {
@@ -157,7 +158,7 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       body: CustomScrollView(
         slivers: [
           // App Bar épico con gradiente minero
@@ -209,7 +210,7 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
     return SliverAppBar(
       expandedHeight: 200,
       pinned: true,
-      backgroundColor: DashboardColors.primaryDark,
+      backgroundColor: AppColorsUnified.orangeDark,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           children: [
@@ -220,10 +221,10 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    const Color(0xFF1A1A1A),
-                    const Color(0xFF2D2416),
+                    AppColorsUnified.charcoal,
+                    AppColorsUnified.darken(AppColorsUnified.charcoal, 0.1),
                     DashboardColors.wood,
-                    const Color(0xFFD4AF37),
+                    AppColorsUnified.gold,
                   ],
                 ),
               ),
@@ -259,26 +260,26 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                             return Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFD4AF37).withValues(alpha: 0.3),
+                                color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFFD4AF37).withValues(alpha: 0.6 * _pulseController.value),
+                                    color: AppColorsUnified.fade(AppColorsUnified.gold, 0.6 * _pulseController.value),
                                     blurRadius: 20 * _pulseController.value,
                                     spreadRadius: 5 * _pulseController.value,
                                   ),
                                 ],
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.show_chart,
-                                color: Colors.white,
+                                color: AppColorsUnified.pureWhite,
                                 size: 32,
                               ),
                             );
                           },
                         ),
                         const SizedBox(width: 16),
-                        const Expanded(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -287,22 +288,22 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  color: AppColorsUnified.pureWhite,
                                   shadows: [
                                     Shadow(
-                                      color: Colors.black45,
-                                      offset: Offset(0, 2),
+                                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.45),
+                                      offset: const Offset(0, 2),
                                       blurRadius: 4,
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 4),
-                              Text(
+                              const SizedBox(height: 4),
+                              const Text(
                                 'Dashboard en Tiempo Real',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Color(0xFFD4AF37),
+                                  color: AppColorsUnified.gold,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -321,11 +322,11 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
       leading: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.2),
+          color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -366,14 +367,14 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              DashboardColors.orange,
-              DashboardColors.orangeBright,
+              AppColorsUnified.orange,
+              AppColorsUnified.lighten(AppColorsUnified.orange, 0.1),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: DashboardColors.orange.withValues(alpha: 0.3),
+              color: AppColorsUnified.fade(AppColorsUnified.orange, 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -382,18 +383,18 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white, size: 20),
+            Icon(icon, color: AppColorsUnified.pureWhite, size: 20),
             const SizedBox(width: 8),
             Text(
               label,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: AppColorsUnified.pureWhite,
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
               ),
             ),
             const SizedBox(width: 4),
-            const Icon(Icons.arrow_drop_down, color: Colors.white, size: 20),
+            Icon(Icons.arrow_drop_down, color: AppColorsUnified.pureWhite, size: 20),
           ],
         ),
       ),
@@ -412,7 +413,7 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                 label: 'Toneladas Totales',
                 value: '${_stats!.totalTonnage.toStringAsFixed(1)}t',
                 icon: Icons.fitness_center,
-                color: const Color(0xFFD4AF37),
+                color: AppColorsUnified.gold,
                 trend: '+12%',
                 delay: 0,
               ),
@@ -423,7 +424,7 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                 label: 'Pureza Promedio',
                 value: '${_stats!.averagePurity.toStringAsFixed(1)}%',
                 icon: Icons.verified,
-                color: DashboardColors.orangeBright,
+                color: AppColorsUnified.orange,
                 trend: '+5%',
                 delay: 100,
               ),
@@ -509,21 +510,21 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                         Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.3),
+                            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Icon(icon, color: Colors.white, size: 24),
+                          child: Icon(icon, color: AppColorsUnified.pureWhite, size: 24),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.3),
+                            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
                             trend,
-                            style: const TextStyle(
-                              color: Colors.white,
+                            style: TextStyle(
+                              color: AppColorsUnified.pureWhite,
                               fontSize: 11,
                               fontWeight: FontWeight.bold,
                             ),
@@ -534,14 +535,14 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                     const SizedBox(height: 16),
                     Text(
                       value,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                         shadows: [
                           Shadow(
-                            color: Colors.black26,
-                            offset: Offset(0, 2),
+                            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.26),
+                            offset: const Offset(0, 2),
                             blurRadius: 4,
                           ),
                         ],
@@ -552,7 +553,7 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                       label,
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -727,12 +728,12 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: mineralColor.withValues(alpha: 0.3), width: 2),
+        border: Border.all(color: AppColorsUnified.fade(mineralColor, 0.3), width: 2),
         boxShadow: [
           BoxShadow(
-            color: mineralColor.withValues(alpha: 0.15),
+            color: AppColorsUnified.fade(mineralColor, 0.15),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -848,16 +849,16 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
     switch (mineral.toLowerCase()) {
       case 'oro':
       case 'gold':
-        return const Color(0xFFD4AF37);
+        return AppColorsUnified.gold;
       case 'plata':
       case 'silver':
-        return const Color(0xFFC0C0C0);
+        return AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.5);
       case 'cobre':
       case 'copper':
-        return const Color(0xFFB87333);
+        return AppColorsUnified.copperDark;
       case 'hierro':
       case 'iron':
-        return const Color(0xFF808080);
+        return AppColorsUnified.textSecondary;
       default:
         return DashboardColors.wood;
     }
@@ -869,24 +870,24 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         padding: const EdgeInsets.all(20),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        decoration: BoxDecoration(
+          color: AppColorsUnified.pureWhite,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
+            Text(
               'Seleccionar Período',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColorsUnified.charcoal),
             ),
             const SizedBox(height: 20),
             ...['Hoy', 'Esta Semana', 'Este Mes', 'Este Año'].map((period) {
               return ListTile(
                 title: Text(period),
-                leading: Icon(
+                leading: const Icon(
                   Icons.calendar_today,
-                  color: DashboardColors.orange,
+                  color: AppColorsUnified.orange,
                 ),
                 onTap: () {
                   setState(() => _selectedPeriod = period);
@@ -909,16 +910,16 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         padding: const EdgeInsets.all(20),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        decoration: BoxDecoration(
+          color: AppColorsUnified.pureWhite,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
+            Text(
               'Seleccionar Zona',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColorsUnified.charcoal),
             ),
             const SizedBox(height: 20),
             ...zones.map((zone) {
@@ -952,7 +953,7 @@ class _MiningPatternPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Picos de montaña estilizados
     final mountainPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.1)
+      ..color = AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1)
       ..style = PaintingStyle.fill;
 
     final path = Path();
@@ -967,7 +968,7 @@ class _MiningPatternPainter extends CustomPainter {
 
     // Círculos dorados rotando (pepitas de oro)
     final goldPaint = Paint()
-      ..color = const Color(0xFFD4AF37).withValues(alpha: 0.2)
+      ..color = AppColorsUnified.fade(AppColorsUnified.gold, 0.2)
       ..style = PaintingStyle.fill;
 
     for (int i = 0; i < 8; i++) {

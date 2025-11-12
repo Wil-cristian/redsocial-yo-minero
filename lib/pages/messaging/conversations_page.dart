@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:yominero/core/auth/supabase_auth_service.dart';
 import 'package:yominero/core/di/locator.dart';
-import 'package:yominero/core/theme/colors.dart';
 import 'package:yominero/features/messaging/data/supabase_messaging_repository.dart';
 import 'package:yominero/shared/models/conversation.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
@@ -139,14 +138,14 @@ class _ConversationsPageState extends State<ConversationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       appBar: AppBar(
         title: const Text(
           'Mensajes',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.orange,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
         actions: [
           IconButton(
@@ -174,9 +173,9 @@ class _ConversationsPageState extends State<ConversationsPage> {
 
   Widget _buildBody() {
     if (_isLoading) {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(
-          color: AppColors.primary,
+          color: AppColorsUnified.orange,
         ),
       );
     }
@@ -195,7 +194,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
             Text(
               _error!,
               style: TextStyle(
-                color: Colors.grey.shade600,
+                color: AppColorsUnified.grey600,
                 fontSize: 16,
               ),
               textAlign: TextAlign.center,
@@ -206,8 +205,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
               icon: const Icon(Icons.refresh),
               label: const Text('Reintentar'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                backgroundColor: AppColorsUnified.orange,
+                foregroundColor: AppColorsUnified.pureWhite,
               ),
             ),
           ],
@@ -223,7 +222,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
             Icon(
               Icons.chat_bubble_outline,
               size: 80,
-              color: Colors.grey.shade300,
+              color: AppColorsUnified.grey300,
             ),
             const SizedBox(height: 16),
             Text(
@@ -231,7 +230,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey.shade600,
+                color: AppColorsUnified.grey600,
               ),
             ),
             const SizedBox(height: 8),
@@ -239,7 +238,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
               'Inicia una conversación desde el perfil\nde otro usuario',
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey.shade500,
+                color: AppColorsUnified.grey500,
               ),
               textAlign: TextAlign.center,
             ),
@@ -250,17 +249,17 @@ class _ConversationsPageState extends State<ConversationsPage> {
 
     return RefreshIndicator(
       onRefresh: _loadConversations,
-      color: AppColors.primary,
+      color: AppColorsUnified.orange,
       child: ListView.builder(
         controller: _scrollController,
         itemCount: _conversations.length + (_isLoadingMore ? 1 : 0),
         padding: const EdgeInsets.symmetric(vertical: 8),
         itemBuilder: (context, index) {
           if (index == _conversations.length) {
-            return Center(
+            return const Center(
               child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: CircularProgressIndicator(color: AppColors.primary),
+                padding: EdgeInsets.all(16),
+                child: CircularProgressIndicator(color: AppColorsUnified.orange),
               ),
             );
           }
@@ -282,7 +281,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: Colors.grey.shade200,
+          color: AppColorsUnified.grey200,
           width: 1,
         ),
       ),
@@ -297,11 +296,11 @@ class _ConversationsPageState extends State<ConversationsPage> {
                 children: [
                   CircleAvatar(
                     radius: 28,
-                    backgroundColor: AppColors.primary.withValues(alpha: 0.1),
+                    backgroundColor: AppColorsUnified.orange.withValues(alpha: 0.1),
                     child: Text(
                       otherUserId.substring(0, 2).toUpperCase(),
-                      style: TextStyle(
-                        color: AppColors.primary,
+                      style: const TextStyle(
+                        color: AppColorsUnified.orange,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
@@ -313,8 +312,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
                       top: 0,
                       child: Container(
                         padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: AppColors.error,
+                        decoration: const BoxDecoration(
+                          color: AppColorsUnified.error,
                           shape: BoxShape.circle,
                         ),
                         constraints: const BoxConstraints(
@@ -324,8 +323,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
                         child: Center(
                           child: Text(
                             unreadCount > 99 ? '99+' : unreadCount.toString(),
-                            style: const TextStyle(
-                              color: Colors.white,
+                            style: TextStyle(
+                              color: AppColorsUnified.pureWhite,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
@@ -353,7 +352,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                     Text(
                       _formatTimestamp(conversation.lastMessageAt),
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: AppColorsUnified.grey600,
                         fontSize: 13,
                       ),
                     ),
@@ -362,7 +361,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
               ),
               Icon(
                 Icons.chevron_right,
-                color: Colors.grey.shade400,
+                color: AppColorsUnified.grey400,
               ),
             ],
           ),

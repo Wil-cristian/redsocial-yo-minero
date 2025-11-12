@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
-import 'core/theme/dashboard_colors.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'core/services/preferences_service.dart';
 import 'login_page.dart';
@@ -39,24 +38,24 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.pureWhite,
         elevation: 1,
-        title: const Text(
+        title: Text(
           'Configuración',
           style: TextStyle(
-            color: Colors.black,
+            color: AppColorsUnified.charcoal,
             fontWeight: FontWeight.bold,
           ),
         ),
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color(0xFFF0F0F0),
+            color: AppColorsUnified.background,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFE0E0E0)),
+            border: Border.all(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.5)),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black87),
+            icon: const Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -66,7 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             // Sección de perfil
             Container(
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
@@ -74,14 +73,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: DashboardColors.primary,
+                      color: AppColorsUnified.orange,
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Center(
                       child: Text(
                         (widget.currentUser?['name'] as String? ?? 'U').substring(0, 1).toUpperCase(),
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: AppColorsUnified.pureWhite,
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
@@ -98,21 +97,21 @@ class _SettingsPageState extends State<SettingsPage> {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: AppColorsUnified.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           widget.currentUser?['email'] ?? 'correo@ejemplo.com',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 12,
-                            color: Colors.grey[600],
+                            color: AppColorsUnified.textSecondary,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Icon(Icons.edit, color: Colors.grey[400]),
+                  Icon(Icons.edit, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2)),
                 ],
               ),
             ),
@@ -121,7 +120,7 @@ class _SettingsPageState extends State<SettingsPage> {
             // Sección de notificaciones
             _buildSectionHeader('Notificaciones'),
             Container(
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               child: Column(
                 children: [
                   _buildToggleSetting(
@@ -153,7 +152,7 @@ class _SettingsPageState extends State<SettingsPage> {
             // Sección de apariencia
             _buildSectionHeader('Apariencia'),
             Container(
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               child: Column(
                 children: [
                   _buildToggleSetting(
@@ -175,7 +174,7 @@ class _SettingsPageState extends State<SettingsPage> {
             // Sección de acceso rápido
             _buildSectionHeader('Acceso Rápido'),
             Container(
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               child: Column(
                 children: [
                   _buildToggleSetting(
@@ -197,7 +196,7 @@ class _SettingsPageState extends State<SettingsPage> {
             // Sección de privacidad
             _buildSectionHeader('Privacidad y seguridad'),
             Container(
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               child: Column(
                 children: [
                   _buildSettingTile(
@@ -228,7 +227,7 @@ class _SettingsPageState extends State<SettingsPage> {
             // Sección de ayuda
             _buildSectionHeader('Ayuda y soporte'),
             Container(
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               child: Column(
                 children: [
                   _buildSettingTile(
@@ -265,7 +264,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   onPressed: () => _showLogoutDialog(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColorsUnified.error,
-                    foregroundColor: Colors.white,
+                    foregroundColor: AppColorsUnified.pureWhite,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -302,10 +301,10 @@ class _SettingsPageState extends State<SettingsPage> {
         alignment: Alignment.centerLeft,
         child: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: Colors.grey[600],
+            color: AppColorsUnified.textSecondary,
           ),
         ),
       ),
@@ -333,15 +332,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black87,
+                    color: AppColorsUnified.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
-                    color: Colors.grey[600],
+                    color: AppColorsUnified.textSecondary,
                   ),
                 ),
               ],
@@ -350,7 +349,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Switch(
             value: value,
             onChanged: enabled ? onChanged : null,
-            thumbColor: WidgetStateProperty.all(DashboardColors.primary),
+            thumbColor: WidgetStateProperty.all(AppColorsUnified.orange),
           ),
         ],
       ),
@@ -373,7 +372,7 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               Icon(
                 icon,
-                color: DashboardColors.primary,
+                color: AppColorsUnified.orange,
                 size: 24,
               ),
               const SizedBox(width: 16),
@@ -386,15 +385,15 @@ class _SettingsPageState extends State<SettingsPage> {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Colors.black87,
+                        color: AppColorsUnified.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
-                        color: Colors.grey[600],
+                        color: AppColorsUnified.textSecondary,
                       ),
                     ),
                   ],
@@ -403,7 +402,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
-                color: Colors.grey[400],
+                color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
               ),
             ],
           ),
@@ -413,11 +412,11 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildDivider() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 56),
+    return const Padding(
+      padding: EdgeInsets.only(left: 56),
       child: Divider(
         height: 1,
-        color: Colors.grey[200],
+        color: AppColorsUnified.background,
       ),
     );
   }
@@ -446,7 +445,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColorsUnified.error,
-              foregroundColor: Colors.white,
+              foregroundColor: AppColorsUnified.pureWhite,
             ),
             child: const Text('Cerrar Sesión'),
           ),

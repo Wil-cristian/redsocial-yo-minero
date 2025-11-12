@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
-import 'core/theme/colors.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'main_navigation_shell.dart';
 
@@ -61,9 +60,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           updatedUser['mustChangePassword'] = false;
           
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text('Contraseña cambiada exitosamente'),
-              backgroundColor: AppColors.success,
+            const SnackBar(
+              content: Text('Contraseña cambiada exitosamente'),
+              backgroundColor: AppColorsUnified.success,
             ),
           );
 
@@ -79,7 +78,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(result.errorMessage ?? 'Error al cambiar contraseña'),
-              backgroundColor: AppColors.error,
+              backgroundColor: AppColorsUnified.error,
             ),
           );
         }
@@ -90,7 +89,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: ${e.toString()}'),
-            backgroundColor: AppColors.error,
+            backgroundColor: AppColorsUnified.error,
           ),
         );
       }
@@ -103,7 +102,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     final companyName = widget.currentUser['organizationInfo']?['companyName'] as String? ?? 'Tu empresa';
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -121,7 +120,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: AppColorsUnified.success.withValues(alpha: 0.1),
+                          color: AppColorsUnified.fade(AppColorsUnified.success, 0.1),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
@@ -133,10 +132,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const SizedBox(height: 24),
                       Text(
                         widget.isFirstLogin ? '¡Bienvenido!' : 'Cambiar Contraseña',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: AppColorsUnified.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -151,9 +150,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const SizedBox(height: 4),
                       Text(
                         companyName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
-                          color: AppColors.textSecondary,
+                          color: AppColorsUnified.textSecondary,
                         ),
                       ),
                     ],
@@ -188,12 +187,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 const SizedBox(height: 32),
 
                 // Contraseña actual
-                Text(
+                const Text(
                   'Contraseña Temporal',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: AppColors.textPrimary,
+                    color: AppColorsUnified.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -215,7 +214,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: AppColorsUnified.pureWhite,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -228,12 +227,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 const SizedBox(height: 24),
 
                 // Nueva contraseña
-                Text(
+                const Text(
                   'Nueva Contraseña',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: AppColors.textPrimary,
+                    color: AppColorsUnified.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -255,7 +254,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: AppColorsUnified.pureWhite,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -274,12 +273,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 const SizedBox(height: 24),
 
                 // Confirmar contraseña
-                Text(
+                const Text(
                   'Confirmar Contraseña',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: AppColors.textPrimary,
+                    color: AppColorsUnified.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -301,7 +300,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: AppColorsUnified.pureWhite,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -324,18 +323,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     onPressed: _isLoading ? null : _changePassword,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColorsUnified.success,
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColorsUnified.pureWhite,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     child: _isLoading
-                        ? const SizedBox(
+                        ? SizedBox(
                             width: 20,
                             height: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              valueColor: AlwaysStoppedAnimation<Color>(AppColorsUnified.pureWhite),
                             ),
                           )
                         : const Text(

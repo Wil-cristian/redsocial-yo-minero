@@ -247,7 +247,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
                 width: 48,
                 height: 5,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),
@@ -420,7 +420,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
                           width: 80,
                           height: 80,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
+                            border: Border.all(color: AppColorsUnified.textSecondary),
                             borderRadius: BorderRadius.circular(8),
                             image: DecorationImage(
                               image: NetworkImage(url),
@@ -438,7 +438,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
                                 color: AppColorsUnified.error,
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.close, color: Colors.white, size: 20),
+                              child: Icon(Icons.close, color: AppColorsUnified.pureWhite, size: 20),
                             ),
                           ),
                         ),

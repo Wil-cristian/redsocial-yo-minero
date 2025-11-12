@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math' as math;
-import 'core/theme/dashboard_colors.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,9 +59,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              DashboardColors.gray50,
-              DashboardColors.white,
-              DashboardColors.primaryLight.withValues(alpha: 0.05),
+              AppColorsUnified.background,
+              AppColorsUnified.pureWhite,
+              AppColorsUnified.orangeLight.withValues(alpha: 0.05),
             ],
           ),
         ),
@@ -129,22 +128,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            DashboardColors.primaryLight,
-            DashboardColors.accent,
-            DashboardColors.primary,
-            DashboardColors.primaryDark,
+            AppColorsUnified.orangeLight,
+            AppColorsUnified.gold,
+            AppColorsUnified.orange,
+            AppColorsUnified.orangeDark,
           ],
           stops: const [0.0, 0.3, 0.7, 1.0],
         ),
         boxShadow: [
           BoxShadow(
-            color: DashboardColors.orangeShadow,
+            color: AppColorsUnified.fade(AppColorsUnified.orange, 0.3),
             blurRadius: 30,
             offset: const Offset(0, 10),
             spreadRadius: 5,
           ),
           BoxShadow(
-            color: DashboardColors.primaryDark.withValues(alpha: 0.3),
+            color: AppColorsUnified.orangeDark.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 5),
           ),
@@ -177,9 +176,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.white.withValues(alpha: 0),
-                        Colors.white.withValues(alpha: 0.3 * (1 - (_shimmerController.value - 0.5).abs() * 2)),
-                        Colors.white.withValues(alpha: 0),
+                        AppColorsUnified.fade(AppColorsUnified.pureWhite, 0),
+                        AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3 * (1 - (_shimmerController.value - 0.5).abs() * 2)),
+                        AppColorsUnified.fade(AppColorsUnified.pureWhite, 0),
                       ],
                       stops: [
                         _shimmerController.value - 0.3,
@@ -214,35 +213,35 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    DashboardColors.wood,
-                                    DashboardColors.woodLight,
-                                    DashboardColors.woodGolden,
+                                    AppColorsUnified.orange,
+                                    AppColorsUnified.orangeLight,
+                                    AppColorsUnified.gold,
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: DashboardColors.wood.withValues(alpha: 0.5),
+                                    color: AppColorsUnified.fade(AppColorsUnified.orange, 0.5),
                                     blurRadius: 12,
                                     spreadRadius: 2,
                                   ),
                                 ],
                               ),
-                              child: const Row(
+                              child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(Icons.science_outlined, color: Colors.white, size: 14),
-                                  SizedBox(width: 4),
+                                  Icon(Icons.science_outlined, color: AppColorsUnified.pureWhite, size: 14),
+                                  const SizedBox(width: 4),
                                   Text(
                                     'BETA',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppColorsUnified.pureWhite,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 12,
                                       shadows: [
                                         Shadow(
-                                          color: Colors.black38,
-                                          offset: Offset(0, 1),
+                                          color: AppColorsUnified.fade(AppColorsUnified.pureBlack, 0.38),
+                                          offset: const Offset(0, 1),
                                           blurRadius: 2,
                                         ),
                                       ],
@@ -263,22 +262,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  DashboardColors.orangeGlow.withValues(alpha: 0.4),
-                                  DashboardColors.orange.withValues(alpha: 0.3),
+                                  AppColorsUnified.fade(AppColorsUnified.orange, 0.4),
+                                  AppColorsUnified.fade(AppColorsUnified.orange, 0.3),
                                 ],
                               ),
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: DashboardColors.orangeGlow.withValues(alpha: 0.7 * _pulseController.value),
+                                  color: AppColorsUnified.orange.withValues(alpha: 0.7 * _pulseController.value),
                                   blurRadius: 25 * _pulseController.value,
                                   spreadRadius: 6 * _pulseController.value,
                                 ),
                               ],
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.notifications_active,
-                              color: Colors.white,
+                              color: AppColorsUnified.pureWhite,
                               size: 24,
                             ),
                           );
@@ -309,21 +308,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           '${_getGreeting()} 👋',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.white.withValues(alpha: 0.9),
+                            color: AppColorsUnified.whiteTransparent90,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           userName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: AppColorsUnified.pureWhite,
                             shadows: [
                               Shadow(
-                                color: Colors.black26,
-                                offset: Offset(0, 2),
+                                color: AppColorsUnified.black26,
+                                offset: const Offset(0, 2),
                                 blurRadius: 4,
                               ),
                             ],
@@ -335,29 +334,29 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                DashboardColors.orangeBright.withValues(alpha: 0.9),
-                                DashboardColors.orange.withValues(alpha: 0.8),
+                                AppColorsUnified.fade(AppColorsUnified.orange, 0.9),
+                                AppColorsUnified.fade(AppColorsUnified.orange, 0.8),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: DashboardColors.orangeGlow.withValues(alpha: 0.5),
+                                color: AppColorsUnified.fade(AppColorsUnified.orange, 0.5),
                                 blurRadius: 8,
                                 spreadRadius: 1,
                               ),
                             ],
                           ),
-                          child: const Text(
+                          child: Text(
                             '🔥 Racha de 7 días activa',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColorsUnified.pureWhite,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               shadows: [
                                 Shadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 1),
+                                  color: AppColorsUnified.black26,
+                                  offset: const Offset(0, 1),
                                   blurRadius: 2,
                                 ),
                               ],
@@ -383,19 +382,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [DashboardColors.orange, DashboardColors.orangeGlow],
+            gradient: const LinearGradient(
+              colors: [AppColorsUnified.orange, AppColorsUnified.orange],
             ),
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: DashboardColors.orangeShadow,
+                color: AppColorsUnified.fade(AppColorsUnified.orange, 0.3),
                 blurRadius: 8,
                 spreadRadius: 1,
               ),
             ],
           ),
-          child: Icon(icon, color: Colors.white, size: 20),
+          child: Icon(icon, color: AppColorsUnified.pureWhite, size: 20),
         ),
         const SizedBox(width: 12),
         Text(
@@ -403,7 +402,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: DashboardColors.charcoal,
+            color: AppColorsUnified.charcoal,
           ),
         ),
       ],
@@ -413,11 +412,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget _buildAnimatedStats() {
     return Row(
       children: [
-        Expanded(child: _buildAnimatedStatCard('Ofertas', '12', Icons.local_offer, DashboardColors.orange, 0, '/requests')),
+        Expanded(child: _buildAnimatedStatCard('Ofertas', '12', Icons.local_offer, AppColorsUnified.orange, 0, '/requests')),
         const SizedBox(width: 12),
-        Expanded(child: _buildAnimatedStatCard('Mensajes', '5', Icons.chat_bubble, DashboardColors.woodLight, 100, '/messages')),
+        Expanded(child: _buildAnimatedStatCard('Mensajes', '5', Icons.chat_bubble, AppColorsUnified.orangeLight, 100, '/messages')),
         const SizedBox(width: 12),
-        Expanded(child: _buildAnimatedStatCard('Grupos', '3', Icons.groups, DashboardColors.orangeBright, 200, '/groups')),
+        Expanded(child: _buildAnimatedStatCard('Grupos', '3', Icons.groups, AppColorsUnified.orange, 200, '/groups')),
       ],
     );
   }
@@ -471,22 +470,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.3),
+                              color: AppColorsUnified.whiteTransparent30,
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(icon, color: Colors.white, size: 28),
+                            child: Icon(icon, color: AppColorsUnified.pureWhite, size: 28),
                           ),
                           const SizedBox(height: 12),
                           Text(
                             value,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: AppColorsUnified.pureWhite,
                               shadows: [
                                 Shadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 2),
+                                  color: AppColorsUnified.black26,
+                                  offset: const Offset(0, 2),
                                   blurRadius: 4,
                                 ),
                               ],
@@ -497,7 +496,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             label,
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white.withValues(alpha: 0.9),
+                              color: AppColorsUnified.whiteTransparent90,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -525,18 +524,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                DashboardColors.orange.withValues(alpha: 0.1),
-                DashboardColors.orangeGlow.withValues(alpha: 0.05),
+                AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
+                AppColorsUnified.fade(AppColorsUnified.orange, 0.05),
               ],
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: DashboardColors.orange.withValues(alpha: 0.3),
+              color: AppColorsUnified.fade(AppColorsUnified.orange, 0.3),
               width: 2,
             ),
             boxShadow: [
               BoxShadow(
-                color: DashboardColors.orange.withValues(alpha: 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -557,7 +556,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: DashboardColors.orange.withValues(alpha: 0.4),
+                      color: AppColorsUnified.fade(AppColorsUnified.orange, 0.4),
                       blurRadius: 12,
                       spreadRadius: 2,
                     ),
@@ -568,9 +567,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   children: [
                     Transform.rotate(
                       angle: _shimmerController.value * 2 * math.pi * 0.5,
-                      child: const Icon(
+                      child: Icon(
                         Icons.apps_rounded,
-                        color: Colors.white,
+                        color: AppColorsUnified.pureWhite,
                         size: 32,
                       ),
                     ),
@@ -587,7 +586,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: DashboardColors.charcoal,
+                        color: AppColorsUnified.charcoal,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -595,7 +594,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       'Toca el botón flotante naranja para acceder a todas las secciones desde cualquier pantalla',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey[600],
+                        color: AppColorsUnified.grey600,
                         height: 1.4,
                       ),
                     ),
@@ -604,7 +603,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
               Icon(
                 Icons.touch_app,
-                color: DashboardColors.orange.withValues(alpha: 0.6),
+                color: AppColorsUnified.fade(AppColorsUnified.orange, 0.6),
                 size: 32,
               ),
             ],
@@ -623,7 +622,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           title: 'Nueva oportunidad disponible',
           subtitle: 'Servicio de Perforación -50%',
           time: 'Hace 2 horas',
-          iconColor: DashboardColors.orange,
+          iconColor: AppColorsUnified.orange,
           delay: 0,
         ),
         const SizedBox(height: 12),
@@ -632,7 +631,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           title: '3 nuevos mineros se unieron',
           subtitle: 'A tu grupo "Extracción Norte"',
           time: 'Hace 5 horas',
-          iconColor: DashboardColors.woodLight,
+          iconColor: AppColorsUnified.orangeLight,
           delay: 100,
         ),
         const SizedBox(height: 12),
@@ -641,7 +640,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           title: 'Nuevo pedido confirmado',
           subtitle: 'Equipo de seguridad - \$1,250',
           time: 'Ayer',
-          iconColor: DashboardColors.orangeBright,
+          iconColor: AppColorsUnified.orange,
           delay: 200,
         ),
       ],
@@ -668,9 +667,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             child: Container(
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
-                color: DashboardColors.white,
+                color: AppColorsUnified.pureWhite,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: DashboardColors.gray200, width: 1.5),
+                border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1), width: 1.5),
                 boxShadow: [
                   BoxShadow(
                     color: iconColor.withValues(alpha: 0.1),
@@ -699,7 +698,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                           ],
                         ),
-                        child: Icon(icon, color: Colors.white, size: 26),
+                        child: Icon(icon, color: AppColorsUnified.pureWhite, size: 26),
                       );
                     },
                   ),
@@ -713,7 +712,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: DashboardColors.charcoal,
+                            color: AppColorsUnified.charcoal,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -721,7 +720,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           subtitle,
                           style: TextStyle(
                             fontSize: 14,
-                            color: DashboardColors.gray600,
+                            color: AppColorsUnified.textSecondary,
                           ),
                         ),
                       ],
@@ -762,7 +761,7 @@ class _GoldPatternPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Círculos dorados rotando
     final goldPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.15)
+      ..color = AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.15)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
@@ -775,7 +774,7 @@ class _GoldPatternPainter extends CustomPainter {
     
     // Capas naranja flotantes
     final orangePaint = Paint()
-      ..color = AppColorsUnified.orangeApple.withValues(alpha: 0.2)
+      ..color = AppColorsUnified.fade(AppColorsUnified.orangeApple, 0.2)
       ..style = PaintingStyle.fill;
     
     for (int i = 0; i < 3; i++) {
@@ -787,7 +786,7 @@ class _GoldPatternPainter extends CustomPainter {
     
     // Capas madera (rectángulos suaves)
     final woodPaint = Paint()
-      ..color = AppColorsUnified.textSecondary.withValues(alpha: 0.1)
+      ..color = AppColorsUnified.fade(AppColorsUnified.textSecondary, 0.1)
       ..style = PaintingStyle.fill;
     
     for (int i = 0; i < 2; i++) {
@@ -806,7 +805,7 @@ class _GoldPatternPainter extends CustomPainter {
 
     // Líneas onduladas doradas
     final wavePaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.1)
+      ..color = AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
     

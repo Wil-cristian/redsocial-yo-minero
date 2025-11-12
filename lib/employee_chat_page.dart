@@ -96,17 +96,17 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
       appBar: AppBar(
         title: Text(widget.employee['name'] as String),
         backgroundColor: AppColorsUnified.companySecondary,
-        foregroundColor: Colors.white,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -200,11 +200,11 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                     decoration: BoxDecoration(
                       color: isMe
                           ? AppColorsUnified.companySecondary
-                          : Colors.grey[200],
+                          : AppColorsUnified.background,
                       borderRadius: BorderRadius.circular(18),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
@@ -219,7 +219,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                           message['text'],
                           style: TextStyle(
                             fontSize: 14,
-                            color: isMe ? Colors.white : Colors.black87,
+                            color: isMe ? AppColorsUnified.pureWhite : AppColorsUnified.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -228,8 +228,8 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                           style: TextStyle(
                             fontSize: 11,
                             color: isMe
-                                ? Colors.white.withValues(alpha: 0.7)
-                                : Colors.grey[600],
+                                ? AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.7)
+                                : AppColorsUnified.textSecondary,
                           ),
                         ),
                       ],
@@ -244,9 +244,9 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(color: Colors.grey[200]!, width: 1),
+              color: AppColorsUnified.pureWhite,
+              border: const Border(
+                top: BorderSide(color: AppColorsUnified.background, width: 1),
               ),
             ),
             child: Row(
@@ -309,14 +309,14 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                       hintText: 'Escribe un mensaje...',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
+                        borderSide: BorderSide(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 10,
                       ),
                       filled: true,
-                      fillColor: Colors.grey[100],
+                      fillColor: AppColorsUnified.background,
                     ),
                     onSubmitted: (_) => _sendMessage(),
                   ),
@@ -367,7 +367,7 @@ class _EmployeeChatPageState extends State<EmployeeChatPage> {
                 label: const Text('Cerrar'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColorsUnified.companySecondary,
-                  foregroundColor: Colors.white,
+                  foregroundColor: AppColorsUnified.pureWhite,
                 ),
               ),
             ),

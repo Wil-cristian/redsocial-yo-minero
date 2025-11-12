@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class CachedImage extends StatelessWidget {
   final String? imageUrl;
@@ -50,13 +51,13 @@ class CachedImage extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: Colors.grey.shade200,
+            color: AppColorsUnified.background,
             borderRadius: borderRadius,
           ),
           child: Icon(
             Icons.image_outlined,
             size: 40,
-            color: Colors.grey.shade400,
+            color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
           ),
         );
   }
@@ -66,13 +67,13 @@ class CachedImage extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: AppColorsUnified.background,
         borderRadius: borderRadius,
       ),
       child: Icon(
         Icons.broken_image_outlined,
         size: 40,
-        color: Colors.grey.shade400,
+        color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2),
       ),
     );
   }
@@ -98,7 +99,7 @@ class CircularCachedImage extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: AppColorsUnified.background,
       backgroundImage: NetworkImage(imageUrl!),
       onBackgroundImageError: (error, stackTrace) {},
       child: null,
@@ -109,11 +110,11 @@ class CircularCachedImage extends StatelessWidget {
     return placeholder ??
         CircleAvatar(
           radius: radius,
-          backgroundColor: Colors.grey.shade300,
+          backgroundColor: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
           child: Icon(
             Icons.person,
             size: radius * 1.2,
-            color: Colors.grey.shade600,
+            color: AppColorsUnified.textSecondary,
           ),
         );
   }

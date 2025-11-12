@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'package:yominero/shared/models/post.dart';
 import 'core/theme/colors.dart';
 
@@ -61,8 +62,8 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary,
-            AppColors.primary.withValues(alpha: 0.8),
+            AppColorsUnified.orange,
+            AppColorsUnified.orange.withValues(alpha: 0.8),
             AppColors.secondary.withValues(alpha: 0.9),
           ],
         ),
@@ -212,7 +213,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
@@ -298,16 +299,16 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                       'Contenido',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       widget.post.content,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         height: 1.6,
-                        color: AppColors.textPrimary,
+                        color: AppColorsUnified.textPrimary,
                       ),
                     ),
                   ],
@@ -346,13 +347,13 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                               decoration: BoxDecoration(
                                 gradient: _isLiked 
                                     ? LinearGradient(
-                                        colors: [AppColors.primary, AppColors.secondary],
+                                        colors: [AppColorsUnified.orange, AppColors.secondary],
                                       )
                                     : null,
                                 color: _isLiked ? null : Colors.grey.shade100,
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: _isLiked ? AppColors.primary : Colors.grey.shade300,
+                                  color: _isLiked ? AppColorsUnified.orange : Colors.grey.shade300,
                                 ),
                               ),
                               child: Row(
@@ -360,14 +361,14 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                                 children: [
                                   Icon(
                                     _isLiked ? Icons.favorite : Icons.favorite_outline,
-                                    color: _isLiked ? Colors.white : AppColors.textSecondary,
+                                    color: _isLiked ? Colors.white : AppColorsUnified.textSecondary,
                                     size: 20,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
                                     '$_likes',
                                     style: TextStyle(
-                                      color: _isLiked ? Colors.white : AppColors.textSecondary,
+                                      color: _isLiked ? Colors.white : AppColorsUnified.textSecondary,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -387,15 +388,15 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: Colors.grey.shade300),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.comment_outlined, color: AppColors.textSecondary, size: 20),
-                          const SizedBox(width: 8),
+                          Icon(Icons.comment_outlined, color: AppColorsUnified.textSecondary, size: 20),
+                          SizedBox(width: 8),
                           Text(
                             'Comentar',
                             style: TextStyle(
-                              color: AppColors.textSecondary,
+                              color: AppColorsUnified.textSecondary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -411,15 +412,15 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: Colors.grey.shade300),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.share_outlined, color: AppColors.textSecondary, size: 20),
-                          const SizedBox(width: 8),
+                          Icon(Icons.share_outlined, color: AppColorsUnified.textSecondary, size: 20),
+                          SizedBox(width: 8),
                           Text(
                             'Compartir',
                             style: TextStyle(
-                              color: AppColors.textSecondary,
+                              color: AppColorsUnified.textSecondary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

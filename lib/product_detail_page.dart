@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/product.dart';
 import 'core/theme/colors.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 /// Displays detailed information about a product with beautiful design
 /// and enhanced user interactions including cart, favorites, and sharing.
@@ -59,7 +60,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${widget.product.name} agregado al carrito'),
-        backgroundColor: AppColors.success,
+        backgroundColor: AppColorsUnified.success,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -75,7 +76,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
           colors: [
             AppColors.secondary,
             AppColors.secondary.withValues(alpha: 0.8),
-            AppColors.primary.withValues(alpha: 0.9),
+            AppColorsUnified.orange.withValues(alpha: 0.9),
           ],
         ),
       ),
@@ -90,7 +91,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
               height: 140,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1),
               ),
             ),
           ),
@@ -102,7 +103,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
               height: 90,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.05),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.05),
               ),
             ),
           ),
@@ -119,13 +120,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                    border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                   ),
                   child: Icon(
                     _getProductIcon(),
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     size: 30,
                   ),
                 ),
@@ -133,8 +134,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                 // Product name
                 Text(
                   widget.product.name,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: AppColorsUnified.pureWhite,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
@@ -145,8 +146,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                 // Price
                 Text(
                   '\$${widget.product.price.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: AppColorsUnified.pureWhite,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -172,17 +173,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
+        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: AppColorsUnified.pureWhite,
               fontWeight: FontWeight.bold,
               fontSize: 12,
             ),
@@ -190,7 +191,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.8),
+              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.8),
               fontSize: 10,
             ),
           ),
@@ -215,7 +216,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
@@ -227,12 +228,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
               ),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -240,9 +241,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
               Container(
                 margin: const EdgeInsets.only(right: 4),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                 ),
                 child: AnimatedBuilder(
                   animation: _favoriteAnimationController,
@@ -252,7 +253,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                       child: IconButton(
                         icon: Icon(
                           _isFavorite ? Icons.favorite : Icons.favorite_outline,
-                          color: Colors.white,
+                          color: AppColorsUnified.pureWhite,
                         ),
                         onPressed: _toggleFavorite,
                       ),
@@ -263,12 +264,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
               Container(
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.share, color: Colors.white),
+                  icon: Icon(Icons.share, color: AppColorsUnified.pureWhite),
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Compartir producto próximamente')),
@@ -291,11 +292,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
                       blurRadius: 15,
                       offset: const Offset(0, 5),
                     ),
@@ -308,16 +309,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                       'Descripción',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       widget.product.description,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         height: 1.6,
-                        color: AppColors.textPrimary,
+                        color: AppColorsUnified.textPrimary,
                       ),
                     ),
                   ],
@@ -330,11 +331,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
                       blurRadius: 15,
                       offset: const Offset(0, 5),
                     ),
@@ -347,7 +348,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                       'Especificaciones',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -366,12 +367,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [AppColors.secondary, AppColors.primary],
+                    colors: [AppColors.secondary, AppColorsUnified.orange],
                   ),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.3),
+                      color: AppColorsUnified.orange.withValues(alpha: 0.3),
                       blurRadius: 15,
                       offset: const Offset(0, 8),
                     ),
@@ -387,17 +388,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                             scale: 1.0 + (_cartAnimationController.value * 0.05),
                             child: ElevatedButton.icon(
                               onPressed: widget.product.inStock ? _addToCart : null,
-                              icon: Icon(Icons.shopping_cart, color: AppColors.primary),
+                              icon: const Icon(Icons.shopping_cart, color: AppColorsUnified.orange),
                               label: Text(
                                 widget.product.inStock ? 'Agregar al Carrito' : 'No Disponible',
-                                style: TextStyle(
-                                  color: AppColors.primary,
+                                style: const TextStyle(
+                                  color: AppColorsUnified.orange,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
+                                backgroundColor: AppColorsUnified.pureWhite,
                                 padding: const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -430,9 +431,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             flex: 2,
             child: Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
+                color: AppColorsUnified.textSecondary,
               ),
             ),
           ),
@@ -440,9 +441,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
             flex: 3,
             child: Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
+                color: AppColorsUnified.textPrimary,
               ),
             ),
           ),

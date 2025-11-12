@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'core/theme/colors.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class CompanyRequestedServicesPage extends StatefulWidget {
@@ -83,39 +82,53 @@ class _CompanyRequestedServicesPageState
       case 'En Progreso':
         return AppColorsUnified.companyBlue;
       case 'Pendiente':
-        return AppColorsUnified.orange;
+        return AppColorsUnified.warning;
       case 'Cancelado':
         return AppColorsUnified.error;
       default:
-        return Colors.grey;
+        return AppColorsUnified.textSecondary;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       appBar: AppBar(
         title: const Text('Servicios Pedidos'),
-        backgroundColor: AppColorsUnified.companySecondary,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.pureWhite,
+        foregroundColor: AppColorsUnified.textPrimary,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColorsUnified.grey200,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: AppColorsUnified.grey300),
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _showAddServiceDialog(),
+          Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              gradient: AppColorsUnified.goldGradient,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: Icon(Icons.add, color: AppColorsUnified.textPrimary),
+              onPressed: () => _showAddServiceDialog(),
+            ),
           ),
         ],
       ),
@@ -138,11 +151,14 @@ class _CompanyRequestedServicesPageState
                         _selectedStatus = status;
                       });
                     },
-                    backgroundColor: Colors.white,
-                    selectedColor: AppColorsUnified.companySecondary,
+                    backgroundColor: AppColorsUnified.pureWhite,
+                    selectedColor: AppColorsUnified.fade(AppColorsUnified.gold, 0.15),
+                    side: BorderSide(
+                      color: isSelected ? AppColorsUnified.gold : AppColorsUnified.grey300,
+                    ),
                     labelStyle: TextStyle(
-                      color: isSelected ? Colors.white : Colors.grey[700],
-                      fontWeight: FontWeight.w600,
+                      color: isSelected ? AppColorsUnified.gold : AppColorsUnified.textSecondary,
+                      fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                     ),
                   );
                 }).toList(),
@@ -156,9 +172,9 @@ class _CompanyRequestedServicesPageState
                 children: [
                   Text(
                     '${_filteredServices.length} servicios',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.grey[600],
+                      color: AppColorsUnified.textSecondary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -177,14 +193,14 @@ class _CompanyRequestedServicesPageState
                     Icon(
                       Icons.build,
                       size: 48,
-                      color: Colors.grey[300],
+                      color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
                     ),
                     const SizedBox(height: 16),
-                    Text(
+                    const Text(
                       'No se encontraron servicios',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey[600],
+                        color: AppColorsUnified.textSecondary,
                       ),
                     ),
                   ],
@@ -215,11 +231,12 @@ class _CompanyRequestedServicesPageState
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColorsUnified.grey300),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: AppColorsUnified.shadowLight,
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -248,15 +265,15 @@ class _CompanyRequestedServicesPageState
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: AppColorsUnified.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             service['provider'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 12,
-                              color: Colors.grey[600],
+                              color: AppColorsUnified.textSecondary,
                             ),
                           ),
                         ],
@@ -291,9 +308,9 @@ class _CompanyRequestedServicesPageState
                 // Description
                 Text(
                   service['description'],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 13,
-                    color: Colors.grey[600],
+                    color: AppColorsUnified.textSecondary,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -308,11 +325,11 @@ class _CompanyRequestedServicesPageState
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Fecha',
                           style: TextStyle(
                             fontSize: 11,
-                            color: Colors.grey[600],
+                            color: AppColorsUnified.textSecondary,
                           ),
                         ),
                         Text(
@@ -320,7 +337,7 @@ class _CompanyRequestedServicesPageState
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: Colors.black87,
+                            color: AppColorsUnified.textPrimary,
                           ),
                         ),
                       ],
@@ -328,11 +345,11 @@ class _CompanyRequestedServicesPageState
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
+                        const Text(
                           'Costo',
                           style: TextStyle(
                             fontSize: 11,
-                            color: Colors.grey[600],
+                            color: AppColorsUnified.textSecondary,
                           ),
                         ),
                         Text(
@@ -340,7 +357,7 @@ class _CompanyRequestedServicesPageState
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: AppColorsUnified.textPrimary,
                           ),
                         ),
                       ],
@@ -396,7 +413,7 @@ class _CompanyRequestedServicesPageState
                     label: const Text('Contactar Proveedor'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColorsUnified.companySecondary,
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColorsUnified.pureWhite,
                     ),
                   ),
                 ),
@@ -407,8 +424,8 @@ class _CompanyRequestedServicesPageState
                     icon: const Icon(Icons.edit),
                     label: const Text('Editar'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[600],
-                      foregroundColor: Colors.white,
+                      backgroundColor: AppColorsUnified.textSecondary,
+                      foregroundColor: AppColorsUnified.pureWhite,
                     ),
                   ),
                 ),

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:yominero/core/auth/supabase_auth_service.dart';
 import 'package:yominero/core/di/locator.dart';
-import 'package:yominero/core/theme/colors.dart';
 import 'package:yominero/features/messaging/data/supabase_messaging_repository.dart';
 import 'package:yominero/shared/models/conversation.dart';
 import 'package:yominero/shared/models/message.dart';
@@ -176,17 +175,17 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       appBar: AppBar(
         title: Row(
           children: [
             CircleAvatar(
               radius: 18,
-              backgroundColor: AppColors.primary.withValues(alpha: 0.2),
+              backgroundColor: AppColorsUnified.orange.withValues(alpha: 0.2),
               child: Text(
                 widget.otherUserId.substring(0, 2).toUpperCase(),
-                style: TextStyle(
-                  color: AppColors.primary,
+                style: const TextStyle(
+                  color: AppColorsUnified.orange,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
@@ -205,8 +204,8 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ],
         ),
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColorsUnified.orange,
+        foregroundColor: AppColorsUnified.pureWhite,
         elevation: 0,
       ),
       body: Column(
@@ -222,8 +221,8 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildMessagesList() {
     if (_isLoading) {
-      return Center(
-        child: CircularProgressIndicator(color: AppColors.primary),
+      return const Center(
+        child: CircularProgressIndicator(color: AppColorsUnified.orange),
       );
     }
 
@@ -241,8 +240,8 @@ class _ChatPageState extends State<ChatPage> {
               icon: const Icon(Icons.refresh),
               label: const Text('Reintentar'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
+                backgroundColor: AppColorsUnified.orange,
+                foregroundColor: AppColorsUnified.pureWhite,
               ),
             ),
           ],
@@ -258,22 +257,22 @@ class _ChatPageState extends State<ChatPage> {
             Icon(
               Icons.chat_bubble_outline,
               size: 80,
-              color: Colors.grey.shade300,
+              color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
             ),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               'No hay mensajes aún',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.grey.shade600,
+                color: AppColorsUnified.textSecondary,
               ),
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               'Inicia la conversación',
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey.shade500,
+                color: AppColorsUnified.textSecondary,
               ),
             ),
           ],
@@ -303,13 +302,13 @@ class _ChatPageState extends State<ChatPage> {
           if (!isMe) ...[
             CircleAvatar(
               radius: 16,
-              backgroundColor: Colors.grey.shade300,
+              backgroundColor: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
               child: Text(
                 message.senderId.substring(0, 1).toUpperCase(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                 ),
               ),
             ),
@@ -319,7 +318,7 @@ class _ChatPageState extends State<ChatPage> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: isMe ? AppColors.primary : Colors.grey.shade200,
+                color: isMe ? AppColorsUnified.orange : AppColorsUnified.background,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(16),
                   topRight: const Radius.circular(16),
@@ -333,7 +332,7 @@ class _ChatPageState extends State<ChatPage> {
                   Text(
                     message.content,
                     style: TextStyle(
-                      color: isMe ? Colors.white : Colors.black87,
+                      color: isMe ? AppColorsUnified.pureWhite : AppColorsUnified.textPrimary,
                       fontSize: 15,
                     ),
                   ),
@@ -341,7 +340,7 @@ class _ChatPageState extends State<ChatPage> {
                   Text(
                     _formatTime(message.createdAt),
                     style: TextStyle(
-                      color: isMe ? Colors.white70 : Colors.grey.shade600,
+                      color: isMe ? AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.7) : AppColorsUnified.textSecondary,
                       fontSize: 11,
                     ),
                   ),
@@ -353,13 +352,13 @@ class _ChatPageState extends State<ChatPage> {
             const SizedBox(width: 8),
             CircleAvatar(
               radius: 16,
-              backgroundColor: AppColors.primary.withValues(alpha: 0.2),
+              backgroundColor: AppColorsUnified.orange.withValues(alpha: 0.2),
               child: Text(
                 message.senderId.substring(0, 1).toUpperCase(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+                  color: AppColorsUnified.orange,
                 ),
               ),
             ),
@@ -373,10 +372,10 @@ class _ChatPageState extends State<ChatPage> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColorsUnified.pureWhite,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -389,7 +388,7 @@ class _ChatPageState extends State<ChatPage> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
+                  color: AppColorsUnified.background,
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: TextField(
@@ -408,21 +407,21 @@ class _ChatPageState extends State<ChatPage> {
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
+                  colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.8)],
                 ),
                 shape: BoxShape.circle,
               ),
               child: IconButton(
                 icon: _isSending
-                    ? const SizedBox(
+                    ? SizedBox(
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(AppColorsUnified.pureWhite),
                         ),
                       )
-                    : const Icon(Icons.send, color: Colors.white),
+                    : Icon(Icons.send, color: AppColorsUnified.pureWhite),
                 onPressed: _isSending ? null : _sendMessage,
               ),
             ),

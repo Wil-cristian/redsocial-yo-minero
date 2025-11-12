@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors_unified.dart';
 
 class CustomSideDrawer extends StatefulWidget {
   final String? accountType;
@@ -74,49 +75,49 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
         'icon': Icons.home_rounded,
         'label': 'Inicio',
         'index': 0, // Índice en MainNavigationShell
-        'color': const Color(0xFF808080), // Gris medio
+        'color': AppColorsUnified.orange, // Naranja vibrante
       },
       {
         'icon': Icons.description_rounded,
         'label': 'Solicitudes',
         'route': '/requests', // Ruta externa
-        'color': const Color(0xFF858585), // Gris medio
+        'color': AppColorsUnified.grey500, // Gris equilibrado
       },
       {
         'icon': Icons.chat_bubble_rounded,
         'label': 'Mensajes',
         'route': '/messages', // Ruta externa
-        'color': const Color(0xFF757575), // Gris medio
+        'color': AppColorsUnified.grey500, // Gris equilibrado
       },
       {
         'icon': Icons.auto_awesome_rounded,
         'label': 'IA Sugerencias',
         'route': '/suggestions', // Ruta externa
-        'color': const Color(0xFF959595), // Gris medio-claro
+        'color': AppColorsUnified.gold, // Oro premium
       },
       {
         'icon': Icons.store_rounded,
         'label': 'Productos',
         'route': '/products', // Ruta externa
-        'color': const Color(0xFF909090), // Gris medio-claro
+        'color': AppColorsUnified.grey400, // Gris claro
       },
       {
         'icon': Icons.handyman_rounded,
         'label': 'Servicios',
         'route': '/services', // Ruta externa
-        'color': const Color(0xFF707070), // Gris medio
+        'color': AppColorsUnified.grey500, // Gris equilibrado
       },
       {
         'icon': Icons.person_rounded,
         'label': 'Perfil',
         'index': 2, // Índice en MainNavigationShell
-        'color': const Color(0xFF606060), // Gris medio-oscuro
+        'color': AppColorsUnified.grey600, // Gris medio-oscuro
       },
       {
         'icon': Icons.settings_rounded,
         'label': 'Configuración',
         'index': 4, // Índice en MainNavigationShell
-        'color': const Color(0xFF656565), // Gris medio-oscuro
+        'color': AppColorsUnified.grey600, // Gris medio-oscuro
       },
     ];
 
@@ -128,21 +129,21 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
           'icon': Icons.people_rounded,
           'label': 'Empleados',
           'route': '/company-employees',
-          'color': const Color(0xFFA0A0A0), // Gris claro (destacado)
+          'color': AppColorsUnified.gold, // Oro premium destacado
           'isCompany': true,
         },
         {
           'icon': Icons.bar_chart_rounded,
           'label': 'Métricas',
           'route': '/company-metrics',
-          'color': const Color(0xFFB0B0B0), // Gris claro (destacado)
+          'color': AppColorsUnified.copperDark, // Cobre premium
           'isCompany': true,
         },
         {
           'icon': Icons.diamond_rounded,
           'label': 'Producción',
           'route': '/company/production',
-          'color': const Color(0xFFC0C0C0), // Gris más claro (destacado)
+          'color': AppColorsUnified.gold, // Oro premium brillante
           'isCompany': true,
         },
       ]);
@@ -166,7 +167,7 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
             child: FadeTransition(
               opacity: _fadeAnimation,
               child: Container(
-                color: Colors.black.withValues(alpha: 0.5),
+                color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.5),
               ),
             ),
           ),
@@ -180,18 +181,18 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
               width: 280,
               height: double.infinity,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF2A2A2A), // Gris oscuro 1
-                    Color(0xFF1F1F1F), // Gris oscuro 2
-                    Color(0xFF151515), // Gris oscuro 3
+                    AppColorsUnified.charcoal, // Carbón oscuro
+                    AppColorsUnified.darken(AppColorsUnified.charcoal, 0.1),
+                    AppColorsUnified.darken(AppColorsUnified.charcoal, 0.2),
                   ],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
+                    color: AppColorsUnified.blackTransparent30,
                     blurRadius: 20,
                     offset: const Offset(4, 0),
                   ),
@@ -234,7 +235,7 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
                                 gradient: LinearGradient(
                                   colors: [
                                     Colors.transparent,
-                                    const Color(0xFF808080).withValues(alpha: 0.5),
+                                    AppColorsUnified.fade(AppColorsUnified.gold, 0.5),
                                     Colors.transparent,
                                   ],
                                 ),
@@ -252,12 +253,12 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFF404040),
+                                      color: AppColorsUnified.grey700,
                                       borderRadius: BorderRadius.circular(6),
                                     ),
                                     child: const Icon(
                                       Icons.business_rounded,
-                                      color: Color(0xFFE0E0E0),
+                                      color: AppColorsUnified.gold,
                                       size: 14,
                                     ),
                                   ),
@@ -265,7 +266,7 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
                                   const Text(
                                     'OPCIONES EMPRESA',
                                     style: TextStyle(
-                                      color: Color(0xFFB0B0B0),
+                                      color: AppColorsUnified.gold,
                                       fontSize: 11,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 1.2,
@@ -314,12 +315,12 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
               width: 40,
               height: 80,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFF606060), // Gris medio
-                    Color(0xFF404040), // Gris medio-oscuro
+                    AppColorsUnified.grey600, // Gris medio
+                    AppColorsUnified.grey700, // Gris medio-oscuro
                   ],
                 ),
                 borderRadius: const BorderRadius.only(
@@ -328,7 +329,7 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.4),
+                    color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.4),
                     blurRadius: 12,
                     offset: const Offset(2, 0),
                   ),
@@ -338,9 +339,9 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
                 child: AnimatedRotation(
                   duration: const Duration(milliseconds: 300),
                   turns: _isOpen ? 0.5 : 0,
-                  child: const Icon(
+                  child: Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     size: 20,
                   ),
                 ),
@@ -367,17 +368,17 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF404040), // Gris medio oscuro
-            Color(0xFF2A2A2A), // Gris oscuro
+            AppColorsUnified.grey700, // Gris medio oscuro
+            AppColorsUnified.charcoal, // Carbón oscuro
           ],
         ),
         border: Border(
           bottom: BorderSide(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1),
             width: 1,
           ),
         ),
@@ -391,15 +392,15 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
             height: 60,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 colors: [
-                  Color(0xFF606060), // Gris medio
-                  Color(0xFF404040), // Gris medio-oscuro
+                  AppColorsUnified.gold, // Oro brillante
+                  AppColorsUnified.copperDark, // Cobre oscuro
                 ],
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.4),
+                  color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -408,8 +409,8 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
             child: Center(
               child: Text(
                 userName.isNotEmpty ? userName[0].toUpperCase() : 'U',
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: AppColorsUnified.pureWhite,
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
@@ -422,8 +423,8 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
           // Nombre de usuario
           Text(
             userName,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: AppColorsUnified.pureWhite,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -435,17 +436,17 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFF404040), // Gris medio-oscuro
+              color: AppColorsUnified.grey700, // Gris medio-oscuro
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: const Color(0xFF808080), // Gris medio
+                color: AppColorsUnified.gold, // Borde dorado
                 width: 1,
               ),
             ),
             child: Text(
               userType,
               style: const TextStyle(
-                color: Color(0xFFE0E0E0), // Gris claro para texto
+                color: AppColorsUnified.gold, // Texto dorado
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
@@ -471,13 +472,13 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
         // Borde más visible para opciones PRO
         border: isCompanyOption
             ? Border.all(
-                color: const Color(0xFFA0A0A0),
+                color: AppColorsUnified.gold, // Borde dorado premium
                 width: 1.5,
               )
             : null,
         // Fondo sutil para opciones PRO
         color: isCompanyOption
-            ? const Color(0xFF353535)
+            ? AppColorsUnified.fade(AppColorsUnified.charcoal, 0.5)
             : Colors.transparent,
       ),
       child: Material(
@@ -535,7 +536,7 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
                   child: Text(
                     label,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColorsUnified.pureWhite,
                       fontSize: 16,
                       fontWeight: isCompanyOption
                           ? FontWeight.w600
@@ -550,20 +551,20 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE0E0E0), // Gris muy claro
+                      color: AppColorsUnified.gold, // Fondo dorado
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.2),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
                       ],
                     ),
-                    child: const Text(
+                    child: Text(
                       'PRO',
                       style: TextStyle(
-                        color: Color(0xFF202020), // Gris muy oscuro
+                        color: AppColorsUnified.charcoal, // Texto oscuro
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 0.5,
@@ -584,7 +585,7 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: Colors.white.withValues(alpha: 0.1),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1),
             width: 1,
           ),
         ),
@@ -594,14 +595,14 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
         children: [
           Icon(
             Icons.diamond_rounded,
-            color: Colors.white.withValues(alpha: 0.4),
+            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.4),
             size: 16,
           ),
           const SizedBox(width: 8),
           Text(
             'YoMinero v1.0',
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.4),
+              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.4),
               fontSize: 12,
             ),
           ),

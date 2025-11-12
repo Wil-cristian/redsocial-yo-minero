@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
-import 'core/theme/dashboard_colors.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'package:yominero/shared/models/post.dart';
 import 'core/routing/app_router.dart';
@@ -11,6 +10,7 @@ import 'core/matching/match_engine.dart';
 import 'core/matching/suggestion_cache.dart';
 import 'core/theme/animations.dart';
 import 'core/theme/glass_card.dart';
+import 'package:yominero/core/theme/app_colors_unified.dart';
 
 class CommunityPage extends StatefulWidget {
   const CommunityPage({super.key});
@@ -268,8 +268,8 @@ class _CommunityPageState extends State<CommunityPage> {
   Widget _buildSimpleHeader() {
     return Container(
       height: 100,
-      decoration: BoxDecoration(gradient: LinearGradient(colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)])),
-      child: const SafeArea(child: Center(child: Text('Comunidad', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)))),
+      decoration: BoxDecoration(gradient: AppColorsUnified.greySoftGradient),  // Blanco perla suave
+      child: SafeArea(child: Center(child: Text('Comunidad', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: AppColorsUnified.textPrimary)))),  // Texto negro
     );
   }
 
@@ -289,16 +289,16 @@ class _CommunityPageState extends State<CommunityPage> {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _openCreatePost,
-        backgroundColor: DashboardColors.primary,
+        backgroundColor: AppColorsUnified.gold,  // ⭐ ORO en vez de gris
         elevation: 8,
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text(
+        icon: Icon(Icons.add, color: AppColorsUnified.textPrimary),  // Icono negro
+        label: Text(
           'Nueva Publicación',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColorsUnified.textPrimary,  // Texto negro sobre oro
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -316,10 +316,10 @@ class _CommunityPageState extends State<CommunityPage> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
+                  color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -330,22 +330,22 @@ class _CommunityPageState extends State<CommunityPage> {
                 // Search Bar
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
+                    color: AppColorsUnified.background,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey.shade200),
+                    border: Border.all(color: AppColorsUnified.background),
                   ),
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Buscar en la comunidad...',
-                      hintStyle: TextStyle(color: Colors.grey.shade500),
+                      hintStyle: const TextStyle(color: AppColorsUnified.textSecondary),
                       prefixIcon: Container(
                         margin: const EdgeInsets.all(8),
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
+                          color: AppColorsUnified.orange.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Icon(Icons.search, color: AppColors.primary, size: 20),
+                        child: const Icon(Icons.search, color: AppColorsUnified.orange, size: 20),
                       ),
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -376,13 +376,13 @@ class _CommunityPageState extends State<CommunityPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.1),
+                        color: AppColorsUnified.orange.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         '${list.length} posts',
-                        style: TextStyle(
-                          color: AppColors.primary,
+                        style: const TextStyle(
+                          color: AppColorsUnified.orange,
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                         ),
@@ -416,7 +416,7 @@ class _CommunityPageState extends State<CommunityPage> {
                         k,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey[700],
+                              color: AppColorsUnified.charcoal,
                             ),
                       ),
                     );
@@ -484,8 +484,8 @@ class _CommunityPageState extends State<CommunityPage> {
                       padding: const EdgeInsets.all(16),
                       borderRadius: 16,
                       gradientColors: [
-                        Colors.white,
-                        AppColors.primaryContainer.withValues(alpha: 0.1),
+                        AppColorsUnified.pureWhite,
+                        AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
                       ],
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -496,23 +496,23 @@ class _CommunityPageState extends State<CommunityPage> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: AppColors.primaryContainer,
+                              color: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
                               p.type.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 11,
-                                  color: AppColors.primary,
+                                  color: AppColorsUnified.orange,
                                   fontWeight: FontWeight.w600),
                             ),
                           ),
                           const Spacer(),
                           Text('${mr.score} pts',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.primary)),
+                                  color: AppColorsUnified.orange)),
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -533,7 +533,7 @@ class _CommunityPageState extends State<CommunityPage> {
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
-                              ?.copyWith(color: Colors.grey[700], height: 1.3),
+                              ?.copyWith(color: AppColorsUnified.charcoal, height: 1.3),
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -574,17 +574,17 @@ class _CommunityPageState extends State<CommunityPage> {
         decoration: BoxDecoration(
           gradient: selected
               ? LinearGradient(
-                  colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)],
+                  colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.8)],
                 )
               : null,
-          color: selected ? null : Colors.grey.shade100,
+          color: selected ? null : AppColorsUnified.background,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: selected ? AppColors.primary : Colors.grey.shade300,
+            color: selected ? AppColorsUnified.orange : AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
           ),
           boxShadow: selected ? [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
+              color: AppColorsUnified.orange.withValues(alpha: 0.3),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -595,14 +595,14 @@ class _CommunityPageState extends State<CommunityPage> {
           children: [
             Icon(
               icon,
-              color: selected ? Colors.white : Colors.grey.shade600,
+              color: selected ? AppColorsUnified.pureWhite : AppColorsUnified.textSecondary,
               size: 16,
             ),
             const SizedBox(width: 6),
             Text(
               label,
               style: TextStyle(
-                color: selected ? Colors.white : Colors.grey.shade700,
+                color: selected ? AppColorsUnified.pureWhite : AppColorsUnified.charcoal,
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
               ),
@@ -661,8 +661,8 @@ class _PostCard extends StatelessWidget {
                       AppColors.secondaryContainer.withValues(alpha: .6),
                   child: Text(
                     post.title[0].toUpperCase(),
-                    style: TextStyle(
-                      color: AppColors.primary,
+                    style: const TextStyle(
+                      color: AppColorsUnified.orange,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -683,7 +683,7 @@ class _PostCard extends StatelessWidget {
                       Text(
                         _humanDate(DateTime(post.createdAt.year,
                             post.createdAt.month, post.createdAt.day)),
-                        style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                        style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12),
                       ),
                     ],
                   ),
@@ -694,16 +694,16 @@ class _PostCard extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryContainer,
+                      color: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text('$score pts',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.primary)),
+                            color: AppColorsUnified.orange)),
                   ),
-                Icon(Icons.more_vert, color: Colors.grey[400], size: 20),
+                Icon(Icons.more_vert, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2), size: 20),
               ],
             ),
             const SizedBox(height: 16),
@@ -720,7 +720,7 @@ class _PostCard extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium
-                  ?.copyWith(color: Colors.grey[700], height: 1.5),
+                  ?.copyWith(color: AppColorsUnified.charcoal, height: 1.5),
             ),
             const SizedBox(height: 20),
             Row(
@@ -732,8 +732,8 @@ class _PostCard extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: liked
-                          ? AppColors.primary.withValues(alpha: .15)
-                          : Colors.grey[100],
+                          ? AppColorsUnified.orange.withValues(alpha: .15)
+                          : AppColorsUnified.background,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -741,14 +741,14 @@ class _PostCard extends StatelessWidget {
                       children: [
                         Icon(
                           liked ? Icons.favorite : Icons.favorite_border,
-                          color: liked ? AppColors.primary : Colors.grey[600],
+                          color: liked ? AppColorsUnified.orange : AppColorsUnified.textSecondary,
                           size: 18,
                         ),
                         const SizedBox(width: 6),
                         Text(
                           post.likes.toString(),
                           style: TextStyle(
-                            color: liked ? AppColors.primary : Colors.grey[600],
+                            color: liked ? AppColorsUnified.orange : AppColorsUnified.textSecondary,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -761,18 +761,18 @@ class _PostCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.grey[100],
+                    color: AppColorsUnified.background,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.chat_bubble_outline,
-                          color: Colors.grey, size: 18),
+                          color: AppColorsUnified.textSecondary, size: 18),
                       SizedBox(width: 6),
                       Text('0',
                           style: TextStyle(
-                              color: Colors.grey, fontWeight: FontWeight.w600)),
+                              color: AppColorsUnified.textSecondary, fontWeight: FontWeight.w600)),
                     ],
                   ),
                 ),
@@ -781,11 +781,11 @@ class _PostCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.grey[100],
+                    color: AppColorsUnified.background,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Icon(Icons.share_outlined,
-                      color: Colors.grey, size: 18),
+                      color: AppColorsUnified.textSecondary, size: 18),
                 ),
               ],
             ),

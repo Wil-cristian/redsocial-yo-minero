@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 import '../shared/models/user.dart';
-import '../core/theme/colors.dart';
 import '../core/auth/supabase_auth_service.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -70,7 +69,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColorsUnified.background,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
@@ -82,11 +81,11 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.3),
+                color: AppColorsUnified.blackTransparent30,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -97,9 +96,9 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      AppColors.primary,
-                      AppColors.primary.withValues(alpha: 0.8),
-                      AppColors.primaryContainer,
+                      AppColorsUnified.orange,
+                      AppColorsUnified.orange.withValues(alpha: 0.8),
+                      AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
                     ],
                   ),
                 ),
@@ -114,7 +113,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                         height: 200,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha: 0.1),
+                          color: AppColorsUnified.whiteTransparent10,
                         ),
                       ),
                     ),
@@ -126,7 +125,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                         height: 300,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: AppColorsUnified.whiteTransparent05,
                         ),
                       ),
                     ),
@@ -147,19 +146,19 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                                     shape: BoxShape.circle,
                                     gradient: LinearGradient(
                                       colors: [
-                                        Colors.white.withValues(alpha: 0.3),
-                                        Colors.white.withValues(alpha: 0.1),
+                                        AppColorsUnified.whiteTransparent30,
+                                        AppColorsUnified.whiteTransparent10,
                                       ],
                                     ),
                                   ),
                                   child: CircleAvatar(
                                     radius: 50,
-                                    backgroundColor: Colors.white.withValues(alpha: 0.2),
+                                    backgroundColor: AppColorsUnified.whiteTransparent20,
                                     backgroundImage: widget.user.avatarUrl != null 
                                       ? NetworkImage(widget.user.avatarUrl!) 
                                       : null,
                                     child: widget.user.avatarUrl == null 
-                                      ? const Icon(Icons.person, size: 50, color: Colors.white)
+                                      ? Icon(Icons.person, size: 50, color: AppColorsUnified.pureWhite)
                                       : null,
                                   ),
                                 ),
@@ -169,19 +168,19 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                                   child: Container(
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: AppColorsUnified.pureWhite,
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withValues(alpha: 0.2),
+                                          color: AppColorsUnified.blackTransparent20,
                                           blurRadius: 8,
                                           offset: const Offset(0, 2),
                                         ),
                                       ],
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.camera_alt,
-                                      color: AppColors.primary,
+                                      color: AppColorsUnified.orange,
                                       size: 16,
                                     ),
                                   ),
@@ -193,14 +192,14 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                           Text(
                             'Editar Perfil',
                             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              color: Colors.white,
+                              color: AppColorsUnified.pureWhite,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             'Actualiza tu información personal',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.white.withValues(alpha: 0.9),
+                              color: AppColorsUnified.whiteTransparent90,
                             ),
                           ),
                         ],
@@ -213,18 +212,18 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(50),
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: AppColorsUnified.pureWhite,
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
                   ),
                 ),
                 child: TabBar(
                   controller: _tabController,
-                  labelColor: AppColors.primary,
-                  unselectedLabelColor: Colors.grey,
-                  indicatorColor: AppColors.primary,
+                  labelColor: AppColorsUnified.orange,
+                  unselectedLabelColor: AppColorsUnified.grey500,
+                  indicatorColor: AppColorsUnified.orange,
                   indicatorWeight: 3,
                   tabs: const [
                     Tab(text: 'Básico', icon: Icon(Icons.person_outline, size: 20)),
@@ -255,13 +254,13 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
           borderRadius: BorderRadius.circular(16),
           gradient: LinearGradient(
             colors: [
-              AppColors.primary,
-              AppColors.primary.withValues(alpha: 0.8),
+              AppColorsUnified.orange,
+              AppColorsUnified.orange.withValues(alpha: 0.8),
             ],
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.3),
+              color: AppColorsUnified.orange.withValues(alpha: 0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -271,8 +270,8 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
           onPressed: _saveProfile,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          icon: const Icon(Icons.save, color: Colors.white),
-          label: const Text('Guardar Cambios', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          icon: Icon(Icons.save, color: AppColorsUnified.pureWhite),
+          label: Text('Guardar Cambios', style: TextStyle(color: AppColorsUnified.pureWhite, fontWeight: FontWeight.bold)),
         ),
       ),
     );
@@ -290,14 +289,14 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.white,
-                  AppColors.primaryContainer.withValues(alpha: 0.1),
+                  AppColorsUnified.pureWhite,
+                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
+                  color: AppColorsUnified.blackTransparent08,
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
@@ -313,18 +312,18 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.7)],
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(Icons.person_outline, color: Colors.white, size: 24),
+                      child: Icon(Icons.person_outline, color: AppColorsUnified.pureWhite, size: 24),
                     ),
                     const SizedBox(width: 16),
                     Text(
                       'Información Personal',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                   ],
@@ -364,19 +363,19 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade50,
+                      color: AppColorsUnified.grey50,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.grey.shade200),
+                      border: Border.all(color: AppColorsUnified.grey200),
                     ),
                     child: Row(
                       children: [
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withValues(alpha: 0.1),
+                            color: AppColorsUnified.orange.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Icon(Icons.cake_outlined, color: AppColors.primary, size: 20),
+                          child: const Icon(Icons.cake_outlined, color: AppColorsUnified.orange, size: 20),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -386,7 +385,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                               Text(
                                 'Fecha de nacimiento',
                                 style: TextStyle(
-                                  color: Colors.grey.shade600,
+                                  color: AppColorsUnified.grey500,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -397,7 +396,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                                   ? '${_birthDate!.day}/${_birthDate!.month}/${_birthDate!.year}'
                                   : 'Seleccionar fecha',
                                 style: TextStyle(
-                                  color: _birthDate != null ? Colors.black87 : Colors.grey.shade500,
+                                  color: _birthDate != null ? AppColorsUnified.charcoal : AppColorsUnified.grey400,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -405,7 +404,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                             ],
                           ),
                         ),
-                        Icon(Icons.chevron_right, color: Colors.grey.shade400),
+                        Icon(Icons.chevron_right, color: AppColorsUnified.grey300),
                       ],
                     ),
                   ),
@@ -430,14 +429,14 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.white,
-                  AppColors.primaryContainer.withValues(alpha: 0.1),
+                  AppColorsUnified.pureWhite,
+                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
+                  color: AppColorsUnified.blackTransparent08,
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
@@ -453,18 +452,18 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.7)],
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(Icons.work_outline, color: Colors.white, size: 24),
+                      child: Icon(Icons.work_outline, color: AppColorsUnified.pureWhite, size: 24),
                     ),
                     const SizedBox(width: 16),
                     Text(
                       'Información Profesional',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                   ],
@@ -512,9 +511,9 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
+                    color: AppColorsUnified.background,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey.shade200),
+                    border: Border.all(color: AppColorsUnified.grey200),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -524,16 +523,16 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.1),
+                              color: AppColorsUnified.orange.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Icon(Icons.trending_up, color: AppColors.primary, size: 20),
+                            child: const Icon(Icons.trending_up, color: AppColorsUnified.orange, size: 20),
                           ),
                           const SizedBox(width: 12),
                           Text(
                             'Nivel de Experiencia',
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: AppColorsUnified.grey500,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -557,7 +556,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                             _getExperienceLevelText(level),
                             style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
-                          activeColor: AppColors.primary,
+                          activeColor: AppColorsUnified.orange,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -573,9 +572,9 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
+                    color: AppColorsUnified.background,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey.shade200),
+                    border: Border.all(color: AppColorsUnified.grey200),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -585,16 +584,16 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppColors.primary.withValues(alpha: 0.1),
+                              color: AppColorsUnified.orange.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Icon(Icons.science_outlined, color: AppColors.primary, size: 20),
+                            child: const Icon(Icons.science_outlined, color: AppColorsUnified.orange, size: 20),
                           ),
                           const SizedBox(width: 12),
                           Text(
                             'Especializaciones',
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: AppColorsUnified.grey500,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -619,11 +618,11 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                                 }
                               });
                             },
-                            backgroundColor: Colors.white,
-                            selectedColor: AppColors.primary.withValues(alpha: 0.2),
-                            checkmarkColor: AppColors.primary,
+                            backgroundColor: AppColorsUnified.pureWhite,
+                            selectedColor: AppColorsUnified.orange.withValues(alpha: 0.2),
+                            checkmarkColor: AppColorsUnified.orange,
                             labelStyle: TextStyle(
-                              color: isSelected ? AppColors.primary : Colors.grey.shade700,
+                              color: isSelected ? AppColorsUnified.orange : AppColorsUnified.grey700,
                               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                             ),
                           );
@@ -651,14 +650,14 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.white,
-                  AppColors.primaryContainer.withValues(alpha: 0.1),
+                  AppColorsUnified.pureWhite,
+                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
+                  color: AppColorsUnified.blackTransparent08,
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
@@ -674,18 +673,18 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.7)],
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(Icons.location_on_outlined, color: Colors.white, size: 24),
+                      child: Icon(Icons.location_on_outlined, color: AppColorsUnified.pureWhite, size: 24),
                     ),
                     const SizedBox(width: 16),
                     Text(
                       'Ubicación',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                   ],
@@ -731,7 +730,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [AppColors.primaryContainer, AppColors.primaryContainer.withValues(alpha: 0.7)],
+                      colors: [AppColorsUnified.fade(AppColorsUnified.orange, 0.1), AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.7)],
                     ),
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -745,11 +744,11 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    icon: Icon(Icons.my_location, color: AppColors.primary),
-                    label: Text(
+                    icon: const Icon(Icons.my_location, color: AppColorsUnified.orange),
+                    label: const Text(
                       'Usar ubicación actual',
                       style: TextStyle(
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -775,7 +774,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 end: Alignment.bottomRight,
                 colors: [
                   Colors.white,
-                  AppColors.primaryContainer.withValues(alpha: 0.1),
+                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
@@ -797,7 +796,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.7)],
+                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.7)],
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -808,7 +807,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                       'Intereses y Preferencias',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: AppColorsUnified.orange,
                       ),
                     ),
                   ],
@@ -846,10 +845,10 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                         });
                       },
                       backgroundColor: Colors.white,
-                      selectedColor: AppColors.primary.withValues(alpha: 0.2),
-                      checkmarkColor: AppColors.primary,
+                      selectedColor: AppColorsUnified.orange.withValues(alpha: 0.2),
+                      checkmarkColor: AppColorsUnified.orange,
                       labelStyle: TextStyle(
-                        color: isSelected ? AppColors.primary : Colors.grey.shade700,
+                        color: isSelected ? AppColorsUnified.orange : Colors.grey.shade700,
                         fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                       ),
                     );
@@ -892,10 +891,10 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
             margin: const EdgeInsets.all(12),
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
+              color: AppColorsUnified.orange.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: AppColors.primary, size: 20),
+            child: Icon(icon, color: AppColorsUnified.orange, size: 20),
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -961,7 +960,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Función de selección de avatar en desarrollo'),
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColorsUnified.orange,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -978,7 +977,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: AppColors.primary,
+              primary: AppColorsUnified.orange,
             ),
           ),
           child: child!,
@@ -997,7 +996,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Función de geolocalización en desarrollo'),
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColorsUnified.orange,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -1082,7 +1081,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
               Text('Guardando cambios...'),
             ],
           ),
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColorsUnified.orange,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           duration: const Duration(seconds: 30),
@@ -1105,7 +1104,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 Text('¡Perfil actualizado exitosamente!'),
               ],
             ),
-            backgroundColor: AppColors.success,
+            backgroundColor: AppColorsUnified.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             duration: const Duration(seconds: 2),
