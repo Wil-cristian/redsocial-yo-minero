@@ -110,6 +110,13 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
           onTap: () => Navigator.pushNamed(context, '/company/employees'),
         ),
         RadialMenuItem(
+          icon: Icons.inventory_2_rounded,
+          label: 'Inventario',
+          color: DashboardColors.cardOrange,
+          route: '/company-inventory',
+          onTap: () => Navigator.pushNamed(context, '/company-inventory'),
+        ),
+        RadialMenuItem(
           icon: Icons.analytics_rounded,
           label: 'Métricas',
           color: DashboardColors.cardGreen,

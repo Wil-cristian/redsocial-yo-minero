@@ -22,6 +22,11 @@ class Post {
   final int likes;
   final int comments;
   final bool active;
+  
+  // Información del autor
+  final String? authorName;
+  final String? authorUsername;
+  final String? authorProfileImage;
 
   // Request specific (Preguntas/Solicitudes)
   final List<String>? requiredTags;
@@ -69,6 +74,10 @@ class Post {
     this.likes = 0,
     this.comments = 0,
     this.active = true,
+    // Author info
+    this.authorName,
+    this.authorUsername,
+    this.authorProfileImage,
     // Request fields
     this.requiredTags,
     this.budgetAmount,

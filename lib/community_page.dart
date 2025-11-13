@@ -269,7 +269,7 @@ class _CommunityPageState extends State<CommunityPage> {
     return Container(
       height: 100,
       decoration: BoxDecoration(gradient: AppColorsUnified.greySoftGradient),  // Blanco perla suave
-      child: SafeArea(child: Center(child: Text('Comunidad', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: AppColorsUnified.textPrimary)))),  // Texto negro
+      child: const SafeArea(child: Center(child: Text('Comunidad', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: AppColorsUnified.textPrimary)))),  // Texto negro
     );
   }
 
@@ -294,8 +294,8 @@ class _CommunityPageState extends State<CommunityPage> {
         onPressed: _openCreatePost,
         backgroundColor: AppColorsUnified.gold,  // ⭐ ORO en vez de gris
         elevation: 8,
-        icon: Icon(Icons.add, color: AppColorsUnified.textPrimary),  // Icono negro
-        label: Text(
+        icon: const Icon(Icons.add, color: AppColorsUnified.textPrimary),  // Icono negro
+        label: const Text(
           'Nueva Publicación',
           style: TextStyle(
             color: AppColorsUnified.textPrimary,  // Texto negro sobre oro
@@ -659,14 +659,19 @@ class _PostCard extends StatelessWidget {
                   radius: 20,
                   backgroundColor:
                       AppColors.secondaryContainer.withValues(alpha: .6),
-                  child: Text(
-                    post.title[0].toUpperCase(),
-                    style: const TextStyle(
-                      color: AppColorsUnified.orange,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
+                  backgroundImage: post.authorProfileImage != null 
+                      ? NetworkImage(post.authorProfileImage!) 
+                      : null,
+                  child: post.authorProfileImage == null
+                      ? Text(
+                          (post.authorName ?? post.title)[0].toUpperCase(),
+                          style: const TextStyle(
+                            color: AppColorsUnified.orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        )
+                      : null,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -674,7 +679,7 @@ class _PostCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        post.authorId,
+                        post.authorName ?? post.authorUsername ?? 'Usuario ${post.authorId.substring(0, 8)}',
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge

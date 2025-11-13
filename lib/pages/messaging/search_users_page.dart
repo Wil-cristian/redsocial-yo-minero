@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:yominero/core/auth/supabase_auth_service.dart';
 import 'package:yominero/core/di/locator.dart';
+import 'package:yominero/features/connections/data/supabase_connection_repository.dart';
 import 'package:yominero/features/messaging/data/supabase_messaging_repository.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
+import 'package:yominero/shared/models/connection_request.dart';
 import 'chat_page.dart';
 
 class SearchUsersPage extends StatefulWidget {
@@ -15,10 +17,12 @@ class SearchUsersPage extends StatefulWidget {
 
 class _SearchUsersPageState extends State<SearchUsersPage> {
   final _messagingRepo = sl<MessagingRepository>();
+  final _connectionRepo = sl<ConnectionRepository>();
   final _authService = SupabaseAuthService.instance;
   final _searchController = TextEditingController();
   
   List<Map<String, dynamic>> _searchResults = [];
+  Map<String, String> _connectionStatus = {}; // userId -> status
   bool _isSearching = false;
   String? _error;
   Timer? _debounceTimer;
@@ -66,9 +70,17 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
       final currentUserId = _authService.currentUser?.id;
       final filteredResults = results.where((user) => user['id'] != currentUserId).toList();
       
+      // Verificar estado de conexión para cada usuario
+      final statusMap = <String, String>{};
+      for (final user in filteredResults) {
+        final userId = user['id'] as String;
+        statusMap[userId] = await _checkConnectionStatus(userId);
+      }
+      
       if (mounted) {
         setState(() {
           _searchResults = filteredResults;
+          _connectionStatus = statusMap;
           _isSearching = false;
           _error = null;
         });
@@ -81,6 +93,60 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
           _error = 'Error al buscar usuarios: $e';
           _isSearching = false;
         });
+      }
+    }
+  }
+
+  Future<String> _checkConnectionStatus(String userId) async {
+    final currentUserId = _authService.currentUser?.id;
+    if (currentUserId == null) return 'none';
+
+    try {
+      // Verificar si están conectados
+      final isConnected = await _connectionRepo.areUsersConnected(currentUserId, userId);
+      if (isConnected) return 'connected';
+
+      // Verificar si hay solicitud pendiente
+      final pendingRequest = await _connectionRepo.getPendingRequestBetweenUsers(currentUserId, userId);
+      if (pendingRequest != null) {
+        if (pendingRequest.senderId == currentUserId) {
+          return 'pending_sent';
+        } else {
+          return 'pending_received';
+        }
+      }
+
+      return 'none';
+    } catch (e) {
+      return 'none';
+    }
+  }
+
+  Future<void> _sendConnectionRequest(Map<String, dynamic> user) async {
+    try {
+      await _connectionRepo.sendConnectionRequest(user['id']);
+      
+      if (mounted) {
+        setState(() {
+          _connectionStatus[user['id']] = 'pending_sent';
+        });
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Solicitud enviada a ${user['name'] ?? 'usuario'}'),
+            backgroundColor: AppColorsUnified.success,
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: AppColorsUnified.error,
+          ),
+        );
       }
     }
   }
@@ -256,59 +322,174 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
   }
 
   Widget _buildUserTile(Map<String, dynamic> user) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      leading: CircleAvatar(
-        radius: 28,
-        backgroundColor: AppColorsUnified.orange.withValues(alpha: 0.1),
-        backgroundImage: user['profile_image_url'] != null 
-            ? NetworkImage(user['profile_image_url']) 
-            : null,
-        child: user['profile_image_url'] == null
-            ? Text(
-                (user['name'] ?? 'U')[0].toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: AppColorsUnified.orange,
-                ),
-              )
-            : null,
+    final status = _connectionStatus[user['id']] ?? 'none';
+    
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: AppColorsUnified.grey300, width: 1),
       ),
-      title: Text(
-        user['name'] ?? 'Usuario',
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
-          fontSize: 16,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        leading: CircleAvatar(
+          radius: 28,
+          backgroundColor: AppColorsUnified.gold.withValues(alpha: 0.15),
+          backgroundImage: user['profile_image_url'] != null 
+              ? NetworkImage(user['profile_image_url']) 
+              : null,
+          child: user['profile_image_url'] == null
+              ? Text(
+                  (user['name'] ?? 'U')[0].toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColorsUnified.gold,
+                  ),
+                )
+              : null,
         ),
-      ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (user['profession'] != null)
-            Text(
-              user['profession'],
-              style: TextStyle(
-                color: AppColorsUnified.charcoal,
-                fontSize: 14,
+        title: Text(
+          user['name'] ?? 'Usuario',
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (user['profession'] != null)
+              Text(
+                user['profession'],
+                style: TextStyle(
+                  color: AppColorsUnified.textSecondary,
+                  fontSize: 14,
+                ),
               ),
-            ),
-          if (user['company'] != null)
-            Text(
-              user['company'],
-              style: const TextStyle(
-                color: AppColorsUnified.textSecondary,
-                fontSize: 12,
+            if (user['company'] != null)
+              Text(
+                user['company'],
+                style: TextStyle(
+                  color: AppColorsUnified.grey500,
+                  fontSize: 12,
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
+        trailing: _buildActionButton(user, status),
       ),
-      trailing: IconButton(
-        icon: const Icon(Icons.message, color: AppColorsUnified.orange),
-        onPressed: () => _startConversation(user),
-        tooltip: 'Enviar mensaje',
-      ),
-      onTap: () => _startConversation(user),
     );
+  }
+
+  Widget _buildActionButton(Map<String, dynamic> user, String status) {
+    switch (status) {
+      case 'connected':
+        // Ya son contactos, puede chatear directamente
+        return ElevatedButton.icon(
+          onPressed: () => _startConversation(user),
+          icon: const Icon(Icons.chat, size: 18),
+          label: const Text('Chat'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColorsUnified.gold,
+            foregroundColor: AppColorsUnified.textPrimary,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        );
+        
+      case 'pending_sent':
+        // Solicitud enviada, esperando respuesta
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: AppColorsUnified.grey200,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.schedule,
+                size: 16,
+                color: AppColorsUnified.grey600,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                'Pendiente',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppColorsUnified.grey600,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        );
+        
+      case 'pending_received':
+        // Tiene solicitud de este usuario (debe ir a notificaciones)
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColorsUnified.gold.withValues(alpha: 0.2),
+                AppColorsUnified.gold.withValues(alpha: 0.1),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: AppColorsUnified.gold.withValues(alpha: 0.4),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.notification_important,
+                size: 16,
+                color: AppColorsUnified.gold,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                'Solicitud',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: AppColorsUnified.gold,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        );
+        
+      case 'none':
+      default:
+        // No hay conexión, puede enviar solicitud
+        return ElevatedButton.icon(
+          onPressed: () => _sendConnectionRequest(user),
+          icon: const Icon(Icons.person_add, size: 18),
+          label: const Text('Conectar'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColorsUnified.pureWhite,
+            foregroundColor: AppColorsUnified.gold,
+            elevation: 0,
+            side: BorderSide(
+              color: AppColorsUnified.gold,
+              width: 1.5,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        );
+    }
   }
 }

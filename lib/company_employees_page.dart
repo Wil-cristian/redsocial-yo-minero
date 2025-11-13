@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'core/theme/colors.dart';
 import 'employee_chat_page.dart';
 import 'create_employee_credentials_page.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
@@ -92,21 +93,21 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColorsUnified.background,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Gestión de Empleados'),
         backgroundColor: AppColorsUnified.companySecondary,
-        foregroundColor: AppColorsUnified.pureWhite,
+        foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
+            color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
           ),
           child: IconButton(
-            icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -114,12 +115,12 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
           Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
             ),
             child: IconButton(
-              icon: Icon(Icons.person_add, color: AppColorsUnified.pureWhite),
+              icon: const Icon(Icons.person_add, color: Colors.white),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -153,7 +154,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   filled: true,
-                  fillColor: AppColorsUnified.pureWhite,
+                  fillColor: Colors.white,
                 ),
               ),
             ),
@@ -173,10 +174,10 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                         _selectedFilter = filter;
                       });
                     },
-                    backgroundColor: AppColorsUnified.pureWhite,
+                    backgroundColor: Colors.white,
                     selectedColor: AppColorsUnified.companySecondary,
                     labelStyle: TextStyle(
-                      color: isSelected ? AppColorsUnified.pureWhite : AppColorsUnified.charcoal,
+                      color: isSelected ? Colors.white : Colors.grey[700],
                       fontWeight: FontWeight.w600,
                     ),
                   );
@@ -193,9 +194,9 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                 children: [
                   Text(
                     '${_filteredEmployees.length} empleados',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
-                      color: AppColorsUnified.textSecondary,
+                      color: Colors.grey[600],
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -214,14 +215,14 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                     Icon(
                       Icons.people_outline,
                       size: 48,
-                      color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
+                      color: Colors.grey[300],
                     ),
                     const SizedBox(height: 16),
-                    const Text(
+                    Text(
                       'No se encontraron empleados',
                       style: TextStyle(
                         fontSize: 16,
-                        color: AppColorsUnified.textSecondary,
+                        color: Colors.grey[600],
                       ),
                     ),
                   ],
@@ -253,15 +254,15 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: AppColorsUnified.pureWhite,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColorsUnified.background,
+          color: Colors.grey[200]!,
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -283,8 +284,8 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColorsUnified.fade(AppColorsUnified.companySecondary, 0.7),
-                        AppColorsUnified.fade(AppColorsUnified.companyBlue, 0.7),
+                        AppColorsUnified.companySecondary.withValues(alpha: 0.7),
+                        AppColorsUnified.companyBlue.withValues(alpha: 0.7),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(10),
@@ -292,8 +293,8 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                   child: Center(
                     child: Text(
                       employee['avatar'],
-                      style: TextStyle(
-                        color: AppColorsUnified.pureWhite,
+                      style: const TextStyle(
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -312,15 +313,15 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: AppColorsUnified.textPrimary,
+                          color: Colors.black87,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         employee['role'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
-                          color: AppColorsUnified.textSecondary,
+                          color: Colors.grey[600],
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -351,9 +352,9 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                           const SizedBox(width: 8),
                           Text(
                             employee['department'],
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 11,
-                              color: AppColorsUnified.textSecondary,
+                              color: Colors.grey[500],
                             ),
                           ),
                         ],
@@ -474,7 +475,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                 label: const Text('Editar Empleado'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColorsUnified.companySecondary,
-                  foregroundColor: AppColorsUnified.pureWhite,
+                  foregroundColor: Colors.white,
                 ),
               ),
             ),

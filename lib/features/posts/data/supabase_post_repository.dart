@@ -240,6 +240,9 @@ class SupabasePostRepository implements PostRepository {
         ? List<String>.from(json['images']) 
         : null;
     
+    // Extraer información del autor del JOIN
+    final author = json['author'] as Map<String, dynamic>?;
+    
     return Post(
       id: json['id'] as String,
       authorId: json['author_id'] as String,
@@ -256,6 +259,11 @@ class SupabasePostRepository implements PostRepository {
           : null,
       imageUrl: json['image_url'] as String?,
       active: json['active'] as bool? ?? true,
+      
+      // Información del autor
+      authorName: author?['name'] as String?,
+      authorUsername: author?['username'] as String?,
+      authorProfileImage: author?['profile_image_url'] as String?,
       
       // ========== Campos de REQUEST desde metadata ==========
       requiredTags: postType == PostType.request 

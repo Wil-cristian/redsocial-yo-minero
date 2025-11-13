@@ -107,7 +107,7 @@ class _CompanyRequestedServicesPageState
             border: Border.all(color: AppColorsUnified.grey300),
           ),
           child: IconButton(
-            icon: Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
+            icon: const Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -126,7 +126,7 @@ class _CompanyRequestedServicesPageState
               ],
             ),
             child: IconButton(
-              icon: Icon(Icons.add, color: AppColorsUnified.textPrimary),
+              icon: const Icon(Icons.add, color: AppColorsUnified.textPrimary),
               onPressed: () => _showAddServiceDialog(),
             ),
           ),

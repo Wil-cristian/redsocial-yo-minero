@@ -133,6 +133,13 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
           'isCompany': true,
         },
         {
+          'icon': Icons.inventory_2_rounded,
+          'label': 'Inventario',
+          'route': '/company-inventory',
+          'color': AppColorsUnified.copperDark, // Cobre premium
+          'isCompany': true,
+        },
+        {
           'icon': Icons.bar_chart_rounded,
           'label': 'Métricas',
           'route': '/company-metrics',

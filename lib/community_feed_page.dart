@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:yominero/core/theme/app_colors_unified.dart';
-import 'core/theme/dashboard_colors.dart';
+
+import 'shared/models/post.dart';
+import 'features/posts/domain/post_repository.dart';
+import 'core/theme/app_colors_unified.dart';
+import 'features/posts/ui/post_creation_sheet.dart';
+import 'shared/widgets/optimized_post_content.dart';
 import 'core/theme/rich_decorations.dart';
 import 'core/di/locator.dart';
 import 'core/auth/supabase_auth_service.dart';
-import 'features/posts/domain/post_repository.dart';
-import 'features/posts/ui/post_creation_sheet.dart';
-import 'shared/models/post.dart';
-import 'shared/widgets/optimized_post_content.dart';
 
 class CommunityFeedPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -102,7 +102,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: DashboardColors.lightGray,
+      backgroundColor: AppColorsUnified.background,
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -111,7 +111,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.8)],
+                  colors: [AppColorsUnified.orange, AppColorsUnified.fade(AppColorsUnified.orange, 0.8)],
                 ),
               ),
               child: SafeArea(
@@ -126,14 +126,14 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
+                              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Icon(Icons.people, color: Colors.white, size: 28),
+                            child: Icon(Icons.people, color: AppColorsUnified.pureWhite, size: 28),
                           ),
                           const Spacer(),
                           IconButton(
-                            icon: const Icon(Icons.add_circle_outline, color: Colors.white, size: 28),
+                            icon: Icon(Icons.add_circle_outline, color: AppColorsUnified.pureWhite, size: 28),
                             onPressed: () async {
                               final currentUser = SupabaseAuthService.instance.currentUser;
                               if (currentUser == null) {
@@ -149,7 +149,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
-                                backgroundColor: Colors.white,
+                                backgroundColor: AppColorsUnified.pureWhite,
                                 shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                                 ),
@@ -169,9 +169,9 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      const Text('Comunidad', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text('Comunidad', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: AppColorsUnified.pureWhite)),
                       const SizedBox(height: 8),
-                      const Text('Conecta, comparte y descubre oportunidades', style: TextStyle(fontSize: 14, color: Colors.white)),
+                      Text('Conecta, comparte y descubre oportunidades', style: TextStyle(fontSize: 14, color: AppColorsUnified.pureWhite)),
                       const SizedBox(height: 16),
                       Row(
                         children: [
@@ -192,16 +192,16 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
               padding: const EdgeInsets.all(16),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 2))],
+                  boxShadow: [BoxShadow(color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05), blurRadius: 10, offset: const Offset(0, 2))],
                 ),
-                child: TextField(
+                child: const TextField(
                   decoration: InputDecoration(
                     hintText: 'Buscar en la comunidad...',
-                    prefixIcon: Icon(Icons.search, color: Colors.grey.shade400),
+                    prefixIcon: Icon(Icons.search, color: AppColorsUnified.textSecondary),
                     border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   ),
                 ),
               ),
@@ -239,11 +239,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  Icon(Icons.filter_list, size: 18, color: Colors.grey.shade600),
+                  const Icon(Icons.filter_list, size: 18, color: AppColorsUnified.textSecondary),
                   const SizedBox(width: 8),
                   Text(
                     '${_filteredPosts.length} resultados',
-                    style: TextStyle(color: Colors.grey.shade600, fontSize: 14, fontWeight: FontWeight.w500),
+                    style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -260,11 +260,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.inbox_outlined, size: 64, color: Colors.grey.shade300),
+                    Icon(Icons.inbox_outlined, size: 64, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
                     const SizedBox(height: 16),
-                    Text('No hay publicaciones', style: TextStyle(fontSize: 16, color: Colors.grey.shade600)),
+                    const Text('No hay publicaciones', style: TextStyle(fontSize: 16, color: AppColorsUnified.textSecondary)),
                     const SizedBox(height: 8),
-                    Text('Sé el primero en publicar', style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
+                    Text('Sé el primero en publicar', style: TextStyle(fontSize: 14, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2))),
                   ],
                 ),
               ),
@@ -287,11 +287,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
+        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
       ),
-      child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
+      child: Text(text, style: TextStyle(color: AppColorsUnified.pureWhite, fontSize: 12, fontWeight: FontWeight.w600)),
     );
   }
 
@@ -302,17 +302,17 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? AppColorsUnified.orange : Colors.white,
+          color: isSelected ? AppColorsUnified.orange : AppColorsUnified.pureWhite,
           borderRadius: BorderRadius.circular(25),
-          border: Border.all(color: isSelected ? AppColorsUnified.orange : Colors.grey.shade300),
-          boxShadow: isSelected ? [BoxShadow(color: AppColorsUnified.orange.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))] : [],
+          border: Border.all(color: isSelected ? AppColorsUnified.orange : AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
+          boxShadow: isSelected ? [BoxShadow(color: AppColorsUnified.fade(AppColorsUnified.orange, 0.3), blurRadius: 8, offset: const Offset(0, 4))] : [],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 18, color: isSelected ? Colors.white : Colors.grey.shade600),
+            Icon(icon, size: 18, color: isSelected ? AppColorsUnified.pureWhite : AppColorsUnified.textSecondary),
             const SizedBox(width: 8),
-            Text(label, style: TextStyle(color: isSelected ? Colors.white : Colors.grey.shade700, fontSize: 14, fontWeight: FontWeight.w600)),
+            Text(label, style: TextStyle(color: isSelected ? AppColorsUnified.pureWhite : AppColorsUnified.textPrimary, fontSize: 14, fontWeight: FontWeight.w600)),
           ],
         ),
       ),
@@ -337,11 +337,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
       decoration: isUrgent
           ? RichDecorations.rubyGemCard(isElevated: true)
           : BoxDecoration(
-              color: Colors.white,
+              color: AppColorsUnified.pureWhite,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
+                  color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.08),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
@@ -355,15 +355,15 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: RichDecorations.rubyGemBadge(),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.priority_high, color: Colors.white, size: 16),
-                  SizedBox(width: 4),
+                  Icon(Icons.priority_high, color: AppColorsUnified.pureWhite, size: 16),
+                  const SizedBox(width: 4),
                   Text(
                     'URGENTE',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColorsUnified.pureWhite,
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5,
@@ -380,16 +380,21 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 CircleAvatar(
                   radius: 24,
                   backgroundColor: isUrgent
-                      ? DashboardColors.rubyLight.withValues(alpha: 0.3)
-                      : AppColorsUnified.orange.withValues(alpha: 0.2),
-                  child: Text(
-                    post.authorId.substring(0, 1).toUpperCase(),
-                    style: TextStyle(
-                      color: isUrgent ? DashboardColors.rubyDeep : AppColorsUnified.orange,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
+                      ? AppColorsUnified.fade(AppColorsUnified.orangeDark, 0.3)
+                      : AppColorsUnified.fade(AppColorsUnified.orange, 0.2),
+                  backgroundImage: post.authorProfileImage != null 
+                      ? NetworkImage(post.authorProfileImage!) 
+                      : null,
+                  child: post.authorProfileImage == null
+                      ? Text(
+                          (post.authorName ?? post.authorId).substring(0, 1).toUpperCase(),
+                          style: TextStyle(
+                            color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        )
+                      : null,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -397,26 +402,26 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        post.authorId,
+                        post.authorName ?? post.authorUsername ?? 'Usuario ${post.authorId.substring(0, 8)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
-                          color: isUrgent ? DashboardColors.rubyDeep : Colors.black,
+                          color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.charcoal,
                         ),
                       ),
                       Row(
                         children: [
-                          Icon(_getPostTypeIcon(post), size: 14, color: Colors.grey.shade600),
+                          Icon(_getPostTypeIcon(post), size: 14, color: AppColorsUnified.textSecondary),
                           const SizedBox(width: 4),
-                          Text(_getPostTypeLabel(post), style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                          Text(_getPostTypeLabel(post), style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12)),
                           const SizedBox(width: 8),
-                          Text('· ${_getTimeAgo(post.createdAt)}', style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                          Text('· ${_getTimeAgo(post.createdAt)}', style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12)),
                         ],
                       ),
                     ],
                   ),
                 ),
-                IconButton(icon: Icon(Icons.more_vert, color: Colors.grey.shade400), onPressed: () {}),
+                IconButton(icon: Icon(Icons.more_vert, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2)), onPressed: () {}),
               ],
             ),
           ),
@@ -432,11 +437,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                     height: 1.3,
-                    color: isUrgent ? DashboardColors.rubyDeep : Colors.black,
+                    color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.charcoal,
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(post.content, style: TextStyle(fontSize: 14, color: Colors.grey.shade700, height: 1.5)),
+                Text(post.content, style: const TextStyle(fontSize: 14, color: AppColorsUnified.textPrimary, height: 1.5)),
                 if (post.categories.isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Wrap(
@@ -451,24 +456,24 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                             ? BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    DashboardColors.rubyLight.withValues(alpha: 0.3),
-                                    DashboardColors.ruby.withValues(alpha: 0.2),
+                                    AppColorsUnified.fade(AppColorsUnified.orangeDark, 0.3),
+                                    AppColorsUnified.fade(AppColorsUnified.orange, 0.2),
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: DashboardColors.rubyGlow.withValues(alpha: 0.6),
+                                  color: AppColorsUnified.fade(AppColorsUnified.orangeDark, 0.6),
                                   width: 1.5,
                                 ),
                               )
                             : BoxDecoration(
-                                color: AppColorsUnified.orange.withValues(alpha: 0.1),
+                                color: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                         child: Text(
                           cat,
                           style: TextStyle(
-                            color: isUrgentTag ? DashboardColors.rubyDeep : AppColorsUnified.orange,
+                            color: isUrgentTag ? AppColorsUnified.orangeDark : AppColorsUnified.orange,
                             fontSize: 12,
                             fontWeight: isUrgentTag ? FontWeight.w700 : FontWeight.w600,
                           ),
@@ -497,8 +502,8 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     height: 200,
-                    color: Colors.grey.shade200,
-                    child: const Center(child: Icon(Icons.broken_image, size: 48)),
+                    color: AppColorsUnified.background,
+                    child: const Center(child: Icon(Icons.broken_image, size: 48, color: AppColorsUnified.textSecondary)),
                   ),
                 ),
               ),
@@ -539,9 +544,9 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 20, color: Colors.grey.shade600),
+            Icon(icon, size: 20, color: AppColorsUnified.textSecondary),
             const SizedBox(width: 6),
-            Text(label, style: TextStyle(color: Colors.grey.shade700, fontSize: 13, fontWeight: FontWeight.w500)),
+            Text(label, style: const TextStyle(color: AppColorsUnified.textPrimary, fontSize: 13, fontWeight: FontWeight.w500)),
           ],
         ),
       ),
@@ -663,7 +668,7 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
                   return Container(
-                    color: Colors.grey.shade200,
+                    color: AppColorsUnified.background,
                     child: Center(
                       child: CircularProgressIndicator(
                         value: loadingProgress.expectedTotalBytes != null
@@ -676,13 +681,13 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                   );
                 },
                 errorBuilder: (context, error, stackTrace) => Container(
-                  color: Colors.grey.shade200,
+                  color: AppColorsUnified.background,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.broken_image, size: 64, color: Colors.grey.shade400),
+                      Icon(Icons.broken_image, size: 64, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2)),
                       const SizedBox(height: 8),
-                      Text('Error al cargar', style: TextStyle(color: Colors.grey.shade600)),
+                      const Text('Error al cargar', style: TextStyle(color: AppColorsUnified.textSecondary)),
                     ],
                   ),
                 ),
@@ -705,18 +710,18 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.5),
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.5),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.3),
+                              color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.3),
                               blurRadius: 8,
                             ),
                           ],
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.chevron_left,
-                          color: Colors.white,
+                          color: AppColorsUnified.pureWhite,
                           size: 32,
                         ),
                       ),
@@ -738,18 +743,18 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.5),
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.5),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.3),
+                              color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.3),
                               blurRadius: 8,
                             ),
                           ],
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.chevron_right,
-                          color: Colors.white,
+                          color: AppColorsUnified.pureWhite,
                           size: 32,
                         ),
                       ),
@@ -776,10 +781,10 @@ class _ImageCarouselState extends State<_ImageCarousel> {
                       borderRadius: BorderRadius.circular(4),
                       color: _currentPage == index
                           ? AppColorsUnified.orange
-                          : Colors.white.withValues(alpha: 0.6),
+                          : AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.6),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.3),
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.3),
                           blurRadius: 4,
                         ),
                       ],
@@ -795,13 +800,13 @@ class _ImageCarouselState extends State<_ImageCarousel> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.6),
+                  color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.6),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   '${_currentPage + 1}/${widget.images.length}',
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: AppColorsUnified.pureWhite,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),

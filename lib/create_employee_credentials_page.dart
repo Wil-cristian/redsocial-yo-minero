@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'dart:math';
+import 'core/theme/colors.dart';
 import 'core/auth/employee_roles.dart';
 import 'core/auth/supabase_auth_service.dart';
 
@@ -161,8 +162,8 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
               Navigator.pop(context); // Volver a la página anterior
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColorsUnified.orange,
-              foregroundColor: AppColorsUnified.pureWhite,
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
             ),
             child: const Text('Entendido'),
           ),
@@ -175,9 +176,9 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColorsUnified.background,
+        color: Colors.grey[100],
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
+        border: Border.all(color: Colors.grey[300]!),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,9 +188,9 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
             children: [
               Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
-                  color: AppColorsUnified.textSecondary,
+                  color: Colors.grey[600],
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -221,11 +222,11 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColorsUnified.background,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text('Crear Credenciales de Empleado'),
-        backgroundColor: AppColorsUnified.orange,
-        foregroundColor: AppColorsUnified.pureWhite,
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -273,7 +274,7 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
                     borderRadius: BorderRadius.circular(12),
                   ),
                   filled: true,
-                  fillColor: AppColorsUnified.pureWhite,
+                  fillColor: Colors.white,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -300,7 +301,7 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
                     borderRadius: BorderRadius.circular(12),
                   ),
                   filled: true,
-                  fillColor: AppColorsUnified.pureWhite,
+                  fillColor: Colors.white,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -322,9 +323,9 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
               const SizedBox(height: 8),
               Container(
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.pureWhite,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
+                  border: Border.all(color: Colors.grey[300]!),
                 ),
                 child: DropdownButtonFormField<EmployeeRole>(
                   initialValue: _selectedRole,
@@ -346,7 +347,7 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
                           ),
                           Text(
                             role.description,
-                            style: const TextStyle(fontSize: 12, color: AppColorsUnified.textSecondary),
+                            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                           ),
                         ],
                       ),
@@ -374,7 +375,7 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
                     borderRadius: BorderRadius.circular(12),
                   ),
                   filled: true,
-                  fillColor: AppColorsUnified.pureWhite,
+                  fillColor: Colors.white,
                 ),
               ),
               const SizedBox(height: 24),
@@ -389,9 +390,9 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColorsUnified.pureWhite,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
+                    border: Border.all(color: Colors.grey[300]!),
                   ),
                   child: Wrap(
                     spacing: 8,
@@ -418,19 +419,19 @@ class _CreateEmployeeCredentialsPageState extends State<CreateEmployeeCredential
                 child: ElevatedButton(
                   onPressed: _isGenerating ? null : _createEmployeeCredentials,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColorsUnified.orange,
-                    foregroundColor: AppColorsUnified.pureWhite,
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: _isGenerating
-                      ? SizedBox(
+                      ? const SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(AppColorsUnified.pureWhite),
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
                       : const Text(

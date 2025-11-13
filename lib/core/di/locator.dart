@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:yominero/core/groups/supabase_group_repository.dart';
 import 'package:yominero/core/groups/group_repository.dart';
+import 'package:yominero/features/connections/data/supabase_connection_repository.dart';
 import 'package:yominero/features/favorites/data/supabase_favorite_repository.dart';
 import 'package:yominero/features/messaging/data/supabase_messaging_repository.dart';
 import 'package:yominero/features/metrics/data/supabase_metrics_repository.dart';
@@ -31,4 +32,6 @@ void setupLocator() {
       () => MessagingRepository());
   sl.registerLazySingleton<NotificationsRepository>(
       () => NotificationsRepository());
+  sl.registerLazySingleton<ConnectionRepository>(
+      () => SupabaseConnectionRepository());
 }

@@ -81,7 +81,7 @@ ThemeData _buildTheme() {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColorsUnified.orange, width: 2),
+        borderSide: const BorderSide(color: AppColorsUnified.orange, width: 2),
       ),
     ),
     chipTheme: ChipThemeData(
@@ -103,7 +103,7 @@ ThemeData _buildTheme() {
       margin: const EdgeInsets.all(8),
     ),
     dividerColor: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
-    iconTheme: IconThemeData(color: AppColorsUnified.textSecondary),
+    iconTheme: const IconThemeData(color: AppColorsUnified.textSecondary),
   );
 }
 

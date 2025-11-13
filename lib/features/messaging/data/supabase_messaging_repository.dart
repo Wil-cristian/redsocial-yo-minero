@@ -18,7 +18,11 @@ class MessagingRepository {
     try {
       final response = await _supabase
           .from('conversations')
-          .select()
+          .select('''
+            *,
+            user1:user1_id(name, profile_image_url),
+            user2:user2_id(name, profile_image_url)
+          ''')
           .or('user1_id.eq.$userId,user2_id.eq.$userId')
           .order('last_message_at', ascending: false)
           .range(offset, offset + limit - 1);

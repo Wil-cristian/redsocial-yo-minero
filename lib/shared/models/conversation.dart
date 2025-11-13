@@ -7,6 +7,12 @@ class Conversation {
   final int unreadCountUser2;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  
+  // Información de usuarios para mostrar nombres
+  final String? user1Name;
+  final String? user2Name;
+  final String? user1ProfileImage;
+  final String? user2ProfileImage;
 
   Conversation({
     required this.id,
@@ -17,11 +23,27 @@ class Conversation {
     this.unreadCountUser2 = 0,
     DateTime? createdAt,
     this.updatedAt,
+    this.user1Name,
+    this.user2Name,
+    this.user1ProfileImage,
+    this.user2ProfileImage,
   }) : lastMessageAt = lastMessageAt ?? DateTime.now(),
        createdAt = createdAt ?? DateTime.now();
 
   String getOtherUserId(String currentUserId) {
     return currentUserId == user1Id ? user2Id : user1Id;
+  }
+  
+  String getOtherUserName(String currentUserId) {
+    if (currentUserId == user1Id) {
+      return user2Name ?? 'Usuario ${user2Id.substring(0, 8)}';
+    } else {
+      return user1Name ?? 'Usuario ${user1Id.substring(0, 8)}';
+    }
+  }
+  
+  String? getOtherUserProfileImage(String currentUserId) {
+    return currentUserId == user1Id ? user2ProfileImage : user1ProfileImage;
   }
 
   int getUnreadCount(String currentUserId) {
@@ -38,6 +60,11 @@ class Conversation {
       unreadCountUser2: json['unread_count_user2'] as int? ?? 0,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : null,
+      // Parsear información de usuarios del join
+      user1Name: json['user1']?['name'] as String?,
+      user2Name: json['user2']?['name'] as String?,
+      user1ProfileImage: json['user1']?['profile_image_url'] as String?,
+      user2ProfileImage: json['user2']?['profile_image_url'] as String?,
     );
   }
 

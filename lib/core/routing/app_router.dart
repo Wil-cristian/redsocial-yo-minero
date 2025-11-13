@@ -22,6 +22,7 @@ import '../../company_metrics_page.dart';
 import '../../company_resources_page.dart';
 import '../../company_requested_services_page.dart';
 import '../../company_requested_products_page.dart';
+import '../../company_inventory_page.dart';
 import '../../mining_production_dashboard.dart';
 import '../../requests_page.dart';
 import '../../suggestions_page.dart';
@@ -51,6 +52,7 @@ class AppRoutes {
   static const companyResources = '/company-resources';
   static const companyRequestedServices = '/company-requested-services';
   static const companyRequestedProducts = '/company-requested-products';
+  static const companyInventory = '/company-inventory';
   static const companyProduction = '/company/production';
   static const requests = '/requests';
   static const suggestions = '/suggestions';
@@ -140,6 +142,8 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
           builder: (_) => CompanyRequestedProductsPage(currentUser: user));
+    case AppRoutes.companyInventory:
+      return MaterialPageRoute(builder: (_) => const CompanyInventoryPage());
     case AppRoutes.companyProduction:
       final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
