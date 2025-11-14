@@ -325,18 +325,20 @@ class SupabasePostRepository implements PostRepository {
           ? images.first  // ← Primera imagen de columna images[]
           : null,
       
-      // ========== Campos de POLL desde metadata ==========
-      pollOptions: postType == PostType.poll 
-          ? List<String>.from(metadata['options'] ?? [])
+      // ========== Campos de POLL desde columnas directas ==========
+      pollOptions: postType == PostType.poll && json['poll_options'] != null
+          ? List<String>.from(json['poll_options'])
           : null,
-      pollVotes: postType == PostType.poll 
-          ? Map<String, int>.from(metadata['votes'] ?? {})
+      pollVotes: postType == PostType.poll && json['poll_votes'] != null
+          ? Map<String, int>.from((json['poll_votes'] as Map).map(
+              (k, v) => MapEntry(k.toString(), (v as num).toInt())
+            ))
           : null,
       pollAllowMultiple: postType == PostType.poll 
-          ? metadata['allow_multiple'] as bool?
+          ? json['poll_allow_multiple'] as bool?
           : null,
-      pollEndsAt: postType == PostType.poll && metadata['ends_at'] != null
-          ? DateTime.parse(metadata['ends_at'] as String)
+      pollEndsAt: postType == PostType.poll && json['poll_ends_at'] != null
+          ? DateTime.parse(json['poll_ends_at'] as String)
           : null,
     );
   }
@@ -357,6 +359,93 @@ class SupabasePostRepository implements PostRepository {
         return PostType.poll;
       default:
         return PostType.community;
+    }
+  }
+
+  // ========== MÉTODOS DE VOTACIÓN EN ENCUESTAS ==========
+
+  @override
+  Future<void> votePoll(String pollId, String option, [String? userId]) async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      final uid = userId ?? currentUser?.id;
+      
+      if (uid == null) {
+        throw Exception('Usuario no autenticado');
+      }
+
+      // Verificar si ya votó
+      final existing = await _supabase
+          .from('poll_votes')
+          .select()
+          .eq('poll_id', pollId)
+          .eq('user_id', uid)
+          .maybeSingle();
+
+      if (existing != null) {
+        // Ya votó, actualizar su voto
+        await _supabase
+            .from('poll_votes')
+            .update({'selected_option': option})
+            .eq('poll_id', pollId)
+            .eq('user_id', uid);
+        debugPrint('✅ Voto actualizado: $option en poll $pollId');
+      } else {
+        // Primer voto, insertar
+        await _supabase.from('poll_votes').insert({
+          'poll_id': pollId,
+          'user_id': uid,
+          'selected_option': option,
+        });
+        debugPrint('✅ Voto registrado: $option en poll $pollId');
+      }
+    } catch (e) {
+      debugPrint('❌ Error al votar: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String?> getUserVote(String pollId, [String? userId]) async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      final uid = userId ?? currentUser?.id;
+      
+      if (uid == null) return null;
+
+      final result = await _supabase
+          .from('poll_votes')
+          .select('selected_option')
+          .eq('poll_id', pollId)
+          .eq('user_id', uid)
+          .maybeSingle();
+
+      return result?['selected_option'] as String?;
+    } catch (e) {
+      debugPrint('❌ Error al obtener voto del usuario: $e');
+      return null;
+    }
+  }
+
+  @override
+  Future<Map<String, int>> getPollResults(String pollId) async {
+    try {
+      final results = await _supabase
+          .from('poll_votes')
+          .select('selected_option')
+          .eq('poll_id', pollId);
+
+      // Contar votos por opción
+      final Map<String, int> voteCounts = {};
+      for (final row in results as List) {
+        final option = row['selected_option'] as String;
+        voteCounts[option] = (voteCounts[option] ?? 0) + 1;
+      }
+
+      return voteCounts;
+    } catch (e) {
+      debugPrint('❌ Error al obtener resultados: $e');
+      return {};
     }
   }
 }

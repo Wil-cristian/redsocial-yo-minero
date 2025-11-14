@@ -616,7 +616,7 @@ class _CommunityPageState extends State<CommunityPage> {
 
 enum PostSort { recent, popular }
 
-class _PostCard extends StatelessWidget {
+class _PostCard extends StatefulWidget {
   final Post post;
   final bool liked;
   final VoidCallback likeTap;
@@ -627,6 +627,55 @@ class _PostCard extends StatelessWidget {
     required this.likeTap,
     this.score,
   });
+
+  @override
+  State<_PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
+  bool _isHovered = false;
+  bool _isLikeAnimating = false;
+  late AnimationController _shimmerController;
+  late AnimationController _pulseController;
+  late AnimationController _scaleController;
+  int? _hoveredChipIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _shimmerController = AnimationController(
+      duration: const Duration(milliseconds: 2500),
+      vsync: this,
+    )..repeat();
+    
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    )..repeat(reverse: true);
+    
+    _scaleController = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+      lowerBound: 0.95,
+      upperBound: 1.0,
+    )..value = 1.0;
+  }
+
+  @override
+  void dispose() {
+    _shimmerController.dispose();
+    _pulseController.dispose();
+    _scaleController.dispose();
+    super.dispose();
+  }
+  
+  void _handleLikeAnimation() {
+    setState(() => _isLikeAnimating = true);
+    widget.likeTap();
+    Future.delayed(const Duration(milliseconds: 600), () {
+      if (mounted) setState(() => _isLikeAnimating = false);
+    });
+  }
 
   String _humanDate(DateTime date) {
     final now = DateTime.now();
@@ -642,160 +691,731 @@ class _PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PremiumCard(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(20),
-      borderRadius: 16,
-      onTap: () => Navigator.of(context).pushNamed(
-        AppRoutes.postDetail,
-        arguments: post,
-      ),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor:
-                      AppColors.secondaryContainer.withValues(alpha: .6),
-                  backgroundImage: post.authorProfileImage != null 
-                      ? NetworkImage(post.authorProfileImage!) 
-                      : null,
-                  child: post.authorProfileImage == null
-                      ? Text(
-                          (post.authorName ?? post.title)[0].toUpperCase(),
-                          style: const TextStyle(
-                            color: AppColorsUnified.orange,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        )
-                      : null,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        post.authorName ?? post.authorUsername ?? 'Usuario ${post.authorId.substring(0, 8)}',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        _humanDate(DateTime(post.createdAt.year,
-                            post.createdAt.month, post.createdAt.day)),
-                        style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12),
-                      ),
+    final post = widget.post;
+    final liked = widget.liked;
+    final score = widget.score;
+    
+    return MouseRegion(
+      onEnter: (_) {
+        setState(() => _isHovered = true);
+        _scaleController.forward();
+      },
+      onExit: (_) {
+        setState(() => _isHovered = false);
+        _scaleController.reverse();
+      },
+      child: AnimatedBuilder(
+        animation: _scaleController,
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scaleController.value,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutCubic,
+              transform: Matrix4.translationValues(0, _isHovered ? -6 : 0, 0),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppColorsUnified.pureWhite,
+                      _isHovered ? AppColorsUnified.grey50 : AppColorsUnified.pureWhite,
                     ],
                   ),
-                ),
-                if (score != null)
-                  Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text('$score pts',
-                        style: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: AppColorsUnified.orange)),
+                  border: Border.all(
+                    color: _isHovered 
+                        ? AppColorsUnified.gold.withValues(alpha: 0.4)
+                        : AppColorsUnified.grey200,
+                    width: _isHovered ? 2 : 1.5,
                   ),
-                Icon(Icons.more_vert, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2), size: 20),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(
-              post.title,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              post.content,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppColorsUnified.charcoal, height: 1.5),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: likeTap,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: liked
-                          ? AppColorsUnified.orange.withValues(alpha: .15)
-                          : AppColorsUnified.background,
-                      borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: _isHovered
+                          ? AppColorsUnified.gold.withValues(alpha: 0.2)
+                          : AppColorsUnified.shadowMedium,
+                      blurRadius: _isHovered ? 28 : 12,
+                      spreadRadius: _isHovered ? 3 : 0,
+                      offset: Offset(0, _isHovered ? 10 : 4),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          liked ? Icons.favorite : Icons.favorite_border,
-                          color: liked ? AppColorsUnified.orange : AppColorsUnified.textSecondary,
-                          size: 18,
+                    if (_isHovered)
+                      BoxShadow(
+                        color: AppColorsUnified.goldBright.withValues(alpha: 0.15),
+                        blurRadius: 16,
+                        offset: const Offset(0, 4),
+                      ),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    // Shimmer effect en hover
+                    if (_isHovered)
+                      Positioned.fill(
+                        child: AnimatedBuilder(
+                          animation: _shimmerController,
+                          builder: (context, child) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: LinearGradient(
+                                  begin: Alignment(-1.0 + (_shimmerController.value * 3), -1.0),
+                                  end: Alignment(1.0 + (_shimmerController.value * 3), 1.0),
+                                  colors: [
+                                    Colors.transparent,
+                                    AppColorsUnified.goldBright.withValues(alpha: 0.05),
+                                    Colors.transparent,
+                                  ],
+                                  stops: const [0.0, 0.5, 1.0],
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                        const SizedBox(width: 6),
-                        Text(
-                          post.likes.toString(),
-                          style: TextStyle(
-                            color: liked ? AppColorsUnified.orange : AppColorsUnified.textSecondary,
-                            fontWeight: FontWeight.w600,
+                      ),
+                    
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(20),
+                        onTap: () => Navigator.of(context).pushNamed(
+                          AppRoutes.postDetail,
+                          arguments: post,
+                        ),
+                        splashColor: AppColorsUnified.gold.withValues(alpha: 0.1),
+                        highlightColor: AppColorsUnified.gold.withValues(alpha: 0.05),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Header con avatar y usuario
+                              Row(
+                                children: [
+                                  AnimatedContainer(
+                                    duration: const Duration(milliseconds: 300),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: _isHovered
+                                            ? AppColorsUnified.gold
+                                            : AppColorsUnified.gold.withValues(alpha: 0.3),
+                                        width: _isHovered ? 2.5 : 2,
+                                      ),
+                                      boxShadow: _isHovered
+                                          ? [
+                                              BoxShadow(
+                                                color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                                blurRadius: 12,
+                                                spreadRadius: 2,
+                                              ),
+                                            ]
+                                          : [
+                                              BoxShadow(
+                                                color: AppColorsUnified.gold.withValues(alpha: 0.15),
+                                                blurRadius: 8,
+                                                spreadRadius: 1,
+                                              ),
+                                            ],
+                                    ),
+                                    child: CircleAvatar(
+                                      radius: 22,
+                                      backgroundColor: AppColorsUnified.grey100,
+                                      backgroundImage: post.authorProfileImage != null 
+                                          ? NetworkImage(post.authorProfileImage!) 
+                                          : null,
+                                      child: post.authorProfileImage == null
+                                          ? Text(
+                                              (post.authorName ?? post.title)[0].toUpperCase(),
+                                              style: TextStyle(
+                                                color: AppColorsUnified.gold,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            )
+                                          : null,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          post.authorName ?? post.authorUsername ?? 'Usuario ${post.authorId.substring(0, 8)}',
+                                          style: TextStyle(
+                                            color: AppColorsUnified.textPrimary,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        Text(
+                                          _humanDate(DateTime(post.createdAt.year,
+                                              post.createdAt.month, post.createdAt.day)),
+                                          style: TextStyle(
+                                            color: AppColorsUnified.textSecondary,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (score != null)
+                                    AnimatedBuilder(
+                                      animation: _pulseController,
+                                      builder: (context, child) {
+                                        return Transform.scale(
+                                          scale: 1.0 + (0.05 * _pulseController.value),
+                                          child: Container(
+                                            margin: const EdgeInsets.only(right: 8),
+                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  AppColorsUnified.goldHighlight,
+                                                  AppColorsUnified.goldBright,
+                                                ],
+                                              ),
+                                              borderRadius: BorderRadius.circular(10),
+                                              border: Border.all(
+                                                color: AppColorsUnified.gold.withValues(alpha: 0.4),
+                                                width: 1.5,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: AppColorsUnified.gold.withValues(
+                                                    alpha: 0.2 + (0.1 * _pulseController.value),
+                                                  ),
+                                                  blurRadius: 8 + (4 * _pulseController.value),
+                                                  spreadRadius: _pulseController.value * 2,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.star_rounded,
+                                                  color: AppColorsUnified.gold,
+                                                  size: 16,
+                                                ),
+                                                const SizedBox(width: 4),
+                                                Text(
+                                                  '$score',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: AppColorsUnified.goldShadow,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  Icon(
+                                    Icons.more_vert_rounded,
+                                    color: AppColorsUnified.textSecondary,
+                                    size: 22,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 18),
+                              
+                              // Título del post
+                              Text(
+                                post.title,
+                                style: TextStyle(
+                                  color: AppColorsUnified.textPrimary,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.3,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              
+                              // Contenido
+                              Text(
+                                post.content,
+                                style: TextStyle(
+                                  color: AppColorsUnified.textSecondary,
+                                  fontSize: 15,
+                                  height: 1.6,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              
+                              // Chips de información (precio, disponibilidad, etc.)
+                              if (_hasMetadata(post)) ...[
+                                const SizedBox(height: 16),
+                                Wrap(
+                                  spacing: 8,
+                                  runSpacing: 8,
+                                  children: [
+                                    // Precio de producto
+                                    if (post.productPrice != null)
+                                      _buildInteractiveChip(
+                                        0,
+                                        '\$${post.productPrice!.toStringAsFixed(2)}',
+                                        Icons.attach_money_rounded,
+                                        AppColorsUnified.gold,
+                                        isPrimary: true,
+                                      ),
+                                    
+                                    // Rango de precios (servicios/ofertas)
+                                    if (post.pricingFrom != null)
+                                      _buildInteractiveChip(
+                                        1,
+                                        'Desde \$${post.pricingFrom!.toInt()}',
+                                        Icons.money_rounded,
+                                        AppColorsUnified.success,
+                                      ),
+                                    if (post.pricingTo != null)
+                                      _buildInteractiveChip(
+                                        2,
+                                        'Hasta \$${post.pricingTo!.toInt()}',
+                                        Icons.trending_up_rounded,
+                                        AppColorsUnified.warning,
+                                      ),
+                                    
+                                    // Disponibilidad
+                                    if (post.availability != null)
+                                      _buildInteractiveChip(
+                                        3,
+                                        post.availability!,
+                                        Icons.schedule_rounded,
+                                        AppColorsUnified.companyBlue,
+                                      ),
+                                    
+                                    // Stock de producto
+                                    if (post.productStock != null && post.productStock! > 0)
+                                      _buildInteractiveChip(
+                                        4,
+                                        '${post.productStock} en stock',
+                                        Icons.inventory_2_rounded,
+                                        AppColorsUnified.success,
+                                      ),
+                                  ],
+                                ),
+                              ],
+                              
+                              const SizedBox(height: 18),
+                              
+                              // Acciones (Like, Comentar, Compartir)
+                              Row(
+                                children: [
+                                  _buildInteractiveActionButton(
+                                    icon: liked ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                                    label: post.likes.toString(),
+                                    color: liked ? AppColorsUnified.gold : AppColorsUnified.textSecondary,
+                                    isActive: liked,
+                                    onTap: _handleLikeAnimation,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  _buildInteractiveActionButton(
+                                    icon: Icons.chat_bubble_outline_rounded,
+                                    label: '0',
+                                    color: AppColorsUnified.textSecondary,
+                                    isActive: false,
+                                    onTap: () {},
+                                  ),
+                                  const SizedBox(width: 10),
+                                  _buildInteractiveActionButton(
+                                    icon: Icons.share_rounded,
+                                    label: '',
+                                    color: AppColorsUnified.textSecondary,
+                                    isActive: false,
+                                    onTap: () {},
+                                  ),
+                                ],
+                              ),
+                              
+                              // CTA para PREGUNTAS - Invita a responder
+                              if (post.type == PostType.request) ...[
+                                const SizedBox(height: 18),
+                                Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        AppColorsUnified.goldHighlight.withValues(alpha: 0.3),
+                                        AppColorsUnified.grey50,
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                      color: AppColorsUnified.gold.withValues(alpha: _isHovered ? 0.4 : 0.2),
+                                      width: _isHovered ? 2 : 1.5,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              gradient: AppColorsUnified.goldRadialGradient,
+                                              borderRadius: BorderRadius.circular(12),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                                  blurRadius: 8,
+                                                  offset: const Offset(0, 4),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Icon(
+                                              Icons.question_answer_rounded,
+                                              color: AppColorsUnified.goldDeep,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '¿Tienes la respuesta?',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: AppColorsUnified.textPrimary,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 2),
+                                                Text(
+                                                  'Ayuda a esta persona con tu conocimiento',
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: AppColorsUnified.textSecondary,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 14),
+                                      _buildQuestionCTAButton(
+                                        label: 'Responder Pregunta',
+                                        icon: Icons.edit_rounded,
+                                        onTap: () {
+                                          // TODO: Abrir modal de respuesta
+                                          debugPrint('Responder pregunta: ${post.id}');
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: AppColorsUnified.background,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.chat_bubble_outline,
-                          color: AppColorsUnified.textSecondary, size: 18),
-                      SizedBox(width: 6),
-                      Text('0',
-                          style: TextStyle(
-                              color: AppColorsUnified.textSecondary, fontWeight: FontWeight.w600)),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: AppColorsUnified.background,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(Icons.share_outlined,
-                      color: AppColorsUnified.textSecondary, size: 18),
-                ),
-              ],
+              ),
             ),
-          ],
+          );
+        },
       ),
     );
   }
+  
+  bool _hasMetadata(Post post) {
+    return post.productPrice != null ||
+        post.pricingFrom != null ||
+        post.pricingTo != null ||
+        post.availability != null ||
+        (post.productStock != null && post.productStock! > 0);
+  }
+  
+  Widget _buildInteractiveChip(int index, String text, IconData icon, Color color, {bool isPrimary = false}) {
+    final isHovered = _hoveredChipIndex == index;
+    
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hoveredChipIndex = index),
+      onExit: (_) => setState(() => _hoveredChipIndex = null),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutCubic,
+        transform: Matrix4.translationValues(0, isHovered ? -2 : 0, 0),
+        padding: EdgeInsets.symmetric(
+          horizontal: isPrimary ? 14 : 12,
+          vertical: isPrimary ? 10 : 8,
+        ),
+        decoration: BoxDecoration(
+          gradient: isPrimary
+              ? LinearGradient(
+                  colors: [
+                    AppColorsUnified.goldHighlight,
+                    AppColorsUnified.goldBright.withValues(alpha: 0.5),
+                  ],
+                )
+              : null,
+          color: isPrimary ? null : color.withValues(alpha: isHovered ? 0.15 : 0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: color.withValues(alpha: isHovered ? (isPrimary ? 0.6 : 0.4) : (isPrimary ? 0.4 : 0.2)),
+            width: isHovered ? (isPrimary ? 2 : 1.5) : (isPrimary ? 1.5 : 1),
+          ),
+          boxShadow: isHovered
+              ? [
+                  BoxShadow(
+                    color: color.withValues(alpha: isPrimary ? 0.3 : 0.2),
+                    blurRadius: isPrimary ? 12 : 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : isPrimary
+                  ? [
+                      BoxShadow(
+                        color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              child: Icon(
+                icon,
+                color: isPrimary ? AppColorsUnified.goldShadow : color,
+                size: isHovered ? (isPrimary ? 20 : 18) : (isPrimary ? 18 : 16),
+              ),
+            ),
+            const SizedBox(width: 6),
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
+              style: TextStyle(
+                color: isPrimary ? AppColorsUnified.goldDeep : color,
+                fontSize: isHovered ? (isPrimary ? 15 : 14) : (isPrimary ? 14 : 13),
+                fontWeight: isHovered ? FontWeight.w800 : (isPrimary ? FontWeight.w700 : FontWeight.w600),
+              ),
+              child: Text(text),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  Widget _buildInteractiveActionButton({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required bool isActive,
+    required VoidCallback onTap,
+  }) {
+    return TweenAnimationBuilder<double>(
+      duration: const Duration(milliseconds: 200),
+      tween: Tween(begin: 1.0, end: _isLikeAnimating && isActive ? 1.2 : 1.0),
+      builder: (context, scale, child) {
+        return Transform.scale(
+          scale: scale,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(24),
+            splashColor: color.withValues(alpha: 0.2),
+            highlightColor: color.withValues(alpha: 0.1),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOutCubic,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                color: isActive
+                    ? AppColorsUnified.gold.withValues(alpha: 0.15)
+                    : AppColorsUnified.grey100,
+                borderRadius: BorderRadius.circular(24),
+                border: isActive
+                    ? Border.all(
+                        color: AppColorsUnified.gold.withValues(alpha: 0.4),
+                        width: 1.5,
+                      )
+                    : null,
+                boxShadow: isActive
+                    ? [
+                        BoxShadow(
+                          color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    transitionBuilder: (child, animation) {
+                      return ScaleTransition(
+                        scale: animation,
+                        child: RotationTransition(
+                          turns: animation,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Icon(
+                      icon,
+                      key: ValueKey(icon),
+                      color: color,
+                      size: 20,
+                    ),
+                  ),
+                  if (label.isNotEmpty) ...[
+                    const SizedBox(width: 8),
+                    AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 200),
+                      style: TextStyle(
+                        color: color,
+                        fontWeight: isActive ? FontWeight.w700 : FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                      child: Text(label),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+  
+  Widget _buildQuestionCTAButton({
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return StatefulBuilder(
+      builder: (context, setLocalState) {
+        bool isHovered = false;
+        
+        return MouseRegion(
+          onEnter: (_) => setLocalState(() => isHovered = true),
+          onExit: (_) => setLocalState(() => isHovered = false),
+          child: TweenAnimationBuilder<double>(
+            duration: const Duration(milliseconds: 1800),
+            tween: Tween(begin: 0.0, end: 1.0),
+            builder: (context, pulseValue, child) {
+              final pulse = !isHovered ? (1.0 + 0.06 * (pulseValue % 1)) : 1.0;
+              
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                transform: Matrix4.identity()
+                  ..scale(isHovered ? 1.03 : 1.0)
+                  ..scale(pulse),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: onTap,
+                    borderRadius: BorderRadius.circular(14),
+                    splashColor: AppColorsUnified.gold.withValues(alpha: 0.3),
+                    highlightColor: AppColorsUnified.gold.withValues(alpha: 0.2),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: isHovered
+                              ? [
+                                  AppColorsUnified.gold,
+                                  AppColorsUnified.goldShadow,
+                                ]
+                              : [
+                                  AppColorsUnified.gold.withValues(alpha: 0.9),
+                                  AppColorsUnified.gold,
+                                ],
+                        ),
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: isHovered
+                            ? [
+                                BoxShadow(
+                                  color: AppColorsUnified.gold.withValues(alpha: 0.5),
+                                  blurRadius: 24,
+                                  spreadRadius: 4,
+                                ),
+                                BoxShadow(
+                                  color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 6),
+                                ),
+                              ]
+                            : [
+                                BoxShadow(
+                                  color: AppColorsUnified.gold.withValues(alpha: 0.4),
+                                  blurRadius: 16,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            transform: Matrix4.identity()
+                              ..scale(isHovered ? 1.15 : 1.0),
+                            child: Icon(
+                              icon,
+                              color: AppColorsUnified.pureWhite,
+                              size: 24,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 250),
+                            style: TextStyle(
+                              fontSize: isHovered ? 17 : 16,
+                              fontWeight: isHovered ? FontWeight.w900 : FontWeight.w800,
+                              color: AppColorsUnified.pureWhite,
+                              letterSpacing: 0.8,
+                            ),
+                            child: Text(label),
+                          ),
+                          const SizedBox(width: 4),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            transform: Matrix4.identity()
+                              ..translate(isHovered ? 4.0 : 0.0, 0.0, 0.0),
+                            child: Icon(
+                              Icons.arrow_forward_rounded,
+                              color: AppColorsUnified.pureWhite,
+                              size: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
 }
+

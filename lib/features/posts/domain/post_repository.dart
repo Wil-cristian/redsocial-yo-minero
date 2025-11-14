@@ -48,4 +48,9 @@ abstract class PostRepository {
   /// If `userId` is omitted the repository should prefer the authenticated user.
   Future<bool> like(String postId, [String? userId]);
   Future<bool> hasUserLiked(String postId, [String? userId]);
+  
+  /// Poll voting methods
+  Future<void> votePoll(String pollId, String option, [String? userId]);
+  Future<String?> getUserVote(String pollId, [String? userId]);
+  Future<Map<String, int>> getPollResults(String pollId);
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math' as math;
 import 'package:yominero/core/theme/app_colors_unified.dart';
+import 'package:yominero/core/supabase/supabase_service.dart';
+import 'package:yominero/core/auth/supabase_auth_service.dart';
 
 class HomePage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -14,6 +16,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _shimmerController;
   late AnimationController _pulseController;
   late AnimationController _rotateController;
+  final _supabase = SupabaseService.instance.client;
+  int _savedPostsCount = 0;
   
   @override
   void initState() {
@@ -32,6 +36,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       duration: const Duration(seconds: 20),
       vsync: this,
     )..repeat();
+    
+    _loadSavedPostsCount();
   }
   
   @override
@@ -40,6 +46,44 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _pulseController.dispose();
     _rotateController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadSavedPostsCount() async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      final response = await _supabase
+          .from('saved_posts')
+          .select('id')
+          .eq('user_id', currentUser.id);
+
+      if (mounted) {
+        setState(() {
+          _savedPostsCount = (response as List).length;
+        });
+      }
+    } catch (e) {
+      debugPrint('❌ Error cargando conteo de guardados: $e');
+      // Si saved_posts no existe, intentar con saved_offers
+      try {
+        final currentUser = SupabaseAuthService.instance.currentUser;
+        if (currentUser == null) return;
+        
+        final response = await _supabase
+            .from('saved_offers')
+            .select('id')
+            .eq('user_id', currentUser.id);
+
+        if (mounted) {
+          setState(() {
+            _savedPostsCount = (response as List).length;
+          });
+        }
+      } catch (e2) {
+        debugPrint('❌ Error con saved_offers también: $e2');
+      }
+    }
   }
 
   String _getGreeting() {
@@ -412,7 +456,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget _buildAnimatedStats() {
     return Row(
       children: [
-        Expanded(child: _buildAnimatedStatCard('Ofertas', '12', Icons.local_offer, AppColorsUnified.orange, 0, '/requests')),
+        Expanded(child: _buildAnimatedStatCard('Guardados', _savedPostsCount.toString(), Icons.bookmark, AppColorsUnified.orange, 0, '/saved-offers')),
         const SizedBox(width: 12),
         Expanded(child: _buildAnimatedStatCard('Mensajes', '5', Icons.chat_bubble, AppColorsUnified.orangeLight, 100, '/messages')),
         const SizedBox(width: 12),
@@ -718,7 +762,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         const SizedBox(height: 6),
                         Text(
                           subtitle,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             color: AppColorsUnified.textSecondary,
                           ),

@@ -26,6 +26,8 @@ import '../../company_inventory_page.dart';
 import '../../mining_production_dashboard.dart';
 import '../../requests_page.dart';
 import '../../suggestions_page.dart';
+import '../../saved_posts_page.dart';
+import '../../chat_detail_page.dart';
 import '../auth/supabase_auth_service.dart';
 
 /// Centralized route names
@@ -56,6 +58,8 @@ class AppRoutes {
   static const companyProduction = '/company/production';
   static const requests = '/requests';
   static const suggestions = '/suggestions';
+  static const savedOffers = '/saved-offers';
+  static const chatDetail = '/chat-detail';
 }
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -156,6 +160,18 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
           builder: (_) => SuggestionsPage(currentUser: user));
+    case AppRoutes.savedOffers:
+      return MaterialPageRoute(builder: (_) => const SavedPostsPage());
+    case AppRoutes.chatDetail:
+      if (settings.arguments == null) {
+        return _error('Información del chat no proporcionada');
+      }
+      final currentUser = SupabaseAuthService.instance.currentUserProfile;
+      return MaterialPageRoute(
+          builder: (_) => ChatDetailPage(
+                conversation: settings.arguments as Map<String, dynamic>,
+                currentUser: currentUser,
+              ));
     default:
       return null;
   }

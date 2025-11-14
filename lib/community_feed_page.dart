@@ -8,6 +8,7 @@ import 'shared/widgets/optimized_post_content.dart';
 import 'core/theme/rich_decorations.dart';
 import 'core/di/locator.dart';
 import 'core/auth/supabase_auth_service.dart';
+import 'core/supabase/supabase_service.dart';
 
 class CommunityFeedPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -511,6 +512,47 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
 
           const SizedBox(height: 16),
 
+          // CTA ÉPICO para NOTICIAS - Interactivo y estético (ARRIBA)
+          if (post.type == PostType.news) ...[
+            _NewsInteractiveCTA(
+              newsSource: post.newsSource ?? 'Fuente desconocida',
+              onReadMore: () {
+                debugPrint('Ver noticia completa: ${post.id}');
+                // TODO: Abrir vista detallada de noticia
+              },
+              onSave: () {
+                debugPrint('Guardar noticia: ${post.id}');
+                // TODO: Guardar en favoritos
+              },
+            ),
+          ],
+
+          // CTA ÉPICO para ENCUESTAS - Ultra interactivo
+          if (post.type == PostType.poll) ...[
+            _PollInteractiveCTA(
+              post: post,
+              onVote: (option) {
+                debugPrint('Voto: $option en poll ${post.id}');
+                // TODO: Registrar voto en Supabase
+              },
+            ),
+          ],
+
+          // CTA ÉPICO para OFERTAS - Precio y contacto rápido
+          if (post.type == PostType.offer) ...[
+            _OfferInteractiveCTA(
+              post: post,
+              onContact: () {
+                debugPrint('💬 Contactar por oferta: ${post.id}');
+                // TODO: Abrir chat o WhatsApp
+              },
+              onSave: () {
+                debugPrint('⭐ Guardar oferta: ${post.id}');
+                // TODO: Guardar en favoritos
+              },
+            ),
+          ],
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
@@ -530,6 +572,106 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
               ],
             ),
           ),
+          
+          // CTA para PREGUNTAS - Invita a responder (más sutil)
+          if (post.type == PostType.request) ...[
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColorsUnified.grey50,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: AppColorsUnified.grey300,
+                    width: 1,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: AppColorsUnified.gold.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(
+                            Icons.question_answer_rounded,
+                            color: AppColorsUnified.gold,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '¿Tienes la respuesta?',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColorsUnified.textPrimary,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                'Ayuda a esta persona con tu conocimiento',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: AppColorsUnified.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          debugPrint('Responder pregunta: ${post.id}');
+                          // TODO: Abrir modal de respuesta
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          decoration: BoxDecoration(
+                            color: AppColorsUnified.gold,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.edit_rounded,
+                                color: Color(0xFFFAFAFA),
+                                size: 22,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Responder Pregunta',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFFFAFAFA),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -815,6 +957,999 @@ class _ImageCarouselState extends State<_ImageCarousel> {
             ),
         ],
       ),
+      ),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎯 CTA ÉPICO PARA NOTICIAS - Ultra interactivo y estético
+// ═══════════════════════════════════════════════════════════════
+class _NewsInteractiveCTA extends StatefulWidget {
+  final String newsSource;
+  final VoidCallback onReadMore;
+  final VoidCallback onSave;
+
+  const _NewsInteractiveCTA({
+    required this.newsSource,
+    required this.onReadMore,
+    required this.onSave,
+  });
+
+  @override
+  State<_NewsInteractiveCTA> createState() => _NewsInteractiveCTAState();
+}
+
+class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _pulseController;
+  late Animation<double> _pulseAnimation;
+  bool _isHoveringRead = false;
+  bool _isHoveringSave = false;
+  bool _isSaved = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    )..repeat(reverse: true);
+    
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColorsUnified.companyBlue.withValues(alpha: 0.04),
+              AppColorsUnified.grey50,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColorsUnified.companyBlue.withValues(alpha: 0.15),
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColorsUnified.companyBlue.withValues(alpha: 0.06),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            // Header con fuente de la noticia
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColorsUnified.companyBlue.withValues(alpha: 0.03),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColorsUnified.companyBlue.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      Icons.newspaper_rounded,
+                      color: AppColorsUnified.companyBlue,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Fuente verificada',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: AppColorsUnified.textSecondary,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          widget.newsSource,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: AppColorsUnified.textPrimary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    Icons.verified_rounded,
+                    color: AppColorsUnified.companyBlue,
+                    size: 22,
+                  ),
+                ],
+              ),
+            ),
+
+            // Botones de acción
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  // Botón "Leer Completa" con pulse
+                  Expanded(
+                    flex: 3,
+                    child: MouseRegion(
+                      onEnter: (_) => setState(() => _isHoveringRead = true),
+                      onExit: (_) => setState(() => _isHoveringRead = false),
+                      child: AnimatedScale(
+                        scale: _isHoveringRead ? 1.02 : 1.0,
+                        duration: const Duration(milliseconds: 150),
+                        child: AnimatedBuilder(
+                          animation: _pulseAnimation,
+                          builder: (context, child) {
+                            return Transform.scale(
+                              scale: _isHoveringRead ? 1.0 : _pulseAnimation.value,
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: widget.onReadMore,
+                                  borderRadius: BorderRadius.circular(14),
+                                  splashColor: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
+                                  highlightColor: AppColorsUnified.companyBlue.withValues(alpha: 0.2),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          AppColorsUnified.companyBlue,
+                                          AppColorsUnified.darken(AppColorsUnified.companyBlue, 0.1),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(14),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppColorsUnified.companyBlue.withValues(alpha: 0.4),
+                                          blurRadius: _isHoveringRead ? 16 : 12,
+                                          spreadRadius: _isHoveringRead ? 2 : 0,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.article_rounded,
+                                          color: const Color(0xFFFAFAFA),
+                                          size: 24,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text(
+                                          'Leer Completa',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            color: Color(0xFFFAFAFA),
+                                            letterSpacing: 0.3,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Icon(
+                                          Icons.arrow_forward_rounded,
+                                          color: const Color(0xFFFAFAFA),
+                                          size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(width: 12),
+                  
+                  // Botón Guardar con animación
+                  MouseRegion(
+                    onEnter: (_) => setState(() => _isHoveringSave = true),
+                    onExit: (_) => setState(() => _isHoveringSave = false),
+                    child: AnimatedScale(
+                      scale: _isHoveringSave ? 1.1 : 1.0,
+                      duration: const Duration(milliseconds: 150),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() => _isSaved = !_isSaved);
+                            widget.onSave();
+                          },
+                          borderRadius: BorderRadius.circular(14),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: _isSaved 
+                                  ? AppColorsUnified.gold.withValues(alpha: 0.15)
+                                  : AppColorsUnified.grey200,
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: _isSaved
+                                    ? AppColorsUnified.gold
+                                    : AppColorsUnified.grey300,
+                                width: _isSaved ? 2 : 1,
+                              ),
+                            ),
+                            child: Icon(
+                              _isSaved ? Icons.bookmark : Icons.bookmark_outline,
+                              color: _isSaved
+                                  ? AppColorsUnified.gold
+                                  : AppColorsUnified.textSecondary,
+                              size: 24,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🗳️ CTA ÉPICO PARA ENCUESTAS - Ultra interactivo con votación real
+// ═══════════════════════════════════════════════════════════════
+class _PollInteractiveCTA extends StatefulWidget {
+  final Post post;
+  final Function(String) onVote;
+
+  const _PollInteractiveCTA({
+    required this.post,
+    required this.onVote,
+  });
+
+  @override
+  State<_PollInteractiveCTA> createState() => _PollInteractiveCTAState();
+}
+
+class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
+  final _repo = sl<PostRepository>();
+  String? _selectedOption;
+  String? _hoveredOption;
+  Map<String, int> _realVotes = {};
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPollData();
+  }
+
+  Future<void> _loadPollData() async {
+    try {
+      // Cargar votos reales desde la base de datos
+      final votes = await _repo.getPollResults(widget.post.id);
+      final userVote = await _repo.getUserVote(widget.post.id);
+      
+      setState(() {
+        _realVotes = votes;
+        _selectedOption = userVote;
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('❌ Error cargando datos del poll: $e');
+      setState(() => _isLoading = false);
+    }
+  }
+
+  int get _totalVotes {
+    return _realVotes.values.fold(0, (sum, votes) => sum + votes);
+  }
+
+  int _getVotes(String option) {
+    return _realVotes[option] ?? 0;
+  }
+
+  double _getPercentage(String option) {
+    if (_totalVotes == 0) return 0;
+    return (_getVotes(option) / _totalVotes) * 100;
+  }
+
+  bool get _isPollEnded {
+    if (widget.post.pollEndsAt == null) return false;
+    return DateTime.now().isAfter(widget.post.pollEndsAt!);
+  }
+
+  String _getTimeRemaining() {
+    if (widget.post.pollEndsAt == null) return 'Sin límite';
+    final diff = widget.post.pollEndsAt!.difference(DateTime.now());
+    if (diff.isNegative) return 'Finalizada';
+    if (diff.inDays > 0) return '${diff.inDays}d restantes';
+    if (diff.inHours > 0) return '${diff.inHours}h restantes';
+    if (diff.inMinutes > 0) return '${diff.inMinutes}m restantes';
+    return 'Termina pronto';
+  }
+
+  Future<void> _handleVote(String option) async {
+    if (_isPollEnded) return;
+
+    try {
+      // Votar en la base de datos
+      await _repo.votePoll(widget.post.id, option);
+      
+      // Recargar resultados
+      await _loadPollData();
+      
+      // Notificar al padre
+      widget.onVote(option);
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('✅ Voto registrado: $option'),
+            duration: const Duration(seconds: 2),
+            backgroundColor: AppColorsUnified.companyBlue,
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('❌ Error al votar: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('❌ Error al registrar voto'),
+            duration: Duration(seconds: 2),
+            backgroundColor: AppColorsUnified.error,
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final options = widget.post.pollOptions ?? [];
+    
+    if (options.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColorsUnified.grey50,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColorsUnified.grey300,
+            width: 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Opciones directamente sin header
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: options.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final option = entry.value;
+                  final votes = _getVotes(option);
+                  final percentage = _getPercentage(option);
+                  final isSelected = _selectedOption == option;
+                  final isHovered = _hoveredOption == option;
+                  final hasVoted = _selectedOption != null;
+                  final isWinning = hasVoted && votes > 0 && percentage == options.map(_getPercentage).reduce((a, b) => a > b ? a : b);
+
+                  return MouseRegion(
+                    onEnter: (_) => setState(() => _hoveredOption = option),
+                    onExit: (_) => setState(() => _hoveredOption = null),
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: index < options.length - 1 ? 10 : 0),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: _isPollEnded
+                              ? null
+                              : () => _handleVote(option),
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              gradient: hasVoted && percentage > 0
+                                  ? LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: [
+                                        isWinning
+                                            ? AppColorsUnified.companyBlue.withValues(alpha: 0.15)
+                                            : AppColorsUnified.companyBlue.withValues(alpha: 0.08),
+                                        Colors.transparent,
+                                      ],
+                                      stops: [percentage / 100, percentage / 100],
+                                    )
+                                  : null,
+                              color: hasVoted && percentage > 0
+                                  ? null
+                                  : isHovered
+                                      ? AppColorsUnified.grey200
+                                      : AppColorsUnified.background,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: isSelected && hasVoted
+                                    ? AppColorsUnified.companyBlue
+                                    : AppColorsUnified.grey300,
+                                width: isSelected && hasVoted ? 2 : 1,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                if (hasVoted) ...[
+                                  Icon(
+                                    isSelected
+                                        ? Icons.check_circle
+                                        : Icons.circle_outlined,
+                                    color: isSelected
+                                        ? AppColorsUnified.companyBlue
+                                        : AppColorsUnified.textSecondary,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 12),
+                                ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        option,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: isWinning
+                                              ? FontWeight.w700
+                                              : FontWeight.w600,
+                                          color: AppColorsUnified.textPrimary,
+                                        ),
+                                      ),
+                                      if (hasVoted) ...[
+                                        const SizedBox(height: 4),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '${percentage.toStringAsFixed(0)}%',
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                                color: isWinning
+                                                    ? AppColorsUnified.companyBlue
+                                                    : AppColorsUnified.textSecondary,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 6),
+                                            Text(
+                                              '($votes)',
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: AppColorsUnified.textSecondary,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                                if (!hasVoted)
+                                  Icon(
+                                    Icons.chevron_right_rounded,
+                                    color: AppColorsUnified.textSecondary,
+                                    size: 20,
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+
+            // Footer
+            if (_selectedOption == null && !_isPollEnded)
+              Container(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.touch_app_rounded,
+                      color: AppColorsUnified.textSecondary,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 6),
+                    const Text(
+                      'Toca una opción para votar',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColorsUnified.textSecondary,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 💼 CTA ÉPICO PARA OFERTAS - Precio y contacto instantáneo
+// ═══════════════════════════════════════════════════════════════
+class _OfferInteractiveCTA extends StatefulWidget {
+  final Post post;
+  final VoidCallback onContact;
+  final VoidCallback onSave;
+
+  const _OfferInteractiveCTA({
+    required this.post,
+    required this.onContact,
+    required this.onSave,
+  });
+
+  @override
+  State<_OfferInteractiveCTA> createState() => _OfferInteractiveCTAState();
+}
+
+class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
+  final _supabase = SupabaseService.instance.client;
+  bool _isSaved = false;
+  bool _isContactHovered = false;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfSaved();
+  }
+
+  Future<void> _checkIfSaved() async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      // Intentar con saved_posts primero
+      try {
+        final result = await _supabase
+            .from('saved_posts')
+            .select()
+            .eq('user_id', currentUser.id)
+            .eq('post_id', widget.post.id)
+            .maybeSingle();
+
+        setState(() {
+          _isSaved = result != null;
+          _isLoading = false;
+        });
+        return;
+      } catch (e) {
+        // Si saved_posts no existe, intentar con saved_offers
+        final result = await _supabase
+            .from('saved_offers')
+            .select()
+            .eq('user_id', currentUser.id)
+            .eq('post_id', widget.post.id)
+            .maybeSingle();
+
+        setState(() {
+          _isSaved = result != null;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('❌ Error verificando post guardado: $e');
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _toggleSaveOffer() async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      // Determinar qué tabla usar
+      String tableName = 'saved_posts';
+      try {
+        if (_isSaved) {
+          await _supabase
+              .from(tableName)
+              .delete()
+              .eq('user_id', currentUser.id)
+              .eq('post_id', widget.post.id);
+        } else {
+          await _supabase.from(tableName).insert({
+            'user_id': currentUser.id,
+            'post_id': widget.post.id,
+          });
+        }
+      } catch (e) {
+        // Si saved_posts no existe, usar saved_offers
+        tableName = 'saved_offers';
+        if (_isSaved) {
+          await _supabase
+              .from(tableName)
+              .delete()
+              .eq('user_id', currentUser.id)
+              .eq('post_id', widget.post.id);
+        } else {
+          await _supabase.from(tableName).insert({
+            'user_id': currentUser.id,
+            'post_id': widget.post.id,
+          });
+        }
+      }
+
+      setState(() => _isSaved = !_isSaved);
+      widget.onSave();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_isSaved ? '✅ Guardado' : 'Eliminado de guardados'),
+            duration: const Duration(seconds: 2),
+            backgroundColor: AppColorsUnified.companyBlue,
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('❌ Error guardando post: $e');
+    }
+  }
+
+  Future<void> _openChat() async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      // Crear objeto de conversación compatible con ChatDetailPage
+      final conversation = {
+        'id': '${currentUser.id}_${widget.post.authorId}',
+        'otherUserId': widget.post.authorId,
+        'otherUserName': widget.post.authorName ?? 'Usuario',
+        'otherUserAvatar': null, // TODO: Agregar avatar si está disponible
+        'lastMessage': 'Interesado en tu oferta',
+        'timestamp': DateTime.now().toIso8601String(),
+        'unreadCount': 0,
+      };
+
+      // Navegar a chat
+      Navigator.pushNamed(
+        context,
+        '/chat-detail',
+        arguments: conversation,
+      );
+
+      widget.onContact();
+    } catch (e) {
+      debugPrint('❌ Error abriendo chat: $e');
+    }
+  }
+
+  String _formatPrice() {
+    final from = widget.post.pricingFrom;
+    final to = widget.post.pricingTo;
+    final unit = widget.post.pricingUnit ?? 'USD';
+
+    if (from != null && to != null) {
+      return '\$$from - \$$to $unit';
+    } else if (from != null) {
+      return 'Desde \$$from $unit';
+    } else {
+      return 'Precio a consultar';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColorsUnified.companyBlue.withValues(alpha: 0.05),
+              AppColorsUnified.grey50,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColorsUnified.companyBlue.withValues(alpha: 0.2),
+            width: 1.5,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header con nombre del servicio y disponibilidad
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColorsUnified.companyBlue.withValues(alpha: 0.08),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColorsUnified.companyBlue,
+                          AppColorsUnified.companyBlue.withValues(alpha: 0.7),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.local_offer_rounded,
+                      color: Colors.white,
+                      size: 22,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.post.serviceName ?? 'Oferta especial',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: AppColorsUnified.textPrimary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: widget.post.availability == 'Disponible'
+                                    ? Colors.green.withValues(alpha: 0.15)
+                                    : Colors.orange.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                widget.post.availability ?? 'Consultar disponibilidad',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: widget.post.availability == 'Disponible'
+                                      ? Colors.green.shade700
+                                      : Colors.orange.shade700,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Botón guardar
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: _toggleSaveOffer,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        child: AnimatedScale(
+                          scale: _isSaved ? 1.2 : 1.0,
+                          duration: const Duration(milliseconds: 200),
+                          child: Icon(
+                            _isSaved ? Icons.bookmark : Icons.bookmark_border,
+                            color: _isSaved 
+                                ? AppColorsUnified.companyBlue
+                                : AppColorsUnified.textSecondary,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Cuerpo con precio y etiquetas
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Precio destacado
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.attach_money_rounded,
+                        color: AppColorsUnified.companyBlue,
+                        size: 28,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _formatPrice(),
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w800,
+                          color: AppColorsUnified.companyBlue,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  // Tags del servicio
+                  if (widget.post.serviceTags != null && widget.post.serviceTags!.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: widget.post.serviceTags!.take(3).map((tag) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColorsUnified.grey200,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            tag,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: AppColorsUnified.textSecondary,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+
+                  const SizedBox(height: 16),
+
+                  // Botón de contacto principal
+                  MouseRegion(
+                    onEnter: (_) => setState(() => _isContactHovered = true),
+                    onExit: (_) => setState(() => _isContactHovered = false),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: _openChat,
+                        borderRadius: BorderRadius.circular(16),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColorsUnified.companyBlue,
+                                AppColorsUnified.companyBlue.withValues(alpha: 0.8),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: _isContactHovered
+                                ? [
+                                    BoxShadow(
+                                      color: AppColorsUnified.companyBlue.withValues(alpha: 0.4),
+                                      blurRadius: 20,
+                                      spreadRadius: 2,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ]
+                                : [
+                                    BoxShadow(
+                                      color: AppColorsUnified.companyBlue.withValues(alpha: 0.2),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.chat_bubble_rounded,
+                                color: Colors.white,
+                                size: 22,
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                'Contactar Ahora',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              AnimatedRotation(
+                                turns: _isContactHovered ? 0.1 : 0,
+                                duration: const Duration(milliseconds: 200),
+                                child: const Icon(
+                                  Icons.arrow_forward_rounded,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

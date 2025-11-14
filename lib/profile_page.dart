@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'core/theme/rich_decorations.dart';
 import 'core/auth/supabase_auth_service.dart';
+import 'core/auth/employee_roles.dart';
 import 'core/achievements/achievement_models.dart';
 import 'core/achievements/achievements_repository.dart';
 import 'core/achievements/gem_color_helper.dart';
@@ -58,6 +59,27 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   
   String get _userType => _userData?['account_type'] ?? _userData?['accountType'] ?? 'individual';
+  
+  EmployeeRole? _getEmployeeRole() {
+    if (_userType != 'worker') return null;
+    
+    // Intentar obtener el rol del organization_info
+    final orgInfo = _userData?['organization_info'] ?? _userData?['organizationInfo'];
+    if (orgInfo == null) return null;
+    
+    final roleId = orgInfo['role'] ?? orgInfo['employee_role'];
+    if (roleId == null) return null;
+    
+    // Buscar el rol en los roles predefinidos
+    try {
+      return EmployeeRoles.allRoles.firstWhere(
+        (role) => role.id == roleId,
+        orElse: () => EmployeeRoles.technician, // Rol por defecto
+      );
+    } catch (e) {
+      return EmployeeRoles.technician;
+    }
+  }
   
   Map<String, dynamic> _getUserTypeInfo() {
     switch (_userType) {
@@ -308,7 +330,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Header con gradiente oro-naranja
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
                       AppColorsUnified.orange,
@@ -353,6 +375,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       _userData!['createdAt'] != null 
                         ? DateTime.parse(_userData!['createdAt']).toLocal().toString().split(' ')[0]
                         : 'No disponible'),
+                    // Mostrar rol si es trabajador
+                    if (_userType == 'worker') ...[
+                      const SizedBox(height: 12),
+                      _buildEmployeeRoleCard(),
+                    ],
                   ],
                 ),
               ),
@@ -390,6 +417,145 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ],
     );
+  }
+  
+  Widget _buildEmployeeRoleCard() {
+    final role = _getEmployeeRole();
+    
+    if (role == null) {
+      return _buildInfoRow(
+        Icons.work_outline,
+        'Rol',
+        'No especificado',
+      );
+    }
+    
+    // Convertir el color hex a Color
+    Color roleColor;
+    try {
+      roleColor = Color(int.parse(role.color.replaceFirst('#', '0xFF')));
+    } catch (e) {
+      roleColor = AppColorsUnified.companyBlue;
+    }
+    
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            roleColor.withValues(alpha: 0.15),
+            roleColor.withValues(alpha: 0.05),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: roleColor.withValues(alpha: 0.3),
+          width: 1.5,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: roleColor.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  Icons.badge_outlined,
+                  color: roleColor,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Rol en la Empresa',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: AppColorsUnified.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      role.name,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: roleColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            role.description,
+            style: TextStyle(
+              fontSize: 13,
+              color: AppColorsUnified.textSecondary,
+              height: 1.4,
+            ),
+          ),
+          if (role.permissions.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: role.permissions.take(4).map((permission) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: roleColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: roleColor.withValues(alpha: 0.2),
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    _formatPermission(permission),
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: roleColor,
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            if (role.permissions.length > 4)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Text(
+                  '+${role.permissions.length - 4} permisos más',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: AppColorsUnified.textSecondary,
+                  ),
+                ),
+              ),
+          ],
+        ],
+      ),
+    );
+  }
+  
+  String _formatPermission(String permission) {
+    return permission
+        .split('_')
+        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .join(' ');
   }
 
   Widget _buildLevelCard() {

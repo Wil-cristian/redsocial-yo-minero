@@ -28,17 +28,17 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
     super.initState();
 
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 2000), // Más suave
       vsync: this,
     )..repeat(reverse: true);
 
     _rotateController = AnimationController(
-      duration: const Duration(seconds: 10),
+      duration: const Duration(seconds: 20), // Rotación ultra suave
       vsync: this,
     )..repeat();
 
     _breatheController = AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 3000), // Respiración más lenta
       vsync: this,
     )..repeat(reverse: true);
   }
@@ -201,132 +201,141 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                 _breatheController,
               ]),
               builder: (context, child) {
-                final breatheScale = 1.0 + (0.05 * _breatheController.value);
+                // Respiración suave y elegante
+                final breatheScale = 1.0 + (0.02 * _breatheController.value);
+                
+                // Brillo sutil que pulsa
+                final glowOpacity = 0.3 + (0.15 * _pulseController.value);
 
                 return Transform.scale(
                   scale: breatheScale,
                   child: Container(
-                    width: 70,
-                    height: 70,
+                    width: 72,
+                    height: 72,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          AppColorsUnified.orange,
-                          AppColorsUnified.orangeMedium,
-                          AppColorsUnified.orangeLight,
-                        ],
-                        stops: const [0.0, 0.5, 1.0],
-                      ),
+                      // Gradiente dorado radial premium
+                      gradient: AppColorsUnified.goldRadialGradient,
+                      // Sombras elegantes en capas
                       boxShadow: [
+                        // Glow dorado sutil
                         BoxShadow(
-                          color: AppColorsUnified.orange
-                              .withValues(alpha: 0.6 * _pulseController.value),
-                          blurRadius: 30 * (1 + _pulseController.value),
-                          spreadRadius: 5 * _pulseController.value,
+                          color: AppColorsUnified.gold.withValues(alpha: glowOpacity),
+                          blurRadius: 24,
+                          spreadRadius: 4,
                         ),
+                        // Sombra elevada
                         BoxShadow(
-                          color: AppColorsUnified.fade(AppColorsUnified.orangeMedium, 0.4),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.2),
+                          blurRadius: 16,
+                          offset: const Offset(0, 8),
                         ),
+                        // Sombra de profundidad
                         BoxShadow(
-                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.26),
-                          blurRadius: 15,
-                          offset: const Offset(0, 5),
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.12),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        // Círculo rotatorio de fondo
-                        AnimatedBuilder(
-                          animation: _rotateController,
-                          builder: (context, child) {
-                            return Transform.rotate(
-                              angle: _rotateController.value * 2 * math.pi,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: SweepGradient(
-                                    colors: [
-                                      AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3),
-                                      Colors.transparent,
-                                      AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
-                                      Colors.transparent,
-                                    ],
-                                    stops: const [0.0, 0.25, 0.5, 1.0],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                    child: Container(
+                      // Borde interno con brillo metálico
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.25),
+                          width: 1.5,
                         ),
-                        
-                        // Icono central con rotación
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          transitionBuilder: (child, animation) {
-                            return RotationTransition(
-                              turns: animation,
-                              child: ScaleTransition(
-                                scale: animation,
-                                child: child,
-                              ),
-                            );
-                          },
-                          child: Icon(
-                            _isMenuOpen ? Icons.close : Icons.apps_rounded,
-                            key: ValueKey(_isMenuOpen),
-                            color: AppColorsUnified.pureWhite,
-                            size: 34,
-                            shadows: [
-                              Shadow(
-                                color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.26),
-                                offset: const Offset(0, 2),
-                                blurRadius: 4,
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        // Puntos decorativos rotatorios
-                        ...List.generate(8, (index) {
-                          return AnimatedBuilder(
+                      ),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Brillo rotatorio sutil
+                          AnimatedBuilder(
                             animation: _rotateController,
                             builder: (context, child) {
-                              final angle = (2 * math.pi / 8) * index +
-                                  (_rotateController.value * 2 * math.pi);
-                              const distance = 28.0;
-                              final x = distance * math.cos(angle);
-                              final y = distance * math.sin(angle);
-
-                              return Transform.translate(
-                                offset: Offset(x, y),
+                              return Transform.rotate(
+                                angle: _rotateController.value * 2 * math.pi,
                                 child: Container(
-                                  width: 3,
-                                  height: 3,
                                   decoration: BoxDecoration(
-                                    color: AppColorsUnified.pureWhite
-                                        .withValues(alpha: 0.6 * _pulseController.value),
                                     shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.5),
-                                        blurRadius: 4,
-                                        spreadRadius: 1,
-                                      ),
-                                    ],
+                                    gradient: SweepGradient(
+                                      colors: [
+                                        AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.15),
+                                        Colors.transparent,
+                                        AppColorsUnified.fade(AppColorsUnified.goldLayer1, 0.2),
+                                        Colors.transparent,
+                                      ],
+                                      stops: const [0.0, 0.3, 0.6, 1.0],
+                                    ),
                                   ),
                                 ),
                               );
                             },
-                          );
-                        }),
-                      ],
+                          ),
+                          
+                          // Icono central elegante
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            transitionBuilder: (child, animation) {
+                              return RotationTransition(
+                                turns: animation,
+                                child: ScaleTransition(
+                                  scale: animation,
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: Icon(
+                              _isMenuOpen ? Icons.close_rounded : Icons.dashboard_rounded,
+                              key: ValueKey(_isMenuOpen),
+                              color: AppColorsUnified.goldLayer5, // Dorado oscuro para contraste
+                              size: 32,
+                              shadows: [
+                                Shadow(
+                                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.5),
+                                  offset: const Offset(0, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // Acentos decorativos minimalistas (4 puntos en lugar de 8)
+                          ...List.generate(4, (index) {
+                            return AnimatedBuilder(
+                              animation: _rotateController,
+                              builder: (context, child) {
+                                final angle = (2 * math.pi / 4) * index +
+                                    (_rotateController.value * 2 * math.pi * 0.5); // Rotación más lenta
+                                const distance = 26.0;
+                                final x = distance * math.cos(angle);
+                                final y = distance * math.sin(angle);
+
+                                return Transform.translate(
+                                  offset: Offset(x, y),
+                                  child: Container(
+                                    width: 2.5,
+                                    height: 2.5,
+                                    decoration: BoxDecoration(
+                                      color: AppColorsUnified.goldLayer5
+                                          .withValues(alpha: 0.4 + (0.2 * _pulseController.value)),
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
+                                          blurRadius: 3,
+                                          spreadRadius: 0.5,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }),
+                        ],
+                      ),
                     ),
                   ),
                 );

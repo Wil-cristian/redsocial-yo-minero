@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'core/theme/dashboard_colors.dart';
+import 'core/supabase/supabase_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 
 class ChatDetailPage extends StatefulWidget {
   final Map<String, dynamic> conversation;
@@ -20,79 +22,24 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   late TextEditingController _messageController;
   late List<Map<String, dynamic>> _messages;
   final ScrollController _scrollController = ScrollController();
+  final _supabase = SupabaseService.instance.client;
+  
+  String? _conversationId;
+  String? _otherUserId;
+  String? _otherUserName;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _messageController = TextEditingController();
+    _messages = [];
     
-    // Mock de mensajes previos
-    _messages = [
-      {
-        'id': '1',
-        'sender': 'María González',
-        'senderType': 'other',
-        'content': 'Hola, ¿cómo estás? Tenía una pregunta sobre el proyecto',
-        'timestamp': '10:30',
-        'date': 'Hoy',
-      },
-      {
-        'id': '2',
-        'sender': 'Tú',
-        'senderType': 'me',
-        'content': '¡Hola! Bien, ¿qué necesitas?',
-        'timestamp': '10:32',
-        'date': 'Hoy',
-      },
-      {
-        'id': '3',
-        'sender': 'María González',
-        'senderType': 'other',
-        'content': 'Quería saber si tienes disponibilidad la próxima semana para una reunión',
-        'timestamp': '10:33',
-        'date': 'Hoy',
-      },
-      {
-        'id': '4',
-        'sender': 'María González',
-        'senderType': 'other',
-        'content': 'Necesitamos discutir los detalles de la exploración',
-        'timestamp': '10:34',
-        'date': 'Hoy',
-      },
-      {
-        'id': '5',
-        'sender': 'Tú',
-        'senderType': 'me',
-        'content': 'Perfecto, podemos coordinar para el martes o miércoles',
-        'timestamp': '10:35',
-        'date': 'Hoy',
-      },
-      {
-        'id': '6',
-        'sender': 'Tú',
-        'senderType': 'me',
-        'content': '¿A qué hora te viene bien?',
-        'timestamp': '10:36',
-        'date': 'Hoy',
-      },
-      {
-        'id': '7',
-        'sender': 'María González',
-        'senderType': 'other',
-        'content': 'Excelente, el martes a las 2 PM estaría perfecto 👍',
-        'timestamp': '10:37',
-        'date': 'Hoy',
-      },
-      {
-        'id': '8',
-        'sender': 'María González',
-        'senderType': 'other',
-        'content': 'Perfecto, ¿podemos coordinar una reunión para la próxima semana?',
-        'timestamp': '15:30',
-        'date': 'Hoy',
-      },
-    ];
+    // Obtener info del otro usuario desde conversation
+    _otherUserId = widget.conversation['otherUserId'];
+    _otherUserName = widget.conversation['otherUserName'];
+    
+    _loadOrCreateConversation();
   }
 
   @override
@@ -102,40 +49,152 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     super.dispose();
   }
 
-  void _sendMessage() {
-    if (_messageController.text.isEmpty) return;
+  Future<void> _loadOrCreateConversation() async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null || _otherUserId == null) return;
 
-    setState(() {
-      _messages.add({
-        'id': '${_messages.length + 1}',
-        'sender': 'Tú',
-        'senderType': 'me',
-        'content': _messageController.text,
-        'timestamp': _getCurrentTime(),
-        'date': 'Hoy',
+      // Ordenar IDs para buscar conversación (user1_id < user2_id)
+      final userId1 = currentUser.id.compareTo(_otherUserId!) < 0 
+          ? currentUser.id 
+          : _otherUserId!;
+      final userId2 = currentUser.id.compareTo(_otherUserId!) < 0 
+          ? _otherUserId! 
+          : currentUser.id;
+
+      // Buscar conversación existente
+      final existingConversation = await _supabase
+          .from('conversations')
+          .select()
+          .eq('user1_id', userId1)
+          .eq('user2_id', userId2)
+          .maybeSingle();
+
+      if (existingConversation != null) {
+        _conversationId = existingConversation['id'];
+      } else {
+        // Crear nueva conversación
+        final newConversation = await _supabase
+            .from('conversations')
+            .insert({
+              'user1_id': userId1,
+              'user2_id': userId2,
+            })
+            .select()
+            .single();
+        _conversationId = newConversation['id'];
+      }
+
+      // Cargar mensajes
+      await _loadMessages();
+
+      setState(() {
+        _isLoading = false;
       });
-    });
 
+      _scrollToBottom();
+    } catch (e) {
+      debugPrint('❌ Error al cargar conversación: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _loadMessages() async {
+    try {
+      if (_conversationId == null) return;
+
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      final messagesData = await _supabase
+          .from('messages')
+          .select('''
+            id,
+            content,
+            sender_id,
+            created_at,
+            users:sender_id (
+              name,
+              username
+            )
+          ''')
+          .eq('conversation_id', _conversationId!)
+          .order('created_at', ascending: true);
+
+      setState(() {
+        _messages = messagesData.map((msg) {
+          final senderName = msg['users']?['name'] ?? 'Usuario';
+          final isMe = msg['sender_id'] == currentUser.id;
+          
+          return {
+            'id': msg['id'],
+            'sender': isMe ? 'Tú' : senderName,
+            'senderType': isMe ? 'me' : 'other',
+            'content': msg['content'],
+            'timestamp': _formatTime(msg['created_at']),
+            'date': _formatDate(msg['created_at']),
+          };
+        }).toList();
+      });
+    } catch (e) {
+      debugPrint('❌ Error al cargar mensajes: $e');
+    }
+  }
+
+  Future<void> _sendMessage() async {
+    if (_messageController.text.isEmpty) return;
+    if (_conversationId == null) return;
+
+    final currentUser = SupabaseAuthService.instance.currentUser;
+    if (currentUser == null) return;
+
+    final messageContent = _messageController.text;
     _messageController.clear();
 
-    // Simular respuesta después de 1 segundo
-    Future.delayed(const Duration(seconds: 1), () {
-      if (mounted) {
-        setState(() {
-          _messages.add({
-            'id': '${_messages.length + 1}',
-            'sender': widget.conversation['name'],
-            'senderType': 'other',
-            'content': '👍 Mensaje recibido',
-            'timestamp': _getCurrentTime(),
-            'date': 'Hoy',
-          });
-        });
-        _scrollToBottom();
-      }
-    });
+    try {
+      // Guardar mensaje en base de datos
+      final newMessage = await _supabase
+          .from('messages')
+          .insert({
+            'conversation_id': _conversationId,
+            'sender_id': currentUser.id,
+            'content': messageContent,
+          })
+          .select('''
+            id,
+            content,
+            sender_id,
+            created_at
+          ''')
+          .single();
 
-    _scrollToBottom();
+      // Actualizar last_message_at en conversation
+      await _supabase
+          .from('conversations')
+          .update({'last_message_at': DateTime.now().toIso8601String()})
+          .eq('id', _conversationId!);
+
+      // Agregar mensaje a la lista local
+      setState(() {
+        _messages.add({
+          'id': newMessage['id'],
+          'sender': 'Tú',
+          'senderType': 'me',
+          'content': messageContent,
+          'timestamp': _formatTime(newMessage['created_at']),
+          'date': _formatDate(newMessage['created_at']),
+        });
+      });
+
+      _scrollToBottom();
+    } catch (e) {
+      debugPrint('❌ Error al enviar mensaje: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error al enviar mensaje')),
+      );
+    }
   }
 
   void _scrollToBottom() {
@@ -150,9 +209,36 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     });
   }
 
-  String _getCurrentTime() {
-    final now = DateTime.now();
-    return '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
+  String _formatTime(String? timestamp) {
+    if (timestamp == null) return '';
+    try {
+      final date = DateTime.parse(timestamp);
+      final hour = date.hour.toString().padLeft(2, '0');
+      final minute = date.minute.toString().padLeft(2, '0');
+      return '$hour:$minute';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String _formatDate(String? timestamp) {
+    if (timestamp == null) return 'Hoy';
+    try {
+      final date = DateTime.parse(timestamp);
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final messageDate = DateTime(date.year, date.month, date.day);
+      
+      if (messageDate == today) {
+        return 'Hoy';
+      } else if (messageDate == today.subtract(const Duration(days: 1))) {
+        return 'Ayer';
+      } else {
+        return '${date.day}/${date.month}/${date.year}';
+      }
+    } catch (e) {
+      return 'Hoy';
+    }
   }
 
   Color _getTypeColor(String type) {
@@ -172,13 +258,14 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   Widget build(BuildContext context) {
     final conversationType = widget.conversation['type'] ?? 'individual';
     final typeColor = _getTypeColor(conversationType);
+    final displayName = _otherUserName ?? widget.conversation['otherUserName'] ?? 'Usuario';
 
     return Scaffold(
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.conversation['name'] ?? 'Conversación'),
+            Text(displayName),
             if (widget.conversation['isOnline'] == true)
               const Text(
                 'En línea',
@@ -252,15 +339,21 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       body: Column(
         children: [
           Expanded(
-            child: _messages.isEmpty
-                ? _buildEmptyMessages()
-                : ListView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    itemCount: _messages.length,
-                    itemBuilder: (context, index) {
-                      final message = _messages[index];
-                      final isMine = message['senderType'] == 'me';
+            child: _isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColorsUnified.orange,
+                    ),
+                  )
+                : _messages.isEmpty
+                    ? _buildEmptyMessages()
+                    : ListView.builder(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        itemCount: _messages.length,
+                        itemBuilder: (context, index) {
+                          final message = _messages[index];
+                          final isMine = message['senderType'] == 'me';
                       
                       return _buildMessageBubble(message, isMine, typeColor);
                     },

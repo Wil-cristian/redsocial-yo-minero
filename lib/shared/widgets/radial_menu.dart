@@ -48,17 +48,17 @@ class _RadialMenuState extends State<RadialMenu>
     super.initState();
 
     _expandController = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     )..forward();
 
     _rotateController = AnimationController(
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 20), // Rotación ultra suave
       vsync: this,
     )..repeat();
 
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 2500), // Pulso más lento
       vsync: this,
     )..repeat(reverse: true);
 
@@ -184,52 +184,61 @@ class _RadialMenuState extends State<RadialMenu>
           },
         ),
 
-        // Botón central con efecto de pulso
+        // Botón central con efecto de pulso dorado
         AnimatedBuilder(
           animation: Listenable.merge([_expandController, _pulseController]),
           builder: (context, child) {
-            final scale = 1.0 + (0.1 * _pulseController.value);
+            final scale = 1.0 + (0.05 * _pulseController.value); // Respiración sutil
+            final glowOpacity = 0.35 + (0.15 * _pulseController.value);
+            
             return Positioned(
-              left: center.dx - 35,
-              top: center.dy - 35,
+              left: center.dx - 36,
+              top: center.dy - 36,
               child: GestureDetector(
                 onTap: _handleClose,
                 child: Transform.scale(
                   scale: scale,
                   child: Container(
-                    width: 70,
-                    height: 70,
+                    width: 72,
+                    height: 72,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          AppColorsUnified.orange,
-                          AppColorsUnified.orangeMedium,
-                          AppColorsUnified.orangeLight,
-                        ],
-                      ),
+                      gradient: AppColorsUnified.goldRadialGradient,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColorsUnified.orange
-                              .withValues(alpha: 0.6 * _pulseController.value),
-                          blurRadius: 30 * _pulseController.value,
-                          spreadRadius: 8 * _pulseController.value,
+                          color: AppColorsUnified.gold.withValues(alpha: glowOpacity),
+                          blurRadius: 28,
+                          spreadRadius: 6,
                         ),
-                        const BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 15,
-                          offset: Offset(0, 5),
+                        BoxShadow(
+                          color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.3),
+                          blurRadius: 16,
+                          offset: const Offset(0, 8),
                         ),
                       ],
                     ),
-                    child: Transform.rotate(
-                      angle: _expandController.value * math.pi / 4,
-                      child: const Icon(
-                        Icons.close,
-                        color: Colors.white,
-                        size: 32,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3),
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Transform.rotate(
+                        angle: _expandController.value * math.pi / 4,
+                        child: Icon(
+                          Icons.close_rounded,
+                          color: AppColorsUnified.goldLayer5,
+                          size: 34,
+                          shadows: [
+                            Shadow(
+                              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.6),
+                              offset: const Offset(0, 1),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -282,103 +291,88 @@ class _RadialMenuState extends State<RadialMenu>
                       onExit: (_) => setState(() => _hoveredIndex = null),
                       child: GestureDetector(
                         onTap: () => _handleItemTap(index),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Icono con efecto (tamaño escalado)
-                            Container(
-                              width: scaledItemSize,
-                              height: scaledItemSize,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    item.color.withValues(alpha: 0.9),
-                                    item.color,
-                                    item.color.withValues(alpha: 0.8),
-                                  ],
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: item.color.withValues(alpha: 0.5),
-                                    blurRadius: isHovered ? 25 : 15,
-                                    spreadRadius: isHovered ? 5 : 2,
-                                  ),
-                                  const BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 10,
-                                    offset: Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  // Brillo rotatorio
-                                  AnimatedBuilder(
-                                    animation: _rotateController,
-                                    builder: (context, child) {
-                                      return Transform.rotate(
-                                        angle: _rotateController.value * 2 * math.pi,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                              colors: [
-                                                Colors.white.withValues(alpha: 0.3),
-                                                Colors.transparent,
-                                                Colors.white.withValues(alpha: 0.1),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  Icon(
-                                    item.icon,
-                                    color: Colors.white,
-                                    size: 32,
-                                  ),
-                                ],
-                              ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32), // Píldora redondeada
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppColorsUnified.pureWhite,
+                                AppColorsUnified.grey50,
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                            // Etiqueta
-                            AnimatedOpacity(
-                              opacity: isHovered ? 1.0 : 0.0,
-                              duration: const Duration(milliseconds: 200),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 6,
-                                ),
+                            border: Border.all(
+                              color: isHovered 
+                                  ? AppColorsUnified.gold
+                                  : AppColorsUnified.grey200,
+                              width: isHovered ? 2 : 1.5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: isHovered
+                                    ? AppColorsUnified.gold.withValues(alpha: 0.25)
+                                    : AppColorsUnified.shadowMedium,
+                                blurRadius: isHovered ? 20 : 12,
+                                spreadRadius: isHovered ? 2 : 0,
+                                offset: const Offset(0, 4),
+                              ),
+                              BoxShadow(
+                                color: AppColorsUnified.shadowLight,
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Icono con contenedor circular elegante
+                              Container(
+                                width: 42,
+                                height: 42,
                                 decoration: BoxDecoration(
-                                  color: Colors.black87,
-                                  borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.26),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  item.label,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      item.color.withValues(alpha: 0.15),
+                                      item.color.withValues(alpha: 0.08),
+                                    ],
+                                  ),
+                                  border: Border.all(
+                                    color: item.color.withValues(alpha: 0.3),
+                                    width: 1,
                                   ),
                                 ),
+                                child: Icon(
+                                  item.icon,
+                                  color: item.color,
+                                  size: 22,
+                                ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 10),
+                              // Etiqueta siempre visible
+                              Text(
+                                item.label,
+                                style: TextStyle(
+                                  color: isHovered 
+                                      ? AppColorsUnified.textPrimary
+                                      : AppColorsUnified.textSecondary,
+                                  fontSize: 14,
+                                  fontWeight: isHovered 
+                                      ? FontWeight.w700
+                                      : FontWeight.w600,
+                                  letterSpacing: 0.2,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -406,21 +400,21 @@ class _RadialBackgroundPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Círculos concéntricos animados
+    // Círculos concéntricos animados con oro sutil
     final paint1 = Paint()
-      ..color = AppColorsUnified.orange.withValues(alpha: 0.15)
+      ..color = AppColorsUnified.gold.withValues(alpha: 0.12)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+      ..strokeWidth = 1.5;
 
     final paint2 = Paint()
-      ..color = AppColorsUnified.orangeMedium.withValues(alpha: 0.1)
+      ..color = AppColorsUnified.goldBright.withValues(alpha: 0.08)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+      ..strokeWidth = 1.5;
 
     final paint3 = Paint()
-      ..color = AppColorsUnified.orangeLight.withValues(alpha: 0.08)
+      ..color = AppColorsUnified.grey300.withValues(alpha: 0.15)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+      ..strokeWidth = 1.5;
 
     // Dibujar círculos con rotación
     final offset = animation * 20;
