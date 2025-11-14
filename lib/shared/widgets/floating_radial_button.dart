@@ -27,20 +27,21 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
   void initState() {
     super.initState();
 
+    // ANIMACIONES DESACTIVADAS AL INICIO - Se activan cuando el usuario abre el menú
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 2000), // Más suave
+      duration: const Duration(milliseconds: 2000),
       vsync: this,
-    )..repeat(reverse: true);
+    ); // Sin repeat()
 
     _rotateController = AnimationController(
-      duration: const Duration(seconds: 20), // Rotación ultra suave
+      duration: const Duration(seconds: 20),
       vsync: this,
-    )..repeat();
+    ); // Sin repeat()
 
     _breatheController = AnimationController(
-      duration: const Duration(milliseconds: 3000), // Respiración más lenta
+      duration: const Duration(milliseconds: 3000),
       vsync: this,
-    )..repeat(reverse: true);
+    ); // Sin repeat()
   }
 
   @override
@@ -139,6 +140,18 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
   void _toggleMenu() {
     setState(() {
       _isMenuOpen = !_isMenuOpen;
+      
+      // Iniciar animaciones solo cuando se abre el menú por primera vez
+      if (_isMenuOpen) {
+        _pulseController.repeat(reverse: true);
+        _rotateController.repeat();
+        _breatheController.repeat(reverse: true);
+      } else {
+        // Opcional: detener animaciones cuando se cierra
+        _pulseController.stop();
+        _rotateController.stop();
+        _breatheController.stop();
+      }
     });
   }
 

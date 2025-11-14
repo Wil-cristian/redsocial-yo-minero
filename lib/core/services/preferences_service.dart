@@ -7,7 +7,7 @@ class PreferencesService {
   PreferencesService._internal();
 
   // ValueNotifier para el estado del menú flotante
-  final ValueNotifier<bool> floatingMenuEnabled = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> floatingMenuEnabled = ValueNotifier<bool>(false);
 
   /// Toggle del menú flotante
   void toggleFloatingMenu(bool enabled) {

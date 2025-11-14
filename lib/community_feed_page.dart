@@ -19,6 +19,7 @@ class CommunityFeedPage extends StatefulWidget {
 
 class _CommunityFeedPageState extends State<CommunityFeedPage> {
   final _repo = sl<PostRepository>();
+  final _supabase = SupabaseService.instance.client;
   List<Post> _posts = [];
   bool _isLoading = true;
   int _selectedFilter = 0; // 0: Todos, 1: Productos, 2: Servicios, 3: Preguntas, 4: Noticias, 5: Encuestas, 6: Ofertas
@@ -41,6 +42,245 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
       debugPrint('❌ Error cargando posts: $e');
       setState(() => _isLoading = false);
     }
+  }
+
+  Future<void> _toggleSavePost(String postId) async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      // Verificar si está guardado
+      bool isSaved = false;
+      String tableName = 'saved_posts';
+      
+      try {
+        final checkResponse = await _supabase
+            .from(tableName)
+            .select('id')
+            .eq('user_id', currentUser.id)
+            .eq('post_id', postId)
+            .maybeSingle();
+        isSaved = checkResponse != null;
+      } catch (e) {
+        // Intentar con saved_offers
+        tableName = 'saved_offers';
+        final checkResponse = await _supabase
+            .from(tableName)
+            .select('id')
+            .eq('user_id', currentUser.id)
+            .eq('post_id', postId)
+            .maybeSingle();
+        isSaved = checkResponse != null;
+      }
+
+      // Guardar o eliminar
+      if (isSaved) {
+        await _supabase
+            .from(tableName)
+            .delete()
+            .eq('user_id', currentUser.id)
+            .eq('post_id', postId);
+        
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Eliminado de guardados'),
+              duration: Duration(seconds: 2),
+              backgroundColor: AppColorsUnified.companyBlue,
+            ),
+          );
+        }
+      } else {
+        await _supabase.from(tableName).insert({
+          'user_id': currentUser.id,
+          'post_id': postId,
+        });
+        
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('✅ Guardado'),
+              duration: Duration(seconds: 2),
+              backgroundColor: AppColorsUnified.companyBlue,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ Error guardando post: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al guardar'),
+            duration: Duration(seconds: 2),
+            backgroundColor: AppColorsUnified.error,
+          ),
+        );
+      }
+    }
+  }
+
+  void _showNewsDetailModal(BuildContext context, Post post) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.9,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+        ),
+        child: Column(
+          children: [
+            // Handle bar
+            Container(
+              margin: const EdgeInsets.only(top: 12),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColorsUnified.grey300,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            
+            // Header
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColorsUnified.companyBlue,
+                    AppColorsUnified.companyBlue.withValues(alpha: 0.8),
+                  ],
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.article, color: Colors.white, size: 28),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Noticia',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white70,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          post.title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close, color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            
+            // Content
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Fuente y Autor
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColorsUnified.companyBlue.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.source, color: AppColorsUnified.companyBlue, size: 20),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  post.newsSource ?? 'Fuente desconocida',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColorsUnified.companyBlue,
+                                  ),
+                                ),
+                                if (post.newsAuthor != null) ...[
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Por ${post.newsAuthor}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: AppColorsUnified.textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 24),
+                    
+                    // Contenido completo
+                    const Text(
+                      'Contenido',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppColorsUnified.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      post.content,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: AppColorsUnified.textPrimary,
+                        height: 1.6,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   List<Post> get _filteredPosts {
@@ -441,8 +681,11 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                     color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.charcoal,
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(post.content, style: const TextStyle(fontSize: 14, color: AppColorsUnified.textPrimary, height: 1.5)),
+                // NO mostrar content si es poll (las opciones ya se muestran en el CTA)
+                if (post.type != PostType.poll) ...[
+                  const SizedBox(height: 8),
+                  Text(post.content, style: const TextStyle(fontSize: 14, color: AppColorsUnified.textPrimary, height: 1.5)),
+                ],
                 if (post.categories.isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Wrap(
@@ -515,14 +758,13 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           // CTA ÉPICO para NOTICIAS - Interactivo y estético (ARRIBA)
           if (post.type == PostType.news) ...[
             _NewsInteractiveCTA(
+              post: post,
               newsSource: post.newsSource ?? 'Fuente desconocida',
               onReadMore: () {
-                debugPrint('Ver noticia completa: ${post.id}');
-                // TODO: Abrir vista detallada de noticia
+                _showNewsDetailModal(context, post);
               },
-              onSave: () {
-                debugPrint('Guardar noticia: ${post.id}');
-                // TODO: Guardar en favoritos
+              onSave: () async {
+                await _toggleSavePost(post.id);
               },
             ),
           ],
@@ -533,7 +775,9 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
               post: post,
               onVote: (option) {
                 debugPrint('Voto: $option en poll ${post.id}');
-                // TODO: Registrar voto en Supabase
+              },
+              onSave: () async {
+                await _toggleSavePost(post.id);
               },
             ),
           ],
@@ -548,8 +792,17 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
               },
               onSave: () {
                 debugPrint('⭐ Guardar oferta: ${post.id}');
-                // TODO: Guardar en favoritos
+                // Guardar en favoritos
+                _toggleSavePost(post.id);
               },
+            ),
+          ],
+
+          // CTA para GUARDAR - Para tipos que no tienen CTA específico
+          if (post.type == PostType.product || post.type == PostType.service || post.type == PostType.community) ...[
+            _SaveCTA(
+              post: post,
+              onSave: _toggleSavePost,
             ),
           ],
 
@@ -566,7 +819,33 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                   }
                 }),
                 const SizedBox(width: 20),
-                _buildActionButton(Icons.chat_bubble_outline, '${post.comments}', () {}),
+                _buildActionButton(Icons.chat_bubble_outline, '${post.comments}', () async {
+                  // Abrir chat con el autor del post
+                  try {
+                    final currentUser = SupabaseAuthService.instance.currentUser;
+                    if (currentUser == null) return;
+
+                    // Crear objeto de conversación compatible con ChatDetailPage
+                    final conversation = {
+                      'id': '${currentUser.id}_${post.authorId}',
+                      'otherUserId': post.authorId,
+                      'otherUserName': post.authorName ?? 'Usuario',
+                      'otherUserAvatar': null,
+                      'lastMessage': 'Interesado en tu post',
+                      'timestamp': DateTime.now().toIso8601String(),
+                      'unreadCount': 0,
+                    };
+
+                    // Navegar a chat
+                    Navigator.pushNamed(
+                      context,
+                      '/chat-detail',
+                      arguments: conversation,
+                    );
+                  } catch (e) {
+                    debugPrint('❌ Error abriendo chat: $e');
+                  }
+                }),
                 const SizedBox(width: 20),
                 _buildActionButton(Icons.share_outlined, 'Compartir', () {}),
               ],
@@ -597,7 +876,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                             color: AppColorsUnified.gold.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.question_answer_rounded,
                             color: AppColorsUnified.gold,
                             size: 20,
@@ -630,42 +909,82 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          debugPrint('Responder pregunta: ${post.id}');
-                          // TODO: Abrir modal de respuesta
-                        },
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          decoration: BoxDecoration(
-                            color: AppColorsUnified.gold,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.edit_rounded,
-                                color: Color(0xFFFAFAFA),
-                                size: 22,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                'Responder Pregunta',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xFFFAFAFA),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                debugPrint('Responder pregunta: ${post.id}');
+                                // TODO: Abrir modal de respuesta
+                              },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                decoration: BoxDecoration(
+                                  color: AppColorsUnified.gold,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.edit_rounded,
+                                      color: Color(0xFFFAFAFA),
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 6),
+                                    Text(
+                                      'Responder',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFFFAFAFA),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(width: 12),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () async {
+                              await _toggleSavePost(post.id);
+                            },
+                            borderRadius: BorderRadius.circular(12),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              decoration: BoxDecoration(
+                                color: AppColorsUnified.grey200,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.bookmark_border_rounded,
+                                    color: AppColorsUnified.textSecondary,
+                                    size: 18,
+                                  ),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    'Guardar',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColorsUnified.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -966,11 +1285,13 @@ class _ImageCarouselState extends State<_ImageCarousel> {
 // 🎯 CTA ÉPICO PARA NOTICIAS - Ultra interactivo y estético
 // ═══════════════════════════════════════════════════════════════
 class _NewsInteractiveCTA extends StatefulWidget {
+  final Post post;
   final String newsSource;
   final VoidCallback onReadMore;
   final VoidCallback onSave;
 
   const _NewsInteractiveCTA({
+    required this.post,
     required this.newsSource,
     required this.onReadMore,
     required this.onSave,
@@ -982,6 +1303,7 @@ class _NewsInteractiveCTA extends StatefulWidget {
 
 class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
     with SingleTickerProviderStateMixin {
+  final _supabase = SupabaseService.instance.client;
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
   bool _isHoveringRead = false;
@@ -991,6 +1313,7 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
   @override
   void initState() {
     super.initState();
+    _checkIfSaved();
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
@@ -999,6 +1322,31 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
+  }
+  
+  Future<void> _checkIfSaved() async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      // Verificar en saved_posts
+      try {
+        final response = await _supabase
+            .from('saved_posts')
+            .select('id')
+            .eq('user_id', currentUser.id)
+            .eq('post_id', widget.post.id)
+            .maybeSingle();
+
+        if (mounted) {
+          setState(() => _isSaved = response != null);
+        }
+      } catch (e) {
+        debugPrint('⚠️ Error verificando guardado: $e');
+      }
+    } catch (e) {
+      debugPrint('❌ Error verificando guardado: $e');
+    }
   }
 
   @override
@@ -1055,7 +1403,7 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
                       color: AppColorsUnified.companyBlue.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.newspaper_rounded,
                       color: AppColorsUnified.companyBlue,
                       size: 20,
@@ -1089,7 +1437,7 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
                       ],
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.verified_rounded,
                     color: AppColorsUnified.companyBlue,
                     size: 22,
@@ -1145,16 +1493,16 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
                                         ),
                                       ],
                                     ),
-                                    child: Row(
+                                    child: const Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.article_rounded,
-                                          color: const Color(0xFFFAFAFA),
+                                          color: Color(0xFFFAFAFA),
                                           size: 24,
                                         ),
-                                        const SizedBox(width: 10),
-                                        const Text(
+                                        SizedBox(width: 10),
+                                        Text(
                                           'Leer Completa',
                                           style: TextStyle(
                                             fontSize: 16,
@@ -1163,10 +1511,10 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
                                             letterSpacing: 0.3,
                                           ),
                                         ),
-                                        const SizedBox(width: 6),
+                                        SizedBox(width: 6),
                                         Icon(
                                           Icons.arrow_forward_rounded,
-                                          color: const Color(0xFFFAFAFA),
+                                          color: Color(0xFFFAFAFA),
                                           size: 20,
                                         ),
                                       ],
@@ -1241,10 +1589,12 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
 class _PollInteractiveCTA extends StatefulWidget {
   final Post post;
   final Function(String) onVote;
+  final VoidCallback onSave;
 
   const _PollInteractiveCTA({
     required this.post,
     required this.onVote,
+    required this.onSave,
   });
 
   @override
@@ -1253,15 +1603,52 @@ class _PollInteractiveCTA extends StatefulWidget {
 
 class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
   final _repo = sl<PostRepository>();
+  final _supabase = SupabaseService.instance.client;
   String? _selectedOption;
   String? _hoveredOption;
   Map<String, int> _realVotes = {};
-  bool _isLoading = true;
+  bool _isSaved = false;
 
   @override
   void initState() {
     super.initState();
     _loadPollData();
+    _checkIfSaved();
+  }
+
+  Future<void> _checkIfSaved() async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      // Intentar con saved_posts primero
+      try {
+        final response = await _supabase
+            .from('saved_posts')
+            .select('id')
+            .eq('user_id', currentUser.id)
+            .eq('post_id', widget.post.id)
+            .maybeSingle();
+
+        if (mounted) {
+          setState(() => _isSaved = response != null);
+        }
+      } catch (e) {
+        // Si saved_posts no existe, intentar con saved_offers
+        final response = await _supabase
+            .from('saved_offers')
+            .select('id')
+            .eq('user_id', currentUser.id)
+            .eq('post_id', widget.post.id)
+            .maybeSingle();
+
+        if (mounted) {
+          setState(() => _isSaved = response != null);
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ Error verificando guardado: $e');
+    }
   }
 
   Future<void> _loadPollData() async {
@@ -1270,14 +1657,14 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
       final votes = await _repo.getPollResults(widget.post.id);
       final userVote = await _repo.getUserVote(widget.post.id);
       
-      setState(() {
-        _realVotes = votes;
-        _selectedOption = userVote;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _realVotes = votes;
+          _selectedOption = userVote;
+        });
+      }
     } catch (e) {
       debugPrint('❌ Error cargando datos del poll: $e');
-      setState(() => _isLoading = false);
     }
   }
 
@@ -1297,16 +1684,6 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
   bool get _isPollEnded {
     if (widget.post.pollEndsAt == null) return false;
     return DateTime.now().isAfter(widget.post.pollEndsAt!);
-  }
-
-  String _getTimeRemaining() {
-    if (widget.post.pollEndsAt == null) return 'Sin límite';
-    final diff = widget.post.pollEndsAt!.difference(DateTime.now());
-    if (diff.isNegative) return 'Finalizada';
-    if (diff.inDays > 0) return '${diff.inDays}d restantes';
-    if (diff.inHours > 0) return '${diff.inHours}h restantes';
-    if (diff.inMinutes > 0) return '${diff.inMinutes}m restantes';
-    return 'Termina pronto';
   }
 
   Future<void> _handleVote(String option) async {
@@ -1367,7 +1744,7 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Opciones directamente sin header
+            // Opciones interactivas
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -1479,7 +1856,7 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
                                   ),
                                 ),
                                 if (!hasVoted)
-                                  Icon(
+                                  const Icon(
                                     Icons.chevron_right_rounded,
                                     color: AppColorsUnified.textSecondary,
                                     size: 20,
@@ -1499,15 +1876,15 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
             if (_selectedOption == null && !_isPollEnded)
               Container(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(
                       Icons.touch_app_rounded,
                       color: AppColorsUnified.textSecondary,
                       size: 18,
                     ),
-                    const SizedBox(width: 6),
-                    const Text(
+                    SizedBox(width: 6),
+                    Text(
                       'Toca una opción para votar',
                       style: TextStyle(
                         fontSize: 12,
@@ -1518,6 +1895,68 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
                   ],
                 ),
               ),
+
+            // Botón de guardado
+            Container(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: AppColorsUnified.grey300,
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    setState(() => _isSaved = !_isSaved);
+                    widget.onSave();
+                  },
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    decoration: BoxDecoration(
+                      color: _isSaved
+                          ? AppColorsUnified.gold.withValues(alpha: 0.1)
+                          : AppColorsUnified.grey200,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: _isSaved
+                            ? AppColorsUnified.gold
+                            : AppColorsUnified.grey300,
+                        width: _isSaved ? 2 : 1,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          _isSaved ? Icons.bookmark : Icons.bookmark_outline,
+                          color: _isSaved
+                              ? AppColorsUnified.gold
+                              : AppColorsUnified.textSecondary,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          _isSaved ? '✓ Guardado' : 'Guardar Encuesta',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: _isSaved
+                                ? AppColorsUnified.gold
+                                : AppColorsUnified.textPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -1547,7 +1986,6 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
   final _supabase = SupabaseService.instance.client;
   bool _isSaved = false;
   bool _isContactHovered = false;
-  bool _isLoading = true;
 
   @override
   void initState() {
@@ -1571,7 +2009,6 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
 
         setState(() {
           _isSaved = result != null;
-          _isLoading = false;
         });
         return;
       } catch (e) {
@@ -1585,12 +2022,10 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
 
         setState(() {
           _isSaved = result != null;
-          _isLoading = false;
         });
       }
     } catch (e) {
       debugPrint('❌ Error verificando post guardado: $e');
-      setState(() => _isLoading = false);
     }
   }
 
@@ -1827,7 +2262,7 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
                   // Precio destacado
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.attach_money_rounded,
                         color: AppColorsUnified.companyBlue,
                         size: 28,
@@ -1946,6 +2381,185 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CTA PARA GUARDAR - Interactivo con estado
+// ═══════════════════════════════════════════════════════════════
+
+class _SaveCTA extends StatefulWidget {
+  final Post post;
+  final Future<void> Function(String) onSave;
+
+  const _SaveCTA({
+    required this.post,
+    required this.onSave,
+  });
+
+  @override
+  State<_SaveCTA> createState() => _SaveCTAState();
+}
+
+class _SaveCTAState extends State<_SaveCTA> {
+  final _supabase = SupabaseService.instance.client;
+  bool _isSaved = false;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfSaved();
+  }
+
+  Future<void> _checkIfSaved() async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      // Verificar en saved_posts
+      try {
+        final response = await _supabase
+            .from('saved_posts')
+            .select('id')
+            .eq('user_id', currentUser.id)
+            .eq('post_id', widget.post.id)
+            .maybeSingle();
+
+        if (mounted) {
+          setState(() => _isSaved = response != null);
+        }
+      } catch (e) {
+        debugPrint('⚠️ Error verificando guardado: $e');
+      }
+    } catch (e) {
+      debugPrint('❌ Error verificando guardado: $e');
+    }
+  }
+
+  Future<void> _handleSave() async {
+    if (_isLoading) return;
+
+    setState(() => _isLoading = true);
+    try {
+      await widget.onSave(widget.post.id);
+      // Recargar estado después de guardar/desguardar
+      await _checkIfSaved();
+    } catch (e) {
+      debugPrint('❌ Error guardando: $e');
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: _isSaved
+              ? AppColorsUnified.gold.withValues(alpha: 0.1)
+              : AppColorsUnified.grey50,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: _isSaved
+                ? AppColorsUnified.gold.withValues(alpha: 0.3)
+                : AppColorsUnified.grey300,
+            width: 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: _isSaved
+                    ? AppColorsUnified.gold.withValues(alpha: 0.2)
+                    : AppColorsUnified.gold.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                _isSaved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
+                color: AppColorsUnified.gold,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _isSaved ? 'Guardado en favoritos' : 'Guardar para después',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: AppColorsUnified.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    _isSaved
+                        ? 'Accede desde tus guardados'
+                        : 'Accede fácilmente desde tus guardados',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColorsUnified.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: _isLoading ? null : _handleSave,
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: _isSaved
+                        ? AppColorsUnified.grey300
+                        : AppColorsUnified.gold,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        _isLoading
+                            ? Icons.hourglass_empty
+                            : (_isSaved ? Icons.bookmark_remove : Icons.bookmark_add_rounded),
+                        color: _isSaved
+                            ? AppColorsUnified.textSecondary
+                            : const Color(0xFFFAFAFA),
+                        size: 18,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        _isLoading
+                            ? 'Guardando...'
+                            : (_isSaved ? 'Remover' : 'Guardar'),
+                        style: TextStyle(
+                          color: _isSaved
+                              ? AppColorsUnified.textSecondary
+                              : const Color(0xFFFAFAFA),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],

@@ -368,86 +368,12 @@ class OptimizedPostContent extends StatelessWidget {
 
   // === POLL (Encuesta) ===
   Widget _buildPollContent() {
-    if (post.pollOptions == null || post.pollOptions!.isEmpty) return const SizedBox.shrink();
-
-    final pollVotes = post.pollVotes ?? {};
-    final totalVotes = pollVotes.values.fold<int>(0, (sum, votes) => sum + votes);
-    final pollEnded = post.pollEndsAt != null && DateTime.now().isAfter(post.pollEndsAt!);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (post.pollEndsAt != null)
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: pollEnded ? AppColorsUnified.error : AppColorsUnified.success,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(pollEnded ? Icons.lock : Icons.access_time, color: AppColorsUnified.pureWhite, size: 14),
-                const SizedBox(width: 4),
-                Text(pollEnded ? 'Finalizada' : _getTimeRemaining(post.pollEndsAt!), style: TextStyle(color: AppColorsUnified.pureWhite, fontSize: 12, fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        const SizedBox(height: 12),
-        ...List.generate(post.pollOptions!.length, (index) {
-          final option = post.pollOptions![index];
-          final votes = pollVotes[option] ?? 0;
-          final percentage = totalVotes > 0 ? (votes / totalVotes * 100).round() : 0;
-
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: InkWell(
-              onTap: pollEnded || onPollVote == null ? null : () => onPollVote!(index),
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AppColorsUnified.orange.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColorsUnified.orange.withValues(alpha: 0.3)),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(option, style: const TextStyle(fontWeight: FontWeight.w500)),
-                          const SizedBox(height: 4),
-                          LinearProgressIndicator(value: percentage / 100, backgroundColor: AppColorsUnified.background, color: AppColorsUnified.orange),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Text('$percentage%', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  ],
-                ),
-              ),
-            ),
-          );
-        }),
-        Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Text('$totalVotes votos totales', style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12)),
-        ),
-      ],
-    );
+    // NO renderizar nada aquí - el _PollInteractiveCTA en community_feed_page.dart maneja todo
+    return const SizedBox.shrink();
   }
 
   // === HELPERS ===
   String _formatDate(DateTime date) => '${date.day}/${date.month}/${date.year}';
-
-  String _getTimeRemaining(DateTime endDate) {
-    final diff = endDate.difference(DateTime.now());
-    if (diff.inDays > 0) return '${diff.inDays}d restantes';
-    if (diff.inHours > 0) return '${diff.inHours}h restantes';
-    if (diff.inMinutes > 0) return '${diff.inMinutes}m restantes';
-    return 'Finalizando';
-  }
 
   /// Convierte las imágenes del post en objetos Product para el carousel 3D
   List<Product> _convertPostToProducts(Post post) {
