@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'package:yominero/core/auth/supabase_auth_service.dart';
 import 'package:yominero/core/supabase/supabase_service.dart';
+import 'package:yominero/features/bookings/ui/book_service_page.dart';
+import 'package:yominero/shared/models/service.dart';
 
 class SavedOffersPage extends StatefulWidget {
   const SavedOffersPage({super.key});
@@ -63,6 +65,67 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
       }
     } catch (e) {
       debugPrint('❌ Error eliminando oferta: $e');
+    }
+  }
+
+  void _bookService(Map<String, dynamic> offer) async {
+    // Verificar si tiene service_id
+    String? serviceId = offer['service_id'];
+    
+    // Si no viene en la respuesta, obtenerlo de la BD
+    if (serviceId == null) {
+      try {
+        final postData = await _supabase
+            .from('posts')
+            .select('service_id')
+            .eq('id', offer['post_id'])
+            .single();
+        serviceId = postData['service_id'];
+      } catch (e) {
+        debugPrint('❌ Error obteniendo service_id: $e');
+      }
+    }
+
+    if (serviceId == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Este servicio no tiene sistema de reservas configurado'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+      return;
+    }
+
+    // Cargar el servicio completo
+    try {
+      final serviceData = await _supabase
+          .from('services')
+          .select('*')
+          .eq('id', serviceId)
+          .single();
+
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookServicePage(
+              service: Service.fromJson(serviceData),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('❌ Error cargando servicio: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al cargar el servicio'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -368,7 +431,7 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
             ),
           ),
 
-          // Footer con botón
+          // Footer con botones
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -381,28 +444,61 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                 ),
               ],
             ),
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-                _openChat(offer);
-              },
-              icon: const Icon(Icons.chat_bubble_rounded, size: 20),
-              label: const Text(
-                'Contactar Ahora',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _bookService(offer);
+                    },
+                    icon: const Icon(Icons.calendar_today_rounded, size: 18),
+                    label: const Text(
+                      'Agendar Cita',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColorsUnified.orange,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColorsUnified.companyBlue,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _openChat(offer);
+                    },
+                    icon: const Icon(Icons.chat_bubble_rounded, size: 18),
+                    label: const Text(
+                      'Contactar',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColorsUnified.companyBlue,
+                      side: const BorderSide(
+                        color: AppColorsUnified.companyBlue,
+                        width: 2,
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
                 ),
-                minimumSize: const Size(double.infinity, 56),
-              ),
+              ],
             ),
           ),
         ],
@@ -599,11 +695,14 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                   children: [
                     Expanded(
                       child: ElevatedButton.icon(
-                        onPressed: () => _openChat(offer),
-                        icon: const Icon(Icons.chat_bubble_rounded, size: 18),
-                        label: const Text('Contactar'),
+                        onPressed: () => _bookService(offer),
+                        icon: const Icon(Icons.calendar_today_rounded, size: 16),
+                        label: const Text(
+                          'Agendar',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                        ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColorsUnified.companyBlue,
+                          backgroundColor: AppColorsUnified.orange,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
@@ -612,7 +711,28 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () => _openChat(offer),
+                        icon: const Icon(Icons.chat_bubble_rounded, size: 16),
+                        label: const Text(
+                          'Chat',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: AppColorsUnified.companyBlue,
+                          side: const BorderSide(
+                            color: AppColorsUnified.companyBlue,
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () => _showOfferDetails(offer),
@@ -626,7 +746,10 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text('Ver más'),
+                        child: const Text(
+                          'Detalles',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ),
                   ],
