@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/shared/models/service.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
+import 'package:yominero/features/bookings/ui/book_service_page.dart';
 import 'core/theme/colors.dart';
 
 /// Displays detailed information about a service with beautiful design
@@ -132,7 +133,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                 // Service name
                 Text(
                   widget.service.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColorsUnified.textPrimary,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -144,7 +145,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                 // Rate
                 Text(
                   widget.service.priceDisplay,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColorsUnified.gold,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -180,7 +181,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
         children: [
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColorsUnified.gold,
               fontWeight: FontWeight.bold,
               fontSize: 12,
@@ -188,7 +189,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
           ),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColorsUnified.textSecondary,
               fontSize: 10,
             ),
@@ -231,7 +232,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                 border: Border.all(color: AppColorsUnified.grey300),
               ),
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
+                icon: const Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -267,7 +268,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                   border: Border.all(color: AppColorsUnified.grey300),
                 ),
                 child: IconButton(
-                  icon: Icon(Icons.share, color: AppColorsUnified.textPrimary),
+                  icon: const Icon(Icons.share, color: AppColorsUnified.textPrimary),
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Compartir servicio próximamente')),
@@ -395,7 +396,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                             gradient: AppColorsUnified.goldGradient,
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.person,
                             color: AppColorsUnified.textPrimary,
                             size: 30,
@@ -467,6 +468,45 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                 child: Column(
                   children: [
                     // Quote button
+                    // Book Service button (NEW!)
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BookServicePage(service: widget.service),
+                            ),
+                          );
+                          
+                          if (result == true && mounted) {
+                            // Reserva creada exitosamente
+                          }
+                        },
+                        icon: const Icon(Icons.calendar_today, color: AppColorsUnified.textPrimary),
+                        label: const Text(
+                          'Reservar Servicio',
+                          style: TextStyle(
+                            color: AppColorsUnified.textPrimary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColorsUnified.gold,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 4,
+                        ),
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 12),
+                    
+                    // Request Quote button
                     AnimatedBuilder(
                       animation: _quoteAnimationController,
                       builder: (context, child) {
@@ -476,8 +516,8 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               onPressed: _requestQuote,
-                              icon: Icon(Icons.request_quote, color: AppColorsUnified.gold),
-                              label: Text(
+                              icon: const Icon(Icons.request_quote, color: AppColorsUnified.gold),
+                              label: const Text(
                                 'Solicitar Cotización',
                                 style: TextStyle(
                                   color: AppColorsUnified.textPrimary,
@@ -510,8 +550,8 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                             const SnackBar(content: Text('Contactar próximamente')),
                           );
                         },
-                        icon: Icon(Icons.message, color: AppColorsUnified.textPrimary),
-                        label: Text(
+                        icon: const Icon(Icons.message, color: AppColorsUnified.textPrimary),
+                        label: const Text(
                           'Contactar Proveedor',
                           style: TextStyle(
                             color: AppColorsUnified.textPrimary,
@@ -521,7 +561,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> with TickerProvid
                         ),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 14),
-                          side: BorderSide(color: AppColorsUnified.textPrimary, width: 2),
+                          side: const BorderSide(color: AppColorsUnified.textPrimary, width: 2),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),

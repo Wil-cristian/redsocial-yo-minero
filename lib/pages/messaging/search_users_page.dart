@@ -5,7 +5,6 @@ import 'package:yominero/core/di/locator.dart';
 import 'package:yominero/features/connections/data/supabase_connection_repository.dart';
 import 'package:yominero/features/messaging/data/supabase_messaging_repository.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
-import 'package:yominero/shared/models/connection_request.dart';
 import 'chat_page.dart';
 
 class SearchUsersPage extends StatefulWidget {
@@ -363,7 +362,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
             if (user['profession'] != null)
               Text(
                 user['profession'],
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColorsUnified.textSecondary,
                   fontSize: 14,
                 ),
@@ -448,7 +447,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
               width: 1,
             ),
           ),
-          child: Row(
+          child: const Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
@@ -456,7 +455,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
                 size: 16,
                 color: AppColorsUnified.gold,
               ),
-              const SizedBox(width: 4),
+              SizedBox(width: 4),
               Text(
                 'Solicitud',
                 style: TextStyle(
@@ -480,7 +479,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
             backgroundColor: AppColorsUnified.pureWhite,
             foregroundColor: AppColorsUnified.gold,
             elevation: 0,
-            side: BorderSide(
+            side: const BorderSide(
               color: AppColorsUnified.gold,
               width: 1.5,
             ),

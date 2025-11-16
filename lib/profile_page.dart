@@ -475,7 +475,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Rol en la Empresa',
                       style: TextStyle(
                         fontSize: 12,
@@ -500,7 +500,7 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 12),
           Text(
             role.description,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 13,
               color: AppColorsUnified.textSecondary,
               height: 1.4,
@@ -538,7 +538,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.only(top: 6),
                 child: Text(
                   '+${role.permissions.length - 4} permisos más',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: AppColorsUnified.textSecondary,

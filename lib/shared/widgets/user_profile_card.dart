@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
 import '../models/user.dart';
+import '../../core/theme/colors.dart';
 import '../../core/theme/glass_card.dart';
 
 /// Tarjeta de perfil de usuario compacta para mostrar en posts, sugerencias, etc.
@@ -43,12 +44,12 @@ class UserProfileCard extends StatelessWidget {
             // Avatar
             CircleAvatar(
               radius: 30,
-              backgroundColor: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
+              backgroundColor: AppColors.primaryContainer,
               backgroundImage: user.avatarUrl != null 
                 ? NetworkImage(user.avatarUrl!) 
                 : null,
               child: user.avatarUrl == null 
-                ? const Icon(Icons.person, size: 30, color: AppColorsUnified.orange)
+                ? Icon(Icons.person, size: 30, color: AppColors.primary)
                 : null,
             ),
             
@@ -75,8 +76,8 @@ class UserProfileCard extends StatelessWidget {
                         Container(
                           width: 8,
                           height: 8,
-                          decoration: const BoxDecoration(
-                            color: AppColorsUnified.success,
+                          decoration: BoxDecoration(
+                            color: AppColors.success,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -87,8 +88,8 @@ class UserProfileCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       user.profession!,
-                      style: const TextStyle(
-                        color: AppColorsUnified.textSecondary,
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
                         fontSize: 14,
                       ),
                     ),
@@ -98,13 +99,13 @@ class UserProfileCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Row(
                       children: [
-                        const Icon(Icons.business, size: 14, color: AppColorsUnified.textSecondary),
+                        Icon(Icons.business, size: 14, color: AppColors.textSecondary),
                         const SizedBox(width: 4),
                         Expanded(
                           child: Text(
                             user.company!,
-                            style: const TextStyle(
-                              color: AppColorsUnified.textSecondary,
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
                               fontSize: 12,
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -122,19 +123,19 @@ class UserProfileCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.success.withValues(alpha: 0.1),
+                  color: AppColors.success.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColorsUnified.success, width: 1),
+                  border: Border.all(color: AppColors.success, width: 1),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.verified, size: 14, color: AppColorsUnified.success),
-                    SizedBox(width: 4),
+                    Icon(Icons.verified, size: 14, color: AppColors.success),
+                    const SizedBox(width: 4),
                     Text(
                       'Verificado',
                       style: TextStyle(
-                        color: AppColorsUnified.success,
+                        color: AppColors.success,
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                       ),
@@ -150,13 +151,13 @@ class UserProfileCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              const Icon(Icons.location_on, size: 14, color: AppColorsUnified.textSecondary),
+              Icon(Icons.location_on, size: 14, color: AppColors.textSecondary),
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
                   _getLocationText(),
-                  style: const TextStyle(
-                    color: AppColorsUnified.textSecondary,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
                     fontSize: 12,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -173,13 +174,13 @@ class UserProfileCard extends StatelessWidget {
             onTap: onPhoneTap,
             child: Row(
               children: [
-                const Icon(Icons.phone, size: 14, color: AppColorsUnified.orange),
+                Icon(Icons.phone, size: 14, color: AppColors.primary),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
                     user.phone!,
                     style: TextStyle(
-                      color: onPhoneTap != null ? AppColorsUnified.orange : AppColorsUnified.textSecondary,
+                      color: onPhoneTap != null ? AppColors.primary : AppColors.textSecondary,
                       fontSize: 12,
                       decoration: onPhoneTap != null ? TextDecoration.underline : null,
                     ),
@@ -195,12 +196,12 @@ class UserProfileCard extends StatelessWidget {
         const SizedBox(height: 8),
         Row(
           children: [
-            const Icon(Icons.trending_up, size: 14, color: AppColorsUnified.orange),
+            Icon(Icons.trending_up, size: 14, color: AppColors.primary),
             const SizedBox(width: 4),
             Text(
               _getExperienceLevelText(user.experienceLevel),
-              style: const TextStyle(
-                color: AppColorsUnified.orange,
+              style: TextStyle(
+                color: AppColors.primary,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
@@ -209,8 +210,8 @@ class UserProfileCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 '${user.yearsOfExperience} años',
-                style: const TextStyle(
-                  color: AppColorsUnified.textSecondary,
+                style: TextStyle(
+                  color: AppColors.textSecondary,
                   fontSize: 12,
                 ),
               ),
@@ -235,16 +236,16 @@ class UserProfileCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 '(${user.ratingCount} reviews)',
-                style: const TextStyle(
-                  color: AppColorsUnified.textSecondary,
+                style: TextStyle(
+                  color: AppColors.textSecondary,
                   fontSize: 11,
                 ),
               ),
               const Spacer(),
               Text(
                 '${user.completedJobsCount} trabajos',
-                style: const TextStyle(
-                  color: AppColorsUnified.textSecondary,
+                style: TextStyle(
+                  color: AppColors.textSecondary,
                   fontSize: 11,
                 ),
               ),
@@ -262,13 +263,13 @@ class UserProfileCard extends StatelessWidget {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.3),
+                  color: AppColors.primaryContainer.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   _getSpecializationText(spec),
-                  style: const TextStyle(
-                    color: AppColorsUnified.orange,
+                  style: TextStyle(
+                    color: AppColors.primary,
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                   ),
@@ -283,8 +284,8 @@ class UserProfileCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             user.bio!,
-            style: const TextStyle(
-              color: AppColorsUnified.textSecondary,
+            style: TextStyle(
+              color: AppColors.textSecondary,
               fontSize: 13,
             ),
             maxLines: 2,
@@ -301,12 +302,12 @@ class UserProfileCard extends StatelessWidget {
         // Avatar
         CircleAvatar(
           radius: 20,
-          backgroundColor: AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
+          backgroundColor: AppColors.primaryContainer,
           backgroundImage: user.avatarUrl != null 
             ? NetworkImage(user.avatarUrl!) 
             : null,
           child: user.avatarUrl == null 
-            ? const Icon(Icons.person, size: 20, color: AppColorsUnified.orange)
+            ? Icon(Icons.person, size: 20, color: AppColors.primary)
             : null,
         ),
         
@@ -330,14 +331,14 @@ class UserProfileCard extends StatelessWidget {
                     ),
                   ),
                   if (user.verificationStatus == VerificationStatus.verified)
-                    const Icon(Icons.verified, size: 16, color: AppColorsUnified.success),
+                    Icon(Icons.verified, size: 16, color: AppColors.success),
                   if (user.isOnline) ...[
                     const SizedBox(width: 4),
                     Container(
                       width: 6,
                       height: 6,
-                      decoration: const BoxDecoration(
-                        color: AppColorsUnified.success,
+                      decoration: BoxDecoration(
+                        color: AppColors.success,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -348,8 +349,8 @@ class UserProfileCard extends StatelessWidget {
               if (user.profession != null)
                 Text(
                   user.profession!,
-                  style: const TextStyle(
-                    color: AppColorsUnified.textSecondary,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
                     fontSize: 12,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -371,8 +372,8 @@ class UserProfileCard extends StatelessWidget {
                     if (showDistance && distanceKm != null)
                       Text(
                         '• ${distanceKm!.toStringAsFixed(1)} km',
-                        style: const TextStyle(
-                          color: AppColorsUnified.textSecondary,
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
                           fontSize: 11,
                         ),
                       ),
@@ -467,7 +468,7 @@ class UserSuggestionsList extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColorsUnified.orange,
+              color: AppColors.primary,
             ),
           ),
         ),

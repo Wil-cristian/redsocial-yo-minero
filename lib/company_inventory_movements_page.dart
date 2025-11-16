@@ -90,12 +90,12 @@ class _CompanyInventoryMovementsPageState
           backgroundColor: AppColorsUnified.pureWhite,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
+            icon: const Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
             onPressed: () => Navigator.pop(context),
           ),
-          title: Text('Cargando...', style: TextStyle(color: AppColorsUnified.textPrimary)),
+          title: const Text('Cargando...', style: TextStyle(color: AppColorsUnified.textPrimary)),
         ),
-        body: Center(
+        body: const Center(
           child: CircularProgressIndicator(color: AppColorsUnified.gold),
         ),
       );
@@ -115,7 +115,7 @@ class _CompanyInventoryMovementsPageState
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Historial de Movimientos',
               style: TextStyle(
                 fontSize: 18,
@@ -125,7 +125,7 @@ class _CompanyInventoryMovementsPageState
             ),
             Text(
               widget.item.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 color: AppColorsUnified.textSecondary,
               ),
@@ -224,7 +224,7 @@ class _CompanyInventoryMovementsPageState
                         _dateRange = null;
                       });
                     },
-                    child: Text(
+                    child: const Text(
                       'Limpiar filtros',
                       style: TextStyle(color: AppColorsUnified.gold),
                     ),
@@ -246,7 +246,7 @@ class _CompanyInventoryMovementsPageState
                           color: AppColorsUnified.grey300,
                         ),
                         const SizedBox(height: 16),
-                        Text(
+                        const Text(
                           'No hay movimientos',
                           style: TextStyle(
                             fontSize: 16,
@@ -294,7 +294,7 @@ class _CompanyInventoryMovementsPageState
           const SizedBox(height: 8),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppColorsUnified.textPrimary,
@@ -303,7 +303,7 @@ class _CompanyInventoryMovementsPageState
           const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 11,
               color: AppColorsUnified.textSecondary,
             ),
@@ -353,7 +353,7 @@ class _CompanyInventoryMovementsPageState
                       children: [
                         Text(
                           movement.type.label,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: AppColorsUnified.textPrimary,
@@ -375,7 +375,7 @@ class _CompanyInventoryMovementsPageState
                     const SizedBox(height: 4),
                     Text(
                       '${movement.date.day}/${movement.date.month}/${movement.date.year} ${movement.date.hour}:${movement.date.minute.toString().padLeft(2, '0')}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         color: AppColorsUnified.textSecondary,
                       ),
@@ -389,7 +389,7 @@ class _CompanyInventoryMovementsPageState
             const SizedBox(height: 12),
             Text(
               movement.reason!,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 color: AppColorsUnified.textSecondary,
               ),
@@ -399,11 +399,11 @@ class _CompanyInventoryMovementsPageState
             const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.person, size: 14, color: AppColorsUnified.textSecondary),
+                const Icon(Icons.person, size: 14, color: AppColorsUnified.textSecondary),
                 const SizedBox(width: 4),
                 Text(
                   'Usuario: ${movement.responsibleUserId}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     color: AppColorsUnified.textSecondary,
                   ),
@@ -420,7 +420,7 @@ class _CompanyInventoryMovementsPageState
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(
+        title: const Text(
           'Filtrar Movimientos',
           style: TextStyle(color: AppColorsUnified.textPrimary),
         ),
@@ -428,7 +428,7 @@ class _CompanyInventoryMovementsPageState
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Tipo de Movimiento',
               style: TextStyle(
                 fontSize: 14,
@@ -477,7 +477,7 @@ class _CompanyInventoryMovementsPageState
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cerrar', style: TextStyle(color: AppColorsUnified.gold)),
+            child: const Text('Cerrar', style: TextStyle(color: AppColorsUnified.gold)),
           ),
         ],
       ),
@@ -492,7 +492,7 @@ class _CompanyInventoryMovementsPageState
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(
+        title: const Text(
           'Nuevo Movimiento',
           style: TextStyle(color: AppColorsUnified.textPrimary),
         ),
@@ -501,7 +501,7 @@ class _CompanyInventoryMovementsPageState
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Tipo de Movimiento',
                 style: TextStyle(
                   fontSize: 14,
@@ -543,7 +543,7 @@ class _CompanyInventoryMovementsPageState
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColorsUnified.gold),
+                    borderSide: const BorderSide(color: AppColorsUnified.gold),
                   ),
                 ),
               ),
@@ -559,7 +559,7 @@ class _CompanyInventoryMovementsPageState
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: AppColorsUnified.gold),
+                    borderSide: const BorderSide(color: AppColorsUnified.gold),
                   ),
                 ),
               ),
@@ -569,7 +569,7 @@ class _CompanyInventoryMovementsPageState
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancelar', style: TextStyle(color: AppColorsUnified.textSecondary)),
+            child: const Text('Cancelar', style: TextStyle(color: AppColorsUnified.textSecondary)),
           ),
           ElevatedButton(
             onPressed: () async {

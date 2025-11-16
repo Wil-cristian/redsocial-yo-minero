@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/post.dart';
 import '../models/product.dart';
+import '../models/service.dart';
 import '../../core/theme/dashboard_colors.dart';
 import '../../core/theme/premium_3d_carousel.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
+import '../../features/bookings/ui/book_service_page.dart';
 
 /// Widget optimizado y adaptable que maneja TODOS los tipos de contenido de posts
 /// Reemplaza: _buildProductCard, _buildNewsCard, _buildServiceCard, _buildQuestionCard, _buildOfferCard, _buildPollCard
@@ -37,6 +39,30 @@ class OptimizedPostContent extends StatelessWidget {
     );
   }
 
+  /// Convierte un Post de tipo service a un objeto Service para booking
+  Service _postToService(Post post) {
+    return Service(
+      id: post.serviceId ?? post.id, // ✅ Usar serviceId del servicio real, fallback a post.id
+      providerId: post.authorId,
+      name: post.serviceName ?? post.title,
+      description: post.content,
+      category: post.categories.isNotEmpty ? post.categories.first : 'General',
+      tags: post.serviceTags ?? post.tags,
+      pricingFrom: post.pricingFrom,
+      pricingTo: post.pricingTo,
+      pricingUnit: post.pricingUnit ?? 'hora',
+      availability: post.availability,
+      isAvailable: true,
+      providerName: post.authorName,
+      providerAvatarUrl: post.authorProfileImage,
+      imageUrls: post.productImages ?? (post.imageUrl != null ? [post.imageUrl!] : []),
+      viewsCount: 0,
+      requestsCount: 0,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+    );
+  }
+
   bool _hasSpecialContent() => post.type != PostType.community;
 
   Widget _buildSpecialContent(BuildContext context) {
@@ -46,7 +72,7 @@ class OptimizedPostContent extends StatelessWidget {
       case PostType.news:
         return _buildNewsContent();
       case PostType.service:
-        return _buildServiceContent();
+        return _buildServiceContent(context);
       case PostType.request:
         return _buildRequestContent();
       case PostType.offer:
@@ -144,9 +170,57 @@ class OptimizedPostContent extends StatelessWidget {
                     ],
                   ),
                 ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade50,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.verified_user, color: Colors.red, size: 24),
+                ),
               ],
             ),
           ),
+        
+        // Botón para verificar con IA
+        const SizedBox(height: 12),
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey.shade300, width: 1),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                // TODO: Implementar verificación con IA
+                debugPrint('🤖 Verificar noticia con IA');
+              },
+              borderRadius: BorderRadius.circular(12),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.psychology_outlined, color: Colors.grey.shade600, size: 18),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Verificar información con IA',
+                      style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        
         if (post.newsCoverImage != null) ...[
           const SizedBox(height: 12),
           ClipRRect(
@@ -159,7 +233,7 @@ class OptimizedPostContent extends StatelessWidget {
   }
 
   // === SERVICE ===
-  Widget _buildServiceContent() {
+  Widget _buildServiceContent(BuildContext context) {
     // Determinar si es oro o plata basado en el índice del precio
     final isGold = (post.pricingFrom?.toInt() ?? 0) % 2 == 0;
     final accentColor = isGold ? AppColorsUnified.gold : AppColorsUnified.silver;
@@ -277,6 +351,125 @@ class OptimizedPostContent extends StatelessWidget {
                 ),
             ],
           ),
+
+          // 🎯 BOTONES DE ACCIÓN: Reservar + Contactar
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              // Botón Reservar
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [AppColorsUnified.gold, AppColorsUnified.goldLight],
+                    ),
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        // Convertir Post a Service y navegar a BookServicePage
+                        final service = _postToService(post);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BookServicePage(service: service),
+                          ),
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(14),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.calendar_today,
+                              color: AppColorsUnified.pureWhite,
+                              size: 18,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Reservar',
+                              style: TextStyle(
+                                color: AppColorsUnified.pureWhite,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              // Botón Contactar
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColorsUnified.grey200,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: AppColorsUnified.grey300,
+                      width: 1,
+                    ),
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        // Navegar a la página de mensajes con el proveedor
+                        Navigator.pushNamed(
+                          context,
+                          '/messages',
+                          arguments: {
+                            'recipientId': post.authorId,
+                            'recipientName': post.authorName ?? 'Proveedor',
+                            'recipientAvatar': post.authorProfileImage,
+                          },
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(14),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.chat_bubble_outline,
+                              color: AppColorsUnified.charcoal,
+                              size: 18,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Contactar',
+                              style: TextStyle(
+                                color: AppColorsUnified.charcoal,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -314,6 +507,9 @@ class OptimizedPostContent extends StatelessWidget {
 
   // === REQUEST (Pregunta) ===
   Widget _buildRequestContent() {
+    // Solo mostrar si hay deadline, sino no mostrar nada
+    if (post.deadline == null) return const SizedBox.shrink();
+    
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -323,17 +519,9 @@ class OptimizedPostContent extends StatelessWidget {
       ),
       child: Row(
         children: [
-          if (post.budgetAmount != null) ...[
-            Icon(Icons.attach_money, size: 18, color: DashboardColors.cardYellow),
-            const SizedBox(width: 4),
-            Text('Presupuesto: \$${post.budgetAmount!.toStringAsFixed(0)}', style: const TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(width: 16),
-          ],
-          if (post.deadline != null) ...[
-            Icon(Icons.event, size: 18, color: DashboardColors.cardYellow),
-            const SizedBox(width: 4),
-            Text('Hasta: ${_formatDate(post.deadline!)}', style: const TextStyle(fontSize: 13)),
-          ],
+          Icon(Icons.event, size: 18, color: DashboardColors.cardYellow),
+          const SizedBox(width: 4),
+          Text('Hasta: ${_formatDate(post.deadline!)}', style: const TextStyle(fontSize: 13)),
         ],
       ),
     );

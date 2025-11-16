@@ -828,7 +828,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                       child: post.authorProfileImage == null
                                           ? Text(
                                               (post.authorName ?? post.title)[0].toUpperCase(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: AppColorsUnified.gold,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 18,
@@ -844,7 +844,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                       children: [
                                         Text(
                                           post.authorName ?? post.authorUsername ?? 'Usuario ${post.authorId.substring(0, 8)}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: AppColorsUnified.textPrimary,
                                             fontWeight: FontWeight.w700,
                                             fontSize: 15,
@@ -853,7 +853,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                         Text(
                                           _humanDate(DateTime(post.createdAt.year,
                                               post.createdAt.month, post.createdAt.day)),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: AppColorsUnified.textSecondary,
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500,
@@ -872,7 +872,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                             margin: const EdgeInsets.only(right: 8),
                                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                                             decoration: BoxDecoration(
-                                              gradient: LinearGradient(
+                                              gradient: const LinearGradient(
                                                 colors: [
                                                   AppColorsUnified.goldHighlight,
                                                   AppColorsUnified.goldBright,
@@ -896,7 +896,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Icon(
+                                                const Icon(
                                                   Icons.star_rounded,
                                                   color: AppColorsUnified.gold,
                                                   size: 16,
@@ -904,7 +904,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                                 const SizedBox(width: 4),
                                                 Text(
                                                   '$score',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w700,
                                                     color: AppColorsUnified.goldShadow,
@@ -916,7 +916,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                         );
                                       },
                                     ),
-                                  Icon(
+                                  const Icon(
                                     Icons.more_vert_rounded,
                                     color: AppColorsUnified.textSecondary,
                                     size: 22,
@@ -928,7 +928,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                               // Título del post
                               Text(
                                 post.title,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: AppColorsUnified.textPrimary,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
@@ -940,7 +940,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                               // Contenido
                               Text(
                                 post.content,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: AppColorsUnified.textSecondary,
                                   fontSize: 15,
                                   height: 1.6,
@@ -1072,14 +1072,14 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                                 ),
                                               ],
                                             ),
-                                            child: Icon(
+                                            child: const Icon(
                                               Icons.question_answer_rounded,
                                               color: AppColorsUnified.goldDeep,
                                               size: 20,
                                             ),
                                           ),
                                           const SizedBox(width: 12),
-                                          Expanded(
+                                          const Expanded(
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
@@ -1091,7 +1091,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                                     color: AppColorsUnified.textPrimary,
                                                   ),
                                                 ),
-                                                const SizedBox(height: 2),
+                                                SizedBox(height: 2),
                                                 Text(
                                                   'Ayuda a esta persona con tu conocimiento',
                                                   style: TextStyle(

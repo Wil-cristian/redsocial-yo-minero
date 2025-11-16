@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:yominero/core/theme/app_colors_unified.dart';
 import 'package:yominero/shared/models/post.dart';
-import 'core/theme/colors.dart';
+import 'core/theme/app_colors_unified.dart';
 
-/// Page that displays the full content of a post with beautiful design
-/// and enhanced user interactions including likes, comments, and sharing.
-class PostDetailPage extends StatefulWidget {
-  final Post post;
-  const PostDetailPage({super.key, required this.post});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            /// Page that displays the full content of a post with beautiful design
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            /// and enhanced user interactions including likes, comments, and sharing.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class PostDetailPage extends StatefulWidget {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              final Post post;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              const PostDetailPage({super.key, required this.post});
 
-  @override
-  State<PostDetailPage> createState() => _PostDetailPageState();
-}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @override
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              State<PostDetailPage> createState() => _PostDetailPageState();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
 
-class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStateMixin {
-  late int _likes;
-  bool _isLiked = false;
-  late AnimationController _likeAnimationController;
-  late AnimationController _scrollController;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStateMixin {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              late int _likes;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              bool _isLiked = false;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              late AnimationController _likeAnimationController;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              late AnimationController _scrollController;
 
-  @override
-  void initState() {
-    super.initState();
-    _likes = widget.post.likes;
-    _likeAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _scrollController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @override
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              void initState() {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                super.initState();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                _likes = widget.post.likes;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                _likeAnimationController = AnimationController(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  duration: const Duration(milliseconds: 300),
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  vsync: this,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                );
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                _scrollController = AnimationController(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  duration: const Duration(milliseconds: 500),
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  vsync: this,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                );
   }
 
   @override
@@ -63,8 +62,8 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
           end: Alignment.bottomRight,
           colors: [
             AppColorsUnified.orange,
-            AppColorsUnified.orange.withValues(alpha: 0.8),
-            AppColors.secondary.withValues(alpha: 0.9),
+            AppColorsUnified.fade(AppColorsUnified.orange, 0.8),
+            AppColorsUnified.fade(AppColorsUnified.gold, 0.9),
           ],
         ),
       ),
@@ -79,7 +78,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.1),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.1),
               ),
             ),
           ),
@@ -91,7 +90,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
               height: 80,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.05),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.05),
               ),
             ),
           ),
@@ -108,13 +107,13 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                    border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                   ),
                   child: Icon(
                     _getPostTypeIcon(),
-                    color: Colors.white,
+                    color: AppColorsUnified.pureWhite,
                     size: 30,
                   ),
                 ),
@@ -122,8 +121,8 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                 // Title
                 Text(
                   widget.post.title,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: AppColorsUnified.pureWhite,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -135,7 +134,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                 Text(
                   'Publicación de la comunidad',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
                     fontSize: 16,
                   ),
                 ),
@@ -160,17 +159,17 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
+        color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: AppColorsUnified.pureWhite,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
@@ -179,7 +178,7 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
           Text(
             label,
             style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.8),
+              color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.8),
               fontSize: 12,
             ),
           ),
@@ -225,12 +224,12 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
               ),
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ),
@@ -238,12 +237,12 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
               Container(
                 margin: const EdgeInsets.only(right: 4),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.share, color: Colors.white),
+                  icon: Icon(Icons.share, color: AppColorsUnified.pureWhite),
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Función de compartir próximamente')),
@@ -254,12 +253,12 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
               Container(
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
+                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                  border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.bookmark_outline, color: Colors.white),
+                  icon: Icon(Icons.bookmark_outline, color: AppColorsUnified.pureWhite),
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Guardado en favoritos')),
@@ -282,11 +281,11 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
                       blurRadius: 15,
                       offset: const Offset(0, 5),
                     ),
@@ -321,11 +320,11 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColorsUnified.pureWhite,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
                       blurRadius: 15,
                       offset: const Offset(0, 5),
                     ),
@@ -346,14 +345,12 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                               decoration: BoxDecoration(
                                 gradient: _isLiked 
-                                    ? LinearGradient(
-                                        colors: [AppColorsUnified.orange, AppColors.secondary],
-                                      )
+                                    ? AppColorsUnified.goldGradient
                                     : null,
-                                color: _isLiked ? null : Colors.grey.shade100,
+                                color: _isLiked ? null : AppColorsUnified.background,
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: _isLiked ? AppColorsUnified.orange : Colors.grey.shade300,
+                                  color: _isLiked ? AppColorsUnified.gold : AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4),
                                 ),
                               ),
                               child: Row(
@@ -361,14 +358,14 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                                 children: [
                                   Icon(
                                     _isLiked ? Icons.favorite : Icons.favorite_outline,
-                                    color: _isLiked ? Colors.white : AppColorsUnified.textSecondary,
+                                    color: _isLiked ? AppColorsUnified.pureWhite : AppColorsUnified.textSecondary,
                                     size: 20,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
                                     '$_likes',
                                     style: TextStyle(
-                                      color: _isLiked ? Colors.white : AppColorsUnified.textSecondary,
+                                      color: _isLiked ? AppColorsUnified.pureWhite : AppColorsUnified.textSecondary,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -384,9 +381,9 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
+                        color: AppColorsUnified.background,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.grey.shade300),
+                        border: Border.all(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
                       ),
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
@@ -408,9 +405,9 @@ class _PostDetailPageState extends State<PostDetailPage> with TickerProviderStat
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
+                        color: AppColorsUnified.background,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.grey.shade300),
+                        border: Border.all(color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.4)),
                       ),
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,

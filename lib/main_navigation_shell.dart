@@ -122,50 +122,50 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             elevation: 0,
             selectedItemColor: AppColorsUnified.goldBright,  // ⭐ ORO BRILLANTE para el texto
             unselectedItemColor: AppColorsUnified.textSecondary,  // Gris para iconos inactivos
-            selectedLabelStyle: TextStyle(
+            selectedLabelStyle: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12,
               shadows: [
                 // ⭐ BRILLO ESPECULAR SUPERIOR - Reflejo de luz directo
                 Shadow(
-                  color: const Color(0x66FFF9E6),  // goldHighlight con 40% alpha
-                  offset: const Offset(-0.8, -0.8),
+                  color: Color(0x66FFF9E6),  // goldHighlight con 40% alpha
+                  offset: Offset(-0.8, -0.8),
                   blurRadius: 2,
                 ),
                 // 💎 REFLEJO DORADO BRILLANTE - Resplandor metálico
                 Shadow(
-                  color: const Color(0x99FFE55C),  // goldBright con 60% alpha
-                  offset: const Offset(-0.3, -0.3),
+                  color: Color(0x99FFE55C),  // goldBright con 60% alpha
+                  offset: Offset(-0.3, -0.3),
                   blurRadius: 1.5,
                 ),
                 // 🍊 TEXTURA NARANJA CÁLIDO - Calidez vibrante
                 Shadow(
-                  color: const Color(0x80FF8C42),  // Naranja brillante con 50% alpha
-                  offset: const Offset(0.3, 0.3),
+                  color: Color(0x80FF8C42),  // Naranja brillante con 50% alpha
+                  offset: Offset(0.3, 0.3),
                   blurRadius: 2,
                 ),
                 // 🧡 NARANJA DORADO - Transición rica
                 Shadow(
-                  color: const Color(0x66E67E22),  // Naranja dorado con 40% alpha
-                  offset: const Offset(0.6, 0.6),
+                  color: Color(0x66E67E22),  // Naranja dorado con 40% alpha
+                  offset: Offset(0.6, 0.6),
                   blurRadius: 2.5,
                 ),
                 // ☕ CAFÉ CARAMELO - Profundidad cálida
                 Shadow(
-                  color: const Color(0x998B4513),  // Café con 60% alpha
-                  offset: const Offset(1, 1),
+                  color: Color(0x998B4513),  // Café con 60% alpha
+                  offset: Offset(1, 1),
                   blurRadius: 3,
                 ),
                 // 🟤 CAFÉ OSCURO - Contraste estructural
                 Shadow(
-                  color: const Color(0x80654321),  // Café oscuro con 50% alpha
-                  offset: const Offset(1.3, 1.3),
+                  color: Color(0x80654321),  // Café oscuro con 50% alpha
+                  offset: Offset(1.3, 1.3),
                   blurRadius: 3.5,
                 ),
                 // � CHOCOLATE AMARGO - Definición final
                 Shadow(
-                  color: const Color(0x66502D16),  // Chocolate con 40% alpha
-                  offset: const Offset(1.6, 1.6),
+                  color: Color(0x66502D16),  // Chocolate con 40% alpha
+                  offset: Offset(1.6, 1.6),
                   blurRadius: 4,
                 ),
               ],

@@ -46,7 +46,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                 ),
                 child: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
+                  icon: const Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
                   tooltip: 'Volver al perfil',
                 ),
               ),
@@ -66,7 +66,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                   ),
                   child: TextButton.icon(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: Icon(Icons.close, size: 18, color: AppColorsUnified.textPrimary),
+                    icon: const Icon(Icons.close, size: 18, color: AppColorsUnified.textPrimary),
                     label: const Text('Cerrar'),
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -97,10 +97,10 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           gradient: AppColorsUnified.goldGradient,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Icon(Icons.build, color: AppColorsUnified.textPrimary, size: 20),
+                        child: const Icon(Icons.build, color: AppColorsUnified.textPrimary, size: 20),
                       ),
                       const SizedBox(width: 8),
-                      Text(
+                      const Text(
                         'Mis Servicios',
                         style: TextStyle(
                           color: AppColorsUnified.textPrimary,
@@ -233,7 +233,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                                       ),
                                     ],
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.add_circle_outline,
                                     size: 48,
                                     color: AppColorsUnified.textPrimary,
@@ -313,7 +313,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
               color: AppColorsUnified.grey200,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Icon(
+            child: const Icon(
               Icons.work_outline,
               size: 64,
               color: AppColorsUnified.textSecondary,
@@ -353,7 +353,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.trending_up, color: AppColorsUnified.textPrimary, size: 18),
+                const Icon(Icons.trending_up, color: AppColorsUnified.textPrimary, size: 18),
                 const SizedBox(width: 8),
                 Text(
                   'Empieza hoy mismo',
@@ -455,7 +455,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           color: AppColorsUnified.grey200,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.edit,
                           size: 20,
                           color: AppColorsUnified.gold,
@@ -506,7 +506,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                               color: AppColorsUnified.pureWhite,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Icon(Icons.attach_money, color: AppColorsUnified.gold, size: 16),
+                            child: const Icon(Icons.attach_money, color: AppColorsUnified.gold, size: 16),
                           ),
                           const SizedBox(width: 12),
                           Expanded(

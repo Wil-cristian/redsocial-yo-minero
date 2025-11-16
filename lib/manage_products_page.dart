@@ -67,8 +67,8 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
             end: Alignment.bottomRight,
             colors: [
               AppColors.secondary.withValues(alpha: 0.05),
-              AppColorsUnified.orange.withValues(alpha: 0.03),
-              AppColorsUnified.pureWhite,
+              AppColors.primary.withValues(alpha: 0.03),
+              Colors.white,
             ],
           ),
         ),
@@ -84,11 +84,11 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
               leading: Container(
                 margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -104,11 +104,11 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                 Container(
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -128,11 +128,11 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                 title: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -145,11 +145,11 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [AppColors.secondary, AppColorsUnified.orange],
+                            colors: [AppColors.secondary, AppColors.primary],
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Icon(Icons.inventory, color: AppColorsUnified.pureWhite, size: 20),
+                        child: const Icon(Icons.inventory, color: Colors.white, size: 20),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -171,7 +171,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                       end: Alignment.bottomRight,
                       colors: [
                         AppColors.secondary.withValues(alpha: 0.1),
-                        AppColorsUnified.orange.withValues(alpha: 0.05),
+                        AppColors.primary.withValues(alpha: 0.05),
                       ],
                     ),
                   ),
@@ -195,7 +195,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                           end: Alignment.bottomRight,
                           colors: [
                             AppColors.secondary.withValues(alpha: 0.1),
-                            AppColorsUnified.orange.withValues(alpha: 0.05),
+                            AppColors.primary.withValues(alpha: 0.05),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
@@ -213,7 +213,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [AppColors.secondary, AppColorsUnified.orange],
+                                colors: [AppColors.secondary, AppColors.primary],
                               ),
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
@@ -224,7 +224,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                 ),
                               ],
                             ),
-                            child: Icon(Icons.store, color: AppColorsUnified.pureWhite, size: 32),
+                            child: const Icon(Icons.store, color: Colors.white, size: 32),
                           ),
                           const SizedBox(height: 16),
                           Text(
@@ -239,7 +239,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                           Text(
                             'Gestiona, vende y promociona productos especializados para la industria',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColorsUnified.textSecondary,
+                              color: AppColors.textSecondary,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -257,7 +257,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            AppColorsUnified.pureWhite,
+                            Colors.white,
                             AppColors.secondary.withValues(alpha: 0.02),
                           ],
                         ),
@@ -285,7 +285,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                     gradient: LinearGradient(
                                       colors: [
                                         AppColors.secondary.withValues(alpha: 0.2),
-                                        AppColorsUnified.orange.withValues(alpha: 0.1),
+                                        AppColors.primary.withValues(alpha: 0.1),
                                       ],
                                     ),
                                     borderRadius: BorderRadius.circular(16),
@@ -308,7 +308,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                 Text(
                                   'Expande tu catálogo con productos de calidad',
                                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: AppColorsUnified.textSecondary,
+                                    color: AppColors.textSecondary,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -355,7 +355,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColorsUnified.pureWhite,
+            Colors.white,
             AppColors.secondary.withValues(alpha: 0.02),
           ],
         ),
@@ -376,7 +376,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
               gradient: LinearGradient(
                 colors: [
                   AppColors.secondary.withValues(alpha: 0.1),
-                  AppColorsUnified.orange.withValues(alpha: 0.05),
+                  AppColors.primary.withValues(alpha: 0.05),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
@@ -399,7 +399,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
           Text(
             'Comienza agregando productos especializados para la industria minera y conecta con compradores de toda la región',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColorsUnified.textSecondary,
+              color: AppColors.textSecondary,
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -409,7 +409,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColors.secondary, AppColorsUnified.orange],
+                colors: [AppColors.secondary, AppColors.primary],
               ),
               borderRadius: BorderRadius.circular(25),
               boxShadow: [
@@ -423,12 +423,12 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.monetization_on, color: AppColorsUnified.pureWhite, size: 18),
+                const Icon(Icons.monetization_on, color: Colors.white, size: 18),
                 const SizedBox(width: 8),
                 Text(
                   'Empieza a vender',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColorsUnified.pureWhite,
+                    color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -449,7 +449,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColorsUnified.pureWhite,
+              Colors.white,
               AppColors.secondary.withValues(alpha: 0.02),
             ],
           ),
@@ -479,7 +479,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                       gradient: LinearGradient(
                         colors: [
                           AppColors.secondary.withValues(alpha: 0.2),
-                          AppColorsUnified.orange.withValues(alpha: 0.1),
+                          AppColors.primary.withValues(alpha: 0.1),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(16),
@@ -546,7 +546,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                           child: Text(
                             product.description,
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColorsUnified.textSecondary,
+                              color: AppColors.textSecondary,
                               height: 1.3,
                             ),
                             maxLines: 2,
@@ -561,13 +561,13 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    AppColorsUnified.success.withValues(alpha: 0.2),
-                                    AppColorsUnified.success.withValues(alpha: 0.1),
+                                    AppColors.success.withValues(alpha: 0.2),
+                                    AppColors.success.withValues(alpha: 0.1),
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: AppColorsUnified.success.withValues(alpha: 0.3),
+                                  color: AppColors.success.withValues(alpha: 0.3),
                                   width: 1,
                                 ),
                               ),
@@ -577,16 +577,16 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                   Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
-                                      color: AppColorsUnified.success,
+                                      color: AppColors.success,
                                       borderRadius: BorderRadius.circular(6),
                                     ),
-                                    child: Icon(Icons.attach_money, color: AppColorsUnified.pureWhite, size: 14),
+                                    child: const Icon(Icons.attach_money, color: Colors.white, size: 14),
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
                                     '\$${product.price.toStringAsFixed(0)}',
                                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      color: AppColorsUnified.success,
+                                      color: AppColors.success,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -600,19 +600,19 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                 gradient: LinearGradient(
                                   colors: product.inStock 
                                     ? [
-                                        AppColorsUnified.success.withValues(alpha: 0.2),
-                                        AppColorsUnified.success.withValues(alpha: 0.1),
+                                        AppColors.success.withValues(alpha: 0.2),
+                                        AppColors.success.withValues(alpha: 0.1),
                                       ]
                                     : [
-                                        AppColorsUnified.error.withValues(alpha: 0.2),
-                                        AppColorsUnified.error.withValues(alpha: 0.1),
+                                        AppColors.error.withValues(alpha: 0.2),
+                                        AppColors.error.withValues(alpha: 0.1),
                                       ],
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: product.inStock 
-                                    ? AppColorsUnified.success.withValues(alpha: 0.3)
-                                    : AppColorsUnified.error.withValues(alpha: 0.3),
+                                    ? AppColors.success.withValues(alpha: 0.3)
+                                    : AppColors.error.withValues(alpha: 0.3),
                                   width: 1,
                                 ),
                               ),
@@ -623,7 +623,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                     width: 8,
                                     height: 8,
                                     decoration: BoxDecoration(
-                                      color: product.inStock ? AppColorsUnified.success : AppColorsUnified.error,
+                                      color: product.inStock ? AppColors.success : AppColors.error,
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                   ),
@@ -631,7 +631,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                   Text(
                                     product.inStock ? 'En Stock' : 'Agotado',
                                     style: TextStyle(
-                                      color: product.inStock ? AppColorsUnified.success : AppColorsUnified.error,
+                                      color: product.inStock ? AppColors.success : AppColors.error,
                                       fontSize: 11,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -720,7 +720,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    const Icon(Icons.inventory_2, color: AppColorsUnified.orange),
+                    Icon(Icons.inventory_2, color: AppColors.primary),
                     const SizedBox(width: 12),
                     const Text('En stock:'),
                     const Spacer(),
@@ -832,7 +832,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
         content: Text(existingProduct == null 
           ? 'Producto creado exitosamente' 
           : 'Producto actualizado exitosamente'),
-        backgroundColor: AppColorsUnified.success,
+        backgroundColor: AppColors.success,
       ),
     );
   }
@@ -857,9 +857,9 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
               Navigator.of(context).pop(); // Close edit dialog
               
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Producto eliminado exitosamente'),
-                  backgroundColor: AppColorsUnified.success,
+                SnackBar(
+                  content: const Text('Producto eliminado exitosamente'),
+                  backgroundColor: AppColors.success,
                 ),
               );
             },

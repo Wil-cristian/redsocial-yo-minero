@@ -12,6 +12,10 @@ import 'package:yominero/features/products/data/supabase_product_repository.dart
 import 'package:yominero/features/products/domain/product_repository.dart';
 import 'package:yominero/features/services/data/supabase_service_repository.dart';
 import 'package:yominero/features/services/domain/service_repository.dart';
+import 'package:yominero/features/responses/data/supabase_response_repository.dart';
+import 'package:yominero/features/responses/domain/response_repository.dart';
+import 'package:yominero/features/bookings/data/supabase_booking_repository.dart';
+import 'package:yominero/features/bookings/domain/booking_repository.dart';
 
 final sl = GetIt.instance;
 
@@ -34,4 +38,8 @@ void setupLocator() {
       () => NotificationsRepository());
   sl.registerLazySingleton<ConnectionRepository>(
       () => SupabaseConnectionRepository());
+  sl.registerLazySingleton<ResponseRepository>(
+      () => SupabaseResponseRepository());
+  sl.registerLazySingleton<BookingRepository>(
+      () => SupabaseBookingRepository());
 }

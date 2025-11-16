@@ -11,6 +11,7 @@ class SupabasePostRepository implements PostRepository {
   @override
   Future<List<Post>> getAll() async {
     try {
+      debugPrint('🔍 Iniciando consulta de posts...');
       // Consultar posts ordenados por fecha de creación (más recientes primero)
       final response = await _supabase
           .from('posts')
@@ -20,12 +21,19 @@ class SupabasePostRepository implements PostRepository {
           ''')
           .order('created_at', ascending: false);
 
+      debugPrint('✅ Respuesta recibida: ${response.length} posts');
+      debugPrint('📊 Primer post: ${response.isNotEmpty ? response[0]['id'] : 'ninguno'}');
+
       // Convertir respuesta a lista de Posts
-      return (response as List)
+      final posts = (response as List)
           .map((json) => _mapToPost(json))
           .toList();
+      
+      debugPrint('✅ Posts mapeados: ${posts.length}');
+      return posts;
     } catch (e) {
       debugPrint('❌ Error al obtener posts: $e');
+      debugPrint('❌ Stack trace: ${StackTrace.current}');
       return [];
     }
   }
@@ -279,24 +287,27 @@ class SupabasePostRepository implements PostRepository {
           ? DateTime.parse(metadata['deadline'] as String) 
           : null,
       
-      // ========== Campos de OFFER/SERVICE desde metadata ==========
+      // ========== Campos de OFFER/SERVICE desde columnas directas O metadata ==========
       serviceName: (postType == PostType.offer || postType == PostType.service)
-          ? metadata['service_name'] as String?
+          ? (json['service_name'] as String? ?? metadata['service_name'] as String?)
           : null,
       serviceTags: (postType == PostType.offer || postType == PostType.service)
-          ? List<String>.from(metadata['service_tags'] ?? []) 
+          ? (json['service_tags'] != null ? List<String>.from(json['service_tags']) : List<String>.from(metadata['service_tags'] ?? [])) 
           : null,
       pricingFrom: (postType == PostType.offer || postType == PostType.service)
-          ? (metadata['pricing_from'] as num?)?.toDouble()
+          ? _parseDouble(json['pricing_from']) ?? (metadata['pricing_from'] as num?)?.toDouble()
           : null,
       pricingTo: (postType == PostType.offer || postType == PostType.service)
-          ? (metadata['pricing_to'] as num?)?.toDouble()
+          ? _parseDouble(json['pricing_to']) ?? (metadata['pricing_to'] as num?)?.toDouble()
           : null,
       pricingUnit: (postType == PostType.offer || postType == PostType.service)
-          ? metadata['pricing_unit'] as String?
+          ? (json['pricing_unit'] as String? ?? metadata['pricing_unit'] as String?)
           : null,
       availability: (postType == PostType.offer || postType == PostType.service)
-          ? metadata['availability'] as String?
+          ? (json['availability'] as String? ?? metadata['availability'] as String?)
+          : null,
+      serviceId: (postType == PostType.offer || postType == PostType.service)
+          ? (json['service_id'] as String?) // ID del servicio en la tabla services
           : null,
       
       // ========== Campos de PRODUCT desde metadata E IMAGES[] ==========
@@ -447,5 +458,14 @@ class SupabasePostRepository implements PostRepository {
       debugPrint('❌ Error al obtener resultados: $e');
       return {};
     }
+  }
+
+  /// Helper para convertir valores a double (maneja String, int, double)
+  double? _parseDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is double) return value;
+    if (value is int) return value.toDouble();
+    if (value is String) return double.tryParse(value);
+    return null;
   }
 }

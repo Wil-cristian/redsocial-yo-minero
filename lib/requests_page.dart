@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core/theme/colors.dart';
-import 'package:yominero/core/theme/app_colors_unified.dart';
+import 'core/theme/app_colors_unified.dart';
 
 class RequestsPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -14,6 +14,7 @@ class RequestsPage extends StatefulWidget {
 class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMixin {
   late TabController _tabController;
   String get _userType => widget.currentUser?['accountType'] ?? 'individual';
+  int? _hoveredCardIndex;
 
   // Datos de ejemplo para solicitudes
   final List<Map<String, dynamic>> _pendingRequests = [
@@ -82,13 +83,13 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
   Color _getUserColor() {
     switch (_userType) {
       case 'individual':
-        return AppColorsUnified.orange;
+        return AppColors.primary;
       case 'worker':
         return AppColors.secondary;
       case 'company':
-        return AppColorsUnified.warning;
+        return AppColors.warning;
       default:
-        return AppColorsUnified.orange;
+        return AppColors.primary;
     }
   }
 
@@ -100,25 +101,25 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
       appBar: AppBar(
         title: const Text('Mis Solicitudes'),
         backgroundColor: userColor,
-        foregroundColor: AppColorsUnified.pureWhite,
+        foregroundColor: Colors.white,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
+            color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.3)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
           ),
           child: IconButton(
-            icon: Icon(Icons.arrow_back, color: AppColorsUnified.pureWhite),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppColorsUnified.pureWhite,
-          labelColor: AppColorsUnified.pureWhite,
-          unselectedLabelColor: AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.7),
+          indicatorColor: Colors.white,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white70,
           tabs: const [
             Tab(
               icon: Icon(Icons.pending_actions),
@@ -142,7 +143,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
             end: Alignment.bottomCenter,
             colors: [
               userColor.withValues(alpha: 0.1),
-              AppColorsUnified.background,
+              Colors.grey[50]!,
             ],
           ),
         ),
@@ -222,13 +223,13 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           Icon(
             icon,
             size: 80,
-            color: AppColorsUnified.textSecondary.withValues(alpha: 0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 24),
           Text(
             title,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: AppColorsUnified.textSecondary,
+              color: AppColors.textSecondary,
               fontWeight: FontWeight.w600,
             ),
             textAlign: TextAlign.center,
@@ -237,7 +238,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           Text(
             subtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColorsUnified.textSecondary.withValues(alpha: 0.7),
+              color: AppColors.textSecondary.withValues(alpha: 0.7),
             ),
             textAlign: TextAlign.center,
           ),
@@ -248,213 +249,698 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
 
   Widget _buildRequestCard(Map<String, dynamic> request, {required bool isPending}) {
     final userColor = _getUserColor();
+    final isHovered = _hoveredCardIndex == request['id'].hashCode;
     
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: AppColorsUnified.pureWhite,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: AppColorsUnified.fade(AppColorsUnified.charcoal, 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hoveredCardIndex = request['id'].hashCode),
+      onExit: (_) => setState(() => _hoveredCardIndex = null),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
+        transform: Matrix4.translationValues(0, isHovered ? -6 : 0, 0),
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColorsUnified.pureWhite,
+              isHovered ? AppColorsUnified.grey50 : AppColorsUnified.pureWhite,
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        children: [
-          // Header
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: userColor.withValues(alpha: 0.05),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isHovered 
+                ? AppColorsUnified.gold.withValues(alpha: 0.4)
+                : AppColorsUnified.grey200,
+            width: isHovered ? 2 : 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: isHovered
+                  ? AppColorsUnified.gold.withValues(alpha: 0.2)
+                  : AppColorsUnified.shadowMedium,
+              blurRadius: isHovered ? 28 : 12,
+              spreadRadius: isHovered ? 3 : 0,
+              offset: Offset(0, isHovered ? 10 : 4),
             ),
-            child: Row(
+            if (isHovered)
+              BoxShadow(
+                color: AppColorsUnified.goldBright.withValues(alpha: 0.15),
+                blurRadius: 16,
+                offset: const Offset(0, 4),
+              ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(20),
+            onTap: () => _showRequestDetails(request),
+            splashColor: AppColorsUnified.gold.withValues(alpha: 0.1),
+            highlightColor: AppColorsUnified.gold.withValues(alpha: 0.05),
+            child: Column(
               children: [
+                // Header con efecto shimmer
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: userColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColorsUnified.goldHighlight.withValues(alpha: 0.15),
+                        AppColorsUnified.grey50,
+                      ],
+                    ),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                    border: Border(
+                      bottom: BorderSide(
+                        color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                        width: 1,
+                      ),
+                    ),
                   ),
-                  child: Icon(
-                    _getRequestIcon(request['type']),
-                    color: userColor,
-                    size: 20,
+                  child: Row(
+                    children: [
+                      // Ícono animado con pulso
+                      TweenAnimationBuilder<double>(
+                        duration: const Duration(milliseconds: 2000),
+                        tween: Tween(begin: 0.0, end: 1.0),
+                        builder: (context, value, child) {
+                          return Transform.scale(
+                            scale: 1.0 + (0.05 * (value % 1)),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                gradient: isHovered
+                                    ? AppColorsUnified.goldRadialGradient
+                                    : RadialGradient(
+                                        colors: [
+                                          AppColorsUnified.gold.withValues(alpha: 0.15),
+                                          AppColorsUnified.gold.withValues(alpha: 0.05),
+                                        ],
+                                      ),
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: AppColorsUnified.gold.withValues(alpha: isHovered ? 0.4 : 0.2),
+                                  width: isHovered ? 2 : 1.5,
+                                ),
+                                boxShadow: isHovered
+                                    ? [
+                                        BoxShadow(
+                                          color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                          blurRadius: 12,
+                                          spreadRadius: 2,
+                                        ),
+                                      ]
+                                    : null,
+                              ),
+                              child: Icon(
+                                _getRequestIcon(request['type']),
+                                color: isHovered ? AppColorsUnified.goldShadow : AppColorsUnified.gold,
+                                size: 28,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AnimatedDefaultTextStyle(
+                              duration: const Duration(milliseconds: 200),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: isHovered ? 17 : 16,
+                                color: AppColorsUnified.textPrimary,
+                                height: 1.3,
+                              ),
+                              child: Text(request['title']),
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.person_outline_rounded,
+                                  size: 16,
+                                  color: AppColorsUnified.textSecondary,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  request['requester'],
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: AppColorsUnified.textSecondary,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (isPending) 
+                        _buildInteractivePriorityChip(request['priority'], isHovered)
+                      else 
+                        _buildInteractiveStatusChip(request['status'], isHovered),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
+                
+                // Content
+                Padding(
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        request['title'],
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColorsUnified.textPrimary,
-                        ),
-                      ),
-                      Text(
-                        'De: ${request['requester']}',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        request['description'],
+                        style: const TextStyle(
+                          fontSize: 15,
                           color: AppColorsUnified.textSecondary,
+                          height: 1.6,
+                          fontWeight: FontWeight.w400,
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: AppColorsUnified.grey100,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: AppColorsUnified.grey200,
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.calendar_today_rounded,
+                                  size: 16,
+                                  color: AppColorsUnified.textSecondary,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  _formatDate(request['date']),
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: AppColorsUnified.textSecondary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (isHovered) ...[
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: AnimatedOpacity(
+                                duration: const Duration(milliseconds: 300),
+                                opacity: isHovered ? 1.0 : 0.0,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        AppColorsUnified.goldHighlight,
+                                        AppColorsUnified.goldBright.withValues(alpha: 0.3),
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.touch_app_rounded,
+                                        size: 16,
+                                        color: AppColorsUnified.goldShadow,
+                                      ),
+                                      SizedBox(width: 6),
+                                      Text(
+                                        'Ver detalles',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: AppColorsUnified.goldDeep,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ],
                   ),
                 ),
-                if (isPending) _buildPriorityChip(request['priority']),
-                if (!isPending) _buildStatusChip(request['status']),
+                
+                // Actions con efectos premium
+                if (isPending)
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          AppColorsUnified.grey50,
+                          AppColorsUnified.pureWhite,
+                        ],
+                      ),
+                      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
+                      border: Border(
+                        top: BorderSide(
+                          color: AppColorsUnified.grey200,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _buildInteractiveActionButton(
+                            label: 'Rechazar',
+                            icon: Icons.close_rounded,
+                            color: AppColorsUnified.error,
+                            onTap: () => _rejectRequest(request['id']),
+                            isSecondary: true,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildInteractiveActionButton(
+                            label: 'Aceptar',
+                            icon: Icons.check_rounded,
+                            color: AppColorsUnified.success,
+                            onTap: () => _acceptRequest(request['id']),
+                            isSecondary: false,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
           ),
-          
-          // Content
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInteractivePriorityChip(String priority, bool parentHovered) {
+    Color chipColor;
+    IconData chipIcon;
+    
+    switch (priority) {
+      case 'high':
+        chipColor = AppColorsUnified.error;
+        chipIcon = Icons.priority_high_rounded;
+        break;
+      case 'medium':
+        chipColor = AppColorsUnified.warning;
+        chipIcon = Icons.remove_rounded;
+        break;
+      case 'low':
+        chipColor = AppColorsUnified.success;
+        chipIcon = Icons.arrow_downward_rounded;
+        break;
+      default:
+        chipColor = AppColorsUnified.grey400;
+        chipIcon = Icons.help_outline_rounded;
+    }
+
+    return TweenAnimationBuilder<double>(
+      duration: const Duration(milliseconds: 2500),
+      tween: Tween(begin: 0.0, end: 1.0),
+      builder: (context, pulseValue, child) {
+        final pulse = (pulseValue * 2 * 3.14159);
+        final scale = 1.0 + (0.04 * (1 + (pulse % (2 * 3.14159)) / (2 * 3.14159)));
+        
+        return Transform.scale(
+          scale: parentHovered ? scale : 1.0,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: parentHovered
+                    ? [
+                        chipColor.withValues(alpha: 0.25),
+                        chipColor.withValues(alpha: 0.15),
+                      ]
+                    : [
+                        chipColor.withValues(alpha: 0.15),
+                        chipColor.withValues(alpha: 0.1),
+                      ],
+              ),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: chipColor.withValues(alpha: parentHovered ? 0.5 : 0.3),
+                width: parentHovered ? 2 : 1.5,
+              ),
+              boxShadow: parentHovered
+                  ? [
+                      BoxShadow(
+                        color: chipColor.withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        spreadRadius: 2,
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  request['description'],
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColorsUnified.textPrimary,
-                    height: 1.4,
-                  ),
+                Icon(
+                  chipIcon,
+                  size: parentHovered ? 18 : 16,
+                  color: chipColor,
                 ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.calendar_today,
-                      size: 16,
-                      color: AppColorsUnified.textSecondary,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      _formatDate(request['date']),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColorsUnified.textSecondary,
-                      ),
-                    ),
-                  ],
+                const SizedBox(width: 6),
+                Text(
+                  priority.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: parentHovered ? 13 : 12,
+                    fontWeight: FontWeight.w700,
+                    color: chipColor,
+                    letterSpacing: 0.8,
+                  ),
                 ),
               ],
             ),
           ),
-          
-          // Actions
-          if (isPending)
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: const BoxDecoration(
-                color: AppColorsUnified.background,
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => _rejectRequest(request['id']),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColorsUnified.error,
-                        side: const BorderSide(color: AppColorsUnified.error),
-                      ),
-                      child: const Text('Rechazar'),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => _acceptRequest(request['id']),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: userColor,
-                        foregroundColor: AppColorsUnified.pureWhite,
-                      ),
-                      child: const Text('Aceptar'),
-                    ),
-                  ),
+        );
+      },
+    );
+  }
+
+  Widget _buildInteractiveStatusChip(String status, bool parentHovered) {
+    Color chipColor;
+    IconData chipIcon;
+    
+    switch (status) {
+      case 'accepted':
+        chipColor = AppColorsUnified.success;
+        chipIcon = Icons.check_circle_rounded;
+        break;
+      case 'rejected':
+        chipColor = AppColorsUnified.error;
+        chipIcon = Icons.cancel_rounded;
+        break;
+      case 'completed':
+        chipColor = AppColorsUnified.gold;
+        chipIcon = Icons.verified_rounded;
+        break;
+      default:
+        chipColor = AppColorsUnified.grey400;
+        chipIcon = Icons.pending_rounded;
+    }
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: parentHovered
+              ? [
+                  chipColor.withValues(alpha: 0.25),
+                  chipColor.withValues(alpha: 0.15),
+                ]
+              : [
+                  chipColor.withValues(alpha: 0.15),
+                  chipColor.withValues(alpha: 0.1),
                 ],
-              ),
+        ),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: chipColor.withValues(alpha: parentHovered ? 0.5 : 0.3),
+          width: parentHovered ? 2 : 1.5,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            chipIcon,
+            size: parentHovered ? 18 : 16,
+            color: chipColor,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            status.toUpperCase(),
+            style: TextStyle(
+              fontSize: parentHovered ? 13 : 12,
+              fontWeight: FontWeight.w700,
+              color: chipColor,
+              letterSpacing: 0.8,
             ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildPriorityChip(String priority) {
-    Color color;
-    String label;
-    
-    switch (priority) {
-      case 'high':
-        color = AppColorsUnified.error;
-        label = 'Alta';
-        break;
-      case 'medium':
-        color = AppColorsUnified.warning;
-        label = 'Media';
-        break;
-      case 'low':
-        color = AppColors.info;
-        label = 'Baja';
-        break;
-      default:
-        color = AppColorsUnified.textSecondary;
-        label = 'Normal';
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+  Widget _buildInteractiveActionButton({
+    required String label,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+    required bool isSecondary,
+  }) {
+    return StatefulBuilder(
+      builder: (context, setLocalState) {
+        bool isHovered = false;
+        
+        return MouseRegion(
+          onEnter: (_) => setLocalState(() => isHovered = true),
+          onExit: (_) => setLocalState(() => isHovered = false),
+          child: TweenAnimationBuilder<double>(
+            duration: const Duration(milliseconds: 1800),
+            tween: Tween(begin: 0.0, end: 1.0),
+            builder: (context, pulseValue, child) {
+              final pulse = !isSecondary && !isHovered
+                  ? (1.0 + 0.06 * (pulseValue % 1))
+                  : 1.0;
+              
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                transform: Matrix4.identity()
+                  ..scale(isHovered ? 1.03 : 1.0)
+                  ..scale(pulse),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: onTap,
+                    borderRadius: BorderRadius.circular(14),
+                    splashColor: color.withValues(alpha: 0.3),
+                    highlightColor: color.withValues(alpha: 0.2),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      decoration: BoxDecoration(
+                        gradient: isSecondary
+                            ? null
+                            : LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: isHovered
+                                    ? [
+                                        color,
+                                        Color.from(
+                                          alpha: color.a,
+                                          red: (color.r * 0.8).clamp(0.0, 1.0),
+                                          green: (color.g * 0.8).clamp(0.0, 1.0),
+                                          blue: (color.b * 0.8).clamp(0.0, 1.0),
+                                        ),
+                                      ]
+                                    : [
+                                        color.withValues(alpha: 0.9),
+                                        color,
+                                      ],
+                              ),
+                        color: isSecondary
+                            ? (isHovered ? color.withValues(alpha: 0.1) : Colors.transparent)
+                            : null,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: isHovered ? color : color.withValues(alpha: 0.5),
+                          width: isSecondary ? (isHovered ? 2.5 : 2) : 0,
+                        ),
+                        boxShadow: !isSecondary && isHovered
+                            ? [
+                                BoxShadow(
+                                  color: color.withValues(alpha: 0.4),
+                                  blurRadius: 20,
+                                  spreadRadius: 3,
+                                ),
+                                BoxShadow(
+                                  color: color.withValues(alpha: 0.2),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 6),
+                                ),
+                              ]
+                            : !isSecondary
+                                ? [
+                                    BoxShadow(
+                                      color: color.withValues(alpha: 0.3),
+                                      blurRadius: 12,
+                                      spreadRadius: 1,
+                                    ),
+                                  ]
+                                : null,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            transform: Matrix4.identity()
+                              ..scale(isHovered ? 1.15 : 1.0),
+                            child: Icon(
+                              icon,
+                              color: isSecondary
+                                  ? (isHovered ? color : color.withValues(alpha: 0.8))
+                                  : AppColorsUnified.pureWhite,
+                              size: 22,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 250),
+                            style: TextStyle(
+                              fontSize: isHovered ? 16 : 15,
+                              fontWeight: isHovered ? FontWeight.w800 : FontWeight.w700,
+                              color: isSecondary
+                                  ? (isHovered ? color : color.withValues(alpha: 0.8))
+                                  : AppColorsUnified.pureWhite,
+                              letterSpacing: 0.6,
+                            ),
+                            child: Text(label),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildStatusChip(String status) {
-    Color color;
-    String label;
-    
-    switch (status) {
-      case 'completed':
-        color = AppColorsUnified.success;
-        label = 'Completado';
-        break;
-      case 'in_progress':
-        color = AppColors.info;
-        label = 'En progreso';
-        break;
-      default:
-        color = AppColorsUnified.textSecondary;
-        label = 'Desconocido';
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
+  void _showRequestDetails(Map<String, dynamic> request) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
+        title: Row(
+          children: [
+            Icon(
+              _getRequestIcon(request['type']),
+              color: AppColorsUnified.gold,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                request['title'],
+                style: const TextStyle(
+                  color: AppColorsUnified.textPrimary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Solicitante:',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: AppColorsUnified.textPrimary,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              request['requester'],
+              style: const TextStyle(
+                color: AppColorsUnified.textSecondary,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Descripción:',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: AppColorsUnified.textPrimary,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              request['description'],
+              style: const TextStyle(
+                color: AppColorsUnified.textSecondary,
+                fontSize: 14,
+                height: 1.6,
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Fecha:',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: AppColorsUnified.textPrimary,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              _formatDate(request['date']),
+              style: const TextStyle(
+                color: AppColorsUnified.textSecondary,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text(
+              'Cerrar',
+              style: TextStyle(
+                color: AppColorsUnified.gold,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -514,15 +1000,15 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 _pendingRequests.removeWhere((req) => req['id'] == requestId);
               });
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Solicitud aceptada exitosamente'),
-                  backgroundColor: AppColorsUnified.success,
+                SnackBar(
+                  content: const Text('Solicitud aceptada exitosamente'),
+                  backgroundColor: AppColors.success,
                 ),
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColorsUnified.success,
-              foregroundColor: AppColorsUnified.pureWhite,
+              backgroundColor: AppColors.success,
+              foregroundColor: Colors.white,
             ),
             child: const Text('Aceptar'),
           ),
@@ -549,15 +1035,15 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                 _pendingRequests.removeWhere((req) => req['id'] == requestId);
               });
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Solicitud rechazada'),
-                  backgroundColor: AppColorsUnified.error,
+                SnackBar(
+                  content: const Text('Solicitud rechazada'),
+                  backgroundColor: AppColors.error,
                 ),
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColorsUnified.error,
-              foregroundColor: AppColorsUnified.pureWhite,
+              backgroundColor: AppColors.error,
+              foregroundColor: Colors.white,
             ),
             child: const Text('Rechazar'),
           ),

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 /// Modelo de datos para items del inventario empresarial
 /// Soporta diferentes tipos de items: herramientas, equipos, materiales, repuestos

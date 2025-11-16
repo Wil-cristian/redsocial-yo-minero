@@ -9,6 +9,8 @@ import 'core/theme/rich_decorations.dart';
 import 'core/di/locator.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'core/supabase/supabase_service.dart';
+import 'features/responses/ui/response_modal.dart';
+import 'features/responses/ui/responses_list.dart';
 
 class CommunityFeedPage extends StatefulWidget {
   final Map<String, dynamic>? currentUser;
@@ -33,79 +35,110 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   Future<void> _loadPosts() async {
     setState(() => _isLoading = true);
     try {
+      debugPrint('🔄 CommunityFeedPage: Cargando posts...');
       final posts = await _repo.getAll();
+      debugPrint('✅ CommunityFeedPage: ${posts.length} posts recibidos');
+      debugPrint('📊 Tipos de posts: ${posts.map((p) => p.type).toSet()}');
       setState(() {
         _posts = posts;
         _isLoading = false;
       });
+      debugPrint('✅ Estado actualizado con ${_posts.length} posts');
     } catch (e) {
       debugPrint('❌ Error cargando posts: $e');
       setState(() => _isLoading = false);
     }
   }
 
-  Future<void> _toggleSavePost(String postId) async {
+  Future<bool> _isPostSaved(String postId) async {
     try {
       final currentUser = SupabaseAuthService.instance.currentUser;
-      if (currentUser == null) return;
+      if (currentUser == null) return false;
 
-      // Verificar si está guardado
-      bool isSaved = false;
-      String tableName = 'saved_posts';
-      
-      try {
-        final checkResponse = await _supabase
-            .from(tableName)
-            .select('id')
-            .eq('user_id', currentUser.id)
-            .eq('post_id', postId)
-            .maybeSingle();
-        isSaved = checkResponse != null;
-      } catch (e) {
-        // Intentar con saved_offers
-        tableName = 'saved_offers';
-        final checkResponse = await _supabase
-            .from(tableName)
-            .select('id')
-            .eq('user_id', currentUser.id)
-            .eq('post_id', postId)
-            .maybeSingle();
-        isSaved = checkResponse != null;
+      final response = await _supabase
+          .from('saved_posts')
+          .select('id')
+          .eq('user_id', currentUser.id)
+          .eq('post_id', postId)
+          .maybeSingle();
+
+      return response != null;
+    } catch (e) {
+      debugPrint('Error verificando si post está guardado: $e');
+      return false;
+    }
+  }
+
+  Future<void> _toggleSavePost(String postId) async {
+    debugPrint('🔄 Iniciando _toggleSavePost para postId: $postId');
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) {
+        debugPrint('❌ Usuario no autenticado');
+        return;
       }
 
-      // Guardar o eliminar
+      debugPrint('👤 Usuario actual: ${currentUser.id}');
+
+      // Verificar si está guardado primero
+      bool isSaved = false;
+      const tableName = 'saved_posts';
+
+      try {
+        debugPrint('🔍 Verificando en tabla: $tableName');
+        final checkResponse = await _supabase
+            .from(tableName)
+            .select('id')
+            .eq('user_id', currentUser.id)
+            .eq('post_id', postId)
+            .maybeSingle();
+
+        isSaved = checkResponse != null;
+        debugPrint('📊 Estado actual: $isSaved (response: $checkResponse)');
+      } catch (e) {
+        debugPrint('⚠️ Error verificando estado: $e');
+        return;
+      }
+
+      // Ejecutar acción opuesta
       if (isSaved) {
+        debugPrint('🗑️ Eliminando de guardados');
         await _supabase
             .from(tableName)
             .delete()
             .eq('user_id', currentUser.id)
             .eq('post_id', postId);
-        
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Eliminado de guardados'),
-              duration: Duration(seconds: 2),
-              backgroundColor: AppColorsUnified.companyBlue,
+              duration: Duration(seconds: 1),
+              backgroundColor: AppColorsUnified.orange,
             ),
           );
         }
       } else {
+        debugPrint('💾 Guardando post');
         await _supabase.from(tableName).insert({
           'user_id': currentUser.id,
           'post_id': postId,
         });
-        
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('✅ Guardado'),
-              duration: Duration(seconds: 2),
-              backgroundColor: AppColorsUnified.companyBlue,
+              content: Text('✅ Post guardado'),
+              duration: Duration(seconds: 1),
+              backgroundColor: AppColorsUnified.success,
             ),
           );
         }
       }
+      
+      debugPrint('✅ Operación completada exitosamente');
+      // Forzar rebuild del widget después del cambio
+      if (mounted) setState(() {});
     } catch (e) {
       debugPrint('❌ Error guardando post: $e');
       if (mounted) {
@@ -284,22 +317,32 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   }
 
   List<Post> get _filteredPosts {
+    debugPrint('🔍 Filtrando posts: filtro=$_selectedFilter, total=${_posts.length}');
+    List<Post> filtered;
     switch (_selectedFilter) {
       case 1: // Productos
-        return _posts.where((p) => p.type == PostType.product).toList();
+        filtered = _posts.where((p) => p.type == PostType.product).toList();
+        break;
       case 2: // Servicios
-        return _posts.where((p) => p.type == PostType.service).toList();
+        filtered = _posts.where((p) => p.type == PostType.service).toList();
+        break;
       case 3: // Preguntas
-        return _posts.where((p) => p.type == PostType.request).toList();
+        filtered = _posts.where((p) => p.type == PostType.request).toList();
+        break;
       case 4: // Noticias
-        return _posts.where((p) => p.type == PostType.news).toList();
+        filtered = _posts.where((p) => p.type == PostType.news).toList();
+        break;
       case 5: // Encuestas
-        return _posts.where((p) => p.type == PostType.poll).toList();
+        filtered = _posts.where((p) => p.type == PostType.poll).toList();
+        break;
       case 6: // Ofertas
-        return _posts.where((p) => p.type == PostType.offer).toList();
+        filtered = _posts.where((p) => p.type == PostType.offer).toList();
+        break;
       default: // Todos
-        return _posts;
+        filtered = _posts;
     }
+    debugPrint('✅ Posts filtrados: ${filtered.length}');
+    return filtered;
   }
 
   String _getPostTypeLabel(Post post) {
@@ -588,104 +631,132 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 ),
               ],
             ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (isUrgent)
-            Container(
-              margin: const EdgeInsets.all(12),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: RichDecorations.rubyGemBadge(),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.priority_high, color: AppColorsUnified.pureWhite, size: 16),
-                  const SizedBox(width: 4),
-                  Text(
-                    'URGENTE',
-                    style: TextStyle(
-                      color: AppColorsUnified.pureWhite,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.5,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 🔥 BADGE URGENTE - Si aplica
+            if (isUrgent) ...[
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: RichDecorations.rubyGemBadge(),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.priority_high, color: AppColorsUnified.pureWhite, size: 16),
+                    const SizedBox(width: 4),
+                    Text(
+                      'URGENTE',
+                      style: TextStyle(
+                        color: AppColorsUnified.pureWhite,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
 
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: isUrgent
-                      ? AppColorsUnified.fade(AppColorsUnified.orangeDark, 0.3)
-                      : AppColorsUnified.fade(AppColorsUnified.orange, 0.2),
-                  backgroundImage: post.authorProfileImage != null 
-                      ? NetworkImage(post.authorProfileImage!) 
-                      : null,
-                  child: post.authorProfileImage == null
-                      ? Text(
-                          (post.authorName ?? post.authorId).substring(0, 1).toUpperCase(),
-                          style: TextStyle(
-                            color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.orange,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        )
-                      : null,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        post.authorName ?? post.authorUsername ?? 'Usuario ${post.authorId.substring(0, 8)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.charcoal,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Icon(_getPostTypeIcon(post), size: 14, color: AppColorsUnified.textSecondary),
-                          const SizedBox(width: 4),
-                          Text(_getPostTypeLabel(post), style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12)),
-                          const SizedBox(width: 8),
-                          Text('· ${_getTimeAgo(post.createdAt)}', style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                IconButton(icon: Icon(Icons.more_vert, color: AppColorsUnified.lighten(AppColorsUnified.textSecondary, 0.2)), onPressed: () {}),
-              ],
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
+            // 📝 SECCIÓN PRINCIPAL: Header + Contenido como bloque único
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  post.title,
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    height: 1.3,
-                    color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.charcoal,
-                  ),
+                // Header del autor con botón de guardar
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 24,
+                      backgroundColor: isUrgent
+                          ? AppColorsUnified.fade(AppColorsUnified.orangeDark, 0.3)
+                          : AppColorsUnified.fade(AppColorsUnified.orange, 0.2),
+                      backgroundImage: post.authorProfileImage != null 
+                          ? NetworkImage(post.authorProfileImage!) 
+                          : null,
+                      child: post.authorProfileImage == null
+                          ? Text(
+                              (post.authorName ?? post.authorId).substring(0, 1).toUpperCase(),
+                              style: TextStyle(
+                                color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.orange,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            )
+                          : null,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            post.authorName ?? post.authorUsername ?? 'Usuario ${post.authorId.substring(0, 8)}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.charcoal,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Icon(_getPostTypeIcon(post), size: 14, color: AppColorsUnified.textSecondary),
+                              const SizedBox(width: 4),
+                              Text(_getPostTypeLabel(post), style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12)),
+                              const SizedBox(width: 8),
+                              Text('· ${_getTimeAgo(post.createdAt)}', style: const TextStyle(color: AppColorsUnified.textSecondary, fontSize: 12)),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Botón de guardar
+                    FutureBuilder<bool>(
+                      future: _isPostSaved(post.id),
+                      builder: (context, snapshot) {
+                        final isSaved = snapshot.data ?? false;
+                        return IconButton(
+                          icon: Icon(
+                            isSaved ? Icons.bookmark : Icons.bookmark_border,
+                            color: isSaved ? AppColorsUnified.gold : AppColorsUnified.textSecondary,
+                            size: 24,
+                          ),
+                          onPressed: () => _toggleSavePost(post.id),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-                // NO mostrar content si es poll (las opciones ya se muestran en el CTA)
-                if (post.type != PostType.poll) ...[
-                  const SizedBox(height: 8),
-                  Text(post.content, style: const TextStyle(fontSize: 14, color: AppColorsUnified.textPrimary, height: 1.5)),
+                
+                // Para preguntas, el título y contenido se muestran en el bloque dorado
+                // Para otros tipos de posts, mostrar título y contenido aquí
+                if (post.type != PostType.request) ...[
+                  const SizedBox(height: 16),
+                  Text(
+                    post.title,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      height: 1.3,
+                      color: isUrgent ? AppColorsUnified.orangeDark : AppColorsUnified.charcoal,
+                    ),
+                  ),
+                  if (post.type != PostType.poll) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      post.content, 
+                      style: const TextStyle(
+                        fontSize: 14, 
+                        color: AppColorsUnified.textPrimary, 
+                        height: 1.5,
+                      ),
+                    ),
+                  ],
                 ],
+                
+                // Tags integrados
                 if (post.categories.isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Wrap(
@@ -728,16 +799,15 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 ],
               ],
             ),
-          ),
 
-          const SizedBox(height: 16),
+            // 🎨 CONTENIDO MULTIMEDIA Y CTA - Integrado en el flujo
+            const SizedBox(height: 20),
+            
+            OptimizedPostContent(post: post),
 
-          OptimizedPostContent(post: post),
-
-          if (post.imageUrl != null && post.type == PostType.community)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ClipRRect(
+            if (post.imageUrl != null && post.type == PostType.community) ...[
+              const SizedBox(height: 16),
+              ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.network(
                   post.imageUrl!,
@@ -751,247 +821,338 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                   ),
                 ),
               ),
-            ),
+            ],
 
-          const SizedBox(height: 16),
+            // CTA ÉPICO para NOTICIAS
+            if (post.type == PostType.news) ...[
+              const SizedBox(height: 20),
+              _NewsInteractiveCTA(
+                post: post,
+                newsSource: post.newsSource ?? 'Fuente desconocida',
+                onReadMore: () {
+                  _showNewsDetailModal(context, post);
+                },
+                onSave: () async {
+                  await _toggleSavePost(post.id);
+                },
+              ),
+            ],
 
-          // CTA ÉPICO para NOTICIAS - Interactivo y estético (ARRIBA)
-          if (post.type == PostType.news) ...[
-            _NewsInteractiveCTA(
-              post: post,
-              newsSource: post.newsSource ?? 'Fuente desconocida',
-              onReadMore: () {
-                _showNewsDetailModal(context, post);
-              },
-              onSave: () async {
-                await _toggleSavePost(post.id);
-              },
-            ),
-          ],
+            // CTA ÉPICO para ENCUESTAS
+            if (post.type == PostType.poll) ...[
+              const SizedBox(height: 20),
+              _PollInteractiveCTA(
+                post: post,
+                onVote: (option) {
+                  debugPrint('Voto: $option en poll ${post.id}');
+                },
+                onSave: () async {
+                  await _toggleSavePost(post.id);
+                },
+              ),
+            ],
 
-          // CTA ÉPICO para ENCUESTAS - Ultra interactivo
-          if (post.type == PostType.poll) ...[
-            _PollInteractiveCTA(
-              post: post,
-              onVote: (option) {
-                debugPrint('Voto: $option en poll ${post.id}');
-              },
-              onSave: () async {
-                await _toggleSavePost(post.id);
-              },
-            ),
-          ],
+            // CTA ÉPICO para OFERTAS
+            if (post.type == PostType.offer) ...[
+              const SizedBox(height: 20),
+              _OfferInteractiveCTA(
+                post: post,
+                onContact: () {
+                  debugPrint('💬 Contactar por oferta: ${post.id}');
+                },
+                onSave: () {
+                  debugPrint('⭐ Guardar oferta: ${post.id}');
+                  _toggleSavePost(post.id);
+                },
+              ),
+            ],
 
-          // CTA ÉPICO para OFERTAS - Precio y contacto rápido
-          if (post.type == PostType.offer) ...[
-            _OfferInteractiveCTA(
-              post: post,
-              onContact: () {
-                debugPrint('💬 Contactar por oferta: ${post.id}');
-                // TODO: Abrir chat o WhatsApp
-              },
-              onSave: () {
-                debugPrint('⭐ Guardar oferta: ${post.id}');
-                // Guardar en favoritos
-                _toggleSavePost(post.id);
-              },
-            ),
-          ],
+            // CTA para GUARDAR eliminado - ahora está en el header
 
-          // CTA para GUARDAR - Para tipos que no tienen CTA específico
-          if (post.type == PostType.product || post.type == PostType.service || post.type == PostType.community) ...[
-            _SaveCTA(
-              post: post,
-              onSave: _toggleSavePost,
-            ),
-          ],
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                _buildActionButton(Icons.favorite_border, '${post.likes}', () async {
-                  try {
-                    await _repo.like(post.id);
-                    _loadPosts();
-                  } catch (e) {
-                    debugPrint('❌ Error al dar like: $e');
-                  }
-                }),
-                const SizedBox(width: 20),
-                _buildActionButton(Icons.chat_bubble_outline, '${post.comments}', () async {
-                  // Abrir chat con el autor del post
-                  try {
-                    final currentUser = SupabaseAuthService.instance.currentUser;
-                    if (currentUser == null) return;
-
-                    // Crear objeto de conversación compatible con ChatDetailPage
-                    final conversation = {
-                      'id': '${currentUser.id}_${post.authorId}',
-                      'otherUserId': post.authorId,
-                      'otherUserName': post.authorName ?? 'Usuario',
-                      'otherUserAvatar': null,
-                      'lastMessage': 'Interesado en tu post',
-                      'timestamp': DateTime.now().toIso8601String(),
-                      'unreadCount': 0,
-                    };
-
-                    // Navegar a chat
-                    Navigator.pushNamed(
-                      context,
-                      '/chat-detail',
-                      arguments: conversation,
-                    );
-                  } catch (e) {
-                    debugPrint('❌ Error abriendo chat: $e');
-                  }
-                }),
-                const SizedBox(width: 20),
-                _buildActionButton(Icons.share_outlined, 'Compartir', () {}),
-              ],
-            ),
-          ),
-          
-          // CTA para PREGUNTAS - Invita a responder (más sutil)
-          if (post.type == PostType.request) ...[
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Container(
-                padding: const EdgeInsets.all(16),
+            // Botones de interacción movidos al final para mejor flujo visual
+            
+            // 🎯 SECCIÓN DE RESPUESTAS UNIFICADA VISUALMENTE - Para preguntas
+            if (post.type == PostType.request) ...[
+              const SizedBox(height: 28),
+              
+              // BLOQUE UNIFICADO: Pregunta + Responder + Respuestas
+              Container(
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.grey50,
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColorsUnified.fade(AppColorsUnified.gold, 0.03),
+                      AppColorsUnified.fade(AppColorsUnified.goldDeep, 0.02),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: AppColorsUnified.grey300,
+                    color: AppColorsUnified.fade(AppColorsUnified.gold, 0.15),
                     width: 1,
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: AppColorsUnified.gold.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header unificado con pregunta
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColorsUnified.gold.withValues(alpha: 0.15),
+                                  AppColorsUnified.goldDeep.withValues(alpha: 0.1),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: const Icon(
+                              Icons.help_rounded,
+                              color: AppColorsUnified.gold,
+                              size: 20,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.question_answer_rounded,
-                            color: AppColorsUnified.gold,
-                            size: 20,
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  post.title,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColorsUnified.gold,
+                                    letterSpacing: -0.2,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 3),
+                                Text(
+                                  'Comparte tu conocimiento y ayuda',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppColorsUnified.fade(AppColorsUnified.textSecondary, 0.8),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      
+                      const SizedBox(height: 18),
+                      
+                      // Botón de responder unificado con el diseño
+                      Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => ResponseModal(
+                                post: post,
+                                onResponseAdded: () {
+                                  setState(() {});
+                                },
+                              ),
+                            );
+                          },
+                          borderRadius: BorderRadius.circular(14),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColorsUnified.gold,
+                                  AppColorsUnified.goldDeep,
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColorsUnified.gold.withValues(alpha: 0.25),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.edit_rounded,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Escribir Respuesta',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    letterSpacing: -0.1,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '¿Tienes la respuesta?',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColorsUnified.textPrimary,
-                                ),
-                              ),
-                              SizedBox(height: 2),
-                              Text(
-                                'Ayuda a esta persona con tu conocimiento',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppColorsUnified.textSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {
-                                debugPrint('Responder pregunta: ${post.id}');
-                                // TODO: Abrir modal de respuesta
-                              },
-                              borderRadius: BorderRadius.circular(12),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      
+                      const SizedBox(height: 20),
+                      
+                      // Respuestas integradas con el mismo diseño unificado
+                      ResponsesList(post: post),
+                    ],
+                  ),
+                ),
+              ),
+              
+              // Botones de interacción al final (like, guardar, compartir)
+              const SizedBox(height: 24),
+              
+              // Separador sutil antes de interacciones
+              Container(
+                height: 1,
+                color: AppColorsUnified.fade(AppColorsUnified.grey300, 0.4),
+              ),
+              
+              const SizedBox(height: 16),
+              
+              Row(
+                children: [
+                  _buildActionButton(Icons.favorite_border, '${post.likes}', () async {
+                    try {
+                      await _repo.like(post.id);
+                      _loadPosts();
+                    } catch (e) {
+                      debugPrint('❌ Error al dar like: $e');
+                    }
+                  }),
+                  const Spacer(),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () async {
+                        await _toggleSavePost(post.id);
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: StatefulBuilder(
+                        builder: (context, setState) {
+                          return FutureBuilder<bool>(
+                            future: _isPostSaved(post.id),
+                            builder: (context, snapshot) {
+                              final isSaved = snapshot.data ?? false;
+                              return Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                                 decoration: BoxDecoration(
-                                  color: AppColorsUnified.gold,
+                                  gradient: isSaved
+                                      ? LinearGradient(
+                                          colors: [
+                                            AppColorsUnified.success,
+                                            AppColorsUnified.success.withValues(alpha: 0.8),
+                                          ],
+                                        )
+                                      : LinearGradient(
+                                          colors: [
+                                            AppColorsUnified.grey200,
+                                            AppColorsUnified.grey300,
+                                          ],
+                                        ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Icon(
-                                      Icons.edit_rounded,
-                                      color: Color(0xFFFAFAFA),
-                                      size: 18,
+                                      isSaved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
+                                      color: isSaved ? Colors.white : AppColorsUnified.textSecondary,
+                                      size: 16,
                                     ),
-                                    SizedBox(width: 6),
+                                    const SizedBox(width: 6),
                                     Text(
-                                      'Responder',
+                                      isSaved ? 'Guardado' : 'Guardar',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.w600,
-                                        color: Color(0xFFFAFAFA),
+                                        color: isSaved ? Colors.white : AppColorsUnified.textPrimary,
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () async {
-                              await _toggleSavePost(post.id);
+                              );
                             },
-                            borderRadius: BorderRadius.circular(12),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              decoration: BoxDecoration(
-                                color: AppColorsUnified.grey200,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Icon(
-                                    Icons.bookmark_border_rounded,
-                                    color: AppColorsUnified.textSecondary,
-                                    size: 18,
-                                  ),
-                                  SizedBox(width: 6),
-                                  Text(
-                                    'Guardar',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColorsUnified.textPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                          );
+                        },
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 12),
+                  _buildActionButton(Icons.share_outlined, 'Compartir', () {}),
+                ],
               ),
-            ),
+            ] else ...[
+              // Para otros tipos de posts, mantener botones de interacción normales
+              const SizedBox(height: 20),
+              Container(
+                height: 1,
+                color: AppColorsUnified.fade(AppColorsUnified.grey300, 0.4),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  _buildActionButton(Icons.favorite_border, '${post.likes}', () async {
+                    try {
+                      await _repo.like(post.id);
+                      _loadPosts();
+                    } catch (e) {
+                      debugPrint('❌ Error al dar like: $e');
+                    }
+                  }),
+                  const SizedBox(width: 20),
+                  _buildActionButton(Icons.chat_bubble_outline, '${post.comments}', () async {
+                    try {
+                      final currentUser = SupabaseAuthService.instance.currentUser;
+                      if (currentUser == null) return;
+
+                      final conversation = {
+                        'id': '${currentUser.id}_${post.authorId}',
+                        'otherUserId': post.authorId,
+                        'otherUserName': post.authorName ?? 'Usuario',
+                        'otherUserAvatar': null,
+                        'lastMessage': 'Interesado en tu post',
+                        'timestamp': DateTime.now().toIso8601String(),
+                        'unreadCount': 0,
+                      };
+
+                      Navigator.pushNamed(
+                        context,
+                        '/chat-detail',
+                        arguments: conversation,
+                      );
+                    } catch (e) {
+                      debugPrint('❌ Error abriendo chat: $e');
+                    }
+                  }),
+                  const SizedBox(width: 20),
+                  _buildActionButton(Icons.share_outlined, 'Compartir', () {}),
+                ],
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -2419,9 +2580,18 @@ class _SaveCTAState extends State<_SaveCTA> {
   }
 
   Future<void> _checkIfSaved() async {
+    debugPrint('🔍 _SaveCTA: Verificando si post ${widget.post.id} (${widget.post.type}) está guardado');
     try {
       final currentUser = SupabaseAuthService.instance.currentUser;
-      if (currentUser == null) return;
+      if (currentUser == null) {
+        debugPrint('❌ _SaveCTA: Usuario no autenticado');
+        return;
+      }
+
+      // Para productos, verificar si hay imágenes guardadas
+      if (widget.post.type == PostType.product) {
+        debugPrint('📦 _SaveCTA: Producto detectado - Imágenes: ${widget.post.productImages}');
+      }
 
       // Verificar en saved_posts
       try {
@@ -2435,24 +2605,36 @@ class _SaveCTAState extends State<_SaveCTA> {
         if (mounted) {
           setState(() => _isSaved = response != null);
         }
+        debugPrint('📊 _SaveCTA: Post ${widget.post.id} guardado: $_isSaved (response: $response)');
       } catch (e) {
-        debugPrint('⚠️ Error verificando guardado: $e');
+        debugPrint('⚠️ _SaveCTA: Error verificando guardado: $e');
       }
     } catch (e) {
-      debugPrint('❌ Error verificando guardado: $e');
+      debugPrint('❌ _SaveCTA: Error general: $e');
     }
   }
 
   Future<void> _handleSave() async {
     if (_isLoading) return;
 
-    setState(() => _isLoading = true);
+    debugPrint('💾 _SaveCTA: Iniciando guardado para post ${widget.post.id} (${widget.post.type})');
+    
+    // Estado optimista: cambiar UI inmediatamente
+    final wasState = _isSaved;
+    setState(() {
+      _isLoading = true;
+      _isSaved = !_isSaved; // Cambio optimista
+    });
+    
     try {
       await widget.onSave(widget.post.id);
-      // Recargar estado después de guardar/desguardar
-      await _checkIfSaved();
+      debugPrint('✅ _SaveCTA: Guardado completado - Estado: $_isSaved');
     } catch (e) {
-      debugPrint('❌ Error guardando: $e');
+      debugPrint('❌ _SaveCTA: Error guardando: $e');
+      // Revertir estado optimista en caso de error
+      if (mounted) {
+        setState(() => _isSaved = wasState);
+      }
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -2462,6 +2644,10 @@ class _SaveCTAState extends State<_SaveCTA> {
 
   @override
   Widget build(BuildContext context) {
+    // Para productos, mostrar información especial sobre imágenes
+    final bool isProduct = widget.post.type == PostType.product;
+    final int imageCount = widget.post.productImages?.length ?? 0;
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Container(
@@ -2478,90 +2664,137 @@ class _SaveCTAState extends State<_SaveCTA> {
             width: 1,
           ),
         ),
-        child: Row(
+        child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: _isSaved
-                    ? AppColorsUnified.gold.withValues(alpha: 0.2)
-                    : AppColorsUnified.gold.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                _isSaved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
-                color: AppColorsUnified.gold,
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _isSaved ? 'Guardado en favoritos' : 'Guardar para después',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: AppColorsUnified.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    _isSaved
-                        ? 'Accede desde tus guardados'
-                        : 'Accede fácilmente desde tus guardados',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: AppColorsUnified.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: _isLoading ? null : _handleSave,
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: _isSaved
-                        ? AppColorsUnified.grey300
-                        : AppColorsUnified.gold,
+                        ? AppColorsUnified.gold.withValues(alpha: 0.2)
+                        : AppColorsUnified.gold.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Row(
+                  child: Icon(
+                    _isSaved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
+                    color: AppColorsUnified.gold,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        _isLoading
-                            ? Icons.hourglass_empty
-                            : (_isSaved ? Icons.bookmark_remove : Icons.bookmark_add_rounded),
-                        color: _isSaved
-                            ? AppColorsUnified.textSecondary
-                            : const Color(0xFFFAFAFA),
-                        size: 18,
-                      ),
-                      const SizedBox(width: 6),
                       Text(
-                        _isLoading
-                            ? 'Guardando...'
-                            : (_isSaved ? 'Remover' : 'Guardar'),
-                        style: TextStyle(
-                          color: _isSaved
-                              ? AppColorsUnified.textSecondary
-                              : const Color(0xFFFAFAFA),
-                          fontSize: 14,
+                        _isSaved ? 'Guardado en favoritos' : 'Guardar para después',
+                        style: const TextStyle(
+                          fontSize: 15,
                           fontWeight: FontWeight.w600,
+                          color: AppColorsUnified.textPrimary,
                         ),
                       ),
+                      const SizedBox(height: 2),
+                      Text(
+                        _isSaved
+                            ? 'Accede desde tus guardados'
+                            : 'Accede fácilmente desde tus guardados',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColorsUnified.textSecondary,
+                        ),
+                      ),
+                      // Información especial para productos
+                      if (isProduct && imageCount > 0) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          '📸 $imageCount ${imageCount == 1 ? 'imagen' : 'imágenes'} incluida${imageCount != 1 ? 's' : ''}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColorsUnified.gold,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
-              ),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: _isLoading ? null : _handleSave,
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: _isSaved
+                            ? AppColorsUnified.success
+                            : AppColorsUnified.gold,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            _isLoading
+                                ? Icons.hourglass_empty
+                                : (_isSaved ? Icons.bookmark_rounded : Icons.bookmark_add_rounded),
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            _isLoading
+                                ? 'Guardando...'
+                                : (_isSaved ? '✓ Guardado' : 'Guardar'),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+            // Información adicional para productos guardados
+            if (_isSaved && isProduct) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColorsUnified.gold.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                    width: 1,
+                  ),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.info_outline,
+                      color: AppColorsUnified.gold,
+                      size: 16,
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Producto guardado con todas sus imágenes y detalles',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColorsUnified.textSecondary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),

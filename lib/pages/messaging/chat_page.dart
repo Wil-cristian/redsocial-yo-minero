@@ -251,7 +251,7 @@ class _ChatPageState extends State<ChatPage> {
                       child: _otherUserProfileImage == null
                           ? Text(
                               (_otherUserName ?? widget.otherUserId).substring(0, 2).toUpperCase(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColorsUnified.orange,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -428,7 +428,7 @@ class _ChatPageState extends State<ChatPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.tips_and_updates_outlined,
                     size: 20,
                     color: AppColorsUnified.orange,

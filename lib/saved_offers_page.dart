@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yominero/core/theme/app_colors_unified.dart';
-import 'package:yominero/core/di/locator.dart';
 import 'package:yominero/core/auth/supabase_auth_service.dart';
 import 'package:yominero/core/supabase/supabase_service.dart';
 
@@ -245,7 +244,7 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                     ),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.attach_money_rounded,
                           color: AppColorsUnified.companyBlue,
                           size: 32,
@@ -347,7 +346,7 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                             ],
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.star,
                           color: AppColorsUnified.orange,
                           size: 20,
@@ -579,7 +578,7 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.attach_money_rounded,
                       color: AppColorsUnified.companyBlue,
                       size: 24,
@@ -619,7 +618,7 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                         onPressed: () => _showOfferDetails(offer),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppColorsUnified.companyBlue,
-                          side: BorderSide(
+                          side: const BorderSide(
                             color: AppColorsUnified.companyBlue,
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 12),

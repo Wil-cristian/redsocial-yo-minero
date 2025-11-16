@@ -195,10 +195,10 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('✅ 5 elementos de prueba creados exitosamente'),
+          const SnackBar(
+            content: Text('✅ 5 elementos de prueba creados exitosamente'),
             backgroundColor: AppColorsUnified.success,
-            duration: const Duration(seconds: 3),
+            duration: Duration(seconds: 3),
           ),
         );
       }
@@ -267,14 +267,14 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return Scaffold(
+      return const Scaffold(
         backgroundColor: AppColorsUnified.background,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularProgressIndicator(color: AppColorsUnified.gold),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               Text(
                 'Cargando inventario...',
                 style: TextStyle(color: AppColorsUnified.textSecondary),
@@ -292,9 +292,9 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.error_outline, size: 64, color: AppColorsUnified.error),
+              const Icon(Icons.error_outline, size: 64, color: AppColorsUnified.error),
               const SizedBox(height: 16),
-              Text(
+              const Text(
                 'Error al cargar inventario',
                 style: TextStyle(
                   fontSize: 18,
@@ -308,7 +308,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                 child: Text(
                   _error!,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColorsUnified.textSecondary),
+                  style: const TextStyle(color: AppColorsUnified.textSecondary),
                 ),
               ),
               const SizedBox(height: 24),
@@ -361,10 +361,10 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
               ),
             ],
           ),
-          child: Row(
+          child: const Row(
             children: [
               Icon(Icons.add, color: AppColorsUnified.textPrimary),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Text(
                 'Agregar Item',
                 style: TextStyle(
@@ -396,7 +396,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
           border: Border.all(color: AppColorsUnified.grey300),
         ),
         child: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
+          icon: const Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -436,7 +436,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
             ],
           ),
           child: IconButton(
-            icon: Icon(Icons.assessment, color: AppColorsUnified.textPrimary),
+            icon: const Icon(Icons.assessment, color: AppColorsUnified.textPrimary),
             onPressed: () {
               Navigator.push(
                 context,
@@ -455,7 +455,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
             border: Border.all(color: AppColorsUnified.grey300),
           ),
           child: IconButton(
-            icon: Icon(Icons.filter_list, color: AppColorsUnified.textPrimary),
+            icon: const Icon(Icons.filter_list, color: AppColorsUnified.textPrimary),
             onPressed: _showFilterOptions,
           ),
         ),
@@ -486,7 +486,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                             ),
                           ],
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.inventory_2,
                           color: AppColorsUnified.textPrimary,
                           size: 32,
@@ -497,7 +497,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Inventario',
                               style: TextStyle(
                                 fontSize: 28,
@@ -507,7 +507,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                             ),
                             Text(
                               '${_inventoryItems.length} items registrados',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: AppColorsUnified.textSecondary,
                               ),
@@ -618,7 +618,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
           const SizedBox(height: 12),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: AppColorsUnified.textPrimary,
@@ -626,7 +626,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
           ),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               color: AppColorsUnified.textSecondary,
             ),
@@ -642,7 +642,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Avisos Importantes',
             style: TextStyle(
               fontSize: 18,
@@ -735,7 +735,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: AppColorsUnified.textPrimary,
@@ -743,7 +743,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                       ),
                       Text(
                         '$count items',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColorsUnified.textSecondary,
                         ),
@@ -777,7 +777,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                     Expanded(
                       child: Text(
                         item.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColorsUnified.textPrimary,
                         ),
@@ -804,7 +804,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                     if (title == 'Próximos a Agotarse')
                       Text(
                         '${item.quantity.toInt()}/${item.minStock.toInt()}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 10,
                           color: AppColorsUnified.textSecondary,
                         ),
@@ -814,7 +814,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
               )),
             ] else ...[
               const SizedBox(height: 12),
-              Center(
+              const Center(
                 child: Text(
                   'Sin elementos',
                   style: TextStyle(
@@ -892,7 +892,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                 Expanded(
                   child: Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: AppColorsUnified.textPrimary,
@@ -900,7 +900,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.close, color: AppColorsUnified.textSecondary),
+                  icon: const Icon(Icons.close, color: AppColorsUnified.textSecondary),
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
@@ -914,7 +914,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                       children: [
                         Icon(icon, size: 64, color: AppColorsUnified.grey400),
                         const SizedBox(height: 16),
-                        Text(
+                        const Text(
                           'No hay items en esta categoría',
                           style: TextStyle(
                             fontSize: 16,
@@ -964,7 +964,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                                 children: [
                                   Text(
                                     item.name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: AppColorsUnified.textPrimary,
@@ -973,7 +973,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                                   const SizedBox(height: 4),
                                   Text(
                                     '${item.quantity} ${item.unit} • ${item.location}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 12,
                                       color: AppColorsUnified.textSecondary,
                                     ),
@@ -990,11 +990,11 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                                 ),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.shopping_cart, size: 14, color: AppColorsUnified.textPrimary),
+                                    const Icon(Icons.shopping_cart, size: 14, color: AppColorsUnified.textPrimary),
                                     const SizedBox(width: 4),
                                     Text(
                                       '${item.requestCount}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: AppColorsUnified.textPrimary,
@@ -1004,7 +1004,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                                 ),
                               ),
                             if (item.isFavorite && title.contains('Favoritos'))
-                              Icon(Icons.favorite, color: AppColorsUnified.gold, size: 20),
+                              const Icon(Icons.favorite, color: AppColorsUnified.gold, size: 20),
                           ],
                         ),
                       );
@@ -1071,14 +1071,14 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
               children: [
                 Text(
                   label,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 10,
                     color: AppColorsUnified.textSecondary,
                   ),
                 ),
                 Text(
                   value,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: AppColorsUnified.textPrimary,
@@ -1087,7 +1087,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
               ],
             ),
             const SizedBox(width: 4),
-            Icon(Icons.arrow_drop_down, size: 20, color: AppColorsUnified.textSecondary),
+            const Icon(Icons.arrow_drop_down, size: 20, color: AppColorsUnified.textSecondary),
           ],
         ),
       ),
@@ -1098,7 +1098,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
     final items = _filteredItems;
     
     if (items.isEmpty) {
-      return SliverFillRemaining(
+      return const SliverFillRemaining(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -1108,7 +1108,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                 size: 64,
                 color: AppColorsUnified.textSecondary,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               Text(
                 'No hay items en esta categoría',
                 style: TextStyle(
@@ -1182,7 +1182,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                         children: [
                           Text(
                             item.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: AppColorsUnified.textPrimary,
@@ -1190,7 +1190,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                           ),
                           Text(
                             item.category.label,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 12,
                               color: AppColorsUnified.textSecondary,
                             ),
@@ -1280,7 +1280,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                     if (item.cost != null)
                       Text(
                         'Valor Total: \$${item.totalValue.toStringAsFixed(2)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: AppColorsUnified.success,
@@ -1289,7 +1289,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                     if (item.cost != null)
                       Text(
                         'Costo unitario: \$${item.cost!.toStringAsFixed(2)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColorsUnified.textSecondary,
                         ),
@@ -1304,7 +1304,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.shopping_cart,
                               size: 14,
                               color: AppColorsUnified.textPrimary,
@@ -1312,7 +1312,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                             const SizedBox(width: 4),
                             Text(
                               '${item.requestCount} pedidos',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
                                 color: AppColorsUnified.textPrimary,
@@ -1338,7 +1338,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
         const SizedBox(height: 4),
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
             color: AppColorsUnified.textPrimary,
@@ -1347,7 +1347,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
         ),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 10,
             color: AppColorsUnified.textSecondary,
           ),
@@ -1401,7 +1401,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
           children: locations.map((loc) => ListTile(
             title: Text(loc),
             selected: _selectedLocation == loc,
-            trailing: _selectedLocation == loc ? Icon(Icons.check, color: AppColorsUnified.gold) : null,
+            trailing: _selectedLocation == loc ? const Icon(Icons.check, color: AppColorsUnified.gold) : null,
             onTap: () {
               setState(() => _selectedLocation = loc);
               Navigator.pop(context);
@@ -1423,7 +1423,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
             ListTile(
               title: const Text('Todos'),
               selected: _selectedStatus == null,
-              trailing: _selectedStatus == null ? Icon(Icons.check, color: AppColorsUnified.gold) : null,
+              trailing: _selectedStatus == null ? const Icon(Icons.check, color: AppColorsUnified.gold) : null,
               onTap: () {
                 setState(() => _selectedStatus = null);
                 Navigator.pop(context);
@@ -1433,7 +1433,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
               title: Text(status.label),
               leading: Icon(Icons.circle, color: _getStatusColor(status)),
               selected: _selectedStatus == status,
-              trailing: _selectedStatus == status ? Icon(Icons.check, color: AppColorsUnified.gold) : null,
+              trailing: _selectedStatus == status ? const Icon(Icons.check, color: AppColorsUnified.gold) : null,
               onTap: () {
                 setState(() => _selectedStatus = status);
                 Navigator.pop(context);
@@ -1561,7 +1561,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                             children: [
                               Text(
                                 item.name,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: AppColorsUnified.textPrimary,
@@ -1593,7 +1593,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                     ),
                     if (item.description != null && item.description!.isNotEmpty) ...[
                       const SizedBox(height: 24),
-                      Text(
+                      const Text(
                         'Descripción',
                         style: TextStyle(
                           fontSize: 14,
@@ -1604,14 +1604,14 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                       const SizedBox(height: 8),
                       Text(
                         item.description!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: AppColorsUnified.textSecondary,
                         ),
                       ),
                     ],
                     const SizedBox(height: 24),
-                    Text(
+                    const Text(
                       'Detalles',
                       style: TextStyle(
                         fontSize: 14,
@@ -1651,7 +1651,7 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
                             label: const Text('Ver Historial'),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColorsUnified.gold,
-                              side: BorderSide(color: AppColorsUnified.gold),
+                              side: const BorderSide(color: AppColorsUnified.gold),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -1731,14 +1731,14 @@ class _CompanyInventoryPageState extends State<CompanyInventoryPage> with Single
         children: [
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               color: AppColorsUnified.textSecondary,
             ),
           ),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: AppColorsUnified.textPrimary,

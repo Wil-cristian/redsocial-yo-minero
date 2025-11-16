@@ -200,7 +200,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                         ),
                       ],
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.chat_bubble_rounded,
                       color: AppColorsUnified.textPrimary,
                       size: 24,
@@ -395,7 +395,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
               ),
             ),
             const SizedBox(height: 24),
-            Text(
+            const Text(
               'No tienes conversaciones',
               style: TextStyle(
                 fontSize: 20,
@@ -432,7 +432,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                   ),
                 ],
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
@@ -440,7 +440,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                     color: AppColorsUnified.textPrimary,
                     size: 20,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     'Buscar usuarios',
                     style: TextStyle(
@@ -583,7 +583,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                           child: Center(
                             child: Text(
                               unreadCount > 99 ? '99+' : unreadCount.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColorsUnified.textPrimary,
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
@@ -638,7 +638,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                     color: AppColorsUnified.gold.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.chevron_right_rounded,
                     color: AppColorsUnified.gold,
                     size: 24,

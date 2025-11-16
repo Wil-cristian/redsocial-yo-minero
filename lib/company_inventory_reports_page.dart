@@ -38,7 +38,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
             border: Border.all(color: AppColorsUnified.grey300),
           ),
           child: IconButton(
-            icon: Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
+            icon: const Icon(Icons.arrow_back, color: AppColorsUnified.textPrimary),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -57,7 +57,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
               ],
             ),
             child: IconButton(
-              icon: Icon(Icons.download, color: AppColorsUnified.textPrimary),
+              icon: const Icon(Icons.download, color: AppColorsUnified.textPrimary),
               onPressed: _exportReport,
             ),
           ),
@@ -96,7 +96,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Resumen General',
           style: TextStyle(
             fontSize: 20,
@@ -188,7 +188,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
               Expanded(
                 child: Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     color: AppColorsUnified.textSecondary,
                   ),
@@ -199,7 +199,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
           const SizedBox(height: 12),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: AppColorsUnified.textPrimary,
@@ -207,7 +207,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
           ),
           Text(
             subtitle,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 11,
               color: AppColorsUnified.textSecondary,
             ),
@@ -245,10 +245,10 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                   gradient: AppColorsUnified.goldGradient,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.pie_chart, color: AppColorsUnified.textPrimary, size: 20),
+                child: const Icon(Icons.pie_chart, color: AppColorsUnified.textPrimary, size: 20),
               ),
               const SizedBox(width: 12),
-              Text(
+              const Text(
                 'Distribución por Categoría',
                 style: TextStyle(
                   fontSize: 18,
@@ -309,7 +309,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                             Expanded(
                               child: Text(
                                 '${entry.key.label}: ${entry.value}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 11,
                                   color: AppColorsUnified.textSecondary,
                                 ),
@@ -357,10 +357,10 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                   gradient: AppColorsUnified.goldGradient,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.bar_chart, color: AppColorsUnified.textPrimary, size: 20),
+                child: const Icon(Icons.bar_chart, color: AppColorsUnified.textPrimary, size: 20),
               ),
               const SizedBox(width: 12),
-              Text(
+              const Text(
                 'Valor por Categoría',
                 style: TextStyle(
                   fontSize: 18,
@@ -384,7 +384,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       return BarTooltipItem(
                         '\$${_formatNumber(rod.toY)}',
-                        TextStyle(
+                        const TextStyle(
                           color: AppColorsUnified.textPrimary,
                           fontWeight: FontWeight.bold,
                         ),
@@ -405,7 +405,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                             padding: const EdgeInsets.only(top: 8),
                             child: Text(
                               _getCategoryShortName(category),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 10,
                                 color: AppColorsUnified.textSecondary,
                               ),
@@ -423,7 +423,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                       getTitlesWidget: (value, meta) {
                         return Text(
                           '\$${_formatNumber(value)}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 10,
                             color: AppColorsUnified.textSecondary,
                           ),
@@ -483,10 +483,10 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                   gradient: AppColorsUnified.goldGradient,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.analytics, color: AppColorsUnified.textPrimary, size: 20),
+                child: const Icon(Icons.analytics, color: AppColorsUnified.textPrimary, size: 20),
               ),
               const SizedBox(width: 12),
-              Text(
+              const Text(
                 'Estado del Stock',
                 style: TextStyle(
                   fontSize: 18,
@@ -523,7 +523,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                           const SizedBox(width: 8),
                           Text(
                             entry.key.label,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppColorsUnified.textPrimary,
@@ -533,7 +533,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                       ),
                       Text(
                         '${entry.value} items ($percentage%)',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColorsUnified.textSecondary,
                         ),
@@ -587,10 +587,10 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                   gradient: AppColorsUnified.goldGradient,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.location_on, color: AppColorsUnified.textPrimary, size: 20),
+                child: const Icon(Icons.location_on, color: AppColorsUnified.textPrimary, size: 20),
               ),
               const SizedBox(width: 12),
-              Text(
+              const Text(
                 'Distribución por Ubicación',
                 style: TextStyle(
                   fontSize: 18,
@@ -602,7 +602,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
           ),
           const SizedBox(height: 16),
           ...locationData.entries.map((entry) {
-            final color = AppColorsUnified.companyBlue;
+            const color = AppColorsUnified.companyBlue;
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Container(
@@ -616,11 +616,11 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.place, color: color, size: 20),
+                        const Icon(Icons.place, color: color, size: 20),
                         const SizedBox(width: 12),
                         Text(
                           entry.key,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColorsUnified.textPrimary,
@@ -637,7 +637,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                       ),
                       child: Text(
                         '${entry.value} items',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: color,
@@ -684,10 +684,10 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                   gradient: AppColorsUnified.goldGradient,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(Icons.star, color: AppColorsUnified.textPrimary, size: 20),
+                child: const Icon(Icons.star, color: AppColorsUnified.textPrimary, size: 20),
               ),
               const SizedBox(width: 12),
-              Text(
+              const Text(
                 'Top 5 Items por Valor',
                 style: TextStyle(
                   fontSize: 18,
@@ -717,7 +717,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                     child: Center(
                       child: Text(
                         '${index + 1}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColorsUnified.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
@@ -732,7 +732,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                       children: [
                         Text(
                           item.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColorsUnified.textPrimary,
@@ -740,7 +740,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                         ),
                         Text(
                           '${item.quantity} ${item.unit}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 12,
                             color: AppColorsUnified.textSecondary,
                           ),
@@ -750,7 +750,7 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
                   ),
                   Text(
                     '\$${_formatNumber(item.totalValue)}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: AppColorsUnified.success,
@@ -912,8 +912,8 @@ class _CompanyInventoryReportsPageState extends State<CompanyInventoryReportsPag
   void _exportReport() {
     // Implementar exportación a PDF/CSV
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Exportando reporte...'),
+      const SnackBar(
+        content: Text('Exportando reporte...'),
         backgroundColor: AppColorsUnified.success,
       ),
     );

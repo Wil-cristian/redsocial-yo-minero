@@ -88,7 +88,7 @@ class ServiceCard extends StatelessWidget {
                   // Nombre del servicio
                   Text(
                     service.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColorsUnified.textPrimary,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -107,7 +107,7 @@ class ServiceCard extends StatelessWidget {
                   // Descripción
                   Text(
                     service.description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColorsUnified.textSecondary,
                       fontSize: 14,
                       height: 1.5,
@@ -185,7 +185,7 @@ class ServiceCard extends StatelessWidget {
               children: [
                 Text(
                   service.category,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColorsUnified.gold,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -195,7 +195,7 @@ class ServiceCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Publicado hace ${service.timeAgo}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColorsUnified.textSecondary,
                     fontSize: 11,
                   ),
@@ -225,7 +225,7 @@ class ServiceCard extends StatelessWidget {
       ),
       child: Text(
         service.category,
-        style: TextStyle(
+        style: const TextStyle(
           color: AppColorsUnified.gold,
           fontSize: 12,
           fontWeight: FontWeight.w600,
@@ -251,7 +251,7 @@ class ServiceCard extends StatelessWidget {
       ),
       child: Text(
         service.priceDisplay,
-        style: TextStyle(
+        style: const TextStyle(
           color: AppColorsUnified.textPrimary,
           fontSize: 13,
           fontWeight: FontWeight.bold,
@@ -278,7 +278,7 @@ class ServiceCard extends StatelessWidget {
           ),
           child: Text(
             tag,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColorsUnified.textPrimary,
               fontSize: 11,
               fontWeight: FontWeight.w500,
@@ -313,7 +313,7 @@ class ServiceCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   (service.providerName?.substring(0, 1) ?? 'P').toUpperCase(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColorsUnified.textPrimary,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -331,7 +331,7 @@ class ServiceCard extends StatelessWidget {
                 children: [
                   Text(
                     service.providerName ?? 'Proveedor',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColorsUnified.textPrimary,
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -341,7 +341,7 @@ class ServiceCard extends StatelessWidget {
                   ),
                   Text(
                     service.providerAccountType ?? 'Individual',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColorsUnified.textSecondary,
                       fontSize: 11,
                     ),
@@ -368,48 +368,104 @@ class ServiceCard extends StatelessWidget {
   Widget _buildContextActions(BuildContext context) {
     switch (this.context) {
       case ServiceCardContext.browse:
-        // Botón de contactar
-        return Container(
-          decoration: BoxDecoration(
-            gradient: AppColorsUnified.goldGradient,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: AppColorsUnified.fade(AppColorsUnified.gold, 0.2),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onContact,
-              borderRadius: BorderRadius.circular(10),
+        // Botones de Reservar y Contactar
+        return Row(
+          children: [
+            // Botón RESERVAR (dorado)
+            Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.chat_bubble_outline,
-                      color: AppColorsUnified.textPrimary,
-                      size: 18,
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      'Contactar',
-                      style: TextStyle(
-                        color: AppColorsUnified.textPrimary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                      ),
+                decoration: BoxDecoration(
+                  gradient: AppColorsUnified.goldGradient,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColorsUnified.fade(AppColorsUnified.gold, 0.3),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      // Navegar a página de reserva
+                      Navigator.pushNamed(
+                        context,
+                        '/book-service',
+                        arguments: service,
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.calendar_today,
+                            color: AppColorsUnified.textPrimary,
+                            size: 16,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'Reservar',
+                            style: TextStyle(
+                              color: AppColorsUnified.textPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
+            const SizedBox(width: 8),
+            // Botón CONTACTAR (gris)
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColorsUnified.grey200,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColorsUnified.grey300),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: onContact,
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.chat_bubble_outline,
+                            color: AppColorsUnified.textPrimary,
+                            size: 16,
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'Contactar',
+                            style: TextStyle(
+                              color: AppColorsUnified.textPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
 
       case ServiceCardContext.manage:
@@ -430,7 +486,7 @@ class ServiceCard extends StatelessWidget {
                 ),
               ),
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.edit_outlined,
                   color: AppColorsUnified.textPrimary,
                   size: 18,
@@ -455,7 +511,7 @@ class ServiceCard extends StatelessWidget {
                 ),
               ),
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.delete_outline,
                   color: AppColorsUnified.error,
                   size: 18,
@@ -474,7 +530,7 @@ class ServiceCard extends StatelessWidget {
       case ServiceCardContext.companyRequest:
         // Botón de ver detalles
         return IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_forward_ios,
             color: AppColorsUnified.textSecondary,
             size: 16,

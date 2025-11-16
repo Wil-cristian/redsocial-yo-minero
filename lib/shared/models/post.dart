@@ -41,6 +41,7 @@ class Post {
   final double? pricingTo;
   final String? pricingUnit;
   final String? availability;
+  final String? serviceId; // ID del servicio en la tabla services
 
   // Product specific (Ventas con carrusel)
   final List<String>? productImages; // URLs de múltiples imágenes
@@ -90,6 +91,7 @@ class Post {
     this.pricingTo,
     this.pricingUnit,
     this.availability,
+    this.serviceId,
     // Product fields
     this.productImages,
     this.productPrice,

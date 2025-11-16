@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'core/theme/app_colors_unified.dart';
 import 'shared/models/inventory_item.dart';
 
@@ -118,7 +117,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
             border: Border.all(color: AppColorsUnified.grey300),
           ),
           child: IconButton(
-            icon: Icon(Icons.close, color: AppColorsUnified.textPrimary),
+            icon: const Icon(Icons.close, color: AppColorsUnified.textPrimary),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),
@@ -199,7 +198,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
                             label: 'Cantidad Actual',
                             hint: '0',
                             icon: Icons.numbers,
-                            keyboardType: TextInputType.numberWithOptions(decimal: true),
+                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Requerido';
@@ -218,7 +217,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
                             label: 'Stock Mínimo',
                             hint: '0',
                             icon: Icons.warning_amber,
-                            keyboardType: TextInputType.numberWithOptions(decimal: true),
+                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Requerido';
@@ -255,7 +254,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
                       label: 'Costo Unitario (opcional)',
                       hint: '0.00',
                       icon: Icons.price_change,
-                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       prefix: '\$ ',
                     ),
                     const SizedBox(height: 16),
@@ -294,7 +293,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
         const SizedBox(width: 12),
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             color: AppColorsUnified.textPrimary,
@@ -319,7 +318,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: AppColorsUnified.textPrimary,
@@ -347,11 +346,11 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColorsUnified.gold, width: 2),
+              borderSide: const BorderSide(color: AppColorsUnified.gold, width: 2),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColorsUnified.error, width: 2),
+              borderSide: const BorderSide(color: AppColorsUnified.error, width: 2),
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           ),
@@ -365,7 +364,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Categoría',
           style: TextStyle(
             fontSize: 14,
@@ -434,7 +433,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Unidad de Medida',
           style: TextStyle(
             fontSize: 14,
@@ -454,9 +453,9 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
             child: DropdownButton<String>(
               value: _selectedUnit,
               isExpanded: true,
-              icon: Icon(Icons.arrow_drop_down, color: AppColorsUnified.textPrimary),
+              icon: const Icon(Icons.arrow_drop_down, color: AppColorsUnified.textPrimary),
               dropdownColor: AppColorsUnified.pureWhite,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 15,
                 color: AppColorsUnified.textPrimary,
                 fontWeight: FontWeight.w500,
@@ -529,7 +528,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
             children: [
               Icon(Icons.preview, color: statusColor, size: 24),
               const SizedBox(width: 12),
-              Text(
+              const Text(
                 'Preview del Stock',
                 style: TextStyle(
                   fontSize: 16,
@@ -543,7 +542,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Estado:',
                 style: TextStyle(
                   fontSize: 14,
@@ -571,7 +570,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Nivel de Stock:',
                 style: TextStyle(
                   fontSize: 14,
@@ -603,7 +602,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Valor Total:',
                   style: TextStyle(
                     fontSize: 14,
@@ -612,7 +611,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
                 ),
                 Text(
                   '\$${totalValue.toStringAsFixed(2)}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: AppColorsUnified.success,
@@ -654,7 +653,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Cancelar',
                 style: TextStyle(
                   fontSize: 16,
@@ -690,7 +689,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
                   ),
                 ),
                 child: _isLoading
-                    ? SizedBox(
+                    ? const SizedBox(
                         height: 20,
                         width: 20,
                         child: CircularProgressIndicator(
@@ -710,7 +709,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
                           const SizedBox(width: 8),
                           Text(
                             isEditing ? 'Guardar Cambios' : 'Agregar Item',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: AppColorsUnified.textPrimary,
@@ -744,12 +743,12 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
   }
 
   Widget _buildSubcategorySelector() {
-    final subcategories = MaterialSubcategory.values;
+    const subcategories = MaterialSubcategory.values;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Tipo Específico',
           style: TextStyle(
             fontSize: 14,
@@ -806,7 +805,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
             const SizedBox(width: 12),
             Expanded(
               child: DropdownButtonFormField<String>(
-                value: _diametroUnit,
+                initialValue: _diametroUnit,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: AppColorsUnified.grey200,
@@ -839,7 +838,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
             const SizedBox(width: 12),
             Expanded(
               child: DropdownButtonFormField<String>(
-                value: _longitudUnit,
+                initialValue: _longitudUnit,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: AppColorsUnified.grey200,
@@ -910,7 +909,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
             ),
             child: Column(
               children: [
-                Text(
+                const Text(
                   'Peso Total',
                   style: TextStyle(
                     fontSize: 12,
@@ -920,7 +919,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
                 const SizedBox(height: 4),
                 Text(
                   _calculateTotalWeight(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: AppColorsUnified.textPrimary,

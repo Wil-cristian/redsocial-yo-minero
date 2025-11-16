@@ -605,10 +605,10 @@ class _ConnectionRequestsPageState extends State<ConnectionRequestsPage> with Si
         ),
         trailing: TextButton(
           onPressed: () => _cancelRequest(request),
-          child: const Text('Cancelar'),
           style: TextButton.styleFrom(
             foregroundColor: AppColorsUnified.error,
           ),
+          child: const Text('Cancelar'),
         ),
       ),
     );
