@@ -21,9 +21,11 @@ class Premium3DProductCarousel extends StatefulWidget {
   final String? title;
   final int? likes;
   final int? comments;
+  final bool? isSaved;
   final VoidCallback? onLike;
   final VoidCallback? onComment;
   final VoidCallback? onShare;
+  final VoidCallback? onSave;
 
   const Premium3DProductCarousel({
     super.key,
@@ -35,9 +37,11 @@ class Premium3DProductCarousel extends StatefulWidget {
     this.title,
     this.likes,
     this.comments,
+    this.isSaved,
     this.onLike,
     this.onComment,
     this.onShare,
+    this.onSave,
   });
 
   @override
@@ -53,16 +57,27 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
   @override
   void initState() {
     super.initState();
+    _initializeControllers();
+  }
+
+  void _initializeControllers() {
     // Empezar en el MEDIO de las imágenes para ver laterales a AMBOS lados
-    final middleIndex = (widget.products.length / 2).floor();
+    final middleIndex = widget.products.isEmpty ? 0 : (widget.products.length / 2).floor();
+    final safeIndex = middleIndex.clamp(0, widget.products.length - 1);
+    
     _pageController = PageController(
       viewportFraction: 0.50, // 50% - Proporciones perfectas: 25% | 50% | 25%
-      initialPage: middleIndex >= 0 ? middleIndex : 0, // Empezar en el medio
+      initialPage: safeIndex,
     );
+    
+    _currentPage = safeIndex.toDouble();
+    
     _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page ?? middleIndex.toDouble();
-      });
+      if (mounted && _pageController.hasClients) {
+        setState(() {
+          _currentPage = _pageController.page ?? safeIndex.toDouble();
+        });
+      }
     });
 
     // Animación de flotación sutil
@@ -70,6 +85,16 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
       vsync: this,
       duration: const Duration(seconds: 4), // Más lenta para ser más elegante
     )..repeat(reverse: true);
+  }
+
+  @override
+  void didUpdateWidget(Premium3DProductCarousel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Si los productos cambiaron, reiniciar el controlador
+    if (oldWidget.products.length != widget.products.length) {
+      _pageController.dispose();
+      _initializeControllers();
+    }
   }
 
   @override
@@ -109,6 +134,9 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
           child: AnimatedBuilder(
             animation: _pageController,
             builder: (context, child) {
+              if (widget.products.isEmpty) {
+                return const SizedBox.shrink();
+              }
               final currentIndex = _currentPage.round().clamp(0, widget.products.length - 1);
               return _buildInfoContainer(widget.products[currentIndex], currentIndex);
             },
@@ -126,9 +154,12 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
       animation: _pageController,
       builder: (context, child) {
         // Offset desde el centro (-1.0 = izquierda, 0.0 = centro, 1.0 = derecha)
-        double offset = 0;
-        if (_pageController.position.haveDimensions) {
-          offset = _currentPage - index; // NEGATIVO=izquierda, POSITIVO=derecha
+        double offset = _currentPage - index;
+        
+        // Si el PageController aún no tiene dimensiones, usar offset calculado manualmente
+        if (!_pageController.position.haveDimensions) {
+          final middleIndex = (widget.products.length / 2).floor();
+          offset = middleIndex.toDouble() - index;
         }
         
         final absOffset = offset.abs(); // Distancia absoluta del centro
@@ -139,7 +170,8 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
         // ROTACIÓN GRADUAL Y PROPORCIONAL a la posición
         // offset negativo (izquierda) → rotación positiva (muestra lado derecho)
         // offset positivo (derecha) → rotación negativa (muestra lado izquierdo)
-        final rotationY = -offset * 0.3; // Gradual y suave
+        // Forzar 0° cuando está centrado (eliminar rotación residual por precisión flotante)
+        final rotationY = absOffset < 0.01 ? 0.0 : -offset * 0.3;
         
         // OPACIDAD GRADUAL: 100% en centro, disminuye hacia los lados
         final opacity = (1.0 - (absOffset * 0.15)).clamp(0.5, 1.0);
@@ -177,7 +209,8 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
     final isGold = index % 2 == 0;
     
     // Sombras más intensas para la tarjeta central
-    final shadowIntensity = 1.0 - (distanceFromCenter * 0.7);
+    // Asegurar que shadowIntensity nunca sea negativo pero mantener rango útil
+    final shadowIntensity = (1.0 - (distanceFromCenter * 0.7)).clamp(0.05, 1.0);
 
     return AnimatedBuilder(
       animation: _floatController,
@@ -199,14 +232,14 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
               boxShadow: [
                 // Sombra cercana - más intensa en el centro
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.22 * shadowIntensity),
+                  color: Colors.black.withOpacity((0.22 * shadowIntensity).clamp(0.0, 1.0)),
                   blurRadius: 32 * shadowIntensity,
                   offset: Offset(0, 16 * shadowIntensity),
                   spreadRadius: 2 * shadowIntensity,
                 ),
                 // Sombra lejana - más suave
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.14 * shadowIntensity),
+                  color: Colors.black.withOpacity((0.14 * shadowIntensity).clamp(0.0, 1.0)),
                   blurRadius: 64 * shadowIntensity,
                   offset: Offset(0, 28 * shadowIntensity),
                   spreadRadius: 0,
@@ -216,7 +249,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
                   color: (isGold
                           ? AppColorsUnified.gold
                           : AppColorsUnified.silverLight)
-                      .withValues(alpha: 0.18 * shadowIntensity),
+                      .withOpacity((0.18 * shadowIntensity).clamp(0.0, 1.0)),
                   blurRadius: 42 * shadowIntensity,
                   offset: const Offset(0, 0),
                   spreadRadius: -2,
@@ -256,7 +289,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
+            color: Colors.black.withOpacity(0.06),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -271,7 +304,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
               children: [
                 CircleAvatar(
                   radius: 16,
-                  backgroundColor: accentColor.withValues(alpha: 0.2),
+                  backgroundColor: accentColor.withOpacity(0.2),
                   child: Text(
                     (widget.authorName ?? widget.authorId ?? 'U').substring(0, 1).toUpperCase(),
                     style: TextStyle(
@@ -347,7 +380,7 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
               
               const Spacer(),
               
-              // ACCIONES - likes, comentarios, compartir
+              // ACCIONES - likes, comentarios, guardar, compartir
               Row(
                 children: [
                   // Like
@@ -364,6 +397,15 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
                     widget.onComment,
                   ),
                   const SizedBox(width: 16),
+                  // Guardar
+                  if (widget.onSave != null)
+                    _buildActionButton(
+                      widget.isSaved == true ? Icons.bookmark : Icons.bookmark_border,
+                      '',
+                      widget.onSave,
+                    ),
+                  if (widget.onSave != null)
+                    const SizedBox(width: 16),
                   // Compartir
                   _buildActionButton(
                     Icons.share_outlined,
@@ -417,26 +459,62 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
     return 'Ahora';
   }
 
-  /// Placeholder minimalista cuando no hay imagen
+  /// Placeholder premium con gradiente metálico
   Widget _buildPlaceholder(bool isGold, String productName) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppColorsUnified.surface,
-            AppColorsUnified.background,
-          ],
+          colors: isGold
+              ? [
+                  AppColorsUnified.gold.withOpacity(0.1),
+                  AppColorsUnified.goldLight.withOpacity(0.05),
+                  AppColorsUnified.gold.withOpacity(0.08),
+                ]
+              : [
+                  AppColorsUnified.silverLight.withOpacity(0.12),
+                  AppColorsUnified.textSecondary.withOpacity(0.06),
+                  AppColorsUnified.silverLight.withOpacity(0.1),
+                ],
         ),
       ),
       child: Center(
-        child: Icon(
-          _getProductIcon(productName),
-          size: 100,
-          color: isGold
-              ? AppColorsUnified.gold.withValues(alpha: 0.3)
-              : AppColorsUnified.silverLight.withValues(alpha: 0.3),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isGold
+                    ? AppColorsUnified.gold.withOpacity(0.15)
+                    : AppColorsUnified.silverLight.withOpacity(0.15),
+              ),
+              child: Icon(
+                _getProductIcon(productName),
+                size: 48,
+                color: isGold
+                    ? AppColorsUnified.gold.withOpacity(0.6)
+                    : AppColorsUnified.textSecondary.withOpacity(0.6),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              productName,
+              style: TextStyle(
+                color: isGold
+                    ? AppColorsUnified.gold.withOpacity(0.5)
+                    : AppColorsUnified.textSecondary.withOpacity(0.5),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.5,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );
