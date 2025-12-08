@@ -348,9 +348,9 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
       crossAxisCount: 2,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
-      childAspectRatio: 1.5,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      childAspectRatio: 0.8, // Más ancho que alto para cards ultra compactos
       children: metrics.map((metric) {
         return QuickMetricCard(
           label: metric['title'] as String,
@@ -912,7 +912,7 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
   void _showOptionsMenu() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -1073,8 +1073,7 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
       context,
       MaterialPageRoute(
         builder: (context) => AccountsPayableReceivablePage(
-          companyId: widget.companyId,
-          companyName: widget.companyName,
+          odooMineId: widget.companyId,
         ),
       ),
     );
@@ -1085,8 +1084,7 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
       context,
       MaterialPageRoute(
         builder: (context) => BudgetManagementPage(
-          companyId: widget.companyId,
-          companyName: widget.companyName,
+          odooMineId: widget.companyId,
         ),
       ),
     );
@@ -1097,8 +1095,7 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
       context,
       MaterialPageRoute(
         builder: (context) => MiningPayrollPage(
-          companyId: widget.companyId,
-          companyName: widget.companyName,
+          odooMineId: widget.companyId,
         ),
       ),
     );
@@ -1109,8 +1106,7 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
       context,
       MaterialPageRoute(
         builder: (context) => AccountingInventoryPage(
-          companyId: widget.companyId,
-          companyName: widget.companyName,
+          odooMineId: widget.companyId,
         ),
       ),
     );
@@ -1121,8 +1117,7 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
       context,
       MaterialPageRoute(
         builder: (context) => ExportReportsPage(
-          companyId: widget.companyId,
-          companyName: widget.companyName,
+          odooMineId: widget.companyId,
         ),
       ),
     );
