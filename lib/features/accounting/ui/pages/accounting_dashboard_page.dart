@@ -11,6 +11,11 @@ import 'transactions_list_page.dart';
 import 'financial_reports_page.dart';
 import 'financial_statements_page.dart';
 import 'mining_kpis_page.dart';
+import 'accounts_payable_receivable_page.dart';
+import 'budget_management_page.dart';
+import 'mining_payroll_page.dart';
+import 'accounting_inventory_page.dart';
+import 'export_reports_page.dart';
 
 /// Dashboard principal de contabilidad para empresas mineras
 class AccountingDashboardPage extends StatefulWidget {
@@ -372,7 +377,7 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
         'icon': Icons.trending_up,
         'color': AppColorsUnified.success,
         'subtitle': _summary?.incomeChange != null
-            ? '${_summary!.incomeChange! >= 0 ? '+' : ''}${_summary!.incomeChange!.toStringAsFixed(1)}%'
+            ? '${_summary!.incomeChange >= 0 ? '+' : ''}${_summary!.incomeChange.toStringAsFixed(1)}%'
             : null,
       },
       {
@@ -381,7 +386,7 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
         'icon': Icons.trending_down,
         'color': AppColorsUnified.error,
         'subtitle': _summary?.expenseChange != null
-            ? '${_summary!.expenseChange! >= 0 ? '+' : ''}${_summary!.expenseChange!.toStringAsFixed(1)}%'
+            ? '${_summary!.expenseChange >= 0 ? '+' : ''}${_summary!.expenseChange.toStringAsFixed(1)}%'
             : null,
       },
       {
@@ -907,56 +912,101 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
   void _showOptionsMenu() {
     showModalBottomSheet(
       context: context,
+      backgroundColor: AppColorsUnified.backgroundMedium,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.account_balance),
-              title: const Text('Estados Financieros'),
-              subtitle: const Text('Balance, Resultados, Flujo de Efectivo'),
-              onTap: () {
-                Navigator.pop(context);
-                _openFinancialStatements();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.analytics),
-              title: const Text('KPIs Mineros'),
-              subtitle: const Text('Producción, Costos, Eficiencia'),
-              onTap: () {
-                Navigator.pop(context);
-                _openMiningKPIs();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.file_download),
-              title: const Text('Exportar a Excel'),
-              onTap: () {
-                Navigator.pop(context);
-                _exportToExcel();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.picture_as_pdf),
-              title: const Text('Generar PDF'),
-              onTap: () {
-                Navigator.pop(context);
-                _generatePDF();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Configuración'),
-              onTap: () {
-                Navigator.pop(context);
-                _openSettings();
-              },
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  'Módulos de Contabilidad',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColorsUnified.gold,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.account_balance, color: AppColorsUnified.gold),
+                title: const Text('Estados Financieros', style: TextStyle(color: AppColorsUnified.textPrimary)),
+                subtitle: const Text('Balance, Resultados, Flujo de Efectivo', style: TextStyle(color: AppColorsUnified.textSecondary)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openFinancialStatements();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.analytics, color: Colors.blue),
+                title: const Text('KPIs Mineros', style: TextStyle(color: AppColorsUnified.textPrimary)),
+                subtitle: const Text('Producción, Costos, Eficiencia', style: TextStyle(color: AppColorsUnified.textSecondary)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openMiningKPIs();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.swap_horiz, color: Colors.green),
+                title: const Text('Cuentas por Cobrar/Pagar', style: TextStyle(color: AppColorsUnified.textPrimary)),
+                subtitle: const Text('Gestión de cartera', style: TextStyle(color: AppColorsUnified.textSecondary)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openAccountsPayableReceivable();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.pie_chart, color: Colors.orange),
+                title: const Text('Presupuestos', style: TextStyle(color: AppColorsUnified.textPrimary)),
+                subtitle: const Text('Control presupuestal', style: TextStyle(color: AppColorsUnified.textSecondary)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openBudgetManagement();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.people, color: Colors.purple),
+                title: const Text('Nómina Minera', style: TextStyle(color: AppColorsUnified.textPrimary)),
+                subtitle: const Text('Gestión de personal', style: TextStyle(color: AppColorsUnified.textSecondary)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openMiningPayroll();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.inventory, color: Colors.teal),
+                title: const Text('Inventario Contable', style: TextStyle(color: AppColorsUnified.textPrimary)),
+                subtitle: const Text('Valoración de inventario', style: TextStyle(color: AppColorsUnified.textSecondary)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openAccountingInventory();
+                },
+              ),
+              const Divider(color: AppColorsUnified.textSecondary),
+              ListTile(
+                leading: const Icon(Icons.file_download, color: Colors.red),
+                title: const Text('Exportar Reportes', style: TextStyle(color: AppColorsUnified.textPrimary)),
+                subtitle: const Text('PDF, Excel, CSV', style: TextStyle(color: AppColorsUnified.textSecondary)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openExportReports();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings, color: AppColorsUnified.textSecondary),
+                title: const Text('Configuración', style: TextStyle(color: AppColorsUnified.textPrimary)),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openSettings();
+                },
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
@@ -1018,22 +1068,62 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
     );
   }
 
-  void _exportToExcel() {
-    // TODO: Implementar exportación a Excel
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Exportación a Excel próximamente'),
-        behavior: SnackBarBehavior.floating,
+  void _openAccountsPayableReceivable() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AccountsPayableReceivablePage(
+          companyId: widget.companyId,
+          companyName: widget.companyName,
+        ),
       ),
     );
   }
 
-  void _generatePDF() {
-    // TODO: Implementar generación de PDF
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Generación de PDF próximamente'),
-        behavior: SnackBarBehavior.floating,
+  void _openBudgetManagement() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BudgetManagementPage(
+          companyId: widget.companyId,
+          companyName: widget.companyName,
+        ),
+      ),
+    );
+  }
+
+  void _openMiningPayroll() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MiningPayrollPage(
+          companyId: widget.companyId,
+          companyName: widget.companyName,
+        ),
+      ),
+    );
+  }
+
+  void _openAccountingInventory() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AccountingInventoryPage(
+          companyId: widget.companyId,
+          companyName: widget.companyName,
+        ),
+      ),
+    );
+  }
+
+  void _openExportReports() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ExportReportsPage(
+          companyId: widget.companyId,
+          companyName: widget.companyName,
+        ),
       ),
     );
   }
