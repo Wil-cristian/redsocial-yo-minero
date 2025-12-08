@@ -211,6 +211,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> with SingleTickerProvid
 
   Widget _buildBookingCard(ServiceBooking booking, {required bool isProvider}) {
     final dateFormat = DateFormat('dd MMM yyyy', 'es');
+    // ignore: unused_local_variable
     final currentUserId = SupabaseAuthService.instance.currentUser?.id;
     
     return Card(

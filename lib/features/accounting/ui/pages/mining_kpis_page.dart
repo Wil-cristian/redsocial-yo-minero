@@ -151,6 +151,7 @@ class _MiningKPIsPageState extends State<MiningKPIsPage>
     // Simular datos de producción (en una implementación real vendrían de otra tabla)
     final daysInMonth = DateTime.now().day;
     final estimatedTonsExtracted = summary.totalIncome / 50; // Estimación basada en ingresos
+    // ignore: unused_local_variable
     final estimatedGramsProduced = goldRevenue / 60 + silverRevenue / 0.8; // Precios aproximados
 
     return MiningKPIs(
@@ -293,7 +294,7 @@ class _MiningKPIsPageState extends State<MiningKPIsPage>
               Expanded(
                 child: _buildKPICard(
                   title: 'Toneladas Extraídas',
-                  value: '${kpis.totalTonsExtracted.toStringAsFixed(0)}',
+                  value: kpis.totalTonsExtracted.toStringAsFixed(0),
                   unit: 'TON',
                   icon: Icons.terrain,
                   color: AppColorsUnified.companyBlue,
@@ -304,7 +305,7 @@ class _MiningKPIsPageState extends State<MiningKPIsPage>
               Expanded(
                 child: _buildKPICard(
                   title: 'Producción Diaria',
-                  value: '${kpis.averageDailyProduction.toStringAsFixed(1)}',
+                  value: kpis.averageDailyProduction.toStringAsFixed(1),
                   unit: 'TON/DÍA',
                   icon: Icons.speed,
                   color: AppColorsUnified.success,

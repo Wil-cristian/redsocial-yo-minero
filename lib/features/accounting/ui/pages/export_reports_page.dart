@@ -15,6 +15,7 @@ class ExportReportsPage extends StatefulWidget {
 }
 
 class _ExportReportsPageState extends State<ExportReportsPage> {
+  // ignore: unused_field
   final _currencyFormat = NumberFormat.currency(locale: 'es_MX', symbol: '\$');
   
   DateTime _startDate = DateTime.now().subtract(const Duration(days: 30));

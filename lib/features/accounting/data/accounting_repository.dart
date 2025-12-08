@@ -662,7 +662,7 @@ class AccountingRepository {
 
       // Mapear categorías a recursos
       final Map<String, double> resourceTotals = {};
-      final totalExpense = summary.totalExpense ?? 1;
+      final totalExpense = summary.totalExpense;
 
       for (final cat in categoryBreakdown) {
         final resource = _mapCategoryToResource(cat.category);

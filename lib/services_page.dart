@@ -705,6 +705,7 @@ class _ServicesPageState extends State<ServicesPage>
     );
   }
 
+  // ignore: unused_element
   Widget _buildBeautifulServiceCard(Service service, int index) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),

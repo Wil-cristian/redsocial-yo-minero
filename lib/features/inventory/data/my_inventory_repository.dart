@@ -118,6 +118,7 @@ class MyInventoryRepository {
   }
   
   /// Enriquece los items con métricas adicionales
+  // ignore: unused_element
   Future<List<InventoryItem>> _enrichWithMetrics(List<InventoryItem> items) async {
     if (items.isEmpty) return items;
     

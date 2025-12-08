@@ -511,6 +511,7 @@ class _ResponsesListState extends State<ResponsesList> {
   @override
   Widget build(BuildContext context) {
     final currentUserId = _supabase.auth.currentUser?.id;
+    // ignore: unused_local_variable
     final isPostAuthor = currentUserId == widget.post.authorId;
 
     if (_isLoading) {

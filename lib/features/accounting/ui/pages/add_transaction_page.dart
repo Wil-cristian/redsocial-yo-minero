@@ -324,6 +324,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   }
 
   Widget _buildCategorySelector() {
+    // ignore: unused_local_variable
     final categories = _selectedType == EntryType.income
         ? MiningIncomeCategory.values
         : MiningExpenseCategory.values;

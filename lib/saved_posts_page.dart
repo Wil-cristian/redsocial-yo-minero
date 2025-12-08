@@ -28,6 +28,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
   late TabController _tabController;
   
   // Variables para controlar el refresh del modal
+  // ignore: unused_field
   Key _modalKey = UniqueKey();
   final ValueNotifier<int> _refreshNotifier = ValueNotifier<int>(0);
 

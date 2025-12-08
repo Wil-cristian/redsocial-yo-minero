@@ -248,6 +248,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
   }
 
   Widget _buildRequestCard(Map<String, dynamic> request, {required bool isPending}) {
+    // ignore: unused_local_variable
     final userColor = _getUserColor();
     final isHovered = _hoveredCardIndex == request['id'].hashCode;
     

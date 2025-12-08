@@ -483,6 +483,7 @@ class _CompanyAddInventoryItemPageState extends State<CompanyAddInventoryItemPag
     final quantity = double.tryParse(_quantityController.text) ?? 0;
     final minStock = double.tryParse(_minStockController.text) ?? 0;
     
+    // ignore: unused_local_variable
     InventoryStatus status;
     Color statusColor;
     String statusText;

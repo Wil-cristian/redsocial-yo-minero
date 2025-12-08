@@ -491,6 +491,7 @@ class _FinancialStatementsPageState extends State<FinancialStatementsPage>
   }
 
   Widget _buildStatementRow(StatementItem item) {
+    // ignore: unused_local_variable
     final change = item.previous > 0 
         ? ((item.current - item.previous) / item.previous * 100)
         : 0.0;
