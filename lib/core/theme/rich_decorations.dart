@@ -20,14 +20,14 @@ class RichDecorations {
       gradient: LinearGradient(colors: gradientColors, begin: Alignment.topLeft, end: Alignment.bottomRight),
       borderRadius: BorderRadius.circular(borderRadius),
       border: borderColor != null ? Border.all(color: borderColor, width: borderWidth) : null,
-      boxShadow: shadows ?? (isElevated ? [BoxShadow(color: gradientColors.first.withValues(alpha: isPressed ? 0.2 : 0.4), blurRadius: isPressed ? 8 : 16, offset: Offset(0, isPressed ? 2 : 8))] : null),
+      boxShadow: shadows ?? (isElevated ? [BoxShadow(color: gradientColors.first.withOpacity(isPressed ? 0.2 : 0.4), blurRadius: isPressed ? 8 : 16, offset: Offset(0, isPressed ? 2 : 8))] : null),
     );
   }
 
   // Gold/Amber family
-  static BoxDecoration goldCardRich({bool isElevated = false}) => _createRich(gradientColors: [DashboardColors.cardOrange.withValues(alpha: 0.9), DashboardColors.gold, AppColorsUnified.goldLight], borderColor: DashboardColors.gold, isElevated: isElevated);
+  static BoxDecoration goldCardRich({bool isElevated = false}) => _createRich(gradientColors: [DashboardColors.cardOrange.withOpacity(0.9), DashboardColors.gold, AppColorsUnified.goldLight], borderColor: DashboardColors.gold, isElevated: isElevated);
   static BoxDecoration goldCardTextured() => _createRich(gradientColors: [AppColorsUnified.backgroundLighter, AppColorsUnified.background, AppColorsUnified.goldLight], borderColor: AppColorsUnified.goldDarker, borderWidth: 3);
-  static BoxDecoration goldButton3D({bool isPressed = false}) => _createRich(gradientColors: isPressed ? [DashboardColors.gold.withValues(alpha: 0.7), DashboardColors.cardOrange.withValues(alpha: 0.8)] : [DashboardColors.gold, DashboardColors.cardOrange], borderColor: AppColorsUnified.goldDarker, borderRadius: 12, isPressed: isPressed, isElevated: true);
+  static BoxDecoration goldButton3D({bool isPressed = false}) => _createRich(gradientColors: isPressed ? [DashboardColors.gold.withOpacity(0.7), DashboardColors.cardOrange.withOpacity(0.8)] : [DashboardColors.gold, DashboardColors.cardOrange], borderColor: AppColorsUnified.goldDarker, borderRadius: 12, isPressed: isPressed, isElevated: true);
   static BoxDecoration amberCardRich() => _createRich(gradientColors: [AppColorsUnified.warning, AppColorsUnified.warning, AppColorsUnified.warning], borderColor: AppColorsUnified.warning, isElevated: true);
   static BoxDecoration fabGold() => _createRich(gradientColors: [DashboardColors.gold, AppColorsUnified.goldLight, DashboardColors.cardOrange], borderColor: AppColorsUnified.goldDarker, borderRadius: 28, isElevated: true);
 
@@ -56,31 +56,40 @@ class RichDecorations {
   static BoxDecoration pollCard() => _createRich(gradientColors: [AppColorsUnified.orange, AppColorsUnified.orange, AppColorsUnified.orange], borderColor: AppColorsUnified.orange, isElevated: true);
 
   // Utility decorations
-  static BoxDecoration glowingCard({required Color glowColor, double intensity = 0.6}) => _createRich(gradientColors: [Colors.white, glowColor.withValues(alpha: 0.1)], shadows: [BoxShadow(color: glowColor.withValues(alpha: intensity), blurRadius: 20, spreadRadius: 4)], borderColor: glowColor.withValues(alpha: 0.3));
-  static BoxDecoration embossedCard({Color baseColor = Colors.white, double depth = 8}) => BoxDecoration(color: baseColor, borderRadius: BorderRadius.circular(16), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), offset: Offset(-depth, -depth), blurRadius: depth * 2), BoxShadow(color: Colors.white.withValues(alpha: 0.7), offset: Offset(depth, depth), blurRadius: depth * 2)]);
-  static BoxDecoration chip({required Color color, bool isSelected = false}) => BoxDecoration(color: isSelected ? color : color.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(20), border: Border.all(color: color, width: isSelected ? 2 : 1));
+  static BoxDecoration glowingCard({required Color glowColor, double intensity = 0.6}) {
+    final safeIntensity = intensity.clamp(0.0, 1.0);
+    return _createRich(
+      gradientColors: [Colors.white, glowColor.withOpacity(0.1)], 
+      shadows: [BoxShadow(color: glowColor.withOpacity(safeIntensity), blurRadius: 20, spreadRadius: 4)], 
+      borderColor: glowColor.withOpacity(0.3)
+    );
+  }
+  static BoxDecoration embossedCard({Color baseColor = Colors.white, double depth = 8}) => BoxDecoration(color: baseColor, borderRadius: BorderRadius.circular(16), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), offset: Offset(-depth, -depth), blurRadius: depth * 2), BoxShadow(color: Colors.white.withOpacity(0.7), offset: Offset(depth, depth), blurRadius: depth * 2)]);
+  static BoxDecoration chip({required Color color, bool isSelected = false}) => BoxDecoration(color: isSelected ? color : color.withOpacity(0.2), borderRadius: BorderRadius.circular(20), border: Border.all(color: color, width: isSelected ? 2 : 1));
 
   // Complex widgets
   static Widget doubleBorderCard({required Widget child, Color? outerColor, Color innerColor = Colors.white}) {
     final effectiveOuterColor = outerColor ?? DashboardColors.gold;
     return Container(
       padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(color: effectiveOuterColor, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: effectiveOuterColor.withValues(alpha: 0.3), blurRadius: 12, offset: const Offset(0, 4))]),
+      decoration: BoxDecoration(color: effectiveOuterColor, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: effectiveOuterColor.withOpacity(0.3), blurRadius: 12, offset: const Offset(0, 4))]),
       child: Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: innerColor, borderRadius: BorderRadius.circular(16)), child: child),
     );
   }
 
   static Widget emeraldFacetsOverlay({required Widget child, double opacity = 0.15}) {
+    final safeOpacity = opacity.clamp(0.0, 1.0);
     return Stack(children: [
       child,
-      Positioned.fill(child: IgnorePointer(child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [DashboardColors.emeraldGlow.withValues(alpha: opacity), Colors.transparent, DashboardColors.emeraldDeep.withValues(alpha: opacity)], stops: const [0.0, 0.5, 1.0], begin: Alignment.topLeft, end: Alignment.bottomRight))))),
+      Positioned.fill(child: IgnorePointer(child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [DashboardColors.emeraldGlow.withOpacity(safeOpacity), Colors.transparent, DashboardColors.emeraldDeep.withOpacity(safeOpacity)], stops: const [0.0, 0.5, 1.0], begin: Alignment.topLeft, end: Alignment.bottomRight))))),
     ]);
   }
 
   static Widget goldFoilOverlay({required Widget child, double opacity = 0.2}) {
+    final safeOpacity = opacity.clamp(0.0, 1.0);
     return Stack(children: [
       child,
-      Positioned.fill(child: IgnorePointer(child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [DashboardColors.gold.withValues(alpha: opacity), Colors.transparent, AppColorsUnified.goldLight.withValues(alpha: opacity)], stops: const [0.0, 0.5, 1.0], begin: Alignment.topLeft, end: Alignment.bottomRight))))),
+      Positioned.fill(child: IgnorePointer(child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors: [DashboardColors.gold.withOpacity(safeOpacity), Colors.transparent, AppColorsUnified.goldLight.withOpacity(safeOpacity)], stops: const [0.0, 0.5, 1.0], begin: Alignment.topLeft, end: Alignment.bottomRight))))),
     ]);
   }
 

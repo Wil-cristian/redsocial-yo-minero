@@ -39,6 +39,16 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
       final posts = await _repo.getAll();
       debugPrint('✅ CommunityFeedPage: ${posts.length} posts recibidos');
       debugPrint('📊 Tipos de posts: ${posts.map((p) => p.type).toSet()}');
+      
+      // 🗳️ Log específico para encuestas
+      final polls = posts.where((p) => p.type == PostType.poll).toList();
+      debugPrint('🗳️ Encuestas encontradas: ${polls.length}');
+      for (var poll in polls) {
+        debugPrint('   - ${poll.title}');
+        debugPrint('     Opciones: ${poll.pollOptions}');
+        debugPrint('     Termina: ${poll.pollEndsAt}');
+      }
+      
       setState(() {
         _posts = posts;
         _isLoading = false;
@@ -187,7 +197,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                 gradient: LinearGradient(
                   colors: [
                     AppColorsUnified.companyBlue,
-                    AppColorsUnified.companyBlue.withValues(alpha: 0.8),
+                    AppColorsUnified.companyBlue.withOpacity(0.8),
                   ],
                 ),
               ),
@@ -196,7 +206,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(Icons.article, color: Colors.white, size: 28),
@@ -247,10 +257,10 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: AppColorsUnified.companyBlue.withValues(alpha: 0.1),
+                        color: AppColorsUnified.companyBlue.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
+                          color: AppColorsUnified.companyBlue.withOpacity(0.3),
                         ),
                       ),
                       child: Row(
@@ -905,8 +915,8 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  AppColorsUnified.gold.withValues(alpha: 0.15),
-                                  AppColorsUnified.goldDeep.withValues(alpha: 0.1),
+                                  AppColorsUnified.gold.withOpacity(0.15),
+                                  AppColorsUnified.goldDeep.withOpacity(0.1),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(14),
@@ -981,7 +991,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                               borderRadius: BorderRadius.circular(14),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColorsUnified.gold.withValues(alpha: 0.25),
+                                  color: AppColorsUnified.gold.withOpacity(0.25),
                                   blurRadius: 8,
                                   offset: const Offset(0, 3),
                                 ),
@@ -1062,7 +1072,7 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                                       ? LinearGradient(
                                           colors: [
                                             AppColorsUnified.success,
-                                            AppColorsUnified.success.withValues(alpha: 0.8),
+                                            AppColorsUnified.success.withOpacity(0.8),
                                           ],
                                         )
                                       : LinearGradient(
@@ -1198,6 +1208,9 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           },
           onShare: () {
             // Compartir post
+          },
+          onSave: () async {
+            await _toggleSavePost(post.id);
           },
         ),
 
@@ -1527,18 +1540,18 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColorsUnified.companyBlue.withValues(alpha: 0.04),
+              AppColorsUnified.companyBlue.withOpacity(0.04),
               AppColorsUnified.grey50,
             ],
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: AppColorsUnified.companyBlue.withValues(alpha: 0.15),
+            color: AppColorsUnified.companyBlue.withOpacity(0.15),
             width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColorsUnified.companyBlue.withValues(alpha: 0.06),
+              color: AppColorsUnified.companyBlue.withOpacity(0.06),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -1550,7 +1563,7 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColorsUnified.companyBlue.withValues(alpha: 0.03),
+                color: AppColorsUnified.companyBlue.withOpacity(0.03),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -1561,7 +1574,7 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppColorsUnified.companyBlue.withValues(alpha: 0.1),
+                      color: AppColorsUnified.companyBlue.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Icon(
@@ -1631,8 +1644,8 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
                                 child: InkWell(
                                   onTap: widget.onReadMore,
                                   borderRadius: BorderRadius.circular(14),
-                                  splashColor: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
-                                  highlightColor: AppColorsUnified.companyBlue.withValues(alpha: 0.2),
+                                  splashColor: AppColorsUnified.companyBlue.withOpacity(0.3),
+                                  highlightColor: AppColorsUnified.companyBlue.withOpacity(0.2),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(vertical: 16),
                                     decoration: BoxDecoration(
@@ -1647,7 +1660,7 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
                                       borderRadius: BorderRadius.circular(14),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColorsUnified.companyBlue.withValues(alpha: 0.4),
+                                          color: AppColorsUnified.companyBlue.withOpacity(0.4),
                                           blurRadius: _isHoveringRead ? 16 : 12,
                                           spreadRadius: _isHoveringRead ? 2 : 0,
                                           offset: const Offset(0, 4),
@@ -1712,7 +1725,7 @@ class _NewsInteractiveCTAState extends State<_NewsInteractiveCTA>
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: _isSaved 
-                                  ? AppColorsUnified.gold.withValues(alpha: 0.15)
+                                  ? AppColorsUnified.gold.withOpacity(0.15)
                                   : AppColorsUnified.grey200,
                               borderRadius: BorderRadius.circular(14),
                               border: Border.all(
@@ -1814,15 +1827,21 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
 
   Future<void> _loadPollData() async {
     try {
+      debugPrint('🔄 Cargando datos de encuesta ${widget.post.id}...');
+      
       // Cargar votos reales desde la base de datos
       final votes = await _repo.getPollResults(widget.post.id);
       final userVote = await _repo.getUserVote(widget.post.id);
+      
+      debugPrint('📊 Votos obtenidos: $votes');
+      debugPrint('✅ Voto del usuario: $userVote');
       
       if (mounted) {
         setState(() {
           _realVotes = votes;
           _selectedOption = userVote;
         });
+        debugPrint('✅ Estado actualizado - selectedOption: $_selectedOption, realVotes: $_realVotes');
       }
     } catch (e) {
       debugPrint('❌ Error cargando datos del poll: $e');
@@ -1847,15 +1866,27 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
     return DateTime.now().isAfter(widget.post.pollEndsAt!);
   }
 
+  String _formatDate(DateTime date) {
+    final months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    return '${date.day} ${months[date.month - 1]} ${date.year}';
+  }
+
   Future<void> _handleVote(String option) async {
-    if (_isPollEnded) return;
+    if (_isPollEnded) {
+      debugPrint('⏰ Encuesta finalizada, no se puede votar');
+      return;
+    }
 
     try {
+      debugPrint('🗳️ Votando por: $option en encuesta ${widget.post.id}');
+      
       // Votar en la base de datos
       await _repo.votePoll(widget.post.id, option);
+      debugPrint('✅ Voto enviado a base de datos');
       
       // Recargar resultados
       await _loadPollData();
+      debugPrint('✅ Datos recargados después del voto');
       
       // Notificar al padre
       widget.onVote(option);
@@ -1887,7 +1918,24 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
   Widget build(BuildContext context) {
     final options = widget.post.pollOptions ?? [];
     
+    debugPrint('═══════════════════════════════════════');
+    debugPrint('🗳️ ANALIZANDO WIDGET _PollInteractiveCTA');
+    debugPrint('═══════════════════════════════════════');
+    debugPrint('📊 Post ID: ${widget.post.id}');
+    debugPrint('📝 Post title: ${widget.post.title}');
+    debugPrint('🔍 post.pollOptions (tipo): ${widget.post.pollOptions.runtimeType}');
+    debugPrint('🔍 post.pollOptions (valor): ${widget.post.pollOptions}');
+    debugPrint('📋 Opciones después del ?? []: $options');
+    debugPrint('📌 Opciones count: ${options.length}');
+    debugPrint('⏰ Poll ends at: ${widget.post.pollEndsAt}');
+    debugPrint('🔐 _isPollEnded: $_isPollEnded');
+    debugPrint('🗳️ _selectedOption: $_selectedOption');
+    debugPrint('📊 _realVotes: $_realVotes');
+    debugPrint('═══════════════════════════════════════');
+    
     if (options.isEmpty) {
+      debugPrint('⚠️ ENCUESTA SIN OPCIONES - widget.post.pollOptions es null o vacío');
+      debugPrint('   Mostrando SizedBox.shrink()');
       return const SizedBox.shrink();
     }
     
@@ -1905,6 +1953,79 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header con el título de la encuesta
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColorsUnified.companyBlue.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(
+                          Icons.poll_rounded,
+                          color: AppColorsUnified.companyBlue,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Encuesta',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: AppColorsUnified.textSecondary,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              widget.post.title,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: AppColorsUnified.textPrimary,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Icon(Icons.how_to_vote_rounded, size: 14, color: AppColorsUnified.companyBlue),
+                      const SizedBox(width: 6),
+                      Text(
+                        '${_totalVotes} ${_totalVotes == 1 ? "voto" : "votos"}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColorsUnified.textSecondary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            // Divisor
+            Container(
+              height: 1,
+              color: AppColorsUnified.grey300,
+            ),
             // Opciones interactivas
             Padding(
               padding: const EdgeInsets.all(16),
@@ -1940,8 +2061,8 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
                                       end: Alignment.centerRight,
                                       colors: [
                                         isWinning
-                                            ? AppColorsUnified.companyBlue.withValues(alpha: 0.15)
-                                            : AppColorsUnified.companyBlue.withValues(alpha: 0.08),
+                                            ? AppColorsUnified.companyBlue.withOpacity(0.15)
+                                            : AppColorsUnified.companyBlue.withOpacity(0.08),
                                         Colors.transparent,
                                       ],
                                       stops: [percentage / 100, percentage / 100],
@@ -2033,29 +2154,66 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
               ),
             ),
 
-            // Footer
-            if (_selectedOption == null && !_isPollEnded)
-              Container(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: const Row(
-                  children: [
-                    Icon(
-                      Icons.touch_app_rounded,
-                      color: AppColorsUnified.textSecondary,
-                      size: 18,
-                    ),
-                    SizedBox(width: 6),
-                    Text(
-                      'Toca una opción para votar',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColorsUnified.textSecondary,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            // Footer - Mensaje según estado
+            Container(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: _isPollEnded
+                  ? Row(
+                      children: [
+                        const Icon(
+                          Icons.timer_off_rounded,
+                          color: AppColorsUnified.error,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Encuesta finalizada el ${_formatDate(widget.post.pollEndsAt!)}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColorsUnified.error,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    )
+                  : _selectedOption == null
+                      ? const Row(
+                          children: [
+                            Icon(
+                              Icons.touch_app_rounded,
+                              color: AppColorsUnified.textSecondary,
+                              size: 18,
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              'Toca una opción para votar',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColorsUnified.textSecondary,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            const Icon(
+                              Icons.check_circle_rounded,
+                              color: AppColorsUnified.companyBlue,
+                              size: 18,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              'Total de votos: $_totalVotes',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColorsUnified.textSecondary,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+            ),
 
             // Botón de guardado
             Container(
@@ -2081,7 +2239,7 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
                       color: _isSaved
-                          ? AppColorsUnified.gold.withValues(alpha: 0.1)
+                          ? AppColorsUnified.gold.withOpacity(0.1)
                           : AppColorsUnified.grey200,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
@@ -2297,13 +2455,13 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColorsUnified.companyBlue.withValues(alpha: 0.05),
+              AppColorsUnified.companyBlue.withOpacity(0.05),
               AppColorsUnified.grey50,
             ],
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: AppColorsUnified.companyBlue.withValues(alpha: 0.2),
+            color: AppColorsUnified.companyBlue.withOpacity(0.2),
             width: 1.5,
           ),
         ),
@@ -2314,7 +2472,7 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColorsUnified.companyBlue.withValues(alpha: 0.08),
+                color: AppColorsUnified.companyBlue.withOpacity(0.08),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -2328,13 +2486,13 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
                       gradient: LinearGradient(
                         colors: [
                           AppColorsUnified.companyBlue,
-                          AppColorsUnified.companyBlue.withValues(alpha: 0.7),
+                          AppColorsUnified.companyBlue.withOpacity(0.7),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
+                          color: AppColorsUnified.companyBlue.withOpacity(0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -2368,8 +2526,8 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
                                 color: widget.post.availability == 'Disponible'
-                                    ? Colors.green.withValues(alpha: 0.15)
-                                    : Colors.orange.withValues(alpha: 0.15),
+                                    ? Colors.green.withOpacity(0.15)
+                                    : Colors.orange.withOpacity(0.15),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
@@ -2486,14 +2644,14 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
                             gradient: LinearGradient(
                               colors: [
                                 AppColorsUnified.companyBlue,
-                                AppColorsUnified.companyBlue.withValues(alpha: 0.8),
+                                AppColorsUnified.companyBlue.withOpacity(0.8),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: _isContactHovered
                                 ? [
                                     BoxShadow(
-                                      color: AppColorsUnified.companyBlue.withValues(alpha: 0.4),
+                                      color: AppColorsUnified.companyBlue.withOpacity(0.4),
                                       blurRadius: 20,
                                       spreadRadius: 2,
                                       offset: const Offset(0, 4),
@@ -2501,7 +2659,7 @@ class _OfferInteractiveCTAState extends State<_OfferInteractiveCTA> {
                                   ]
                                 : [
                                     BoxShadow(
-                                      color: AppColorsUnified.companyBlue.withValues(alpha: 0.2),
+                                      color: AppColorsUnified.companyBlue.withOpacity(0.2),
                                       blurRadius: 12,
                                       offset: const Offset(0, 2),
                                     ),
@@ -2654,12 +2812,12 @@ class _SaveCTAState extends State<_SaveCTA> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: _isSaved
-              ? AppColorsUnified.gold.withValues(alpha: 0.1)
+              ? AppColorsUnified.gold.withOpacity(0.1)
               : AppColorsUnified.grey50,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: _isSaved
-                ? AppColorsUnified.gold.withValues(alpha: 0.3)
+                ? AppColorsUnified.gold.withOpacity(0.3)
                 : AppColorsUnified.grey300,
             width: 1,
           ),
@@ -2672,8 +2830,8 @@ class _SaveCTAState extends State<_SaveCTA> {
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: _isSaved
-                        ? AppColorsUnified.gold.withValues(alpha: 0.2)
-                        : AppColorsUnified.gold.withValues(alpha: 0.1),
+                        ? AppColorsUnified.gold.withOpacity(0.2)
+                        : AppColorsUnified.gold.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
@@ -2766,10 +2924,10 @@ class _SaveCTAState extends State<_SaveCTA> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.gold.withValues(alpha: 0.05),
+                  color: AppColorsUnified.gold.withOpacity(0.05),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                    color: AppColorsUnified.gold.withOpacity(0.2),
                     width: 1,
                   ),
                 ),
@@ -2801,3 +2959,4 @@ class _SaveCTAState extends State<_SaveCTA> {
     );
   }
 }
+

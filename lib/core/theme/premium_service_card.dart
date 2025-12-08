@@ -108,19 +108,19 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
         boxShadow: _isHovered
             ? [
                 BoxShadow(
-                  color: _cardGradient[0].withValues(alpha: 0.5),
+                  color: _cardGradient[0].withOpacity(0.5),
                   blurRadius: 30,
                   spreadRadius: 5,
                 ),
                 BoxShadow(
-                  color: _cardGradient[1].withValues(alpha: 0.3),
+                  color: _cardGradient[1].withOpacity(0.3),
                   blurRadius: 50,
                   spreadRadius: 10,
                 ),
               ]
             : [
                 BoxShadow(
-                  color: _cardGradient[0].withValues(alpha: 0.25),
+                  color: _cardGradient[0].withOpacity(0.25),
                   blurRadius: 20,
                   spreadRadius: 2,
                 ),
@@ -141,20 +141,20 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            _cardGradient[0].withValues(alpha: 0.2),
+            _cardGradient[0].withOpacity(0.2),
             Colors.white,
-            _cardGradient[2].withValues(alpha: 0.15),
+            _cardGradient[2].withOpacity(0.15),
           ],
           stops: const [0.0, 0.5, 1.0],
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.12),
+            color: Colors.black.withOpacity(0.12),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
           BoxShadow(
-            color: _cardGradient[0].withValues(alpha: 0.25),
+            color: _cardGradient[0].withOpacity(0.25),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -165,7 +165,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
           borderRadius: BorderRadius.circular(22),
           border: Border.all(
             width: 2,
-            color: _cardGradient[0].withValues(alpha: 0.4),
+            color: _cardGradient[0].withOpacity(0.4),
           ),
         ),
         child: Container(
@@ -197,9 +197,9 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  _cardGradient[2].withValues(alpha: 0.08),
+                  _cardGradient[2].withOpacity(0.08),
                   Colors.white,
-                  _cardGradient[0].withValues(alpha: 0.05),
+                  _cardGradient[0].withOpacity(0.05),
                 ],
               ),
             ),
@@ -247,7 +247,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
             ),
             boxShadow: [
               BoxShadow(
-                color: _cardGradient[0].withValues(alpha: 0.4),
+                color: _cardGradient[0].withOpacity(0.4),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -259,7 +259,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 width: 2,
-                color: Colors.white.withValues(alpha: 0.5),
+                color: Colors.white.withOpacity(0.5),
               ),
             ),
             child: Icon(
@@ -268,7 +268,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
               size: 28,
               shadows: [
                 Shadow(
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: Colors.black.withOpacity(0.3),
                   offset: const Offset(0, 2),
                   blurRadius: 4,
                 ),
@@ -332,7 +332,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
         ),
         boxShadow: [
           BoxShadow(
-            color: _cardGradient[0].withValues(alpha: 0.4),
+            color: _cardGradient[0].withOpacity(0.4),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -377,12 +377,12 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
         borderRadius: BorderRadius.circular(12),
         gradient: LinearGradient(
           colors: [
-            _cardGradient[0].withValues(alpha: 0.15),
-            _cardGradient[1].withValues(alpha: 0.1),
+            _cardGradient[0].withOpacity(0.15),
+            _cardGradient[1].withOpacity(0.1),
           ],
         ),
         border: Border.all(
-          color: _cardGradient[0].withValues(alpha: 0.3),
+          color: _cardGradient[0].withOpacity(0.3),
         ),
       ),
       child: Row(
@@ -421,7 +421,7 @@ class _PremiumServiceCardState extends State<PremiumServiceCard>
                   end: Alignment(0.0 + _shimmerController.value * 3, 0.0),
                   colors: [
                     Colors.transparent,
-                    Colors.white.withValues(alpha: 0.15),
+                    Colors.white.withOpacity(0.15),
                     Colors.transparent,
                   ],
                   stops: const [0.0, 0.5, 1.0],

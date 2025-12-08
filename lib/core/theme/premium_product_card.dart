@@ -110,19 +110,19 @@ class _PremiumProductCardState extends State<PremiumProductCard>
         boxShadow: _isHovered
             ? [
                 BoxShadow(
-                  color: _cardGradient[0].withValues(alpha: 0.6),
+                  color: _cardGradient[0].withOpacity(0.6),
                   blurRadius: 30,
                   spreadRadius: 5,
                 ),
                 BoxShadow(
-                  color: _cardGradient[1].withValues(alpha: 0.4),
+                  color: _cardGradient[1].withOpacity(0.4),
                   blurRadius: 50,
                   spreadRadius: 10,
                 ),
               ]
             : [
                 BoxShadow(
-                  color: _cardGradient[0].withValues(alpha: 0.3),
+                  color: _cardGradient[0].withOpacity(0.3),
                   blurRadius: 20,
                   spreadRadius: 2,
                 ),
@@ -144,22 +144,22 @@ class _PremiumProductCardState extends State<PremiumProductCard>
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            _cardGradient[0].withValues(alpha: 0.3),
+            _cardGradient[0].withOpacity(0.3),
             Colors.white,
-            _cardGradient[1].withValues(alpha: 0.2),
+            _cardGradient[1].withOpacity(0.2),
           ],
           stops: const [0.0, 0.5, 1.0],
         ),
         boxShadow: [
           // Sombra profunda
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
+            color: Colors.black.withOpacity(0.15),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
           // Sombra de color
           BoxShadow(
-            color: _cardGradient[0].withValues(alpha: 0.2),
+            color: _cardGradient[0].withOpacity(0.2),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -171,7 +171,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
           // Borde interior dorado
           border: Border.all(
             width: 2,
-            color: _cardGradient[0].withValues(alpha: 0.5),
+            color: _cardGradient[0].withOpacity(0.5),
           ),
         ),
         child: Container(
@@ -205,9 +205,9 @@ class _PremiumProductCardState extends State<PremiumProductCard>
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  _cardGradient[2].withValues(alpha: 0.05),
+                  _cardGradient[2].withOpacity(0.05),
                   Colors.white,
-                  _cardGradient[0].withValues(alpha: 0.03),
+                  _cardGradient[0].withOpacity(0.03),
                 ],
               ),
             ),
@@ -263,7 +263,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
             ),
             boxShadow: [
               BoxShadow(
-                color: _cardGradient[0].withValues(alpha: 0.4),
+                color: _cardGradient[0].withOpacity(0.4),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -275,7 +275,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 width: 2,
-                color: Colors.white.withValues(alpha: 0.5),
+                color: Colors.white.withOpacity(0.5),
               ),
             ),
             child: Icon(
@@ -284,7 +284,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
               size: 28,
               shadows: [
                 Shadow(
-                  color: Colors.black.withValues(alpha: 0.3),
+                  color: Colors.black.withOpacity(0.3),
                   offset: const Offset(0, 2),
                   blurRadius: 4,
                 ),
@@ -312,7 +312,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColorsUnified.gold.withValues(alpha: 0.4),
+            color: AppColorsUnified.gold.withOpacity(0.4),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -326,7 +326,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
             size: 16,
             shadows: [
               Shadow(
-                color: Colors.black.withValues(alpha: 0.3),
+                color: Colors.black.withOpacity(0.3),
                 offset: const Offset(0, 1),
                 blurRadius: 2,
               ),
@@ -400,17 +400,17 @@ class _PremiumProductCardState extends State<PremiumProductCard>
             borderRadius: BorderRadius.circular(12),
             gradient: LinearGradient(
               colors: [
-                _cardGradient[0].withValues(alpha: 0.3),
-                _cardGradient[1].withValues(alpha: 0.2),
+                _cardGradient[0].withOpacity(0.3),
+                _cardGradient[1].withOpacity(0.2),
               ],
             ),
             border: Border.all(
               width: 2,
-              color: _cardGradient[0].withValues(alpha: 0.5),
+              color: _cardGradient[0].withOpacity(0.5),
             ),
             boxShadow: [
               BoxShadow(
-                color: _cardGradient[0].withValues(alpha: 0.2),
+                color: _cardGradient[0].withOpacity(0.2),
                 blurRadius: 6,
                 offset: const Offset(0, 2),
               ),
@@ -465,12 +465,12 @@ class _PremiumProductCardState extends State<PremiumProductCard>
         borderRadius: BorderRadius.circular(12),
         gradient: LinearGradient(
           colors: [
-            _cardGradient[0].withValues(alpha: 0.15),
-            _cardGradient[1].withValues(alpha: 0.1),
+            _cardGradient[0].withOpacity(0.15),
+            _cardGradient[1].withOpacity(0.1),
           ],
         ),
         border: Border.all(
-          color: _cardGradient[0].withValues(alpha: 0.3),
+          color: _cardGradient[0].withOpacity(0.3),
         ),
       ),
       child: Row(
@@ -509,7 +509,7 @@ class _PremiumProductCardState extends State<PremiumProductCard>
                   end: Alignment(0.0 + _shimmerController.value * 3, 0.0),
                   colors: [
                     Colors.transparent,
-                    Colors.white.withValues(alpha: 0.2),
+                    Colors.white.withOpacity(0.2),
                     Colors.transparent,
                   ],
                   stops: const [0.0, 0.5, 1.0],

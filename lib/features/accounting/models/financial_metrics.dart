@@ -271,3 +271,179 @@ class MiningKPIs {
     this.wasteRatio = 0,
   });
 }
+
+/// Desempeño de proyecto minero
+class ProjectPerformance {
+  final String id;
+  final String name;
+  final double progress;         // 0-100%
+  final double budgetUsed;       // Monto gastado
+  final double budgetTotal;      // Presupuesto total
+  final double roi;              // Return on Investment %
+  final int daysRemaining;
+  final ProjectStatus status;
+
+  ProjectPerformance({
+    required this.id,
+    required this.name,
+    required this.progress,
+    required this.budgetUsed,
+    required this.budgetTotal,
+    this.roi = 0,
+    this.daysRemaining = 0,
+    this.status = ProjectStatus.active,
+  });
+
+  double get budgetPercentage => budgetTotal > 0 ? (budgetUsed / budgetTotal * 100) : 0;
+  bool get isOverBudget => budgetUsed > budgetTotal;
+}
+
+enum ProjectStatus {
+  active,
+  completed,
+  paused,
+  cancelled,
+}
+
+/// Empleado con productividad
+class EmployeeProductivity {
+  final String id;
+  final String name;
+  final String position;
+  final String avatarInitials;
+  final double productivity;      // 0-100%
+  final double hoursWorked;
+  final double tasksCompleted;
+  final double efficiency;        // Tareas/Hora
+
+  EmployeeProductivity({
+    required this.id,
+    required this.name,
+    required this.position,
+    required this.avatarInitials,
+    required this.productivity,
+    this.hoursWorked = 0,
+    this.tasksCompleted = 0,
+    this.efficiency = 0,
+  });
+}
+
+/// Uso de recursos
+class ResourceUsage {
+  final String category;
+  final String displayName;
+  final double usagePercentage;   // 0-1 (0-100%)
+  final double allocated;         // Monto asignado
+  final double used;              // Monto usado
+  final double available;         // Disponible
+
+  ResourceUsage({
+    required this.category,
+    required this.displayName,
+    required this.usagePercentage,
+    this.allocated = 0,
+    this.used = 0,
+    this.available = 0,
+  });
+
+  bool get isOverUsed => usagePercentage > 1;
+}
+
+/// ===== MÉTRICAS DE PUBLICACIONES =====
+
+/// Tipo de publicación
+enum PublicationType {
+  product,
+  service,
+  offer,
+  request,
+  news,
+  poll,
+  community,
+}
+
+/// Rendimiento de una publicación
+class PublicationPerformance {
+  final String id;
+  final String title;
+  final PublicationType type;
+  final String? imageUrl;
+  final int views;
+  final int likes;
+  final int comments;
+  final int shares;
+  final int chats;          // Chats iniciados
+  final int saves;          // Guardados
+  final int sales;          // Ventas (solo productos)
+  final double revenue;     // Ingresos generados
+  final DateTime createdAt;
+  final double engagementRate;
+  final int performanceScore;
+
+  PublicationPerformance({
+    required this.id,
+    required this.title,
+    required this.type,
+    this.imageUrl,
+    this.views = 0,
+    this.likes = 0,
+    this.comments = 0,
+    this.shares = 0,
+    this.chats = 0,
+    this.saves = 0,
+    this.sales = 0,
+    this.revenue = 0,
+    required this.createdAt,
+    this.engagementRate = 0,
+    this.performanceScore = 0,
+  });
+
+  String get typeLabel {
+    switch (type) {
+      case PublicationType.product: return 'Producto';
+      case PublicationType.service: return 'Servicio';
+      case PublicationType.offer: return 'Oferta';
+      case PublicationType.request: return 'Pregunta';
+      case PublicationType.news: return 'Noticia';
+      case PublicationType.poll: return 'Encuesta';
+      case PublicationType.community: return 'Publicación';
+    }
+  }
+}
+
+/// Resumen de publicaciones para el Dashboard
+class PublicationsSummary {
+  final int totalPublications;
+  final int activePublications;
+  final int totalViews;
+  final int totalLikes;
+  final int totalComments;
+  final int totalChats;
+  final int totalSales;
+  final double totalRevenue;
+  final double avgEngagement;
+  
+  // Top items
+  final PublicationPerformance? mostViewed;
+  final PublicationPerformance? mostLiked;
+  final PublicationPerformance? mostCommented;
+  final PublicationPerformance? mostChatted;
+  final PublicationPerformance? bestSeller;
+
+  PublicationsSummary({
+    this.totalPublications = 0,
+    this.activePublications = 0,
+    this.totalViews = 0,
+    this.totalLikes = 0,
+    this.totalComments = 0,
+    this.totalChats = 0,
+    this.totalSales = 0,
+    this.totalRevenue = 0,
+    this.avgEngagement = 0,
+    this.mostViewed,
+    this.mostLiked,
+    this.mostCommented,
+    this.mostChatted,
+    this.bestSeller,
+  });
+}

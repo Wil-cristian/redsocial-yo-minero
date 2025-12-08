@@ -336,8 +336,8 @@ class _MiningKPIsPageState extends State<MiningKPIsPage>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColorsUnified.goldPrimary,
-            AppColorsUnified.goldPrimary.withOpacity(0.8),
+            AppColorsUnified.gold,
+            AppColorsUnified.gold.withOpacity(0.8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -507,7 +507,7 @@ class _MiningKPIsPageState extends State<MiningKPIsPage>
             mineral: 'Oro',
             amount: kpis.goldGramsProduced,
             unit: 'gramos',
-            color: AppColorsUnified.goldPrimary,
+            color: AppColorsUnified.gold,
             icon: '🥇',
           ),
           const Divider(),
@@ -664,12 +664,12 @@ class _MiningKPIsPageState extends State<MiningKPIsPage>
                       (i) => FlSpot(i.toDouble(), _monthlyFlow[i].income),
                     ),
                     isCurved: true,
-                    color: AppColorsUnified.goldPrimary,
+                    color: AppColorsUnified.gold,
                     barWidth: 3,
                     dotData: const FlDotData(show: false),
                     belowBarData: BarAreaData(
                       show: true,
-                      color: AppColorsUnified.goldPrimary.withOpacity(0.1),
+                      color: AppColorsUnified.gold.withOpacity(0.1),
                     ),
                   ),
                 ],
@@ -703,7 +703,7 @@ class _MiningKPIsPageState extends State<MiningKPIsPage>
           ),
           const SizedBox(height: 16),
           if (total > 0) ...[
-            _buildRevenueBar('Oro', kpis.goldRevenue, total, AppColorsUnified.goldPrimary),
+            _buildRevenueBar('Oro', kpis.goldRevenue, total, AppColorsUnified.gold),
             const SizedBox(height: 12),
             _buildRevenueBar('Plata', kpis.silverRevenue, total, const Color(0xFFC0C0C0)),
             const SizedBox(height: 12),

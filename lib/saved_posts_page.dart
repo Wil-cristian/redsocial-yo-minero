@@ -7,6 +7,10 @@ import 'package:yominero/features/responses/domain/response_repository.dart';
 import 'package:yominero/features/responses/ui/response_modal.dart';
 import 'package:yominero/core/di/locator.dart';
 import 'package:yominero/shared/models/post.dart';
+import 'package:yominero/features/bookings/ui/book_service_page.dart';
+import 'package:yominero/shared/models/service.dart';
+import 'package:yominero/shared/models/product.dart';
+import 'package:yominero/core/theme/premium_3d_carousel.dart';
 
 class SavedPostsPage extends StatefulWidget {
   const SavedPostsPage({super.key});
@@ -25,7 +29,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
   
   // Variables para controlar el refresh del modal
   Key _modalKey = UniqueKey();
-  ValueNotifier<int> _refreshNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<int> _refreshNotifier = ValueNotifier<int>(0);
 
   final List<Map<String, dynamic>> _filters = [
     {'label': 'Todos', 'value': null, 'icon': Icons.grid_view},
@@ -409,6 +413,64 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
         '/chat-detail',
         arguments: conversation,
       );
+    }
+  }
+
+  void _bookService(Map<String, dynamic> post) async {
+    String? serviceId = post['service_id'];
+    
+    if (serviceId == null) {
+      try {
+        final postData = await _supabase
+            .from('posts')
+            .select('service_id')
+            .eq('id', post['post_id'])
+            .single();
+        serviceId = postData['service_id'];
+      } catch (e) {
+        debugPrint('❌ Error obteniendo service_id: $e');
+      }
+    }
+
+    if (serviceId == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Este servicio no tiene sistema de reservas configurado'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+      return;
+    }
+
+    try {
+      final serviceData = await _supabase
+          .from('services')
+          .select('*')
+          .eq('id', serviceId)
+          .single();
+
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookServicePage(
+              service: Service.fromJson(serviceData),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('❌ Error cargando servicio: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error al cargar el servicio'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -814,18 +876,23 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
     final typeIcon = _getTypeIcon(postType);
     final typeLabel = _getTypeLabel(postType);
 
+    // 🛍️ PRODUCTOS: Mostrar con carousel 3D
+    if (postType == 'product') {
+      return _buildProductCard(post, typeColor);
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: typeColor.withValues(alpha: 0.2),
+          color: typeColor.withOpacity(0.2),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -838,7 +905,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: typeColor.withValues(alpha: 0.08),
+              color: typeColor.withOpacity(0.08),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -957,6 +1024,81 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
     );
   }
 
+  // 🛍️ CARD ESPECIAL PARA PRODUCTOS CON CAROUSEL 3D
+  Widget _buildProductCard(Map<String, dynamic> post, Color typeColor) {
+    final metadata = post['metadata'] as Map<String, dynamic>? ?? {};
+    
+    // Obtener imágenes
+    List<dynamic> images = [];
+    if (metadata.containsKey('images')) {
+      images = metadata['images'] as List<dynamic>? ?? [];
+    }
+    
+    // Crear productos para el carousel
+    List<Product> products = [];
+    final price = (metadata['price'] as num?)?.toDouble() ?? 0.0;
+    
+    if (images.isNotEmpty) {
+      products = images.asMap().entries.map((entry) {
+        return Product(
+          id: '${post['post_id']}_${entry.key}',
+          sellerId: post['author_id'] ?? 'unknown',
+          name: post['title'] ?? 'Producto',
+          description: post['content'] ?? '',
+          price: price,
+          category: metadata['category'] ?? 'General',
+          imageUrls: [entry.value.toString()],
+          viewsCount: 0,
+          favoritesCount: 0,
+          createdAt: DateTime.parse(post['saved_at']),
+        );
+      }).toList();
+    } else {
+      // Sin imágenes, crear producto placeholder
+      products = [
+        Product(
+          id: post['post_id'] ?? 'unknown',
+          sellerId: post['author_id'] ?? 'unknown',
+          name: post['title'] ?? 'Producto',
+          description: post['content'] ?? '',
+          price: price,
+          category: metadata['category'] ?? 'General',
+          imageUrls: [],
+          viewsCount: 0,
+          favoritesCount: 0,
+          createdAt: DateTime.parse(post['saved_at']),
+        ),
+      ];
+    }
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 💎 CAROUSEL 3D PREMIUM
+          Premium3DProductCarousel(
+            products: products,
+            authorId: post['author_id'],
+            authorName: post['author_name'],
+            createdAt: DateTime.parse(post['saved_at']),
+            title: post['title'],
+            likes: post['likes_count'] ?? 0,
+            comments: 0,
+            isSaved: true,
+            onLike: () => debugPrint('Like producto'),
+            onComment: () => debugPrint('Comentar producto'),
+            onShare: () => debugPrint('Compartir producto'),
+            onSave: () async {
+              await _removeSavedPost(post['post_id']);
+            },
+            onProductTap: (_) => _showPostDetails(post),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildPostDetailsModal(Map<String, dynamic> post) {
     final postType = post['post_type'];
     final typeColor = _getTypeColor(postType);
@@ -966,6 +1108,16 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
     // Si es una pregunta, usar modal especializado
     if (postType == 'request') {
       return _buildQuestionDetailsModal(post);
+    }
+
+    // Si es un servicio, usar modal especializado
+    if (postType == 'service') {
+      return _buildServiceDetailsModal(post);
+    }
+
+    // Si es un producto, usar modal especializado con carousel 3D
+    if (postType == 'product') {
+      return _buildProductDetailsModal(post);
     }
 
     return Container(
@@ -997,7 +1149,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
               gradient: LinearGradient(
                 colors: [
                   typeColor,
-                  typeColor.withValues(alpha: 0.8),
+                  typeColor.withOpacity(0.8),
                 ],
               ),
             ),
@@ -1006,7 +1158,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(typeIcon, color: Colors.white, size: 28),
@@ -1174,28 +1326,85 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
+                  color: Colors.black.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, -2),
                 ),
               ],
             ),
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-                _openChat(post);
-              },
-              icon: const Icon(Icons.chat_bubble_rounded, size: 20),
-              label: const Text('Contactar Ahora'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: typeColor,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
+            child: post['post_type'] == 'service'
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _bookService(post);
+                          },
+                          icon: const Icon(Icons.calendar_today_rounded, size: 18),
+                          label: const Text(
+                            'Agendar Cita',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColorsUnified.orange,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _openChat(post);
+                          },
+                          icon: const Icon(Icons.chat_bubble_rounded, size: 18),
+                          label: const Text(
+                            'Contactar',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppColorsUnified.companyBlue,
+                            side: const BorderSide(
+                              color: AppColorsUnified.companyBlue,
+                              width: 2,
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _openChat(post);
+                    },
+                    icon: const Icon(Icons.chat_bubble_rounded, size: 20),
+                    label: const Text('Contactar Ahora'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: typeColor,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
           ),
         ],
       ),
@@ -1211,9 +1420,9 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withValues(alpha: 0.3)),
+        border: Border.all(color: color.withOpacity(0.3)),
       ),
       child: Column(
         children: [
@@ -1233,7 +1442,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
             label,
             style: TextStyle(
               fontSize: 11,
-              color: color.withValues(alpha: 0.8),
+              color: color.withOpacity(0.8),
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,
@@ -1243,6 +1452,1099 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
     );
   }
 
+  // 🛠️ MODAL ESPECIALIZADO PARA SERVICIOS
+  Widget _buildServiceDetailsModal(Map<String, dynamic> post) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.90,
+      decoration: const BoxDecoration(
+        color: AppColorsUnified.background,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      child: Column(
+        children: [
+          // Handle bar
+          Container(
+            margin: const EdgeInsets.only(top: 12),
+            width: 50,
+            height: 5,
+            decoration: BoxDecoration(
+              color: AppColorsUnified.grey300,
+              borderRadius: BorderRadius.circular(3),
+            ),
+          ),
+
+          // Content
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header con info del autor
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 28,
+                              backgroundColor: AppColorsUnified.orange,
+                              child: Text(
+                                (post['author_name'] ?? 'U')[0].toUpperCase(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 22,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    post['author_name'] ?? 'Usuario',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppColorsUnified.textPrimary,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Row(
+                                    children: [
+                                      if (post['author_username'] != null)
+                                        Text(
+                                          '@${post['author_username']}',
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            color: AppColorsUnified.textSecondary,
+                                          ),
+                                        ),
+                                      const SizedBox(width: 8),
+                                      const Icon(
+                                        Icons.star,
+                                        color: AppColorsUnified.orange,
+                                        size: 16,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        '${post['likes_count'] ?? 0}',
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColorsUnified.textSecondary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: const Icon(Icons.close),
+                              style: IconButton.styleFrom(
+                                backgroundColor: AppColorsUnified.grey100,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // Título del servicio
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: AppColorsUnified.companyBlue.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                Icons.build_circle_rounded,
+                                color: AppColorsUnified.companyBlue,
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                post['title'] ?? 'Sin título',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: AppColorsUnified.textPrimary,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // 📅 CARD DE DISPONIBILIDAD CON BOTÓN INTEGRADO
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppColorsUnified.orange.withOpacity(0.12),
+                                AppColorsUnified.orange.withOpacity(0.06),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: AppColorsUnified.orange.withOpacity(0.3),
+                              width: 2,
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: AppColorsUnified.orange,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: const Icon(
+                                      Icons.calendar_today_rounded,
+                                      color: Colors.white,
+                                      size: 22,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  const Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Disponibilidad',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w800,
+                                            color: AppColorsUnified.textPrimary,
+                                          ),
+                                        ),
+                                        SizedBox(height: 2),
+                                        Text(
+                                          'Agenda tu cita ahora',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            color: AppColorsUnified.textSecondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 6,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: (post['availability']?.toLowerCase().contains('disponible') == true)
+                                          ? Colors.green
+                                          : Colors.orange,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(
+                                          Icons.check_circle,
+                                          color: Colors.white,
+                                          size: 14,
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Text(
+                                          post['availability'] ?? 'Consultar',
+                                          style: const TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              const Divider(height: 1),
+                              const SizedBox(height: 16),
+                              // Info de horarios
+                              if (post['metadata'] != null && post['metadata']['schedule'] != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: Text(
+                                    '🕐 ${post['metadata']['schedule']}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColorsUnified.textPrimary,
+                                    ),
+                                  ),
+                                )
+                              else
+                                const Padding(
+                                  padding: EdgeInsets.only(bottom: 16),
+                                  child: Text(
+                                    '🕐 Horarios flexibles disponibles',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColorsUnified.textPrimary,
+                                    ),
+                                  ),
+                                ),
+                              // BOTÓN DE AGENDAR INTEGRADO
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  _bookService(post);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColorsUnified.orange,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  elevation: 0,
+                                  minimumSize: const Size(double.infinity, 50),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.calendar_month_rounded, size: 22),
+                                    SizedBox(width: 12),
+                                    Text(
+                                      'Agendar Cita',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // 💰 PRECIO
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: AppColorsUnified.companyBlue.withOpacity(0.2),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.attach_money_rounded,
+                                color: AppColorsUnified.companyBlue,
+                                size: 32,
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Precio del servicio',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppColorsUnified.textSecondary,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      _formatServicePrice(post),
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w900,
+                                        color: AppColorsUnified.companyBlue,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // 📝 DESCRIPCIÓN
+                        const Text(
+                          'Descripción',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: AppColorsUnified.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            post['content'] ?? 'Sin descripción',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: AppColorsUnified.textSecondary,
+                              height: 1.5,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Botón de contactar secundario
+                        OutlinedButton.icon(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _openChat(post);
+                          },
+                          icon: const Icon(Icons.chat_bubble_rounded, size: 20),
+                          label: const Text(
+                            'Contactar por chat',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppColorsUnified.companyBlue,
+                            side: const BorderSide(
+                              color: AppColorsUnified.companyBlue,
+                              width: 2,
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            minimumSize: const Size(double.infinity, 54),
+                          ),
+                        ),
+
+                        const SizedBox(height: 40),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _formatServicePrice(Map<String, dynamic> post) {
+    final from = post['pricing_from'];
+    final to = post['pricing_to'];
+    final unit = post['pricing_unit'] ?? 'USD';
+
+    if (from != null && to != null) {
+      return '\$$from - \$$to $unit';
+    } else if (from != null) {
+      return 'Desde \$$from $unit';
+    } else {
+      return 'Precio a consultar';
+    }
+  }
+
+  // 🛍️ MODAL ESPECIALIZADO PARA PRODUCTOS - Con Carousel 3D Premium
+  Widget _buildProductDetailsModal(Map<String, dynamic> post) {
+    return _ProductDetailsModalContent(
+      post: post,
+      onRemoved: () {
+        // Recargar lista cuando se elimine de guardados
+        _loadSavedPosts();
+        Navigator.pop(context);
+      },
+    );
+  }
+}
+
+// 🛍️ STATEFUL WIDGET PARA MODAL DE PRODUCTO
+class _ProductDetailsModalContent extends StatefulWidget {
+  final Map<String, dynamic> post;
+  final VoidCallback onRemoved;
+
+  const _ProductDetailsModalContent({
+    required this.post,
+    required this.onRemoved,
+  });
+
+  @override
+  State<_ProductDetailsModalContent> createState() => _ProductDetailsModalContentState();
+}
+
+class _ProductDetailsModalContentState extends State<_ProductDetailsModalContent> {
+  bool _isSaved = true; // Inicialmente está guardado porque estamos en la página de guardados
+  final _supabase = SupabaseService.instance.client;
+
+  Future<void> _toggleSave() async {
+    try {
+      final currentUser = SupabaseAuthService.instance.currentUser;
+      if (currentUser == null) return;
+
+      if (_isSaved) {
+        // Eliminar de guardados
+        await _supabase
+            .from('saved_posts')
+            .delete()
+            .eq('user_id', currentUser.id)
+            .eq('post_id', widget.post['post_id']);
+
+        if (mounted) {
+          setState(() => _isSaved = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Producto eliminado de guardados'),
+              duration: Duration(seconds: 2),
+              backgroundColor: AppColorsUnified.orange,
+            ),
+          );
+          // Llamar callback para recargar lista
+          Future.delayed(const Duration(seconds: 1), widget.onRemoved);
+        }
+      } else {
+        // Volver a guardar
+        await _supabase.from('saved_posts').insert({
+          'user_id': currentUser.id,
+          'post_id': widget.post['post_id'],
+        });
+
+        if (mounted) {
+          setState(() => _isSaved = true);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Producto guardado nuevamente'),
+              duration: Duration(seconds: 1),
+              backgroundColor: AppColorsUnified.success,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ Error al cambiar estado de guardado: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  List<Product> _createProductsFromMetadata(Map<String, dynamic> post, List<dynamic> images) {
+    final metadata = post['metadata'] as Map<String, dynamic>? ?? {};
+    final price = (metadata['price'] as num?)?.toDouble() ?? 0.0;
+
+    if (images.isEmpty) {
+      return [
+        Product(
+          id: post['post_id'] ?? 'unknown',
+          sellerId: post['author_id'] ?? 'unknown',
+          name: post['title'] ?? 'Producto',
+          description: post['content'] ?? '',
+          price: price,
+          isAvailable: (metadata['stock'] as int? ?? 0) > 0,
+          category: metadata['category'] ?? 'General',
+          imageUrls: [],
+          viewsCount: 0,
+          favoritesCount: 0,
+          createdAt: DateTime.parse(post['saved_at']),
+          updatedAt: DateTime.parse(post['saved_at']),
+        ),
+      ];
+    }
+
+    return images.asMap().entries.map((entry) {
+      final imageUrl = entry.value.toString();
+      
+      return Product(
+        id: '${post['post_id']}_${entry.key}',
+        sellerId: post['author_id'] ?? 'unknown',
+        name: post['title'] ?? 'Producto',
+        description: post['content'] ?? '',
+        price: price,
+        isAvailable: (metadata['stock'] as int? ?? 0) > 0,
+        category: metadata['category'] ?? 'General',
+        imageUrls: [imageUrl],
+        viewsCount: 0,
+        favoritesCount: 0,
+        createdAt: DateTime.parse(post['saved_at']),
+        updatedAt: DateTime.parse(post['saved_at']),
+      );
+    }).toList();
+  }
+
+  Widget _buildProductDetailRow({
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+  }) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(icon, color: color, size: 18),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColorsUnified.textSecondary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 15,
+                  color: AppColorsUnified.textPrimary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Helper: Botón de acción para producto
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
+          children: [
+            Icon(icon, size: 22, color: AppColorsUnified.textSecondary),
+            if (label.isNotEmpty) ...[
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColorsUnified.textSecondary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final metadata = widget.post['metadata'] as Map<String, dynamic>? ?? {};
+    
+    // Debug: Ver estructura completa
+    debugPrint('📦 PRODUCTO GUARDADO:');
+    debugPrint('   Post ID: ${widget.post['post_id']}');
+    debugPrint('   Metadata: $metadata');
+    debugPrint('   Metadata keys: ${metadata.keys}');
+    
+    // Intentar obtener imágenes de múltiples ubicaciones posibles
+    List<dynamic> images = [];
+    
+    // 1. Buscar en metadata['images']
+    if (metadata.containsKey('images')) {
+      images = metadata['images'] as List<dynamic>? ?? [];
+      debugPrint('   📸 Imágenes en metadata[images]: ${images.length}');
+    }
+    
+    // 2. Si no hay imágenes en metadata, buscar en el nivel superior del post
+    if (images.isEmpty && widget.post.containsKey('images')) {
+      images = widget.post['images'] as List<dynamic>? ?? [];
+      debugPrint('   📸 Imágenes en post[images]: ${images.length}');
+    }
+    
+    // 3. Si aún no hay imágenes, intentar con imageUrls o imageUrl
+    if (images.isEmpty) {
+      if (metadata.containsKey('imageUrls')) {
+        images = metadata['imageUrls'] as List<dynamic>? ?? [];
+        debugPrint('   📸 Imágenes en metadata[imageUrls]: ${images.length}');
+      } else if (metadata.containsKey('imageUrl')) {
+        final singleImage = metadata['imageUrl'];
+        if (singleImage != null && singleImage.toString().isNotEmpty) {
+          images = [singleImage];
+          debugPrint('   📸 Imagen única en metadata[imageUrl]: $singleImage');
+        }
+      }
+    }
+    
+    debugPrint('   ✅ Total imágenes encontradas: ${images.length}');
+    if (images.isNotEmpty) {
+      debugPrint('   🖼️ URLs: $images');
+    }
+    
+    // Convertir metadata a lista de Products para el carousel
+    final products = _createProductsFromMetadata(widget.post, images);
+    debugPrint('   🎨 Products creados: ${products.length}');
+    
+    // Determinar si es oro o plata (alternado por índice de precio)
+    final price = metadata['price'] as num? ?? 0;
+    final isGold = (price.toInt() % 2) == 0;
+    final accentColor = isGold ? AppColorsUnified.gold : AppColorsUnified.silverLight;
+
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.95,
+      decoration: const BoxDecoration(
+        color: AppColorsUnified.background,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      child: Column(
+        children: [
+          // Handle bar
+          Container(
+            margin: const EdgeInsets.only(top: 12),
+            width: 50,
+            height: 5,
+            decoration: BoxDecoration(
+              color: AppColorsUnified.grey300,
+              borderRadius: BorderRadius.circular(3),
+            ),
+          ),
+
+          // Content con scroll
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+
+                  // 🎨 HEADER CON AUTOR
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 24,
+                          backgroundColor: accentColor.withOpacity(0.15),
+                          child: Text(
+                            (widget.post['author_name'] ?? 'U').substring(0, 1).toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: accentColor,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.post['author_name'] ?? 'Usuario',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColorsUnified.textPrimary,
+                                ),
+                              ),
+                              Text(
+                                '@${widget.post['author_username'] ?? 'usuario'}',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: AppColorsUnified.textSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Icono de producto
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: accentColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(
+                            Icons.shopping_bag_outlined,
+                            color: accentColor,
+                            size: 24,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // 💎 CAROUSEL 3D O IMÁGENES
+                  if (products.isNotEmpty && images.isNotEmpty)
+                    Premium3DProductCarousel(
+                      products: products,
+                      authorId: widget.post['author_id'],
+                      authorName: widget.post['author_name'],
+                      createdAt: DateTime.parse(widget.post['saved_at']),
+                      title: widget.post['title'],
+                      likes: widget.post['likes_count'] ?? 0,
+                      comments: 0,
+                      isSaved: _isSaved,
+                      onLike: () async {
+                        debugPrint('Like en producto guardado');
+                      },
+                      onComment: () {
+                        debugPrint('Comentar en producto guardado');
+                      },
+                      onShare: () {
+                        debugPrint('Compartir producto guardado');
+                      },
+                      onSave: _toggleSave,
+                    )
+                  else
+                    // 📦 TARJETA DE PRODUCTO SIN IMÁGENES
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              accentColor.withOpacity(0.08),
+                              accentColor.withOpacity(0.02),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: accentColor.withOpacity(0.2),
+                            width: 2,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Título del producto
+                            Text(
+                              widget.post['title'] ?? 'Producto',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                                color: AppColorsUnified.textPrimary,
+                                height: 1.2,
+                              ),
+                            ),
+                            
+                            const SizedBox(height: 20),
+                            
+                            // Precio destacado
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                                    decoration: BoxDecoration(
+                                      color: accentColor,
+                                      borderRadius: BorderRadius.circular(16),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: accentColor.withOpacity(0.3),
+                                          blurRadius: 12,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.attach_money,
+                                          color: Colors.white,
+                                          size: 28,
+                                        ),
+                                        Text(
+                                          price.toStringAsFixed(2),
+                                          style: const TextStyle(
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w900,
+                                            color: Colors.white,
+                                            letterSpacing: -0.5,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            
+                            const SizedBox(height: 20),
+                            
+                            // Acciones
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                _buildActionButton(
+                                  icon: Icons.favorite_border,
+                                  label: '${widget.post['likes_count'] ?? 0}',
+                                  onTap: () => debugPrint('Like'),
+                                ),
+                                _buildActionButton(
+                                  icon: Icons.chat_bubble_outline,
+                                  label: '0',
+                                  onTap: () => debugPrint('Comentar'),
+                                ),
+                                _buildActionButton(
+                                  icon: _isSaved ? Icons.bookmark : Icons.bookmark_border,
+                                  label: '',
+                                  onTap: _toggleSave,
+                                ),
+                                _buildActionButton(
+                                  icon: Icons.share_outlined,
+                                  label: '',
+                                  onTap: () => debugPrint('Compartir'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  const SizedBox(height: 24),
+
+                  // 📋 INFORMACIÓN ADICIONAL
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Descripción del producto
+                        if (widget.post['content'] != null && widget.post['content'].toString().isNotEmpty) ...[
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.04),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.description_outlined,
+                                      color: accentColor,
+                                      size: 22,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      'Descripción',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColorsUnified.textPrimary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  widget.post['content'],
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: AppColorsUnified.textSecondary,
+                                    height: 1.6,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+
+                        // Detalles del producto (stock, condición, categoría)
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.04),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.inventory_2_outlined,
+                                    color: accentColor,
+                                    size: 22,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Detalles',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColorsUnified.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+
+                              // Stock
+                              if (metadata['stock'] != null) ...[
+                                _buildProductDetailRow(
+                                  icon: Icons.inventory_outlined,
+                                  label: 'Stock disponible',
+                                  value: '${metadata['stock']} unidades',
+                                  color: AppColorsUnified.success,
+                                ),
+                                const SizedBox(height: 12),
+                              ],
+
+                              // Condición
+                              if (metadata['condition'] != null) ...[
+                                _buildProductDetailRow(
+                                  icon: Icons.verified_outlined,
+                                  label: 'Condición',
+                                  value: metadata['condition'],
+                                  color: AppColorsUnified.companyBlue,
+                                ),
+                                const SizedBox(height: 12),
+                              ],
+
+                              // Categoría
+                              if (metadata['category'] != null) ...[
+                                _buildProductDetailRow(
+                                  icon: Icons.category_outlined,
+                                  label: 'Categoría',
+                                  value: metadata['category'],
+                                  color: AppColorsUnified.orange,
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Botón de contacto (igual que en servicios)
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Implementar navegación al chat o contacto
+                              debugPrint('Contactar vendedor: ${widget.post['author_id']}');
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: accentColor,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.chat_bubble_outline, size: 20),
+                                const SizedBox(width: 10),
+                                Text(
+                                  'Contactar vendedor',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// MÉTODOS HELPER PARA _SavedPostsPageState
+extension _SavedPostsPageStateHelpers on _SavedPostsPageState {
   Widget _buildMetadataSection(Map<String, dynamic> metadata, String? postType, Color typeColor) {
     // Si no hay metadata, no mostrar nada
     if (metadata.isEmpty) return const SizedBox.shrink();
@@ -1262,9 +2564,9 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: typeColor.withValues(alpha: 0.05),
+            color: typeColor.withOpacity(0.05),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: typeColor.withValues(alpha: 0.2)),
+            border: Border.all(color: typeColor.withOpacity(0.2)),
           ),
           child: Column(
             children: [
@@ -1356,12 +2658,12 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        typeColor.withValues(alpha: 0.1),
-                        typeColor.withValues(alpha: 0.05),
+                        typeColor.withOpacity(0.1),
+                        typeColor.withOpacity(0.05),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: typeColor.withValues(alpha: 0.3)),
+                    border: Border.all(color: typeColor.withOpacity(0.3)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1390,7 +2692,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: typeColor.withValues(alpha: 0.15),
+                                color: typeColor.withOpacity(0.15),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Icon(Icons.source, color: typeColor, size: 18),
@@ -1432,7 +2734,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: typeColor.withValues(alpha: 0.15),
+                                color: typeColor.withOpacity(0.15),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Icon(Icons.schedule, color: typeColor, size: 18),
@@ -1474,7 +2776,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: typeColor.withValues(alpha: 0.15),
+                                color: typeColor.withOpacity(0.15),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Icon(Icons.person, color: typeColor, size: 18),
@@ -1521,12 +2823,12 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        AppColorsUnified.orange.withValues(alpha: 0.1),
-                        AppColorsUnified.orange.withValues(alpha: 0.05),
+                        AppColorsUnified.orange.withOpacity(0.1),
+                        AppColorsUnified.orange.withOpacity(0.05),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColorsUnified.orange.withValues(alpha: 0.3)),
+                    border: Border.all(color: AppColorsUnified.orange.withOpacity(0.3)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1591,13 +2893,13 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                                 end: Alignment.bottomRight,
                                 colors: [
                                   AppColorsUnified.companyBlue,
-                                  AppColorsUnified.companyBlue.withValues(alpha: 0.8),
+                                  AppColorsUnified.companyBlue.withOpacity(0.8),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
+                                  color: AppColorsUnified.companyBlue.withOpacity(0.3),
                                   blurRadius: 8,
                                   offset: const Offset(0, 4),
                                 ),
@@ -1624,7 +2926,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.2),
+                                    color: Colors.white.withOpacity(0.2),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: const Text(
@@ -1669,7 +2971,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: typeColor.withValues(alpha: 0.15),
+                          color: typeColor.withOpacity(0.15),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: typeColor, width: 1.5),
                         ),
@@ -1798,7 +3100,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.15),
+            color: color.withOpacity(0.15),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, size: 18, color: color),
@@ -1812,7 +3114,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                 label,
                 style: TextStyle(
                   fontSize: 11,
-                  color: color.withValues(alpha: 0.7),
+                  color: color.withOpacity(0.7),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -1854,8 +3156,8 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColorsUnified.gold.withValues(alpha: 0.3),
-                  AppColorsUnified.goldDeep.withValues(alpha: 0.5),
+                  AppColorsUnified.gold.withOpacity(0.3),
+                  AppColorsUnified.goldDeep.withOpacity(0.5),
                 ],
               ),
               borderRadius: BorderRadius.circular(3),
@@ -1937,13 +3239,13 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                             gradient: LinearGradient(
                               colors: [
                                 AppColorsUnified.companyBlue,
-                                AppColorsUnified.companyBlue.withValues(alpha: 0.8),
+                                AppColorsUnified.companyBlue.withOpacity(0.8),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColorsUnified.companyBlue.withValues(alpha: 0.3),
+                                color: AppColorsUnified.companyBlue.withOpacity(0.3),
                                 blurRadius: 6,
                                 offset: const Offset(0, 2),
                               ),
@@ -2091,7 +3393,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                        color: AppColorsUnified.gold.withOpacity(0.3),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
@@ -2612,7 +3914,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
   // Método para construir la línea de conexión visual
   List<Widget> _buildConnectionLine() {
     return [
-      Container(
+      SizedBox(
         width: 32,
         child: Column(
           children: [
@@ -2620,7 +3922,7 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
             Container(
               width: 2,
               height: 20,
-              color: AppColorsUnified.gold.withValues(alpha: 0.4),
+              color: AppColorsUnified.gold.withOpacity(0.4),
             ),
             // Línea horizontal hacia la respuesta
             Row(
@@ -2628,19 +3930,19 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
                 Container(
                   width: 2,
                   height: 2,
-                  color: AppColorsUnified.gold.withValues(alpha: 0.4),
+                  color: AppColorsUnified.gold.withOpacity(0.4),
                 ),
                 Container(
                   width: 12,
                   height: 2,
-                  color: AppColorsUnified.gold.withValues(alpha: 0.4),
+                  color: AppColorsUnified.gold.withOpacity(0.4),
                 ),
                 // Punto de conexión
                 Container(
                   width: 6,
                   height: 6,
                   decoration: BoxDecoration(
-                    color: AppColorsUnified.gold.withValues(alpha: 0.6),
+                    color: AppColorsUnified.gold.withOpacity(0.6),
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -2658,10 +3960,10 @@ class _SavedPostsPageState extends State<SavedPostsPage> with SingleTickerProvid
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: color.withValues(alpha: 0.3),
+          color: color.withOpacity(0.3),
         ),
       ),
       child: Row(

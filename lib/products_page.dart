@@ -99,8 +99,8 @@ class _ProductsPageState extends State<ProductsPage> {
           end: Alignment.bottomRight,
           colors: [
             AppColorsUnified.orange,
-            AppColorsUnified.orange.withValues(alpha: 0.8),
-            AppColors.secondary.withValues(alpha: 0.9),
+            AppColorsUnified.orange.withOpacity(0.8),
+            AppColors.secondary.withOpacity(0.9),
           ],
         ),
       ),
@@ -281,7 +281,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColorsUnified.textPrimary.withValues(alpha: 0.08),
+                          color: AppColorsUnified.textPrimary.withOpacity(0.08),
                           blurRadius: 12,
                           offset: const Offset(0, 2),
                         ),
@@ -354,10 +354,10 @@ class _ProductsPageState extends State<ProductsPage> {
                       margin: const EdgeInsets.only(top: 8, bottom: 8),
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColorsUnified.error.withValues(alpha: 0.06),
+                        color: AppColorsUnified.error.withOpacity(0.06),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                            color: AppColorsUnified.error.withValues(alpha: 0.2)),
+                            color: AppColorsUnified.error.withOpacity(0.2)),
                       ),
                       child: const Text(
                         'Error al cargar productos remotos',

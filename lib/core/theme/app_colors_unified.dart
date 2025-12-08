@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Sistema Centralizado de Colores - YoMinero v3.0
 /// Reorganizado según teoría del color profesional
@@ -345,9 +345,9 @@ class AppColorsUnified {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      goldHighlight.withValues(alpha: 0.3),
-      goldBase.withValues(alpha: 0.2),
-      goldShadow.withValues(alpha: 0.1),
+      goldHighlight.withOpacity(0.3),
+      goldBase.withOpacity(0.2),
+      goldShadow.withOpacity(0.1),
     ],
   );
   
@@ -392,7 +392,7 @@ class AppColorsUnified {
     colors: [
       const Color(0xFFFFFBF8),
       const Color(0xFFFFF9F5),
-      gold.withValues(alpha: 0.3),
+      gold.withOpacity(0.3),
       gold,
     ],
     stops: const [0.0, 0.3, 0.6, 1.0],
@@ -404,21 +404,61 @@ class AppColorsUnified {
   
   /// Oscurece un color en el espacio HSL (Hue, Saturation, Lightness)
   static Color darken(Color color, double amount) {
-    final hsl = HSLColor.fromColor(color);
-    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
-    return hslDark.toColor();
+    try {
+      final hsl = HSLColor.fromColor(color);
+      final newLightness = (hsl.lightness - amount).clamp(0.0, 1.0);
+      final hslDark = hsl.withLightness(newLightness);
+      final result = hslDark.toColor();
+      // Validación extra: asegurar que el alpha esté en rango válido
+      return Color.fromARGB(
+        result.alpha.clamp(0, 255),
+        result.red.clamp(0, 255),
+        result.green.clamp(0, 255),
+        result.blue.clamp(0, 255),
+      );
+    } catch (e) {
+      print('❌ ERROR en darken: color=$color, amount=$amount, error=$e');
+      return color; // Retornar el color original si falla
+    }
   }
   
   /// Aclara un color en el espacio HSL
   static Color lighten(Color color, double amount) {
-    final hsl = HSLColor.fromColor(color);
-    final hslLight = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
-    return hslLight.toColor();
+    try {
+      final hsl = HSLColor.fromColor(color);
+      final newLightness = (hsl.lightness + amount).clamp(0.0, 1.0);
+      final hslLight = hsl.withLightness(newLightness);
+      final result = hslLight.toColor();
+      // Validación extra: asegurar que el alpha esté en rango válido
+      return Color.fromARGB(
+        result.alpha.clamp(0, 255),
+        result.red.clamp(0, 255),
+        result.green.clamp(0, 255),
+        result.blue.clamp(0, 255),
+      );
+    } catch (e) {
+      print('❌ ERROR en lighten: color=$color, amount=$amount, error=$e');
+      return color; // Retornar el color original si falla
+    }
   }
   
   /// Agrega transparencia a un color (opacity: 0.0 = transparente, 1.0 = opaco)
   static Color fade(Color color, double opacity) {
-    return color.withValues(alpha: opacity.clamp(0.0, 1.0));
+    final clampedOpacity = opacity.clamp(0.0, 1.0);
+    return color.withOpacity(clampedOpacity);
+  }
+  
+  /// Versión SAFE de withOpacity que previene valores fuera de rango
+  static Color safeWithOpacity(Color color, double opacity) {
+    final clampedOpacity = opacity.clamp(0.0, 1.0);
+    // Usar withAlpha en lugar de withOpacity para evitar problemas de conversión
+    final alphaValue = (clampedOpacity * 255).round().clamp(0, 255);
+    return Color.fromARGB(
+      alphaValue,
+      color.red.clamp(0, 255),
+      color.green.clamp(0, 255),
+      color.blue.clamp(0, 255),
+    );
   }
 }
 

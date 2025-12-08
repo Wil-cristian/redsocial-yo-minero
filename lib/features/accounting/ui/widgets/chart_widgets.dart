@@ -250,7 +250,7 @@ class CashFlowChart extends StatelessWidget {
         color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: const Center(
+      child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -451,7 +451,7 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
         color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: const Center(
+      child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -650,7 +650,7 @@ class TrendLineChart extends StatelessWidget {
         color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: const Center(
+      child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

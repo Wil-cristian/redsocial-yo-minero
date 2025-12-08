@@ -96,5 +96,10 @@
     "necesitan",
     "migración",
     "MIGRACIÓN"
-  ]
+  ],
+  "flutter.automaticallyOpenDevTools": false,
+  "dart.previewFlutterUiGuides": true,
+  "dart.debugExternalPackageLibraries": false,
+  "dart.debugSdkLibraries": false,
+  "simpleBrowser.focusLockIndicator.enabled": false
 }

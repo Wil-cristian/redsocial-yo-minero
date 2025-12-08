@@ -115,12 +115,12 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
     return Scaffold(
       backgroundColor: AppColorsUnified.backgroundDark,
       appBar: AppBar(
-        backgroundColor: AppColorsUnified.backgroundMedium,
+        backgroundColor: AppColorsUnified.backgroundDark,
         title: const Text(
           'Exportar Reportes',
-          style: TextStyle(color: AppColorsUnified.goldPrimary),
+          style: TextStyle(color: AppColorsUnified.gold),
         ),
-        iconTheme: const IconThemeData(color: AppColorsUnified.goldPrimary),
+        iconTheme: const IconThemeData(color: AppColorsUnified.gold),
         actions: [
           IconButton(
             icon: const Icon(Icons.history),
@@ -162,7 +162,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -170,7 +170,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
         children: [
           const Row(
             children: [
-              Icon(Icons.date_range, color: AppColorsUnified.goldPrimary),
+              Icon(Icons.date_range, color: AppColorsUnified.gold),
               SizedBox(width: 8),
               Text(
                 'Período del Reporte',
@@ -226,9 +226,9 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
           builder: (context, child) {
             return Theme(
               data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.dark(
-                  primary: AppColorsUnified.goldPrimary,
-                  surface: AppColorsUnified.backgroundMedium,
+                colorScheme: ColorScheme.dark(
+                  primary: AppColorsUnified.gold,
+                  surface: AppColorsUnified.backgroundDark,
                 ),
               ),
               child: child!,
@@ -261,7 +261,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
                 ],
               ),
             ),
-            const Icon(Icons.calendar_today, color: AppColorsUnified.goldPrimary, size: 18),
+            const Icon(Icons.calendar_today, color: AppColorsUnified.gold, size: 18),
           ],
         ),
       ),
@@ -288,7 +288,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -296,7 +296,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
         children: [
           const Row(
             children: [
-              Icon(Icons.file_present, color: AppColorsUnified.goldPrimary),
+              Icon(Icons.file_present, color: AppColorsUnified.gold),
               SizedBox(width: 8),
               Text(
                 'Formato de Exportación',
@@ -365,7 +365,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -376,7 +376,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
             children: [
               const Row(
                 children: [
-                  Icon(Icons.checklist, color: AppColorsUnified.goldPrimary),
+                  Icon(Icons.checklist, color: AppColorsUnified.gold),
                   SizedBox(width: 8),
                   Text(
                     'Reportes a Exportar',
@@ -399,7 +399,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
                 },
                 child: Text(
                   _selectedReports.length == _reportOptions.length ? 'Deseleccionar todo' : 'Seleccionar todo',
-                  style: const TextStyle(color: AppColorsUnified.goldPrimary, fontSize: 12),
+                  style: const TextStyle(color: AppColorsUnified.gold, fontSize: 12),
                 ),
               ),
             ],
@@ -413,7 +413,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
                     child: Text(
                       entry.key,
                       style: const TextStyle(
-                        color: AppColorsUnified.goldPrimary,
+                        color: AppColorsUnified.gold,
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
                       ),
@@ -448,10 +448,10 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
               width: 24,
               height: 24,
               decoration: BoxDecoration(
-                color: isSelected ? AppColorsUnified.goldPrimary : Colors.transparent,
+                color: isSelected ? AppColorsUnified.gold : Colors.transparent,
                 borderRadius: BorderRadius.circular(6),
                 border: Border.all(
-                  color: isSelected ? AppColorsUnified.goldPrimary : AppColorsUnified.textSecondary,
+                  color: isSelected ? AppColorsUnified.gold : AppColorsUnified.textSecondary,
                 ),
               ),
               child: isSelected
@@ -494,9 +494,9 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.goldPrimary.withValues(alpha: 0.1),
+        color: AppColorsUnified.gold.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColorsUnified.goldPrimary.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColorsUnified.gold.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -506,14 +506,14 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
               const Text(
                 'Resumen de Exportación',
                 style: TextStyle(
-                  color: AppColorsUnified.goldPrimary,
+                  color: AppColorsUnified.gold,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.goldPrimary,
+                  color: AppColorsUnified.gold,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -569,7 +569,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
       child: ElevatedButton(
         onPressed: _selectedReports.isEmpty ? null : _exportReports,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColorsUnified.goldPrimary,
+          backgroundColor: AppColorsUnified.gold,
           foregroundColor: Colors.black,
           disabledBackgroundColor: AppColorsUnified.textSecondary.withValues(alpha: 0.3),
           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -622,7 +622,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColorsUnified.backgroundMedium,
+        backgroundColor: AppColorsUnified.backgroundDark,
         icon: const Icon(Icons.check_circle, color: Colors.green, size: 64),
         title: const Text(
           '¡Exportación Exitosa!',
@@ -683,14 +683,14 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Compartiendo archivo...'),
-                  backgroundColor: AppColorsUnified.goldPrimary,
+                  backgroundColor: AppColorsUnified.gold,
                 ),
               );
             },
             icon: const Icon(Icons.share),
             label: const Text('Compartir'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColorsUnified.goldPrimary,
+              backgroundColor: AppColorsUnified.gold,
               foregroundColor: Colors.black,
             ),
           ),
@@ -729,7 +729,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -756,7 +756,7 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
                   const SizedBox(height: 16),
                   const Row(
                     children: [
-                      Icon(Icons.history, color: AppColorsUnified.goldPrimary),
+                      Icon(Icons.history, color: AppColorsUnified.gold),
                       SizedBox(width: 8),
                       Text(
                         'Historial de Exportaciones',
@@ -843,13 +843,13 @@ class _ExportReportsPageState extends State<ExportReportsPage> {
           ],
         ),
         trailing: IconButton(
-          icon: const Icon(Icons.download, color: AppColorsUnified.goldPrimary),
+          icon: const Icon(Icons.download, color: AppColorsUnified.gold),
           onPressed: () {
             Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Descargando ${item.fileName}'),
-                backgroundColor: AppColorsUnified.goldPrimary,
+                backgroundColor: AppColorsUnified.gold,
               ),
             );
           },

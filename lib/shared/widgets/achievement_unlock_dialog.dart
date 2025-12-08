@@ -122,7 +122,7 @@ class _AchievementUnlockedDialogState extends State<AchievementUnlockedDialog>
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: color.withValues(alpha: 0.3),
+                    color: color.withOpacity(0.3),
                     blurRadius: 30,
                     spreadRadius: 5,
                   ),
@@ -280,7 +280,7 @@ class _ConfettiPainter extends CustomPainter {
       final rotation = progress * math.pi * 4 + random.nextDouble() * math.pi;
       
       final paint = Paint()
-        ..color = _getConfettiColor(i, color).withValues(alpha: 1.0 - progress * 0.3)
+        ..color = _getConfettiColor(i, color).withOpacity((1.0 - progress * 0.3).clamp(0.0, 1.0))
         ..style = PaintingStyle.fill;
       
       canvas.save();

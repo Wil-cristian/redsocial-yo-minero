@@ -294,10 +294,10 @@ class _CompanyRequestedProductsPageState
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: statusColor.withValues(alpha: 0.1),
+                        color: statusColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: statusColor.withValues(alpha: 0.3),
+                          color: statusColor.withOpacity(0.3),
                         ),
                       ),
                       child: Text(

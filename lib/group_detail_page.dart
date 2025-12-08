@@ -83,8 +83,8 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
           end: Alignment.bottomRight,
           colors: [
             AppColorsUnified.success,
-            AppColorsUnified.success.withValues(alpha: 0.8),
-            AppColorsUnified.orange.withValues(alpha: 0.9),
+            AppColorsUnified.success.withOpacity(0.8),
+            AppColorsUnified.orange.withOpacity(0.9),
           ],
         ),
       ),
@@ -348,10 +348,10 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [AppColorsUnified.success.withValues(alpha: 0.1), AppColorsUnified.orange.withValues(alpha: 0.1)],
+                              colors: [AppColorsUnified.success.withOpacity(0.1), AppColorsUnified.orange.withOpacity(0.1)],
                             ),
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: AppColorsUnified.success.withValues(alpha: 0.3)),
+                            border: Border.all(color: AppColorsUnified.success.withOpacity(0.3)),
                           ),
                           child: Text(
                             tag,
@@ -459,7 +459,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with TickerProviderSt
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: (_isMember ? AppColorsUnified.warning : AppColorsUnified.success).withValues(alpha: 0.3),
+                      color: (_isMember ? AppColorsUnified.warning : AppColorsUnified.success).withOpacity(0.3),
                       blurRadius: 15,
                       offset: const Offset(0, 8),
                     ),

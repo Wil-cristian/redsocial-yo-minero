@@ -59,12 +59,14 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
   final _budgetCtrl = TextEditingController();
   final _pricingFromCtrl = TextEditingController();
   final _pricingToCtrl = TextEditingController();
+  final _pricingUnitCtrl = TextEditingController();
   final _productPriceCtrl = TextEditingController();
   final _productStockCtrl = TextEditingController();
   final _newsSourceCtrl = TextEditingController();
   final _newsAuthorCtrl = TextEditingController();
   PostType _type = PostType.community;
   String _productCondition = 'nuevo';
+  String _serviceAvailability = 'Horario flexible';
   bool _submitting = false;
   
   // Product images URLs
@@ -87,6 +89,7 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
     _budgetCtrl.dispose();
     _pricingFromCtrl.dispose();
     _pricingToCtrl.dispose();
+    _pricingUnitCtrl.dispose();
     _productPriceCtrl.dispose();
     _productStockCtrl.dispose();
     _newsSourceCtrl.dispose();
@@ -106,6 +109,24 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
       _show('Completa título y contenido.');
       return;
     }
+    
+    // ✅ VALIDACIÓN DE ENCUESTA
+    if (_type == PostType.poll) {
+      final pollOptions = _pollOptionControllers
+          .map((c) => c.text.trim())
+          .where((t) => t.isNotEmpty)
+          .toList();
+      
+      debugPrint('🗳️ VALIDANDO ENCUESTA:');
+      debugPrint('  Opciones ingresadas: $pollOptions');
+      debugPrint('  Cantidad: ${pollOptions.length}');
+      
+      if (pollOptions.length < 2) {
+        _show('Las encuestas necesitan al menos 2 opciones');
+        return;
+      }
+    }
+    
     if (_type == PostType.request) {
       final err = PostCreationValidator.validateRequestBudget(_budgetCtrl.text);
       if (err != null) {
@@ -126,6 +147,24 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
         .map((e) => e.trim())
         .where((e) => e.isNotEmpty)
         .toList();
+    
+    // 📤 DEBUG: Ver qué se va a enviar
+    if (_type == PostType.poll) {
+      final pollOptions = _pollOptionControllers
+          .map((c) => c.text.trim())
+          .where((t) => t.isNotEmpty)
+          .toList();
+      final pollEndsAt = DateTime.now().add(Duration(days: _pollDurationDays));
+      
+      debugPrint('📤 ====== SUBMIT ENCUESTA ======');
+      debugPrint('📝 Título: $title');
+      debugPrint('📝 Contenido: $content');
+      debugPrint('🗳️ Opciones a enviar: $pollOptions');
+      debugPrint('⏰ Duración días: $_pollDurationDays');
+      debugPrint('⏰ Fecha fin: $pollEndsAt');
+      debugPrint('================================');
+    }
+    
     setState(() => _submitting = true);
     try {
       final post = await widget.create(
@@ -147,8 +186,12 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
         pricingTo: (_type == PostType.offer || _type == PostType.service)
             ? double.tryParse(_pricingToCtrl.text)
             : null,
-        pricingUnit: (_type == PostType.offer || _type == PostType.service) ? 'unidad' : null,
-        availability: (_type == PostType.offer || _type == PostType.service) ? 'Horario flexible' : null,
+        pricingUnit: (_type == PostType.offer || _type == PostType.service) 
+            ? (_pricingUnitCtrl.text.trim().isNotEmpty ? _pricingUnitCtrl.text.trim() : 'por servicio')
+            : null,
+        availability: (_type == PostType.offer || _type == PostType.service) 
+            ? _serviceAvailability 
+            : null,
         // Campos de producto
         productPrice: _type == PostType.product
             ? double.tryParse(_productPriceCtrl.text)
@@ -364,6 +407,65 @@ class _PostCreationSheetState extends State<PostCreationSheet> {
                   keyboardType: TextInputType.number,
                 )),
               ]),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _pricingUnitCtrl,
+                decoration: const InputDecoration(
+                    labelText: 'Unidad de cobro',
+                    border: OutlineInputBorder(),
+                    hintText: 'Ej: por hora, por día, por proyecto',
+                    prefixIcon: Icon(Icons.timer_outlined)),
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                value: _serviceAvailability,
+                decoration: const InputDecoration(
+                  labelText: 'Disponibilidad',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.calendar_today),
+                ),
+                items: [
+                  'Horario flexible',
+                  'Lunes a Viernes (9am - 6pm)',
+                  'Lunes a Sábado (8am - 5pm)',
+                  'Solo fines de semana',
+                  '24/7 disponible',
+                  'Solo con cita previa',
+                  'Turno mañana (6am - 2pm)',
+                  'Turno tarde (2pm - 10pm)',
+                  'Turno noche (10pm - 6am)',
+                ].map((availability) => DropdownMenuItem(
+                  value: availability,
+                  child: Text(availability, style: const TextStyle(fontSize: 14)),
+                )).toList(),
+                onChanged: (val) => setState(() => _serviceAvailability = val ?? 'Horario flexible'),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColorsUnified.grey100,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColorsUnified.grey300),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.info_outline, size: 16, color: AppColorsUnified.grey600),
+                        const SizedBox(width: 8),
+                        Text('Tip para servicios', style: TextStyle(fontWeight: FontWeight.w600, color: AppColorsUnified.grey700, fontSize: 12)),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Incluye en el contenido: tiempo de entrega estimado, zona de cobertura, y requisitos especiales.',
+                      style: TextStyle(color: AppColorsUnified.grey600, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
             ],
             
             if (_type == PostType.product) ...[

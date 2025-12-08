@@ -187,8 +187,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     end: Alignment.bottomRight,
                     colors: [
                       typeInfo['color'],
-                      typeInfo['color'].withValues(alpha: 0.8),
-                      typeInfo['color'].withValues(alpha: 0.6),
+                      typeInfo['color'].withOpacity(0.8),
+                      typeInfo['color'].withOpacity(0.6),
                     ],
                   ),
                 ),
@@ -433,7 +433,13 @@ class _ProfilePageState extends State<ProfilePage> {
     // Convertir el color hex a Color
     Color roleColor;
     try {
-      roleColor = Color(int.parse(role.color.replaceFirst('#', '0xFF')));
+      String hexColor = role.color.replaceFirst('#', '');
+      // Validar que el hex tenga exactamente 6 caracteres (RRGGBB)
+      if (hexColor.length == 6 && RegExp(r'^[0-9A-Fa-f]+$').hasMatch(hexColor)) {
+        roleColor = Color(int.parse('0xFF$hexColor'));
+      } else {
+        roleColor = AppColorsUnified.companyBlue;
+      }
     } catch (e) {
       roleColor = AppColorsUnified.companyBlue;
     }
@@ -443,13 +449,13 @@ class _ProfilePageState extends State<ProfilePage> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            roleColor.withValues(alpha: 0.15),
-            roleColor.withValues(alpha: 0.05),
+            roleColor.withOpacity(0.15),
+            roleColor.withOpacity(0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: roleColor.withValues(alpha: 0.3),
+          color: roleColor.withOpacity(0.3),
           width: 1.5,
         ),
       ),
@@ -461,7 +467,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: roleColor.withValues(alpha: 0.2),
+                  color: roleColor.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
@@ -515,10 +521,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: roleColor.withValues(alpha: 0.1),
+                    color: roleColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: roleColor.withValues(alpha: 0.2),
+                      color: roleColor.withOpacity(0.2),
                       width: 1,
                     ),
                   ),
@@ -586,7 +592,7 @@ class _ProfilePageState extends State<ProfilePage> {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: color.withValues(alpha: 0.3),
+              color: color.withOpacity(0.3),
               blurRadius: 16,
               offset: const Offset(0, 6),
               spreadRadius: 1,
@@ -603,7 +609,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
@@ -634,7 +640,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
+                                color: Colors.white.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
@@ -653,7 +659,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           '${userLevel.currentXP} / ${userLevel.xpToNextLevel} XP',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withValues(alpha: 0.9),
+                            color: Colors.white.withOpacity(0.9),
                           ),
                         ),
                       ],
@@ -664,7 +670,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Icon(
@@ -686,7 +692,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Container(
                       height: 16,
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
+                        color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
@@ -699,7 +705,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: Colors.white.withOpacity(0.5),
                               blurRadius: 8,
                               spreadRadius: 2,
                             ),
@@ -717,7 +723,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 '${(userLevel.progress * 100).toStringAsFixed(1)}% para el siguiente nivel',
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.white.withValues(alpha: 0.9),
+                  color: Colors.white.withOpacity(0.9),
                 ),
               ),
             ],
@@ -759,7 +765,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColorsUnified.orange.withValues(alpha: 0.15),
+            color: AppColorsUnified.orange.withOpacity(0.15),
             blurRadius: 16,
             offset: const Offset(0, 6),
             spreadRadius: 1,
@@ -782,7 +788,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Icon(
@@ -827,7 +833,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.1),
+          color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -864,7 +870,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withOpacity(0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -937,6 +943,28 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(width: 12),
               Expanded(
+                child: _buildActionButton(
+                  Icons.inventory_2,
+                  'Mis Publicaciones',
+                  AppColorsUnified.gold,
+                  _openMyInventory,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _buildActionButton(
+                  Icons.bookmark,
+                  'Guardados',
+                  AppColorsUnified.orange,
+                  _openSavedPosts,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
                 child: Container(), // Placeholder para mantener simetría
               ),
             ],
@@ -953,7 +981,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.1),
+          color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -1095,6 +1123,14 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context) => const ServicesPage(),
       ),
     );
+  }
+
+  void _openMyInventory() {
+    Navigator.pushNamed(context, '/my-inventory');
+  }
+
+  void _openSavedPosts() {
+    Navigator.pushNamed(context, '/saved-offers');
   }
 
   void _openSuggestions() {

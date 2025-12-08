@@ -176,8 +176,8 @@ class _GroupsPageState extends State<GroupsPage> {
           end: Alignment.bottomRight,
           colors: [
             AppColorsUnified.orange,
-            AppColorsUnified.orange.withValues(alpha: 0.8),
-            AppColors.secondary.withValues(alpha: 0.9),
+            AppColorsUnified.orange.withOpacity(0.8),
+            AppColors.secondary.withOpacity(0.9),
           ],
         ),
       ),
@@ -379,7 +379,7 @@ class _GroupsPageState extends State<GroupsPage> {
                         color: AppColorsUnified.pureWhite,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: DashboardColors.accent.withValues(alpha: 0.3),
+                          color: DashboardColors.accent.withOpacity(0.3),
                           width: 2,
                         ),
                         boxShadow: [
@@ -428,7 +428,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: DashboardColors.accent.withValues(alpha: 0.3),
+                                      color: DashboardColors.accent.withOpacity(0.3),
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
                                     ),
@@ -543,7 +543,7 @@ class _GroupsPageState extends State<GroupsPage> {
                         CircleAvatar(
                           radius: 26,
                           backgroundColor: AppColors.secondaryContainer
-                              .withValues(alpha: 0.6),
+                              .withOpacity(0.6),
                           child: Text(g.name[0].toUpperCase(),
                               style: const TextStyle(
                                   color: AppColorsUnified.orange,
@@ -570,7 +570,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                           horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
                                         color: AppColorsUnified.orange
-                                            .withValues(alpha: 0.1),
+                                            .withOpacity(0.1),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Text('$score',
@@ -586,7 +586,7 @@ class _GroupsPageState extends State<GroupsPage> {
                                           horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
                                         color: AppColorsUnified.success
-                                            .withValues(alpha: 0.12),
+                                            .withOpacity(0.12),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: const Text('Miembro',

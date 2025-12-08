@@ -18,7 +18,6 @@ import '../../manage_services_page.dart';
 import '../../manage_products_page.dart';
 import '../../company_employees_page.dart';
 import '../../company_projects_page.dart';
-import '../../company_metrics_page.dart';
 import '../../company_resources_page.dart';
 import '../../company_requested_services_page.dart';
 import '../../company_requested_products_page.dart';
@@ -28,6 +27,8 @@ import '../../requests_page.dart';
 import '../../suggestions_page.dart';
 import '../../saved_posts_page.dart';
 import '../../chat_detail_page.dart';
+import '../../features/accounting/ui/pages/accounting_dashboard_page.dart';
+import '../../features/inventory/ui/my_inventory_page.dart';
 import '../auth/supabase_auth_service.dart';
 
 /// Centralized route names
@@ -56,10 +57,12 @@ class AppRoutes {
   static const companyRequestedProducts = '/company-requested-products';
   static const companyInventory = '/company-inventory';
   static const companyProduction = '/company/production';
+  static const companyAccounting = '/company/accounting';
   static const requests = '/requests';
   static const suggestions = '/suggestions';
   static const savedOffers = '/saved-offers';
   static const chatDetail = '/chat-detail';
+  static const myInventory = '/my-inventory';
 }
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -132,8 +135,14 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           builder: (_) => CompanyProjectsPage(currentUser: user));
     case AppRoutes.companyMetrics:
       final user = SupabaseAuthService.instance.currentUserProfile;
+      if (user == null) {
+        return _error('Usuario no autenticado');
+      }
       return MaterialPageRoute(
-          builder: (_) => CompanyMetricsPage(currentUser: user));
+          builder: (_) => AccountingDashboardPage(
+                companyId: user['id'] as String,
+                companyName: user['full_name'] ?? 'Empresa',
+              ));
     case AppRoutes.companyResources:
       final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
@@ -152,6 +161,16 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
           builder: (_) => MiningProductionDashboard(currentUser: user));
+    case AppRoutes.companyAccounting:
+      final user = SupabaseAuthService.instance.currentUserProfile;
+      if (user == null) {
+        return _error('Usuario no autenticado');
+      }
+      return MaterialPageRoute(
+          builder: (_) => AccountingDashboardPage(
+                companyId: user['id'] as String,
+                companyName: user['full_name'] ?? 'Empresa',
+              ));
     case AppRoutes.requests:
       final user = SupabaseAuthService.instance.currentUserProfile;
       return MaterialPageRoute(
@@ -172,6 +191,8 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
                 conversation: settings.arguments as Map<String, dynamic>,
                 currentUser: currentUser,
               ));
+    case AppRoutes.myInventory:
+      return MaterialPageRoute(builder: (_) => const MyInventoryPage());
     default:
       return null;
   }

@@ -426,7 +426,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           if (!isMine)
             CircleAvatar(
               radius: 16,
-              backgroundColor: typeColor.withValues(alpha: 0.2),
+              backgroundColor: typeColor.withOpacity(0.2),
               child: Text(
                 widget.conversation['avatar'] ?? 'U',
                 style: TextStyle(
@@ -475,7 +475,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           if (isMine)
             CircleAvatar(
               radius: 16,
-              backgroundColor: typeColor.withValues(alpha: 0.2),
+              backgroundColor: typeColor.withOpacity(0.2),
               child: Icon(Icons.person, color: AppColorsUnified.pureWhite, size: 12),
             ),
         ],
@@ -561,7 +561,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
+              color: color.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 28),

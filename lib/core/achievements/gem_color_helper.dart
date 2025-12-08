@@ -73,7 +73,7 @@ class GemColorHelper {
         // Gradiente radial diamante → naranja claro
         return RadialGradient(
           colors: [
-            AppColorsUnified.pureWhite.withValues(alpha: 0.9),
+            AppColorsUnified.pureWhite.withOpacity(0.9),
             AppColorsUnified.orangeLight,
             AppColorsUnified.orange,
           ],
@@ -89,12 +89,12 @@ class GemColorHelper {
     if (isGlowing) {
       return [
         BoxShadow(
-          color: color.withValues(alpha: 0.4),
+          color: color.withOpacity(0.4),
           blurRadius: 20,
           spreadRadius: 2,
         ),
         BoxShadow(
-          color: color.withValues(alpha: 0.2),
+          color: color.withOpacity(0.2),
           blurRadius: 40,
           spreadRadius: 4,
         ),
@@ -103,7 +103,7 @@ class GemColorHelper {
     
     return [
       BoxShadow(
-        color: color.withValues(alpha: 0.3),
+        color: color.withOpacity(0.3),
         blurRadius: 12,
         offset: const Offset(0, 4),
       ),

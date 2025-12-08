@@ -108,6 +108,18 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
         'color': AppColorsUnified.grey500, // Gris equilibrado
       },
       {
+        'icon': Icons.inventory_2_rounded,
+        'label': 'Mis Publicaciones',
+        'route': '/my-inventory', // Inventario personal para TODOS
+        'color': AppColorsUnified.gold, // Oro premium
+      },
+      {
+        'icon': Icons.bookmark_rounded,
+        'label': 'Guardados',
+        'route': '/saved-offers', // Posts guardados
+        'color': AppColorsUnified.orange, // Naranja
+      },
+      {
         'icon': Icons.person_rounded,
         'label': 'Perfil',
         'index': 2, // Índice en MainNavigationShell
@@ -519,12 +531,12 @@ class _CustomSideDrawerState extends State<CustomSideDrawer>
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: isCompanyOption
-                        ? color.withValues(alpha: 0.3)
-                        : color.withValues(alpha: 0.2),
+                        ? color.withOpacity(0.3)
+                        : color.withOpacity(0.2),
                     // Borde para opciones PRO
                     border: isCompanyOption
                         ? Border.all(
-                            color: color.withValues(alpha: 0.5),
+                            color: color.withOpacity(0.5),
                             width: 1.5,
                           )
                         : null,

@@ -106,9 +106,9 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: Colors.white.withOpacity(0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: Colors.white.withOpacity(0.3)),
           ),
           child: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -142,7 +142,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              userColor.withValues(alpha: 0.1),
+              userColor.withOpacity(0.1),
               Colors.grey[50]!,
             ],
           ),
@@ -223,7 +223,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           Icon(
             icon,
             size: 80,
-            color: AppColors.textSecondary.withValues(alpha: 0.5),
+            color: AppColors.textSecondary.withOpacity(0.5),
           ),
           const SizedBox(height: 24),
           Text(
@@ -238,7 +238,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           Text(
             subtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary.withValues(alpha: 0.7),
+              color: AppColors.textSecondary.withOpacity(0.7),
             ),
             textAlign: TextAlign.center,
           ),
@@ -271,14 +271,14 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isHovered 
-                ? AppColorsUnified.gold.withValues(alpha: 0.4)
+                ? AppColorsUnified.gold.withOpacity(0.4)
                 : AppColorsUnified.grey200,
             width: isHovered ? 2 : 1.5,
           ),
           boxShadow: [
             BoxShadow(
               color: isHovered
-                  ? AppColorsUnified.gold.withValues(alpha: 0.2)
+                  ? AppColorsUnified.gold.withOpacity(0.2)
                   : AppColorsUnified.shadowMedium,
               blurRadius: isHovered ? 28 : 12,
               spreadRadius: isHovered ? 3 : 0,
@@ -286,7 +286,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
             ),
             if (isHovered)
               BoxShadow(
-                color: AppColorsUnified.goldBright.withValues(alpha: 0.15),
+                color: AppColorsUnified.goldBright.withOpacity(0.15),
                 blurRadius: 16,
                 offset: const Offset(0, 4),
               ),
@@ -297,8 +297,8 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
           child: InkWell(
             borderRadius: BorderRadius.circular(20),
             onTap: () => _showRequestDetails(request),
-            splashColor: AppColorsUnified.gold.withValues(alpha: 0.1),
-            highlightColor: AppColorsUnified.gold.withValues(alpha: 0.05),
+            splashColor: AppColorsUnified.gold.withOpacity(0.1),
+            highlightColor: AppColorsUnified.gold.withOpacity(0.05),
             child: Column(
               children: [
                 // Header con efecto shimmer
@@ -309,14 +309,14 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        AppColorsUnified.goldHighlight.withValues(alpha: 0.15),
+                        AppColorsUnified.goldHighlight.withOpacity(0.15),
                         AppColorsUnified.grey50,
                       ],
                     ),
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                     border: Border(
                       bottom: BorderSide(
-                        color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                        color: AppColorsUnified.gold.withOpacity(0.2),
                         width: 1,
                       ),
                     ),
@@ -338,19 +338,19 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                                     ? AppColorsUnified.goldRadialGradient
                                     : RadialGradient(
                                         colors: [
-                                          AppColorsUnified.gold.withValues(alpha: 0.15),
-                                          AppColorsUnified.gold.withValues(alpha: 0.05),
+                                          AppColorsUnified.gold.withOpacity(0.15),
+                                          AppColorsUnified.gold.withOpacity(0.05),
                                         ],
                                       ),
                                 borderRadius: BorderRadius.circular(14),
                                 border: Border.all(
-                                  color: AppColorsUnified.gold.withValues(alpha: isHovered ? 0.4 : 0.2),
+                                  color: AppColorsUnified.gold.withOpacity(isHovered ? 0.4 : 0.2),
                                   width: isHovered ? 2 : 1.5,
                                 ),
                                 boxShadow: isHovered
                                     ? [
                                         BoxShadow(
-                                          color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                          color: AppColorsUnified.gold.withOpacity(0.3),
                                           blurRadius: 12,
                                           spreadRadius: 2,
                                         ),
@@ -473,12 +473,12 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                                     gradient: LinearGradient(
                                       colors: [
                                         AppColorsUnified.goldHighlight,
-                                        AppColorsUnified.goldBright.withValues(alpha: 0.3),
+                                        AppColorsUnified.goldBright.withOpacity(0.3),
                                       ],
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
-                                      color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                      color: AppColorsUnified.gold.withOpacity(0.3),
                                       width: 1,
                                     ),
                                   ),
@@ -602,23 +602,23 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
               gradient: LinearGradient(
                 colors: parentHovered
                     ? [
-                        chipColor.withValues(alpha: 0.25),
-                        chipColor.withValues(alpha: 0.15),
+                        chipColor.withOpacity(0.25),
+                        chipColor.withOpacity(0.15),
                       ]
                     : [
-                        chipColor.withValues(alpha: 0.15),
-                        chipColor.withValues(alpha: 0.1),
+                        chipColor.withOpacity(0.15),
+                        chipColor.withOpacity(0.1),
                       ],
               ),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: chipColor.withValues(alpha: parentHovered ? 0.5 : 0.3),
+                color: chipColor.withOpacity(parentHovered ? 0.5 : 0.3),
                 width: parentHovered ? 2 : 1.5,
               ),
               boxShadow: parentHovered
                   ? [
                       BoxShadow(
-                        color: chipColor.withValues(alpha: 0.3),
+                        color: chipColor.withOpacity(0.3),
                         blurRadius: 12,
                         spreadRadius: 2,
                       ),
@@ -680,17 +680,17 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
         gradient: LinearGradient(
           colors: parentHovered
               ? [
-                  chipColor.withValues(alpha: 0.25),
-                  chipColor.withValues(alpha: 0.15),
+                  chipColor.withOpacity(0.25),
+                  chipColor.withOpacity(0.15),
                 ]
               : [
-                  chipColor.withValues(alpha: 0.15),
-                  chipColor.withValues(alpha: 0.1),
+                  chipColor.withOpacity(0.15),
+                  chipColor.withOpacity(0.1),
                 ],
         ),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: chipColor.withValues(alpha: parentHovered ? 0.5 : 0.3),
+          color: chipColor.withOpacity(parentHovered ? 0.5 : 0.3),
           width: parentHovered ? 2 : 1.5,
         ),
       ),
@@ -749,8 +749,8 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                   child: InkWell(
                     onTap: onTap,
                     borderRadius: BorderRadius.circular(14),
-                    splashColor: color.withValues(alpha: 0.3),
-                    highlightColor: color.withValues(alpha: 0.2),
+                    splashColor: color.withOpacity(0.3),
+                    highlightColor: color.withOpacity(0.2),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 250),
                       padding: const EdgeInsets.symmetric(vertical: 14),
@@ -771,27 +771,27 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                                         ),
                                       ]
                                     : [
-                                        color.withValues(alpha: 0.9),
+                                        color.withOpacity(0.9),
                                         color,
                                       ],
                               ),
                         color: isSecondary
-                            ? (isHovered ? color.withValues(alpha: 0.1) : Colors.transparent)
+                            ? (isHovered ? color.withOpacity(0.1) : Colors.transparent)
                             : null,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
-                          color: isHovered ? color : color.withValues(alpha: 0.5),
+                          color: isHovered ? color : color.withOpacity(0.5),
                           width: isSecondary ? (isHovered ? 2.5 : 2) : 0,
                         ),
                         boxShadow: !isSecondary && isHovered
                             ? [
                                 BoxShadow(
-                                  color: color.withValues(alpha: 0.4),
+                                  color: color.withOpacity(0.4),
                                   blurRadius: 20,
                                   spreadRadius: 3,
                                 ),
                                 BoxShadow(
-                                  color: color.withValues(alpha: 0.2),
+                                  color: color.withOpacity(0.2),
                                   blurRadius: 12,
                                   offset: const Offset(0, 6),
                                 ),
@@ -799,7 +799,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                             : !isSecondary
                                 ? [
                                     BoxShadow(
-                                      color: color.withValues(alpha: 0.3),
+                                      color: color.withOpacity(0.3),
                                       blurRadius: 12,
                                       spreadRadius: 1,
                                     ),
@@ -816,7 +816,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                             child: Icon(
                               icon,
                               color: isSecondary
-                                  ? (isHovered ? color : color.withValues(alpha: 0.8))
+                                  ? (isHovered ? color : color.withOpacity(0.8))
                                   : AppColorsUnified.pureWhite,
                               size: 22,
                             ),
@@ -828,7 +828,7 @@ class _RequestsPageState extends State<RequestsPage> with TickerProviderStateMix
                               fontSize: isHovered ? 16 : 15,
                               fontWeight: isHovered ? FontWeight.w800 : FontWeight.w700,
                               color: isSecondary
-                                  ? (isHovered ? color : color.withValues(alpha: 0.8))
+                                  ? (isHovered ? color : color.withOpacity(0.8))
                                   : AppColorsUnified.pureWhite,
                               letterSpacing: 0.6,
                             ),

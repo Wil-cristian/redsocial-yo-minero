@@ -174,12 +174,12 @@ class _ConnectionRequestsPageState extends State<ConnectionRequestsPage> with Si
             gradient: LinearGradient(
               colors: [
                 AppColorsUnified.textPrimary,
-                AppColorsUnified.textPrimary.withValues(alpha: 0.95),
+                AppColorsUnified.textPrimary.withOpacity(0.95),
               ],
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                color: AppColorsUnified.gold.withOpacity(0.2),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -239,7 +239,7 @@ class _ConnectionRequestsPageState extends State<ConnectionRequestsPage> with Si
                                 gradient: LinearGradient(
                                   colors: [
                                     AppColorsUnified.gold,
-                                    AppColorsUnified.gold.withValues(alpha: 0.8),
+                                    AppColorsUnified.gold.withOpacity(0.8),
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(10),
@@ -330,8 +330,8 @@ class _ConnectionRequestsPageState extends State<ConnectionRequestsPage> with Si
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColorsUnified.gold.withValues(alpha: 0.2),
-                    AppColorsUnified.gold.withValues(alpha: 0.05),
+                    AppColorsUnified.gold.withOpacity(0.2),
+                    AppColorsUnified.gold.withOpacity(0.05),
                   ],
                 ),
                 shape: BoxShape.circle,
@@ -381,7 +381,7 @@ class _ConnectionRequestsPageState extends State<ConnectionRequestsPage> with Si
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
-          color: AppColorsUnified.gold.withValues(alpha: 0.3),
+          color: AppColorsUnified.gold.withOpacity(0.3),
           width: 1.5,
         ),
       ),
@@ -394,7 +394,7 @@ class _ConnectionRequestsPageState extends State<ConnectionRequestsPage> with Si
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundColor: AppColorsUnified.gold.withValues(alpha: 0.15),
+                  backgroundColor: AppColorsUnified.gold.withOpacity(0.15),
                   backgroundImage: request.otherUserProfileImage != null
                       ? NetworkImage(request.otherUserProfileImage!)
                       : null,
@@ -508,8 +508,8 @@ class _ConnectionRequestsPageState extends State<ConnectionRequestsPage> with Si
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColorsUnified.grey300.withValues(alpha: 0.3),
-                    AppColorsUnified.grey300.withValues(alpha: 0.1),
+                    AppColorsUnified.grey300.withOpacity(0.3),
+                    AppColorsUnified.grey300.withOpacity(0.1),
                   ],
                 ),
                 shape: BoxShape.circle,

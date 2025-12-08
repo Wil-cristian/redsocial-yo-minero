@@ -66,8 +66,8 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              AppColors.secondary.withValues(alpha: 0.05),
-              AppColors.primary.withValues(alpha: 0.03),
+              AppColors.secondary.withOpacity(0.05),
+              AppColors.primary.withOpacity(0.03),
               Colors.white,
             ],
           ),
@@ -84,11 +84,11 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
               leading: Container(
                 margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.9),
+                  color: Colors.white.withOpacity(0.9),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
+                      color: Colors.black.withOpacity(0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -104,11 +104,11 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                 Container(
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: Colors.white.withOpacity(0.9),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
+                        color: Colors.black.withOpacity(0.1),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -128,11 +128,11 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                 title: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: Colors.white.withOpacity(0.9),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
+                        color: Colors.black.withOpacity(0.1),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -170,8 +170,8 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        AppColors.secondary.withValues(alpha: 0.1),
-                        AppColors.primary.withValues(alpha: 0.05),
+                        AppColors.secondary.withOpacity(0.1),
+                        AppColors.primary.withOpacity(0.05),
                       ],
                     ),
                   ),
@@ -194,14 +194,14 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            AppColors.secondary.withValues(alpha: 0.1),
-                            AppColors.primary.withValues(alpha: 0.05),
+                            AppColors.secondary.withOpacity(0.1),
+                            AppColors.primary.withOpacity(0.05),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.secondary.withValues(alpha: 0.1),
+                            color: AppColors.secondary.withOpacity(0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
@@ -218,7 +218,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.secondary.withValues(alpha: 0.3),
+                                  color: AppColors.secondary.withOpacity(0.3),
                                   blurRadius: 12,
                                   offset: const Offset(0, 4),
                                 ),
@@ -258,13 +258,13 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                           end: Alignment.bottomRight,
                           colors: [
                             Colors.white,
-                            AppColors.secondary.withValues(alpha: 0.02),
+                            AppColors.secondary.withOpacity(0.02),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.secondary.withValues(alpha: 0.1),
+                            color: AppColors.secondary.withOpacity(0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
@@ -284,8 +284,8 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        AppColors.secondary.withValues(alpha: 0.2),
-                                        AppColors.primary.withValues(alpha: 0.1),
+                                        AppColors.secondary.withOpacity(0.2),
+                                        AppColors.primary.withOpacity(0.1),
                                       ],
                                     ),
                                     borderRadius: BorderRadius.circular(16),
@@ -356,13 +356,13 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
           end: Alignment.bottomRight,
           colors: [
             Colors.white,
-            AppColors.secondary.withValues(alpha: 0.02),
+            AppColors.secondary.withOpacity(0.02),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: AppColors.secondary.withValues(alpha: 0.1),
+            color: AppColors.secondary.withOpacity(0.1),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -375,8 +375,8 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.secondary.withValues(alpha: 0.1),
-                  AppColors.primary.withValues(alpha: 0.05),
+                  AppColors.secondary.withOpacity(0.1),
+                  AppColors.primary.withOpacity(0.05),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
@@ -384,7 +384,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
             child: Icon(
               Icons.shopping_bag_outlined,
               size: 64,
-              color: AppColors.secondary.withValues(alpha: 0.7),
+              color: AppColors.secondary.withOpacity(0.7),
             ),
           ),
           const SizedBox(height: 20),
@@ -414,7 +414,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
               borderRadius: BorderRadius.circular(25),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.secondary.withValues(alpha: 0.3),
+                  color: AppColors.secondary.withOpacity(0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -450,13 +450,13 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
             end: Alignment.bottomRight,
             colors: [
               Colors.white,
-              AppColors.secondary.withValues(alpha: 0.02),
+              AppColors.secondary.withOpacity(0.02),
             ],
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: AppColors.secondary.withValues(alpha: 0.1),
+              color: AppColors.secondary.withOpacity(0.1),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -478,14 +478,14 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          AppColors.secondary.withValues(alpha: 0.2),
-                          AppColors.primary.withValues(alpha: 0.1),
+                          AppColors.secondary.withOpacity(0.2),
+                          AppColors.primary.withOpacity(0.1),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.secondary.withValues(alpha: 0.2),
+                          color: AppColors.secondary.withOpacity(0.2),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -525,7 +525,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                             Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: AppColors.secondary.withValues(alpha: 0.1),
+                                color: AppColors.secondary.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Icon(
@@ -540,7 +540,7 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: AppColors.surface.withValues(alpha: 0.5),
+                            color: AppColors.surface.withOpacity(0.5),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -561,13 +561,13 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    AppColors.success.withValues(alpha: 0.2),
-                                    AppColors.success.withValues(alpha: 0.1),
+                                    AppColors.success.withOpacity(0.2),
+                                    AppColors.success.withOpacity(0.1),
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: AppColors.success.withValues(alpha: 0.3),
+                                  color: AppColors.success.withOpacity(0.3),
                                   width: 1,
                                 ),
                               ),
@@ -600,19 +600,19 @@ class _ManageProductsPageState extends State<ManageProductsPage> {
                                 gradient: LinearGradient(
                                   colors: product.inStock 
                                     ? [
-                                        AppColors.success.withValues(alpha: 0.2),
-                                        AppColors.success.withValues(alpha: 0.1),
+                                        AppColors.success.withOpacity(0.2),
+                                        AppColors.success.withOpacity(0.1),
                                       ]
                                     : [
-                                        AppColors.error.withValues(alpha: 0.2),
-                                        AppColors.error.withValues(alpha: 0.1),
+                                        AppColors.error.withOpacity(0.2),
+                                        AppColors.error.withOpacity(0.1),
                                       ],
                                 ),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: product.inStock 
-                                    ? AppColors.success.withValues(alpha: 0.3)
-                                    : AppColors.error.withValues(alpha: 0.3),
+                                    ? AppColors.success.withOpacity(0.3)
+                                    : AppColors.error.withOpacity(0.3),
                                   width: 1,
                                 ),
                               ),

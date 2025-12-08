@@ -237,7 +237,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: DashboardColors.primary.withValues(alpha: 0.1),
+              color: DashboardColors.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -349,7 +349,7 @@ class _CartFavoritesPageState extends State<CartFavoritesPage>
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: AppColorsUnified.error.withValues(alpha: 0.1),
+              color: AppColorsUnified.error.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(

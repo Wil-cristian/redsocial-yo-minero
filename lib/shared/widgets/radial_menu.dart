@@ -162,7 +162,7 @@ class _RadialMenuState extends State<RadialMenu>
               child: GestureDetector(
                 onTap: _handleClose,
                 child: Container(
-                  color: Colors.black.withValues(alpha: 0.7 * _expandController.value),
+                  color: Colors.black.withOpacity((0.7 * _expandController.value).clamp(0.0, 1.0)),
                 ),
               ),
             );
@@ -189,7 +189,7 @@ class _RadialMenuState extends State<RadialMenu>
           animation: Listenable.merge([_expandController, _pulseController]),
           builder: (context, child) {
             final scale = 1.0 + (0.05 * _pulseController.value); // Respiración sutil
-            final glowOpacity = 0.35 + (0.15 * _pulseController.value);
+            final glowOpacity = (0.35 + (0.15 * _pulseController.value)).clamp(0.0, 1.0);
             
             return Positioned(
               left: center.dx - 36,
@@ -206,7 +206,7 @@ class _RadialMenuState extends State<RadialMenu>
                       gradient: AppColorsUnified.goldRadialGradient,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColorsUnified.gold.withValues(alpha: glowOpacity),
+                          color: AppColorsUnified.gold.withOpacity(glowOpacity),
                           blurRadius: 28,
                           spreadRadius: 6,
                         ),
@@ -315,7 +315,7 @@ class _RadialMenuState extends State<RadialMenu>
                             boxShadow: [
                               BoxShadow(
                                 color: isHovered
-                                    ? AppColorsUnified.gold.withValues(alpha: 0.25)
+                                    ? AppColorsUnified.gold.withOpacity(0.25)
                                     : AppColorsUnified.shadowMedium,
                                 blurRadius: isHovered ? 20 : 12,
                                 spreadRadius: isHovered ? 2 : 0,
@@ -341,12 +341,12 @@ class _RadialMenuState extends State<RadialMenu>
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                     colors: [
-                                      item.color.withValues(alpha: 0.15),
-                                      item.color.withValues(alpha: 0.08),
+                                      item.color.withOpacity(0.15),
+                                      item.color.withOpacity(0.08),
                                     ],
                                   ),
                                   border: Border.all(
-                                    color: item.color.withValues(alpha: 0.3),
+                                    color: item.color.withOpacity(0.3),
                                     width: 1,
                                   ),
                                 ),
@@ -402,17 +402,17 @@ class _RadialBackgroundPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Círculos concéntricos animados con oro sutil
     final paint1 = Paint()
-      ..color = AppColorsUnified.gold.withValues(alpha: 0.12)
+      ..color = AppColorsUnified.gold.withOpacity(0.12)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
 
     final paint2 = Paint()
-      ..color = AppColorsUnified.goldBright.withValues(alpha: 0.08)
+      ..color = AppColorsUnified.goldBright.withOpacity(0.08)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
 
     final paint3 = Paint()
-      ..color = AppColorsUnified.grey300.withValues(alpha: 0.15)
+      ..color = AppColorsUnified.grey300.withOpacity(0.15)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
 
@@ -424,7 +424,7 @@ class _RadialBackgroundPainter extends CustomPainter {
 
     // Líneas radiales
     final linePaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.05)
+      ..color = Colors.white.withOpacity(0.05)
       ..strokeWidth = 1;
 
     for (int i = 0; i < 12; i++) {

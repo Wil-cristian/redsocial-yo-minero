@@ -97,7 +97,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                     end: Alignment.bottomRight,
                     colors: [
                       AppColorsUnified.orange,
-                      AppColorsUnified.orange.withValues(alpha: 0.8),
+                      AppColorsUnified.orange.withOpacity(0.8),
                       AppColorsUnified.fade(AppColorsUnified.orange, 0.1),
                     ],
                   ),
@@ -255,12 +255,12 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
           gradient: LinearGradient(
             colors: [
               AppColorsUnified.orange,
-              AppColorsUnified.orange.withValues(alpha: 0.8),
+              AppColorsUnified.orange.withOpacity(0.8),
             ],
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColorsUnified.orange.withValues(alpha: 0.3),
+              color: AppColorsUnified.orange.withOpacity(0.3),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -290,7 +290,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 end: Alignment.bottomRight,
                 colors: [
                   AppColorsUnified.pureWhite,
-                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
+                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withOpacity(0.1),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
@@ -312,7 +312,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.7)],
+                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withOpacity(0.7)],
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -372,7 +372,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: AppColorsUnified.orange.withValues(alpha: 0.1),
+                            color: AppColorsUnified.orange.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: const Icon(Icons.cake_outlined, color: AppColorsUnified.orange, size: 20),
@@ -430,7 +430,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 end: Alignment.bottomRight,
                 colors: [
                   AppColorsUnified.pureWhite,
-                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
+                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withOpacity(0.1),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
@@ -452,7 +452,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.7)],
+                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withOpacity(0.7)],
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -523,7 +523,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppColorsUnified.orange.withValues(alpha: 0.1),
+                              color: AppColorsUnified.orange.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: const Icon(Icons.trending_up, color: AppColorsUnified.orange, size: 20),
@@ -584,7 +584,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppColorsUnified.orange.withValues(alpha: 0.1),
+                              color: AppColorsUnified.orange.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: const Icon(Icons.science_outlined, color: AppColorsUnified.orange, size: 20),
@@ -619,7 +619,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                               });
                             },
                             backgroundColor: AppColorsUnified.pureWhite,
-                            selectedColor: AppColorsUnified.orange.withValues(alpha: 0.2),
+                            selectedColor: AppColorsUnified.orange.withOpacity(0.2),
                             checkmarkColor: AppColorsUnified.orange,
                             labelStyle: TextStyle(
                               color: isSelected ? AppColorsUnified.orange : AppColorsUnified.grey700,
@@ -651,7 +651,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 end: Alignment.bottomRight,
                 colors: [
                   AppColorsUnified.pureWhite,
-                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
+                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withOpacity(0.1),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
@@ -673,7 +673,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.7)],
+                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withOpacity(0.7)],
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -730,7 +730,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [AppColorsUnified.fade(AppColorsUnified.orange, 0.1), AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.7)],
+                      colors: [AppColorsUnified.fade(AppColorsUnified.orange, 0.1), AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withOpacity(0.7)],
                     ),
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -774,13 +774,13 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                 end: Alignment.bottomRight,
                 colors: [
                   Colors.white,
-                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
+                  AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withOpacity(0.1),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
+                  color: Colors.black.withOpacity(0.08),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
@@ -796,7 +796,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.7)],
+                          colors: [AppColorsUnified.orange, AppColorsUnified.orange.withOpacity(0.7)],
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -845,7 +845,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
                         });
                       },
                       backgroundColor: Colors.white,
-                      selectedColor: AppColorsUnified.orange.withValues(alpha: 0.2),
+                      selectedColor: AppColorsUnified.orange.withOpacity(0.2),
                       checkmarkColor: AppColorsUnified.orange,
                       labelStyle: TextStyle(
                         color: isSelected ? AppColorsUnified.orange : Colors.grey.shade700,
@@ -891,7 +891,7 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
             margin: const EdgeInsets.all(12),
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColorsUnified.orange.withValues(alpha: 0.1),
+              color: AppColorsUnified.orange.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: AppColorsUnified.orange, size: 20),

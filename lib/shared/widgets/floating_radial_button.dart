@@ -218,7 +218,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                 final breatheScale = 1.0 + (0.02 * _breatheController.value);
                 
                 // Brillo sutil que pulsa
-                final glowOpacity = 0.3 + (0.15 * _pulseController.value);
+                final glowOpacity = (0.3 + (0.15 * _pulseController.value)).clamp(0.0, 1.0);
 
                 return Transform.scale(
                   scale: breatheScale,
@@ -233,7 +233,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                       boxShadow: [
                         // Glow dorado sutil
                         BoxShadow(
-                          color: AppColorsUnified.gold.withValues(alpha: glowOpacity),
+                          color: AppColorsUnified.gold.withOpacity(glowOpacity),
                           blurRadius: 24,
                           spreadRadius: 4,
                         ),
@@ -332,7 +332,7 @@ class _FloatingRadialButtonState extends State<FloatingRadialButton>
                                     height: 2.5,
                                     decoration: BoxDecoration(
                                       color: AppColorsUnified.goldLayer5
-                                          .withValues(alpha: 0.4 + (0.2 * _pulseController.value)),
+                                          .withOpacity((0.4 + (0.2 * _pulseController.value)).clamp(0.0, 1.0)),
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(

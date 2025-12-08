@@ -75,8 +75,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
           end: Alignment.bottomRight,
           colors: [
             AppColors.secondary,
-            AppColors.secondary.withValues(alpha: 0.8),
-            AppColorsUnified.orange.withValues(alpha: 0.9),
+            AppColors.secondary.withOpacity(0.8),
+            AppColorsUnified.orange.withOpacity(0.9),
           ],
         ),
       ),
@@ -372,7 +372,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> with TickerProvid
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColorsUnified.orange.withValues(alpha: 0.3),
+                      color: AppColorsUnified.orange.withOpacity(0.3),
                       blurRadius: 15,
                       offset: const Offset(0, 8),
                     ),

@@ -334,7 +334,7 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         leading: CircleAvatar(
           radius: 28,
-          backgroundColor: AppColorsUnified.gold.withValues(alpha: 0.15),
+          backgroundColor: AppColorsUnified.gold.withOpacity(0.15),
           backgroundImage: user['profile_image_url'] != null 
               ? NetworkImage(user['profile_image_url']) 
               : null,
@@ -437,13 +437,13 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                AppColorsUnified.gold.withValues(alpha: 0.2),
-                AppColorsUnified.gold.withValues(alpha: 0.1),
+                AppColorsUnified.gold.withOpacity(0.2),
+                AppColorsUnified.gold.withOpacity(0.1),
               ],
             ),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: AppColorsUnified.gold.withValues(alpha: 0.4),
+              color: AppColorsUnified.gold.withOpacity(0.4),
               width: 1,
             ),
           ),

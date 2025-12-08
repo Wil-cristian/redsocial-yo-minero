@@ -164,14 +164,14 @@ class _ConversationsPageState extends State<ConversationsPage> {
             gradient: LinearGradient(
               colors: [
                 AppColorsUnified.textPrimary,
-                AppColorsUnified.textPrimary.withValues(alpha: 0.95),
+                AppColorsUnified.textPrimary.withOpacity(0.95),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                color: AppColorsUnified.gold.withOpacity(0.2),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -188,13 +188,13 @@ class _ConversationsPageState extends State<ConversationsPage> {
                       gradient: LinearGradient(
                         colors: [
                           AppColorsUnified.gold,
-                          AppColorsUnified.gold.withValues(alpha: 0.8),
+                          AppColorsUnified.gold.withOpacity(0.8),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                          color: AppColorsUnified.gold.withOpacity(0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -252,7 +252,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                               gradient: LinearGradient(
                                 colors: [
                                   AppColorsUnified.gold,
-                                  AppColorsUnified.gold.withValues(alpha: 0.9),
+                                  AppColorsUnified.gold.withOpacity(0.9),
                                 ],
                               ),
                               shape: BoxShape.circle,
@@ -382,8 +382,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColorsUnified.gold.withValues(alpha: 0.2),
-                    AppColorsUnified.gold.withValues(alpha: 0.05),
+                    AppColorsUnified.gold.withOpacity(0.2),
+                    AppColorsUnified.gold.withOpacity(0.05),
                   ],
                 ),
                 shape: BoxShape.circle,
@@ -420,13 +420,13 @@ class _ConversationsPageState extends State<ConversationsPage> {
                 gradient: LinearGradient(
                   colors: [
                     AppColorsUnified.gold,
-                    AppColorsUnified.gold.withValues(alpha: 0.8),
+                    AppColorsUnified.gold.withOpacity(0.8),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                    color: AppColorsUnified.gold.withOpacity(0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -494,14 +494,14 @@ class _ConversationsPageState extends State<ConversationsPage> {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: unreadCount > 0 
-              ? AppColorsUnified.gold.withValues(alpha: 0.6)
+              ? AppColorsUnified.gold.withOpacity(0.6)
               : AppColorsUnified.grey300,
           width: unreadCount > 0 ? 2 : 1,
         ),
         boxShadow: [
           BoxShadow(
             color: unreadCount > 0
-                ? AppColorsUnified.gold.withValues(alpha: 0.2)
+                ? AppColorsUnified.gold.withOpacity(0.2)
                 : AppColorsUnified.blackTransparent05,
             blurRadius: unreadCount > 0 ? 12 : 4,
             offset: const Offset(0, 2),
@@ -513,8 +513,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
         child: InkWell(
           onTap: () => _openChat(otherUserId),
           borderRadius: BorderRadius.circular(16),
-          splashColor: AppColorsUnified.gold.withValues(alpha: 0.1),
-          highlightColor: AppColorsUnified.gold.withValues(alpha: 0.05),
+          splashColor: AppColorsUnified.gold.withOpacity(0.1),
+          highlightColor: AppColorsUnified.gold.withOpacity(0.05),
           child: Padding(
             padding: const EdgeInsets.all(14),
             child: Row(
@@ -530,7 +530,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                            color: AppColorsUnified.gold.withOpacity(0.3),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -538,7 +538,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                       ),
                       child: CircleAvatar(
                         radius: 30,
-                        backgroundColor: AppColorsUnified.gold.withValues(alpha: 0.15),
+                        backgroundColor: AppColorsUnified.gold.withOpacity(0.15),
                         backgroundImage: otherUserProfileImage != null 
                             ? NetworkImage(otherUserProfileImage) 
                             : null,
@@ -564,13 +564,13 @@ class _ConversationsPageState extends State<ConversationsPage> {
                             gradient: LinearGradient(
                               colors: [
                                 AppColorsUnified.gold,
-                                AppColorsUnified.gold.withValues(alpha: 0.8),
+                                AppColorsUnified.gold.withOpacity(0.8),
                               ],
                             ),
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: AppColorsUnified.gold.withValues(alpha: 0.5),
+                                color: AppColorsUnified.gold.withOpacity(0.5),
                                 blurRadius: 8,
                                 offset: const Offset(0, 2),
                               ),
@@ -635,7 +635,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColorsUnified.gold.withValues(alpha: 0.1),
+                    color: AppColorsUnified.gold.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Icon(

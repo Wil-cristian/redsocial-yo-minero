@@ -292,16 +292,16 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     return Scaffold(
       backgroundColor: AppColorsUnified.backgroundDark,
       appBar: AppBar(
-        backgroundColor: AppColorsUnified.backgroundMedium,
+        backgroundColor: AppColorsUnified.backgroundDark,
         title: const Text(
           'Inventario Contable',
-          style: TextStyle(color: AppColorsUnified.goldPrimary),
+          style: TextStyle(color: AppColorsUnified.gold),
         ),
-        iconTheme: const IconThemeData(color: AppColorsUnified.goldPrimary),
+        iconTheme: const IconThemeData(color: AppColorsUnified.gold),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppColorsUnified.goldPrimary,
-          labelColor: AppColorsUnified.goldPrimary,
+          indicatorColor: AppColorsUnified.gold,
+          labelColor: AppColorsUnified.gold,
           unselectedLabelColor: AppColorsUnified.textSecondary,
           isScrollable: true,
           tabs: const [
@@ -324,7 +324,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
       ),
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(color: AppColorsUnified.goldPrimary),
+              child: CircularProgressIndicator(color: AppColorsUnified.gold),
             )
           : TabBarView(
               controller: _tabController,
@@ -337,7 +337,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddItemDialog,
-        backgroundColor: AppColorsUnified.goldPrimary,
+        backgroundColor: AppColorsUnified.gold,
         child: const Icon(Icons.add, color: Colors.black),
       ),
     );
@@ -395,21 +395,21 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColorsUnified.goldPrimary.withValues(alpha: 0.3),
-            AppColorsUnified.backgroundMedium,
+            AppColorsUnified.gold.withValues(alpha: 0.3),
+            AppColorsUnified.backgroundDark,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColorsUnified.goldPrimary.withValues(alpha: 0.5)),
+        border: Border.all(color: AppColorsUnified.gold.withValues(alpha: 0.5)),
       ),
       child: Column(
         children: [
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.account_balance_wallet, color: AppColorsUnified.goldPrimary),
+              Icon(Icons.account_balance_wallet, color: AppColorsUnified.gold),
               SizedBox(width: 8),
               Text(
                 'Valor Total del Inventario',
@@ -421,7 +421,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
           Text(
             _currencyFormat.format(_summary!.totalValue),
             style: const TextStyle(
-              color: AppColorsUnified.goldPrimary,
+              color: AppColorsUnified.gold,
               fontSize: 32,
               fontWeight: FontWeight.bold,
             ),
@@ -491,7 +491,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
               });
               _tabController.animateTo(1);
             },
-            child: const Text('Ver', style: TextStyle(color: AppColorsUnified.goldPrimary)),
+            child: const Text('Ver', style: TextStyle(color: AppColorsUnified.gold)),
           ),
         ],
       ),
@@ -502,7 +502,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
@@ -539,7 +539,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -618,7 +618,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -652,7 +652,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
                       Text(
                         _currencyFormat.format(item.totalValue),
                         style: const TextStyle(
-                          color: AppColorsUnified.goldPrimary,
+                          color: AppColorsUnified.gold,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -662,7 +662,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
                   LinearProgressIndicator(
                     value: item.totalValue / maxValue,
                     backgroundColor: AppColorsUnified.backgroundDark,
-                    valueColor: const AlwaysStoppedAnimation<Color>(AppColorsUnified.goldPrimary),
+                    valueColor: const AlwaysStoppedAnimation<Color>(AppColorsUnified.gold),
                   ),
                 ],
               ),
@@ -722,7 +722,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     }
 
     return Card(
-      color: AppColorsUnified.backgroundMedium,
+      color: AppColorsUnified.backgroundDark,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -743,12 +743,12 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppColorsUnified.goldPrimary.withValues(alpha: 0.1),
+                      color: AppColorsUnified.gold.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Icon(
                       Icons.inventory_2,
-                      color: AppColorsUnified.goldPrimary,
+                      color: AppColorsUnified.gold,
                       size: 24,
                     ),
                   ),
@@ -915,7 +915,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     final isEntrada = mov.type == MovementType.entrada;
 
     return Card(
-      color: AppColorsUnified.backgroundMedium,
+      color: AppColorsUnified.backgroundDark,
       margin: const EdgeInsets.only(bottom: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
@@ -985,12 +985,12 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          const Icon(Icons.calculate, color: AppColorsUnified.goldPrimary),
+          const Icon(Icons.calculate, color: AppColorsUnified.gold),
           const SizedBox(width: 12),
           const Expanded(
             child: Column(
@@ -1015,8 +1015,8 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
               // Cambiar método
             },
             style: OutlinedButton.styleFrom(
-              foregroundColor: AppColorsUnified.goldPrimary,
-              side: const BorderSide(color: AppColorsUnified.goldPrimary),
+              foregroundColor: AppColorsUnified.gold,
+              side: const BorderSide(color: AppColorsUnified.gold),
             ),
             child: const Text('Cambiar'),
           ),
@@ -1029,7 +1029,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -1069,7 +1069,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
           Text(
             _currencyFormat.format(value),
             style: TextStyle(
-              color: isTotal ? AppColorsUnified.goldPrimary : AppColorsUnified.textPrimary,
+              color: isTotal ? AppColorsUnified.gold : AppColorsUnified.textPrimary,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
             ),
           ),
@@ -1089,7 +1089,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -1112,9 +1112,9 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
             children: [
               const TableRow(
                 children: [
-                  Text('Categoría', style: TextStyle(color: AppColorsUnified.goldPrimary, fontWeight: FontWeight.bold)),
-                  Text('Items', style: TextStyle(color: AppColorsUnified.goldPrimary, fontWeight: FontWeight.bold)),
-                  Text('Valor', style: TextStyle(color: AppColorsUnified.goldPrimary, fontWeight: FontWeight.bold), textAlign: TextAlign.right),
+                  Text('Categoría', style: TextStyle(color: AppColorsUnified.gold, fontWeight: FontWeight.bold)),
+                  Text('Items', style: TextStyle(color: AppColorsUnified.gold, fontWeight: FontWeight.bold)),
+                  Text('Valor', style: TextStyle(color: AppColorsUnified.gold, fontWeight: FontWeight.bold), textAlign: TextAlign.right),
                 ],
               ),
               ...categoryValues.entries.map((entry) => TableRow(
@@ -1149,7 +1149,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -1162,7 +1162,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
             const Text(
               'Filtrar por',
               style: TextStyle(
-                color: AppColorsUnified.goldPrimary,
+                color: AppColorsUnified.gold,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -1191,10 +1191,10 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
                     setState(() => _filterCategory = cat);
                     Navigator.pop(context);
                   },
-                  selectedColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.3),
-                  checkmarkColor: AppColorsUnified.goldPrimary,
+                  selectedColor: AppColorsUnified.gold.withValues(alpha: 0.3),
+                  checkmarkColor: AppColorsUnified.gold,
                   labelStyle: TextStyle(
-                    color: isSelected ? AppColorsUnified.goldPrimary : AppColorsUnified.textSecondary,
+                    color: isSelected ? AppColorsUnified.gold : AppColorsUnified.textSecondary,
                   ),
                   backgroundColor: AppColorsUnified.backgroundDark,
                 );
@@ -1204,7 +1204,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
             const Text(
               'Ordenar por',
               style: TextStyle(
-                color: AppColorsUnified.goldPrimary,
+                color: AppColorsUnified.gold,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -1233,9 +1233,9 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
         setState(() => _sortBy = value);
         Navigator.pop(context);
       },
-      selectedColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.3),
+      selectedColor: AppColorsUnified.gold.withValues(alpha: 0.3),
       labelStyle: TextStyle(
-        color: isSelected ? AppColorsUnified.goldPrimary : AppColorsUnified.textSecondary,
+        color: isSelected ? AppColorsUnified.gold : AppColorsUnified.textSecondary,
       ),
       backgroundColor: AppColorsUnified.backgroundDark,
     );
@@ -1244,7 +1244,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
   void _showItemDetails(InventoryItem item) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1281,7 +1281,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
               ),
               Text(
                 'SKU: ${item.sku}',
-                style: const TextStyle(color: AppColorsUnified.goldPrimary),
+                style: const TextStyle(color: AppColorsUnified.gold),
               ),
               const SizedBox(height: 20),
               _buildDetailRow('Categoría', item.category),
@@ -1291,7 +1291,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
               const Divider(height: 32, color: AppColorsUnified.textSecondary),
               const Text(
                 'Stock',
-                style: TextStyle(color: AppColorsUnified.goldPrimary, fontWeight: FontWeight.bold),
+                style: TextStyle(color: AppColorsUnified.gold, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 12),
               _buildDetailRow('Cantidad actual', '${item.quantity} ${item.unit}'),
@@ -1300,7 +1300,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
               const Divider(height: 32, color: AppColorsUnified.textSecondary),
               const Text(
                 'Valoración',
-                style: TextStyle(color: AppColorsUnified.goldPrimary, fontWeight: FontWeight.bold),
+                style: TextStyle(color: AppColorsUnified.gold, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 12),
               _buildDetailRow('Costo unitario', _currencyFormat.format(item.unitCost)),
@@ -1314,8 +1314,8 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
                       icon: const Icon(Icons.edit),
                       label: const Text('Ajustar Stock'),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColorsUnified.goldPrimary,
-                        side: const BorderSide(color: AppColorsUnified.goldPrimary),
+                        foregroundColor: AppColorsUnified.gold,
+                        side: const BorderSide(color: AppColorsUnified.gold),
                       ),
                     ),
                   ),
@@ -1329,7 +1329,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
                       icon: const Icon(Icons.shopping_cart),
                       label: const Text('Ordenar'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColorsUnified.goldPrimary,
+                        backgroundColor: AppColorsUnified.gold,
                         foregroundColor: Colors.black,
                       ),
                     ),
@@ -1364,10 +1364,10 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          backgroundColor: AppColorsUnified.backgroundMedium,
+          backgroundColor: AppColorsUnified.backgroundDark,
           title: const Text(
             'Ajustar Stock',
-            style: TextStyle(color: AppColorsUnified.goldPrimary),
+            style: TextStyle(color: AppColorsUnified.gold),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1412,7 +1412,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
                     borderSide: BorderSide(color: AppColorsUnified.textSecondary.withValues(alpha: 0.3)),
                   ),
                   focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColorsUnified.goldPrimary),
+                    borderSide: BorderSide(color: AppColorsUnified.gold),
                   ),
                 ),
               ),
@@ -1435,7 +1435,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
                 );
                 _loadData();
               },
-              style: ElevatedButton.styleFrom(backgroundColor: AppColorsUnified.goldPrimary),
+              style: ElevatedButton.styleFrom(backgroundColor: AppColorsUnified.gold),
               child: const Text('Guardar', style: TextStyle(color: Colors.black)),
             ),
           ],
@@ -1448,7 +1448,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Escáner disponible próximamente'),
-        backgroundColor: AppColorsUnified.goldPrimary,
+        backgroundColor: AppColorsUnified.gold,
       ),
     );
   }
@@ -1457,7 +1457,7 @@ class _AccountingInventoryPageState extends State<AccountingInventoryPage>
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Función disponible próximamente'),
-        backgroundColor: AppColorsUnified.goldPrimary,
+        backgroundColor: AppColorsUnified.gold,
       ),
     );
   }

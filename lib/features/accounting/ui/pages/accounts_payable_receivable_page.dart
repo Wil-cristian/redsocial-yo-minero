@@ -231,16 +231,16 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
     return Scaffold(
       backgroundColor: AppColorsUnified.backgroundDark,
       appBar: AppBar(
-        backgroundColor: AppColorsUnified.backgroundMedium,
+        backgroundColor: AppColorsUnified.backgroundDark,
         title: const Text(
           'Cuentas por Cobrar/Pagar',
-          style: TextStyle(color: AppColorsUnified.goldPrimary),
+          style: TextStyle(color: AppColorsUnified.gold),
         ),
-        iconTheme: const IconThemeData(color: AppColorsUnified.goldPrimary),
+        iconTheme: const IconThemeData(color: AppColorsUnified.gold),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppColorsUnified.goldPrimary,
-          labelColor: AppColorsUnified.goldPrimary,
+          indicatorColor: AppColorsUnified.gold,
+          labelColor: AppColorsUnified.gold,
           unselectedLabelColor: AppColorsUnified.textSecondary,
           tabs: const [
             Tab(icon: Icon(Icons.summarize), text: 'Resumen'),
@@ -261,7 +261,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
       ),
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(color: AppColorsUnified.goldPrimary),
+              child: CircularProgressIndicator(color: AppColorsUnified.gold),
             )
           : TabBarView(
               controller: _tabController,
@@ -396,7 +396,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
@@ -495,7 +495,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -545,7 +545,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
                       Text(
                         _currencyFormat.format(account.remainingAmount),
                         style: const TextStyle(
-                          color: AppColorsUnified.goldPrimary,
+                          color: AppColorsUnified.gold,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -579,7 +579,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -587,7 +587,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
         children: [
           const Row(
             children: [
-              Icon(Icons.analytics, color: AppColorsUnified.goldPrimary),
+              Icon(Icons.analytics, color: AppColorsUnified.gold),
               SizedBox(width: 8),
               Text(
                 'Antigüedad de Saldos',
@@ -710,7 +710,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
 
   Widget _buildAccountCard(AccountPayableReceivable account) {
     return Card(
-      color: AppColorsUnified.backgroundMedium,
+      color: AppColorsUnified.backgroundDark,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -834,7 +834,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
                       Text(
                         _currencyFormat.format(account.remainingAmount),
                         style: const TextStyle(
-                          color: AppColorsUnified.goldPrimary,
+                          color: AppColorsUnified.gold,
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
@@ -875,7 +875,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
   void _showFilterDialog() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -888,7 +888,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
             const Text(
               'Filtrar por estado',
               style: TextStyle(
-                color: AppColorsUnified.goldPrimary,
+                color: AppColorsUnified.gold,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -909,7 +909,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
             const Text(
               'Ordenar por',
               style: TextStyle(
-                color: AppColorsUnified.goldPrimary,
+                color: AppColorsUnified.gold,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -940,10 +940,10 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
         setState(() => _filterStatus = value);
         Navigator.pop(context);
       },
-      selectedColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.3),
-      checkmarkColor: AppColorsUnified.goldPrimary,
+      selectedColor: AppColorsUnified.gold.withValues(alpha: 0.3),
+      checkmarkColor: AppColorsUnified.gold,
       labelStyle: TextStyle(
-        color: isSelected ? AppColorsUnified.goldPrimary : AppColorsUnified.textSecondary,
+        color: isSelected ? AppColorsUnified.gold : AppColorsUnified.textSecondary,
       ),
       backgroundColor: AppColorsUnified.backgroundDark,
     );
@@ -958,9 +958,9 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
         setState(() => _sortBy = value);
         Navigator.pop(context);
       },
-      selectedColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.3),
+      selectedColor: AppColorsUnified.gold.withValues(alpha: 0.3),
       labelStyle: TextStyle(
-        color: isSelected ? AppColorsUnified.goldPrimary : AppColorsUnified.textSecondary,
+        color: isSelected ? AppColorsUnified.gold : AppColorsUnified.textSecondary,
       ),
       backgroundColor: AppColorsUnified.backgroundDark,
     );
@@ -969,7 +969,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
   void _showAccountDetails(AccountPayableReceivable account) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1037,7 +1037,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
               const Divider(color: AppColorsUnified.textSecondary, height: 32),
               _buildAmountRow('Monto total', account.totalAmount),
               _buildAmountRow('Pagado', account.paidAmount, Colors.green),
-              _buildAmountRow('Pendiente', account.remainingAmount, AppColorsUnified.goldPrimary),
+              _buildAmountRow('Pendiente', account.remainingAmount, AppColorsUnified.gold),
               const SizedBox(height: 24),
               if (account.status != AccountStatus.paid) ...[
                 Row(
@@ -1064,8 +1064,8 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
                         icon: const Icon(Icons.edit),
                         label: const Text('Editar'),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColorsUnified.goldPrimary,
-                          side: const BorderSide(color: AppColorsUnified.goldPrimary),
+                          foregroundColor: AppColorsUnified.gold,
+                          side: const BorderSide(color: AppColorsUnified.gold),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                         ),
                       ),
@@ -1143,10 +1143,10 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          backgroundColor: AppColorsUnified.backgroundMedium,
+          backgroundColor: AppColorsUnified.backgroundDark,
           title: const Text(
             'Registrar Pago',
-            style: TextStyle(color: AppColorsUnified.goldPrimary),
+            style: TextStyle(color: AppColorsUnified.gold),
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -1165,12 +1165,12 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
                     labelText: 'Monto del pago',
                     labelStyle: const TextStyle(color: AppColorsUnified.textSecondary),
                     prefixText: '\$ ',
-                    prefixStyle: const TextStyle(color: AppColorsUnified.goldPrimary),
+                    prefixStyle: const TextStyle(color: AppColorsUnified.gold),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppColorsUnified.textSecondary.withValues(alpha: 0.3)),
                     ),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColorsUnified.goldPrimary),
+                      borderSide: BorderSide(color: AppColorsUnified.gold),
                     ),
                   ),
                 ),
@@ -1186,7 +1186,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
                       borderSide: BorderSide(color: AppColorsUnified.textSecondary.withValues(alpha: 0.3)),
                     ),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColorsUnified.goldPrimary),
+                      borderSide: BorderSide(color: AppColorsUnified.gold),
                     ),
                   ),
                   items: const [
@@ -1210,7 +1210,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
                       borderSide: BorderSide(color: AppColorsUnified.textSecondary.withValues(alpha: 0.3)),
                     ),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColorsUnified.goldPrimary),
+                      borderSide: BorderSide(color: AppColorsUnified.gold),
                     ),
                   ),
                 ),
@@ -1225,7 +1225,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
                     DateFormat('dd/MM/yyyy').format(paymentDate),
                     style: const TextStyle(color: AppColorsUnified.textPrimary),
                   ),
-                  trailing: const Icon(Icons.calendar_today, color: AppColorsUnified.goldPrimary),
+                  trailing: const Icon(Icons.calendar_today, color: AppColorsUnified.gold),
                   onTap: () async {
                     final date = await showDatePicker(
                       context: context,
@@ -1280,7 +1280,7 @@ class _AccountsPayableReceivablePageState extends State<AccountsPayableReceivabl
   void _showAddAccountDialog() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1339,7 +1339,7 @@ class _AddAccountFormState extends State<_AddAccountForm> {
             const Text(
               'Nueva Cuenta',
               style: TextStyle(
-                color: AppColorsUnified.goldPrimary,
+                color: AppColorsUnified.gold,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -1423,7 +1423,7 @@ class _AddAccountFormState extends State<_AddAccountForm> {
               child: ElevatedButton(
                 onPressed: _saveAccount,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColorsUnified.goldPrimary,
+                  backgroundColor: AppColorsUnified.gold,
                   foregroundColor: Colors.black,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
@@ -1442,13 +1442,13 @@ class _AddAccountFormState extends State<_AddAccountForm> {
       labelText: label,
       labelStyle: const TextStyle(color: AppColorsUnified.textSecondary),
       prefixText: prefixText,
-      prefixStyle: const TextStyle(color: AppColorsUnified.goldPrimary),
+      prefixStyle: const TextStyle(color: AppColorsUnified.gold),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: AppColorsUnified.textSecondary.withValues(alpha: 0.3)),
         borderRadius: BorderRadius.circular(8),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColorsUnified.goldPrimary),
+        borderSide: const BorderSide(color: AppColorsUnified.gold),
         borderRadius: BorderRadius.circular(8),
       ),
       errorBorder: OutlineInputBorder(

@@ -342,7 +342,7 @@ class _CommunityPageState extends State<CommunityPage> {
                         margin: const EdgeInsets.all(8),
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppColorsUnified.orange.withValues(alpha: 0.1),
+                          color: AppColorsUnified.orange.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(Icons.search, color: AppColorsUnified.orange, size: 20),
@@ -376,7 +376,7 @@ class _CommunityPageState extends State<CommunityPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: AppColorsUnified.orange.withValues(alpha: 0.1),
+                        color: AppColorsUnified.orange.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -485,7 +485,7 @@ class _CommunityPageState extends State<CommunityPage> {
                       borderRadius: 16,
                       gradientColors: [
                         AppColorsUnified.pureWhite,
-                        AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withValues(alpha: 0.1),
+                        AppColorsUnified.fade(AppColorsUnified.orange, 0.1).withOpacity(0.1),
                       ],
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -574,7 +574,7 @@ class _CommunityPageState extends State<CommunityPage> {
         decoration: BoxDecoration(
           gradient: selected
               ? LinearGradient(
-                  colors: [AppColorsUnified.orange, AppColorsUnified.orange.withValues(alpha: 0.8)],
+                  colors: [AppColorsUnified.orange, AppColorsUnified.orange.withOpacity(0.8)],
                 )
               : null,
           color: selected ? null : AppColorsUnified.background,
@@ -584,7 +584,7 @@ class _CommunityPageState extends State<CommunityPage> {
           ),
           boxShadow: selected ? [
             BoxShadow(
-              color: AppColorsUnified.orange.withValues(alpha: 0.3),
+              color: AppColorsUnified.orange.withOpacity(0.3),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -727,14 +727,14 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                   ),
                   border: Border.all(
                     color: _isHovered 
-                        ? AppColorsUnified.gold.withValues(alpha: 0.4)
+                        ? AppColorsUnified.gold.withOpacity(0.4)
                         : AppColorsUnified.grey200,
                     width: _isHovered ? 2 : 1.5,
                   ),
                   boxShadow: [
                     BoxShadow(
                       color: _isHovered
-                          ? AppColorsUnified.gold.withValues(alpha: 0.2)
+                          ? AppColorsUnified.gold.withOpacity(0.2)
                           : AppColorsUnified.shadowMedium,
                       blurRadius: _isHovered ? 28 : 12,
                       spreadRadius: _isHovered ? 3 : 0,
@@ -742,7 +742,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                     ),
                     if (_isHovered)
                       BoxShadow(
-                        color: AppColorsUnified.goldBright.withValues(alpha: 0.15),
+                        color: AppColorsUnified.goldBright.withOpacity(0.15),
                         blurRadius: 16,
                         offset: const Offset(0, 4),
                       ),
@@ -764,7 +764,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                   end: Alignment(1.0 + (_shimmerController.value * 3), 1.0),
                                   colors: [
                                     Colors.transparent,
-                                    AppColorsUnified.goldBright.withValues(alpha: 0.05),
+                                    AppColorsUnified.goldBright.withOpacity(0.05),
                                     Colors.transparent,
                                   ],
                                   stops: const [0.0, 0.5, 1.0],
@@ -783,8 +783,8 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                           AppRoutes.postDetail,
                           arguments: post,
                         ),
-                        splashColor: AppColorsUnified.gold.withValues(alpha: 0.1),
-                        highlightColor: AppColorsUnified.gold.withValues(alpha: 0.05),
+                        splashColor: AppColorsUnified.gold.withOpacity(0.1),
+                        highlightColor: AppColorsUnified.gold.withOpacity(0.05),
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Column(
@@ -800,20 +800,20 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                       border: Border.all(
                                         color: _isHovered
                                             ? AppColorsUnified.gold
-                                            : AppColorsUnified.gold.withValues(alpha: 0.3),
+                                            : AppColorsUnified.gold.withOpacity(0.3),
                                         width: _isHovered ? 2.5 : 2,
                                       ),
                                       boxShadow: _isHovered
                                           ? [
                                               BoxShadow(
-                                                color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                                color: AppColorsUnified.gold.withOpacity(0.3),
                                                 blurRadius: 12,
                                                 spreadRadius: 2,
                                               ),
                                             ]
                                           : [
                                               BoxShadow(
-                                                color: AppColorsUnified.gold.withValues(alpha: 0.15),
+                                                color: AppColorsUnified.gold.withOpacity(0.15),
                                                 blurRadius: 8,
                                                 spreadRadius: 1,
                                               ),
@@ -880,7 +880,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                               ),
                                               borderRadius: BorderRadius.circular(10),
                                               border: Border.all(
-                                                color: AppColorsUnified.gold.withValues(alpha: 0.4),
+                                                color: AppColorsUnified.gold.withOpacity(0.4),
                                                 width: 1.5,
                                               ),
                                               boxShadow: [
@@ -1045,13 +1045,13 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        AppColorsUnified.goldHighlight.withValues(alpha: 0.3),
+                                        AppColorsUnified.goldHighlight.withOpacity(0.3),
                                         AppColorsUnified.grey50,
                                       ],
                                     ),
                                     borderRadius: BorderRadius.circular(16),
                                     border: Border.all(
-                                      color: AppColorsUnified.gold.withValues(alpha: _isHovered ? 0.4 : 0.2),
+                                      color: AppColorsUnified.gold.withOpacity(_isHovered ? 0.4 : 0.2),
                                       width: _isHovered ? 2 : 1.5,
                                     ),
                                   ),
@@ -1066,7 +1066,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                               borderRadius: BorderRadius.circular(12),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                                  color: AppColorsUnified.gold.withOpacity(0.3),
                                                   blurRadius: 8,
                                                   offset: const Offset(0, 4),
                                                 ),
@@ -1160,20 +1160,20 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
               ? LinearGradient(
                   colors: [
                     AppColorsUnified.goldHighlight,
-                    AppColorsUnified.goldBright.withValues(alpha: 0.5),
+                    AppColorsUnified.goldBright.withOpacity(0.5),
                   ],
                 )
               : null,
-          color: isPrimary ? null : color.withValues(alpha: isHovered ? 0.15 : 0.1),
+          color: isPrimary ? null : color.withOpacity(isHovered ? 0.15 : 0.1),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: color.withValues(alpha: isHovered ? (isPrimary ? 0.6 : 0.4) : (isPrimary ? 0.4 : 0.2)),
+            color: color.withOpacity(isHovered ? (isPrimary ? 0.6 : 0.4) : (isPrimary ? 0.4 : 0.2)),
             width: isHovered ? (isPrimary ? 2 : 1.5) : (isPrimary ? 1.5 : 1),
           ),
           boxShadow: isHovered
               ? [
                   BoxShadow(
-                    color: color.withValues(alpha: isPrimary ? 0.3 : 0.2),
+                    color: color.withOpacity(isPrimary ? 0.3 : 0.2),
                     blurRadius: isPrimary ? 12 : 8,
                     offset: const Offset(0, 4),
                   ),
@@ -1181,7 +1181,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
               : isPrimary
                   ? [
                       BoxShadow(
-                        color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                        color: AppColorsUnified.gold.withOpacity(0.2),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -1231,27 +1231,27 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
           child: InkWell(
             onTap: onTap,
             borderRadius: BorderRadius.circular(24),
-            splashColor: color.withValues(alpha: 0.2),
-            highlightColor: color.withValues(alpha: 0.1),
+            splashColor: color.withOpacity(0.2),
+            highlightColor: color.withOpacity(0.1),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeOutCubic,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
                 color: isActive
-                    ? AppColorsUnified.gold.withValues(alpha: 0.15)
+                    ? AppColorsUnified.gold.withOpacity(0.15)
                     : AppColorsUnified.grey100,
                 borderRadius: BorderRadius.circular(24),
                 border: isActive
                     ? Border.all(
-                        color: AppColorsUnified.gold.withValues(alpha: 0.4),
+                        color: AppColorsUnified.gold.withOpacity(0.4),
                         width: 1.5,
                       )
                     : null,
                 boxShadow: isActive
                     ? [
                         BoxShadow(
-                          color: AppColorsUnified.gold.withValues(alpha: 0.2),
+                          color: AppColorsUnified.gold.withOpacity(0.2),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -1328,8 +1328,8 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                   child: InkWell(
                     onTap: onTap,
                     borderRadius: BorderRadius.circular(14),
-                    splashColor: AppColorsUnified.gold.withValues(alpha: 0.3),
-                    highlightColor: AppColorsUnified.gold.withValues(alpha: 0.2),
+                    splashColor: AppColorsUnified.gold.withOpacity(0.3),
+                    highlightColor: AppColorsUnified.gold.withOpacity(0.2),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 250),
                       width: double.infinity,
@@ -1344,7 +1344,7 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                                   AppColorsUnified.goldShadow,
                                 ]
                               : [
-                                  AppColorsUnified.gold.withValues(alpha: 0.9),
+                                  AppColorsUnified.gold.withOpacity(0.9),
                                   AppColorsUnified.gold,
                                 ],
                         ),
@@ -1352,19 +1352,19 @@ class _PostCardState extends State<_PostCard> with TickerProviderStateMixin {
                         boxShadow: isHovered
                             ? [
                                 BoxShadow(
-                                  color: AppColorsUnified.gold.withValues(alpha: 0.5),
+                                  color: AppColorsUnified.gold.withOpacity(0.5),
                                   blurRadius: 24,
                                   spreadRadius: 4,
                                 ),
                                 BoxShadow(
-                                  color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                                  color: AppColorsUnified.gold.withOpacity(0.3),
                                   blurRadius: 12,
                                   offset: const Offset(0, 6),
                                 ),
                               ]
                             : [
                                 BoxShadow(
-                                  color: AppColorsUnified.gold.withValues(alpha: 0.4),
+                                  color: AppColorsUnified.gold.withOpacity(0.4),
                                   blurRadius: 16,
                                   spreadRadius: 2,
                                 ),

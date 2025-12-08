@@ -202,7 +202,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColorsUnified.orange.withValues(alpha: 0.3),
+                color: AppColorsUnified.orange.withOpacity(0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -289,7 +289,7 @@ class _ChatPageState extends State<ChatPage> {
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColorsUnified.success.withValues(alpha: 0.5),
+                                  color: AppColorsUnified.success.withOpacity(0.5),
                                   blurRadius: 4,
                                   spreadRadius: 1,
                                 ),
@@ -381,8 +381,8 @@ class _ChatPageState extends State<ChatPage> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColorsUnified.orange.withValues(alpha: 0.1),
-                    AppColorsUnified.orange.withValues(alpha: 0.05),
+                    AppColorsUnified.orange.withOpacity(0.1),
+                    AppColorsUnified.orange.withOpacity(0.05),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -392,7 +392,7 @@ class _ChatPageState extends State<ChatPage> {
               child: Icon(
                 Icons.chat_bubble_outline_rounded,
                 size: 60,
-                color: AppColorsUnified.orange.withValues(alpha: 0.6),
+                color: AppColorsUnified.orange.withOpacity(0.6),
               ),
             ),
             const SizedBox(height: 24),
@@ -419,8 +419,8 @@ class _ChatPageState extends State<ChatPage> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColorsUnified.orange.withValues(alpha: 0.1),
-                    AppColorsUnified.orange.withValues(alpha: 0.05),
+                    AppColorsUnified.orange.withOpacity(0.1),
+                    AppColorsUnified.orange.withOpacity(0.05),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(20),
@@ -475,7 +475,7 @@ class _ChatPageState extends State<ChatPage> {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColorsUnified.orange.withValues(alpha: 0.2),
+                    color: AppColorsUnified.orange.withOpacity(0.2),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -483,7 +483,7 @@ class _ChatPageState extends State<ChatPage> {
               ),
               child: CircleAvatar(
                 radius: 18,
-                backgroundColor: AppColorsUnified.orange.withValues(alpha: 0.1),
+                backgroundColor: AppColorsUnified.orange.withOpacity(0.1),
                 backgroundImage: _otherUserProfileImage != null 
                     ? NetworkImage(_otherUserProfileImage!) 
                     : null,
@@ -530,7 +530,7 @@ class _ChatPageState extends State<ChatPage> {
                 boxShadow: [
                   BoxShadow(
                     color: isMe 
-                        ? AppColorsUnified.orange.withValues(alpha: 0.3)
+                        ? AppColorsUnified.orange.withOpacity(0.3)
                         : AppColorsUnified.blackTransparent10,
                     blurRadius: 8,
                     offset: const Offset(0, 3),
@@ -606,7 +606,7 @@ class _ChatPageState extends State<ChatPage> {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.orange.withValues(alpha: 0.1),
+                  color: AppColorsUnified.orange.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(22),
                 ),
                 child: IconButton(
@@ -696,7 +696,7 @@ class _ChatPageState extends State<ChatPage> {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColorsUnified.orange.withValues(alpha: 0.4),
+                      color: AppColorsUnified.orange.withOpacity(0.4),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),

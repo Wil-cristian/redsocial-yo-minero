@@ -315,10 +315,10 @@ class _ResponsesListState extends State<ResponsesList> {
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColorsUnified.surface.withValues(alpha: 0.8),
+                      color: AppColorsUnified.surface.withOpacity(0.8),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                        color: AppColorsUnified.gold.withOpacity(0.3),
                         width: 1,
                       ),
                     ),
@@ -329,7 +329,7 @@ class _ResponsesListState extends State<ResponsesList> {
                           children: [
                             CircleAvatar(
                               radius: 12,
-                              backgroundColor: AppColorsUnified.gold.withValues(alpha: 0.2),
+                              backgroundColor: AppColorsUnified.gold.withOpacity(0.2),
                               child: Text(
                                 (parentResponse.authorName ?? parentResponse.authorUsername ?? 'U')[0].toUpperCase(),
                                 style: TextStyle(

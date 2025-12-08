@@ -158,16 +158,16 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
     return Scaffold(
       backgroundColor: AppColorsUnified.backgroundDark,
       appBar: AppBar(
-        backgroundColor: AppColorsUnified.backgroundMedium,
+        backgroundColor: AppColorsUnified.backgroundDark,
         title: const Text(
           'Gestión de Presupuestos',
-          style: TextStyle(color: AppColorsUnified.goldPrimary),
+          style: TextStyle(color: AppColorsUnified.gold),
         ),
-        iconTheme: const IconThemeData(color: AppColorsUnified.goldPrimary),
+        iconTheme: const IconThemeData(color: AppColorsUnified.gold),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppColorsUnified.goldPrimary,
-          labelColor: AppColorsUnified.goldPrimary,
+          indicatorColor: AppColorsUnified.gold,
+          labelColor: AppColorsUnified.gold,
           unselectedLabelColor: AppColorsUnified.textSecondary,
           tabs: const [
             Tab(icon: Icon(Icons.dashboard), text: 'Resumen'),
@@ -188,7 +188,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
       ),
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(color: AppColorsUnified.goldPrimary),
+              child: CircularProgressIndicator(color: AppColorsUnified.gold),
             )
           : TabBarView(
               controller: _tabController,
@@ -243,14 +243,14 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
-            icon: const Icon(Icons.chevron_left, color: AppColorsUnified.goldPrimary),
+            icon: const Icon(Icons.chevron_left, color: AppColorsUnified.gold),
             onPressed: () {
               setState(() {
                 if (_selectedMonth == 1) {
@@ -272,7 +272,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.chevron_right, color: AppColorsUnified.goldPrimary),
+            icon: const Icon(Icons.chevron_right, color: AppColorsUnified.gold),
             onPressed: () {
               setState(() {
                 if (_selectedMonth == 12) {
@@ -308,14 +308,14 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColorsUnified.backgroundMedium,
+            AppColorsUnified.backgroundDark,
             AppColorsUnified.backgroundDark,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColorsUnified.goldPrimary.withValues(alpha: 0.3)),
+        border: Border.all(color: AppColorsUnified.gold.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -480,7 +480,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -571,7 +571,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -601,7 +601,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
                         Text(
                           _currencyFormat.format(budget.spentAmount),
                           style: const TextStyle(
-                            color: AppColorsUnified.goldPrimary,
+                            color: AppColorsUnified.gold,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -641,7 +641,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
               child: Text(
                 entry.key,
                 style: const TextStyle(
-                  color: AppColorsUnified.goldPrimary,
+                  color: AppColorsUnified.gold,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -666,7 +666,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
     }
 
     return Card(
-      color: AppColorsUnified.backgroundMedium,
+      color: AppColorsUnified.backgroundDark,
       margin: const EdgeInsets.only(bottom: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
@@ -763,7 +763,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
           const Text(
             'Comparativo Mensual',
             style: TextStyle(
-              color: AppColorsUnified.goldPrimary,
+              color: AppColorsUnified.gold,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -774,7 +774,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
           const Text(
             'Variación vs Mes Anterior',
             style: TextStyle(
-              color: AppColorsUnified.goldPrimary,
+              color: AppColorsUnified.gold,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -796,7 +796,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
       height: 250,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: BarChart(
@@ -860,7 +860,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
               barRods: [
                 BarChartRodData(
                   toY: budgeted[index],
-                  color: AppColorsUnified.goldPrimary.withValues(alpha: 0.5),
+                  color: AppColorsUnified.gold.withValues(alpha: 0.5),
                   width: 12,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(4),
@@ -897,7 +897,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -947,7 +947,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
   void _showPeriodSelector() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -959,7 +959,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
             const Text(
               'Seleccionar Año',
               style: TextStyle(
-                color: AppColorsUnified.goldPrimary,
+                color: AppColorsUnified.gold,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -976,10 +976,10 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
                     Navigator.pop(context);
                     _loadData();
                   },
-                  selectedColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.3),
+                  selectedColor: AppColorsUnified.gold.withValues(alpha: 0.3),
                   labelStyle: TextStyle(
                     color: _selectedYear == year
-                        ? AppColorsUnified.goldPrimary
+                        ? AppColorsUnified.gold
                         : AppColorsUnified.textSecondary,
                   ),
                   backgroundColor: AppColorsUnified.backgroundDark,
@@ -995,7 +995,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
   void _showBudgetDetails(Budget budget) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -1008,7 +1008,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
             Text(
               budget.name,
               style: const TextStyle(
-                color: AppColorsUnified.goldPrimary,
+                color: AppColorsUnified.gold,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -1037,8 +1037,8 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
                     icon: const Icon(Icons.edit),
                     label: const Text('Editar'),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColorsUnified.goldPrimary,
-                      side: const BorderSide(color: AppColorsUnified.goldPrimary),
+                      foregroundColor: AppColorsUnified.gold,
+                      side: const BorderSide(color: AppColorsUnified.gold),
                     ),
                   ),
                 ),
@@ -1052,7 +1052,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
                     icon: const Icon(Icons.receipt_long),
                     label: const Text('Ver Gastos'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColorsUnified.goldPrimary,
+                      backgroundColor: AppColorsUnified.gold,
                       foregroundColor: Colors.black,
                     ),
                   ),
@@ -1097,10 +1097,10 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          backgroundColor: AppColorsUnified.backgroundMedium,
+          backgroundColor: AppColorsUnified.backgroundDark,
           title: const Text(
             'Nuevo Presupuesto',
-            style: TextStyle(color: AppColorsUnified.goldPrimary),
+            style: TextStyle(color: AppColorsUnified.gold),
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -1116,7 +1116,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
                       borderSide: BorderSide(color: AppColorsUnified.textSecondary.withValues(alpha: 0.3)),
                     ),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColorsUnified.goldPrimary),
+                      borderSide: BorderSide(color: AppColorsUnified.gold),
                     ),
                   ),
                 ),
@@ -1129,12 +1129,12 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
                     labelText: 'Monto presupuestado',
                     labelStyle: const TextStyle(color: AppColorsUnified.textSecondary),
                     prefixText: '\$ ',
-                    prefixStyle: const TextStyle(color: AppColorsUnified.goldPrimary),
+                    prefixStyle: const TextStyle(color: AppColorsUnified.gold),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppColorsUnified.textSecondary.withValues(alpha: 0.3)),
                     ),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColorsUnified.goldPrimary),
+                      borderSide: BorderSide(color: AppColorsUnified.gold),
                     ),
                   ),
                 ),
@@ -1150,7 +1150,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
                       borderSide: BorderSide(color: AppColorsUnified.textSecondary.withValues(alpha: 0.3)),
                     ),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColorsUnified.goldPrimary),
+                      borderSide: BorderSide(color: AppColorsUnified.gold),
                     ),
                   ),
                   items: ['Operaciones', 'Personal', 'Seguridad', 'Administración', 'Legal', 'Otros']
@@ -1170,7 +1170,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
                       borderSide: BorderSide(color: AppColorsUnified.textSecondary.withValues(alpha: 0.3)),
                     ),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColorsUnified.goldPrimary),
+                      borderSide: BorderSide(color: AppColorsUnified.gold),
                     ),
                   ),
                   items: BudgetPeriod.values
@@ -1209,7 +1209,7 @@ class _BudgetManagementPageState extends State<BudgetManagementPage>
                 _loadData();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColorsUnified.goldPrimary,
+                backgroundColor: AppColorsUnified.gold,
                 foregroundColor: Colors.black,
               ),
               child: const Text('Guardar'),

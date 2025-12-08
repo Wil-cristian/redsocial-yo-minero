@@ -102,9 +102,9 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: Colors.white.withOpacity(0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            border: Border.all(color: Colors.white.withOpacity(0.3)),
           ),
           child: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -115,9 +115,9 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
           Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: Colors.white.withOpacity(0.2),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              border: Border.all(color: Colors.white.withOpacity(0.3)),
             ),
             child: IconButton(
               icon: const Icon(Icons.person_add, color: Colors.white),
@@ -262,7 +262,7 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -284,8 +284,8 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColorsUnified.companySecondary.withValues(alpha: 0.7),
-                        AppColorsUnified.companyBlue.withValues(alpha: 0.7),
+                        AppColorsUnified.companySecondary.withOpacity(0.7),
+                        AppColorsUnified.companyBlue.withOpacity(0.7),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(10),
@@ -333,10 +333,10 @@ class _CompanyEmployeesPageState extends State<CompanyEmployeesPage> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: statusColor.withValues(alpha: 0.1),
+                              color: statusColor.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
-                                color: statusColor.withValues(alpha: 0.3),
+                                color: statusColor.withOpacity(0.3),
                                 width: 0.5,
                               ),
                             ),

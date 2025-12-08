@@ -102,7 +102,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
               offset: const Offset(0, -4),
             ),
             BoxShadow(
-              color: AppColorsUnified.orange.withValues(alpha: 0.05),
+              color: AppColorsUnified.orange.withOpacity(0.05),
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),
@@ -143,7 +143,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColorsUnified.orange.withValues(alpha: 0.4),
+                        color: AppColorsUnified.orange.withOpacity(0.4),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
                       ),
@@ -173,7 +173,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected 
-              ? AppColorsUnified.orange.withValues(alpha: 0.1)
+              ? AppColorsUnified.orange.withOpacity(0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),

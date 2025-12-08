@@ -85,7 +85,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
               height: 4,
               margin: const EdgeInsets.only(bottom: 24),
               decoration: BoxDecoration(
-                color: AppColorsUnified.textSecondary.withValues(alpha: 0.3),
+                color: AppColorsUnified.textSecondary.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -160,16 +160,16 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          border: Border.all(color: color.withValues(alpha: 0.2)),
+          border: Border.all(color: color.withOpacity(0.2)),
           borderRadius: BorderRadius.circular(16),
-          color: color.withValues(alpha: 0.05),
+          color: color.withOpacity(0.05),
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
+                color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, color: color, size: 24),
@@ -484,7 +484,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                   ),
                   boxShadow: isSelected ? [
                     BoxShadow(
-                      color: color.withValues(alpha: 0.3),
+                      color: color.withOpacity(0.3),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -496,7 +496,7 @@ class _UserTypeSelectionPageState extends State<UserTypeSelectionPage>
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: isSelected 
-                            ? color.withValues(alpha: 0.1)
+                            ? color.withOpacity(0.1)
                             : AppColorsUnified.fade(AppColorsUnified.pureWhite, 0.2),
                         borderRadius: BorderRadius.circular(15),
                       ),

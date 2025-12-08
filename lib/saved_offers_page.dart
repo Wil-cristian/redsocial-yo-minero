@@ -225,7 +225,7 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
               gradient: LinearGradient(
                 colors: [
                   AppColorsUnified.companyBlue,
-                  AppColorsUnified.companyBlue.withValues(alpha: 0.8),
+                  AppColorsUnified.companyBlue.withOpacity(0.8),
                 ],
               ),
             ),
@@ -234,7 +234,7 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -264,8 +264,8 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                         ),
                         decoration: BoxDecoration(
                           color: offer['availability']?.toLowerCase().contains('disponible') == true
-                              ? Colors.green.withValues(alpha: 0.3)
-                              : Colors.orange.withValues(alpha: 0.3),
+                              ? Colors.green.withOpacity(0.3)
+                              : Colors.orange.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -299,10 +299,10 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: AppColorsUnified.companyBlue.withValues(alpha: 0.08),
+                      color: AppColorsUnified.companyBlue.withOpacity(0.08),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: AppColorsUnified.companyBlue.withValues(alpha: 0.2),
+                        color: AppColorsUnified.companyBlue.withOpacity(0.2),
                       ),
                     ),
                     child: Row(
@@ -438,7 +438,7 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
+                  color: Colors.black.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, -2),
                 ),
@@ -580,12 +580,12 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColorsUnified.companyBlue.withValues(alpha: 0.2),
+          color: AppColorsUnified.companyBlue.withOpacity(0.2),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -598,7 +598,7 @@ class _SavedOffersPageState extends State<SavedOffersPage> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColorsUnified.companyBlue.withValues(alpha: 0.08),
+              color: AppColorsUnified.companyBlue.withOpacity(0.08),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),

@@ -159,7 +159,7 @@ class _ResponseModalState extends State<ResponseModal> with SingleTickerProvider
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.2),
+                            color: Colors.white.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: const Icon(
@@ -202,7 +202,7 @@ class _ResponseModalState extends State<ResponseModal> with SingleTickerProvider
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.15),
+                        color: Colors.white.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Column(
@@ -338,10 +338,10 @@ class _ResponseModalState extends State<ResponseModal> with SingleTickerProvider
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: AppColorsUnified.gold.withValues(alpha: 0.1),
+                          color: AppColorsUnified.gold.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AppColorsUnified.gold.withValues(alpha: 0.3),
+                            color: AppColorsUnified.gold.withOpacity(0.3),
                           ),
                         ),
                         child: Row(

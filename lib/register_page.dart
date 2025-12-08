@@ -190,8 +190,8 @@ class _RegisterPageState extends State<RegisterPage>
             end: Alignment.bottomRight,
             colors: [
               _accountTypeColor,
-              _accountTypeColor.withValues(alpha: 0.8),
-              AppColorsUnified.orange.withValues(alpha: 0.6),
+              _accountTypeColor.withOpacity(0.8),
+              AppColorsUnified.orange.withOpacity(0.6),
             ],
           ),
         ),
@@ -434,7 +434,7 @@ class _RegisterPageState extends State<RegisterPage>
                                     backgroundColor: _accountTypeColor,
                                     foregroundColor: AppColorsUnified.pureWhite,
                                     elevation: 8,
-                                    shadowColor: _accountTypeColor.withValues(alpha: 0.4),
+                                    shadowColor: _accountTypeColor.withOpacity(0.4),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16),
                                     ),

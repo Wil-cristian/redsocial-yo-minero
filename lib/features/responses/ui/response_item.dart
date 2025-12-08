@@ -106,7 +106,7 @@ class ResponseItem extends StatelessWidget {
                                     fontSize: isNested ? 14 : 16,
                                     fontWeight: isNested ? FontWeight.w600 : FontWeight.bold,
                                     color: isNested 
-                                        ? AppColorsUnified.textPrimary.withValues(alpha: 0.9)
+                                        ? AppColorsUnified.textPrimary.withOpacity(0.9)
                                         : AppColorsUnified.textPrimary,
                                   ),
                                 ),
@@ -121,7 +121,7 @@ class ResponseItem extends StatelessWidget {
                                       gradient: LinearGradient(
                                         colors: [
                                           AppColorsUnified.orange,
-                                          AppColorsUnified.orange.withValues(alpha: 0.8),
+                                          AppColorsUnified.orange.withOpacity(0.8),
                                         ],
                                       ),
                                       borderRadius: BorderRadius.circular(12),
@@ -173,14 +173,14 @@ class ResponseItem extends StatelessWidget {
                         Icon(
                           Icons.subdirectory_arrow_right,
                           size: 16,
-                          color: AppColorsUnified.gold.withValues(alpha: 0.7),
+                          color: AppColorsUnified.gold.withOpacity(0.7),
                         ),
                         const SizedBox(width: 6),
                         Text(
                           'Respuesta a comentario',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColorsUnified.gold.withValues(alpha: 0.8),
+                            color: AppColorsUnified.gold.withOpacity(0.8),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -197,7 +197,7 @@ class ResponseItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: isNested ? 14 : 16,
                       color: isNested 
-                          ? AppColorsUnified.textPrimary.withValues(alpha: 0.95)
+                          ? AppColorsUnified.textPrimary.withOpacity(0.95)
                           : AppColorsUnified.textPrimary,
                       height: 1.5,
                       fontWeight: isNested ? FontWeight.w400 : FontWeight.w500,
@@ -222,13 +222,13 @@ class ResponseItem extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: response.userHasLiked
-                                  ? AppColorsUnified.gold.withValues(alpha: 0.1)
+                                  ? AppColorsUnified.gold.withOpacity(0.1)
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
                                 color: response.userHasLiked
                                     ? AppColorsUnified.gold
-                                    : AppColorsUnified.textSecondary.withValues(alpha: 0.3),
+                                    : AppColorsUnified.textSecondary.withOpacity(0.3),
                               ),
                             ),
                             child: Row(
@@ -275,7 +275,7 @@ class ResponseItem extends StatelessWidget {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColorsUnified.gold.withValues(alpha: 0.1),
+                              color: AppColorsUnified.gold.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
                                 color: AppColorsUnified.gold,
@@ -321,14 +321,14 @@ class ResponseItem extends StatelessWidget {
                                 gradient: response.isBestAnswer
                                     ? LinearGradient(
                                         colors: [
-                                          AppColorsUnified.orange.withValues(alpha: 0.1),
-                                          AppColorsUnified.orange.withValues(alpha: 0.15),
+                                          AppColorsUnified.orange.withOpacity(0.1),
+                                          AppColorsUnified.orange.withOpacity(0.15),
                                         ],
                                       )
                                     : LinearGradient(
                                         colors: [
-                                          AppColorsUnified.gold.withValues(alpha: 0.1),
-                                          AppColorsUnified.goldDeep.withValues(alpha: 0.1),
+                                          AppColorsUnified.gold.withOpacity(0.1),
+                                          AppColorsUnified.goldDeep.withOpacity(0.1),
                                         ],
                                       ),
                                 borderRadius: BorderRadius.circular(8),
@@ -381,22 +381,22 @@ class ResponseItem extends StatelessWidget {
   // Métodos helper para jerarquía visual
   Color _getBackgroundColor() {
     if (response.isBestAnswer) {
-      return AppColorsUnified.orange.withValues(alpha: 0.05);
+      return AppColorsUnified.orange.withOpacity(0.05);
     }
     if (isNested) {
-      return AppColorsUnified.gold.withValues(alpha: 0.02);
+      return AppColorsUnified.gold.withOpacity(0.02);
     }
     return AppColorsUnified.surface;
   }
 
   Color _getBorderColor() {
     if (response.isBestAnswer) {
-      return AppColorsUnified.orange.withValues(alpha: 0.3);
+      return AppColorsUnified.orange.withOpacity(0.3);
     }
     if (isNested) {
-      return AppColorsUnified.gold.withValues(alpha: 0.2);
+      return AppColorsUnified.gold.withOpacity(0.2);
     }
-    return AppColorsUnified.backgroundDark.withValues(alpha: 0.1);
+    return AppColorsUnified.backgroundDark.withOpacity(0.1);
   }
 
   double _getBorderWidth() {
@@ -408,7 +408,7 @@ class ResponseItem extends StatelessWidget {
   // Método para construir la línea de conexión visual mejorada
   List<Widget> _buildConnectionLine() {
     return [
-      Container(
+      SizedBox(
         width: 24,
         height: 60,
         child: Stack(
@@ -425,8 +425,8 @@ class ResponseItem extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      AppColorsUnified.gold.withValues(alpha: 0.3),
-                      AppColorsUnified.gold.withValues(alpha: 0.6),
+                      AppColorsUnified.gold.withOpacity(0.3),
+                      AppColorsUnified.gold.withOpacity(0.6),
                     ],
                   ),
                 ),
@@ -439,7 +439,7 @@ class ResponseItem extends StatelessWidget {
               child: Container(
                 width: 16,
                 height: 2,
-                color: AppColorsUnified.gold.withValues(alpha: 0.5),
+                color: AppColorsUnified.gold.withOpacity(0.5),
               ),
             ),
             // Punto de conexión
@@ -450,7 +450,7 @@ class ResponseItem extends StatelessWidget {
                 width: 8,
                 height: 8,
                 decoration: BoxDecoration(
-                  color: AppColorsUnified.gold.withValues(alpha: 0.8),
+                  color: AppColorsUnified.gold.withOpacity(0.8),
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: AppColorsUnified.gold,

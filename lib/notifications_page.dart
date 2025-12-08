@@ -320,14 +320,14 @@ class _NotificationsPageState extends State<NotificationsPage>
         borderRadius: BorderRadius.circular(16),
         border: isImportant 
             ? Border.all(
-                color: categoryColor.withValues(alpha: 0.3),
+                color: categoryColor.withOpacity(0.3),
                 width: 2,
               )
             : null,
         boxShadow: [
           BoxShadow(
             color: isImportant
-                ? categoryColor.withValues(alpha: 0.15)
+                ? categoryColor.withOpacity(0.15)
                 : AppColorsUnified.fade(AppColorsUnified.textSecondary, 0.1),
             blurRadius: isImportant ? 12 : 8,
             offset: const Offset(0, 2),
@@ -356,21 +356,21 @@ class _NotificationsPageState extends State<NotificationsPage>
                           ? BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  categoryColor.withValues(alpha: 0.8),
+                                  categoryColor.withOpacity(0.8),
                                   categoryColor,
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: categoryColor.withValues(alpha: 0.3),
+                                  color: categoryColor.withOpacity(0.3),
                                   blurRadius: 6,
                                   offset: const Offset(0, 2),
                                 ),
                               ],
                             )
                           : BoxDecoration(
-                              color: categoryColor.withValues(alpha: 0.15),
+                              color: categoryColor.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(12),
                             ),
                       child: Icon(
@@ -541,10 +541,10 @@ class _NotificationsPageState extends State<NotificationsPage>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: categoryColor.withValues(alpha: 0.15),
+        color: categoryColor.withOpacity(0.15),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: categoryColor.withValues(alpha: 0.3),
+          color: categoryColor.withOpacity(0.3),
           width: 1,
         ),
       ),
@@ -561,7 +561,7 @@ class _NotificationsPageState extends State<NotificationsPage>
 
   Widget _buildActionButton(String label, IconData icon, Color color, VoidCallback onTap) {
     return Material(
-      color: color.withValues(alpha: 0.1),
+      color: color.withOpacity(0.1),
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: onTap,

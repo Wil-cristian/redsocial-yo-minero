@@ -361,7 +361,7 @@ class _AchievementsPageState extends State<AchievementsPage>
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: color.withValues(alpha: 0.1),
+            color: color.withOpacity(0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -403,12 +403,12 @@ class _AchievementsPageState extends State<AchievementsPage>
         color: AppColorsUnified.pureWhite,
         borderRadius: BorderRadius.circular(16),
         border: achievement.unlocked 
-            ? Border.all(color: color.withValues(alpha: 0.3), width: 2)
+            ? Border.all(color: color.withOpacity(0.3), width: 2)
             : null,
         boxShadow: [
           BoxShadow(
             color: achievement.unlocked 
-                ? color.withValues(alpha: 0.2)
+                ? color.withOpacity(0.2)
                 : AppColorsUnified.fade(AppColorsUnified.textSecondary, 0.1),
             blurRadius: achievement.unlocked ? 12 : 8,
             offset: const Offset(0, 2),
@@ -429,7 +429,7 @@ class _AchievementsPageState extends State<AchievementsPage>
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: isLocked ? null : [
                   BoxShadow(
-                    color: color.withValues(alpha: 0.3),
+                    color: color.withOpacity(0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),

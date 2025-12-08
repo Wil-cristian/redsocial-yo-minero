@@ -415,22 +415,22 @@ class _MyBookingsPageState extends State<MyBookingsPage> with SingleTickerProvid
     
     switch (status) {
       case BookingStatus.pending:
-        backgroundColor = AppColorsUnified.warning.withValues(alpha: 0.2);
+        backgroundColor = AppColorsUnified.warning.withOpacity(0.2);
         textColor = AppColorsUnified.warning;
         icon = Icons.pending;
         break;
       case BookingStatus.confirmed:
-        backgroundColor = AppColorsUnified.success.withValues(alpha: 0.2);
+        backgroundColor = AppColorsUnified.success.withOpacity(0.2);
         textColor = AppColorsUnified.success;
         icon = Icons.check_circle;
         break;
       case BookingStatus.cancelled:
-        backgroundColor = AppColorsUnified.error.withValues(alpha: 0.2);
+        backgroundColor = AppColorsUnified.error.withOpacity(0.2);
         textColor = AppColorsUnified.error;
         icon = Icons.cancel;
         break;
       case BookingStatus.completed:
-        backgroundColor = AppColorsUnified.gold.withValues(alpha: 0.2);
+        backgroundColor = AppColorsUnified.gold.withOpacity(0.2);
         textColor = AppColorsUnified.gold;
         icon = Icons.done_all;
         break;

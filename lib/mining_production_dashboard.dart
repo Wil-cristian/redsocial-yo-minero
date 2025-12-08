@@ -485,17 +485,17 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [color.withValues(alpha: 0.9), color],
+                    colors: [color.withOpacity(0.9), color],
                   ),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: color.withValues(alpha: 0.4),
+                      color: color.withOpacity(0.4),
                       blurRadius: 15,
                       offset: const Offset(0, 8),
                     ),
                     BoxShadow(
-                      color: color.withValues(alpha: 0.2 * _pulseController.value),
+                      color: color.withOpacity((0.2 * _pulseController.value).clamp(0.0, 1.0)),
                       blurRadius: 25 * _pulseController.value,
                       spreadRadius: 3 * _pulseController.value,
                     ),
@@ -682,12 +682,12 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [color, color.withValues(alpha: 0.7)],
+                        colors: [color, color.withOpacity(0.7)],
                       ),
                       borderRadius: BorderRadius.circular(6),
                       boxShadow: [
                         BoxShadow(
-                          color: color.withValues(alpha: 0.4),
+                          color: color.withOpacity(0.4),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -747,7 +747,7 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: mineralColor.withValues(alpha: 0.2),
+                  color: mineralColor.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(Icons.diamond, color: mineralColor, size: 24),
@@ -778,7 +778,7 @@ class _MiningProductionDashboardState extends State<MiningProductionDashboard>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: mineralColor.withValues(alpha: 0.15),
+                  color: mineralColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(

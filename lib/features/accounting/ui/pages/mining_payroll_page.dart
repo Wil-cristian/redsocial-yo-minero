@@ -214,16 +214,16 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     return Scaffold(
       backgroundColor: AppColorsUnified.backgroundDark,
       appBar: AppBar(
-        backgroundColor: AppColorsUnified.backgroundMedium,
+        backgroundColor: AppColorsUnified.backgroundDark,
         title: const Text(
           'Nómina Minera',
-          style: TextStyle(color: AppColorsUnified.goldPrimary),
+          style: TextStyle(color: AppColorsUnified.gold),
         ),
-        iconTheme: const IconThemeData(color: AppColorsUnified.goldPrimary),
+        iconTheme: const IconThemeData(color: AppColorsUnified.gold),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: AppColorsUnified.goldPrimary,
-          labelColor: AppColorsUnified.goldPrimary,
+          indicatorColor: AppColorsUnified.gold,
+          labelColor: AppColorsUnified.gold,
           unselectedLabelColor: AppColorsUnified.textSecondary,
           isScrollable: true,
           tabs: const [
@@ -240,7 +240,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
           ),
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
-            color: AppColorsUnified.backgroundMedium,
+            color: AppColorsUnified.backgroundDark,
             onSelected: (value) {
               if (value == 'calculate') {
                 _showCalculatePayrollDialog();
@@ -253,7 +253,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                 value: 'calculate',
                 child: Row(
                   children: [
-                    Icon(Icons.calculate, color: AppColorsUnified.goldPrimary),
+                    Icon(Icons.calculate, color: AppColorsUnified.gold),
                     SizedBox(width: 8),
                     Text('Calcular Nómina', style: TextStyle(color: AppColorsUnified.textPrimary)),
                   ],
@@ -263,7 +263,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                 value: 'export',
                 child: Row(
                   children: [
-                    Icon(Icons.download, color: AppColorsUnified.goldPrimary),
+                    Icon(Icons.download, color: AppColorsUnified.gold),
                     SizedBox(width: 8),
                     Text('Exportar', style: TextStyle(color: AppColorsUnified.textPrimary)),
                   ],
@@ -275,7 +275,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
       ),
       body: _isLoading
           ? const Center(
-              child: CircularProgressIndicator(color: AppColorsUnified.goldPrimary),
+              child: CircularProgressIndicator(color: AppColorsUnified.gold),
             )
           : TabBarView(
               controller: _tabController,
@@ -288,7 +288,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddEmployeeDialog,
-        backgroundColor: AppColorsUnified.goldPrimary,
+        backgroundColor: AppColorsUnified.gold,
         child: const Icon(Icons.person_add, color: Colors.black),
       ),
     );
@@ -343,7 +343,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -356,7 +356,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
           DropdownButton<String>(
             value: _selectedPeriod,
             dropdownColor: AppColorsUnified.backgroundDark,
-            style: const TextStyle(color: AppColorsUnified.goldPrimary),
+            style: const TextStyle(color: AppColorsUnified.gold),
             underline: const SizedBox(),
             items: [
               'Octubre 2024',
@@ -379,14 +379,14 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColorsUnified.goldPrimary.withValues(alpha: 0.3),
-            AppColorsUnified.backgroundMedium,
+            AppColorsUnified.gold.withValues(alpha: 0.3),
+            AppColorsUnified.backgroundDark,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColorsUnified.goldPrimary.withValues(alpha: 0.5)),
+        border: Border.all(color: AppColorsUnified.gold.withValues(alpha: 0.5)),
       ),
       child: Column(
         children: [
@@ -398,7 +398,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
           Text(
             _currencyFormat.format(_summary!.netPayroll),
             style: const TextStyle(
-              color: AppColorsUnified.goldPrimary,
+              color: AppColorsUnified.gold,
               fontSize: 32,
               fontWeight: FontWeight.bold,
             ),
@@ -441,7 +441,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
@@ -478,7 +478,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -557,7 +557,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -577,10 +577,10 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                   children: [
                     CircleAvatar(
                       radius: 16,
-                      backgroundColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.2),
+                      backgroundColor: AppColorsUnified.gold.withValues(alpha: 0.2),
                       child: Text(
                         emp.name.substring(0, 1),
-                        style: const TextStyle(color: AppColorsUnified.goldPrimary, fontSize: 12),
+                        style: const TextStyle(color: AppColorsUnified.gold, fontSize: 12),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -602,7 +602,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                     Text(
                       _currencyFormat.format(emp.netSalary),
                       style: const TextStyle(
-                        color: AppColorsUnified.goldPrimary,
+                        color: AppColorsUnified.gold,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -629,7 +629,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
 
   Widget _buildEmployeeCard(Employee emp) {
     return Card(
-      color: AppColorsUnified.backgroundMedium,
+      color: AppColorsUnified.backgroundDark,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
@@ -644,11 +644,11 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                 children: [
                   CircleAvatar(
                     radius: 24,
-                    backgroundColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.2),
+                    backgroundColor: AppColorsUnified.gold.withValues(alpha: 0.2),
                     child: Text(
                       emp.name.split(' ').map((n) => n.isNotEmpty ? n[0] : '').take(2).join(),
                       style: const TextStyle(
-                        color: AppColorsUnified.goldPrimary,
+                        color: AppColorsUnified.gold,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -735,7 +735,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
 
   Widget _buildReceiptCard(Employee emp) {
     return Card(
-      color: AppColorsUnified.backgroundMedium,
+      color: AppColorsUnified.backgroundDark,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ExpansionTile(
@@ -743,8 +743,8 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         leading: CircleAvatar(
           radius: 20,
-          backgroundColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.2),
-          child: const Icon(Icons.receipt, color: AppColorsUnified.goldPrimary, size: 20),
+          backgroundColor: AppColorsUnified.gold.withValues(alpha: 0.2),
+          child: const Icon(Icons.receipt, color: AppColorsUnified.gold, size: 20),
         ),
         title: Text(
           emp.name,
@@ -752,9 +752,9 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
         ),
         subtitle: Text(
           'Neto: ${_currencyFormat.format(emp.netSalary)}',
-          style: const TextStyle(color: AppColorsUnified.goldPrimary),
+          style: const TextStyle(color: AppColorsUnified.gold),
         ),
-        iconColor: AppColorsUnified.goldPrimary,
+        iconColor: AppColorsUnified.gold,
         collapsedIconColor: AppColorsUnified.textSecondary,
         children: [
           const Divider(color: AppColorsUnified.textSecondary),
@@ -782,15 +782,15 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Descargando recibo de ${emp.name}'),
-                      backgroundColor: AppColorsUnified.goldPrimary,
+                      backgroundColor: AppColorsUnified.gold,
                     ),
                   );
                 },
                 icon: const Icon(Icons.download, size: 16),
                 label: const Text('Descargar PDF'),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColorsUnified.goldPrimary,
-                  side: const BorderSide(color: AppColorsUnified.goldPrimary),
+                  foregroundColor: AppColorsUnified.gold,
+                  side: const BorderSide(color: AppColorsUnified.gold),
                 ),
               ),
             ],
@@ -817,7 +817,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
             _currencyFormat.format(amount),
             style: TextStyle(
               color: highlight
-                  ? AppColorsUnified.goldPrimary
+                  ? AppColorsUnified.gold
                   : isDeduction
                       ? Colors.red
                       : AppColorsUnified.textPrimary,
@@ -851,7 +851,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -914,7 +914,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -976,12 +976,12 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                   LineChartBarData(
                     spots: totals.asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value)).toList(),
                     isCurved: true,
-                    color: AppColorsUnified.goldPrimary,
+                    color: AppColorsUnified.gold,
                     barWidth: 3,
                     dotData: const FlDotData(show: true),
                     belowBarData: BarAreaData(
                       show: true,
-                      color: AppColorsUnified.goldPrimary.withValues(alpha: 0.1),
+                      color: AppColorsUnified.gold.withValues(alpha: 0.1),
                     ),
                   ),
                 ],
@@ -1001,7 +1001,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColorsUnified.backgroundMedium,
+        color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -1028,7 +1028,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Icon(icon, color: AppColorsUnified.goldPrimary, size: 20),
+          Icon(icon, color: AppColorsUnified.gold, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
@@ -1053,7 +1053,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -1066,7 +1066,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
             const Text(
               'Filtrar por Departamento',
               style: TextStyle(
-                color: AppColorsUnified.goldPrimary,
+                color: AppColorsUnified.gold,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -1084,10 +1084,10 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                     setState(() => _filterDepartment = dept);
                     Navigator.pop(context);
                   },
-                  selectedColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.3),
-                  checkmarkColor: AppColorsUnified.goldPrimary,
+                  selectedColor: AppColorsUnified.gold.withValues(alpha: 0.3),
+                  checkmarkColor: AppColorsUnified.gold,
                   labelStyle: TextStyle(
-                    color: isSelected ? AppColorsUnified.goldPrimary : AppColorsUnified.textSecondary,
+                    color: isSelected ? AppColorsUnified.gold : AppColorsUnified.textSecondary,
                   ),
                   backgroundColor: AppColorsUnified.backgroundDark,
                 );
@@ -1102,7 +1102,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
   void _showEmployeeDetails(Employee emp) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColorsUnified.backgroundMedium,
+      backgroundColor: AppColorsUnified.backgroundDark,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -1133,11 +1133,11 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                 children: [
                   CircleAvatar(
                     radius: 30,
-                    backgroundColor: AppColorsUnified.goldPrimary.withValues(alpha: 0.2),
+                    backgroundColor: AppColorsUnified.gold.withValues(alpha: 0.2),
                     child: Text(
                       emp.name.split(' ').map((n) => n.isNotEmpty ? n[0] : '').take(2).join(),
                       style: const TextStyle(
-                        color: AppColorsUnified.goldPrimary,
+                        color: AppColorsUnified.gold,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -1158,7 +1158,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                         ),
                         Text(
                           emp.position,
-                          style: const TextStyle(color: AppColorsUnified.goldPrimary),
+                          style: const TextStyle(color: AppColorsUnified.gold),
                         ),
                       ],
                     ),
@@ -1174,7 +1174,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
               const Text(
                 'Información Salarial',
                 style: TextStyle(
-                  color: AppColorsUnified.goldPrimary,
+                  color: AppColorsUnified.gold,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1202,7 +1202,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                   Text(
                     _currencyFormat.format(emp.netSalary),
                     style: const TextStyle(
-                      color: AppColorsUnified.goldPrimary,
+                      color: AppColorsUnified.gold,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -1218,8 +1218,8 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                       icon: const Icon(Icons.edit),
                       label: const Text('Editar'),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColorsUnified.goldPrimary,
-                        side: const BorderSide(color: AppColorsUnified.goldPrimary),
+                        foregroundColor: AppColorsUnified.gold,
+                        side: const BorderSide(color: AppColorsUnified.gold),
                       ),
                     ),
                   ),
@@ -1233,7 +1233,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                       icon: const Icon(Icons.receipt),
                       label: const Text('Ver Recibo'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColorsUnified.goldPrimary,
+                        backgroundColor: AppColorsUnified.gold,
                         foregroundColor: Colors.black,
                       ),
                     ),
@@ -1264,10 +1264,10 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColorsUnified.backgroundMedium,
+        backgroundColor: AppColorsUnified.backgroundDark,
         title: const Text(
           'Calcular Nómina',
-          style: TextStyle(color: AppColorsUnified.goldPrimary),
+          style: TextStyle(color: AppColorsUnified.gold),
         ),
         content: const Text(
           '¿Desea calcular la nómina del período actual? Esta acción actualizará los cálculos de todos los empleados.',
@@ -1288,7 +1288,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
                 ),
               );
             },
-            style: ElevatedButton.styleFrom(backgroundColor: AppColorsUnified.goldPrimary),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColorsUnified.gold),
             child: const Text('Calcular', style: TextStyle(color: Colors.black)),
           ),
         ],
@@ -1300,7 +1300,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Exportando nómina...'),
-        backgroundColor: AppColorsUnified.goldPrimary,
+        backgroundColor: AppColorsUnified.gold,
       ),
     );
   }
@@ -1310,7 +1310,7 @@ class _MiningPayrollPageState extends State<MiningPayrollPage>
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Función disponible próximamente'),
-        backgroundColor: AppColorsUnified.goldPrimary,
+        backgroundColor: AppColorsUnified.gold,
       ),
     );
   }

@@ -135,14 +135,14 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            AppColorsUnified.orange.withValues(alpha: 0.1),
-                            AppColors.secondary.withValues(alpha: 0.05),
+                            AppColorsUnified.orange.withOpacity(0.1),
+                            AppColors.secondary.withOpacity(0.05),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColorsUnified.orange.withValues(alpha: 0.1),
+                            color: AppColorsUnified.orange.withOpacity(0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
@@ -159,7 +159,7 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColorsUnified.orange.withValues(alpha: 0.3),
+                                  color: AppColorsUnified.orange.withOpacity(0.3),
                                   blurRadius: 12,
                                   offset: const Offset(0, 4),
                                 ),
@@ -199,13 +199,13 @@ class _ManageServicesPageState extends State<ManageServicesPage> {
                           end: Alignment.bottomRight,
                           colors: [
                             AppColorsUnified.pureWhite,
-                            AppColorsUnified.orange.withValues(alpha: 0.02),
+                            AppColorsUnified.orange.withOpacity(0.02),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColorsUnified.orange.withValues(alpha: 0.1),
+                            color: AppColorsUnified.orange.withOpacity(0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
