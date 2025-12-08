@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS financial_entries (
     expense_group VARCHAR(50),
     
     -- Detalles financieros
-    amount DECIMAL(15,2) NOT NULL CHECK (amount >= 0),
+    amount DECIMAL(20,2) NOT NULL CHECK (amount >= 0),
     currency VARCHAR(3) DEFAULT 'USD',
     description TEXT NOT NULL,
     reference_number VARCHAR(100),
@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS financial_accounts (
     account_number VARCHAR(100),
     bank_name VARCHAR(100),
     
-    initial_balance DECIMAL(15,2) DEFAULT 0,
-    current_balance DECIMAL(15,2) DEFAULT 0,
+    initial_balance DECIMAL(20,2) DEFAULT 0,
+    current_balance DECIMAL(20,2) DEFAULT 0,
     currency VARCHAR(3) DEFAULT 'USD',
     
     is_active BOOLEAN DEFAULT true,
