@@ -412,9 +412,9 @@ class _AccountingDashboardPageState extends State<AccountingDashboardPage>
       crossAxisCount: 2,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-      childAspectRatio: 4, // Más ancho que alto para cards ultra compactos
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12,
+      childAspectRatio: 2.2, // Mejor ratio para acomodar contenido
       children: metrics.map((metric) {
         return QuickMetricCard(
           label: metric['title'] as String,
