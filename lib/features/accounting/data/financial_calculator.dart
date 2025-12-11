@@ -1,4 +1,3 @@
-import '../models/financial_entry.dart';
 import '../models/financial_metrics.dart';
 
 /// Servicio para cálculos financieros y ratios

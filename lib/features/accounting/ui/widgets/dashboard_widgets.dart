@@ -205,8 +205,10 @@ class QuickMetricCard extends StatelessWidget {
           // Valor grande
           Text(
             value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.w700,
               color: color,
               letterSpacing: -0.5,
@@ -218,6 +220,8 @@ class QuickMetricCard extends StatelessWidget {
           // Label pequeño
           Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,

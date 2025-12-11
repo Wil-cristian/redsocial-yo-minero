@@ -330,9 +330,11 @@ import 'core/theme/app_colors_unified.dart';
                     ),
                   ],
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
                     // Like button
                     GestureDetector(
                       onTap: _toggleLike,
@@ -377,6 +379,8 @@ import 'core/theme/app_colors_unified.dart';
                       ),
                     ),
                     
+                    const SizedBox(width: 12),
+                    
                     // Comment button
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -400,6 +404,8 @@ import 'core/theme/app_colors_unified.dart';
                         ],
                       ),
                     ),
+                    
+                    const SizedBox(width: 12),
                     
                     // Share button
                     Container(
@@ -425,6 +431,7 @@ import 'core/theme/app_colors_unified.dart';
                       ),
                     ),
                   ],
+                  ),
                 ),
               ),
               

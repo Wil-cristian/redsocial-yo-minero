@@ -2333,30 +2333,36 @@ class _ProductDetailsModalContentState extends State<_ProductDetailsModalContent
                             const SizedBox(height: 20),
                             
                             // Acciones
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                _buildActionButton(
-                                  icon: Icons.favorite_border,
-                                  label: '${widget.post['likes_count'] ?? 0}',
-                                  onTap: () => debugPrint('Like'),
-                                ),
-                                _buildActionButton(
-                                  icon: Icons.chat_bubble_outline,
-                                  label: '0',
-                                  onTap: () => debugPrint('Comentar'),
-                                ),
-                                _buildActionButton(
-                                  icon: _isSaved ? Icons.bookmark : Icons.bookmark_border,
-                                  label: '',
-                                  onTap: _toggleSave,
-                                ),
-                                _buildActionButton(
-                                  icon: Icons.share_outlined,
-                                  label: '',
-                                  onTap: () => debugPrint('Compartir'),
-                                ),
-                              ],
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  _buildActionButton(
+                                    icon: Icons.favorite_border,
+                                    label: '${widget.post['likes_count'] ?? 0}',
+                                    onTap: () => debugPrint('Like'),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  _buildActionButton(
+                                    icon: Icons.chat_bubble_outline,
+                                    label: '0',
+                                    onTap: () => debugPrint('Comentar'),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  _buildActionButton(
+                                    icon: _isSaved ? Icons.bookmark : Icons.bookmark_border,
+                                    label: '',
+                                    onTap: _toggleSave,
+                                  ),
+                                  const SizedBox(width: 12),
+                                  _buildActionButton(
+                                    icon: Icons.share_outlined,
+                                    label: '',
+                                    onTap: () => debugPrint('Compartir'),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),

@@ -333,47 +333,57 @@ class InventoryItemCard extends StatelessWidget {
         color: AppColorsUnified.backgroundDark,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildMetricItem(
-            icon: Icons.visibility,
-            value: '${item.metrics.views}',
-            label: 'Vistas',
-          ),
-          _buildMetricItem(
-            icon: Icons.favorite,
-            value: '${item.metrics.likes}',
-            label: 'Likes',
-            color: AppColorsUnified.error,
-          ),
-          _buildMetricItem(
-            icon: Icons.comment,
-            value: '${item.metrics.comments}',
-            label: 'Comentarios',
-            color: AppColorsUnified.companyBlue,
-          ),
-          _buildMetricItem(
-            icon: Icons.chat_bubble,
-            value: '${item.metrics.chats}',
-            label: 'Chats',
-            color: AppColorsUnified.success,
-          ),
-          if (item.type == InventoryItemType.request)
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
             _buildMetricItem(
-              icon: Icons.question_answer,
-              value: '${item.metrics.responses}',
-              label: 'Respuestas',
-              color: Colors.purple,
+              icon: Icons.visibility,
+              value: '${item.metrics.views}',
+              label: 'Vistas',
             ),
-          if (item.type == InventoryItemType.poll && item.metrics.totalVotes != null)
+            const SizedBox(width: 12),
             _buildMetricItem(
-              icon: Icons.how_to_vote,
-              value: '${item.metrics.totalVotes}',
-              label: 'Votos',
-              color: Colors.green,
+              icon: Icons.favorite,
+              value: '${item.metrics.likes}',
+              label: 'Likes',
+              color: AppColorsUnified.error,
             ),
-        ],
+            const SizedBox(width: 12),
+            _buildMetricItem(
+              icon: Icons.comment,
+              value: '${item.metrics.comments}',
+              label: 'Comentarios',
+              color: AppColorsUnified.companyBlue,
+            ),
+            const SizedBox(width: 12),
+            _buildMetricItem(
+              icon: Icons.chat_bubble,
+              value: '${item.metrics.chats}',
+              label: 'Chats',
+              color: AppColorsUnified.success,
+            ),
+            if (item.type == InventoryItemType.request) ...[
+              const SizedBox(width: 12),
+              _buildMetricItem(
+                icon: Icons.question_answer,
+                value: '${item.metrics.responses}',
+                label: 'Respuestas',
+                color: Colors.purple,
+              ),
+            ],
+            if (item.type == InventoryItemType.poll && item.metrics.totalVotes != null) ...[
+              const SizedBox(width: 12),
+              _buildMetricItem(
+                icon: Icons.how_to_vote,
+                value: '${item.metrics.totalVotes}',
+                label: 'Votos',
+                color: Colors.green,
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

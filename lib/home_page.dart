@@ -239,7 +239,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           // Contenido del header
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -330,10 +330,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ],
                   ),
                   
-                  const Spacer(),
+                  const SizedBox(height: 12),
                   
                   // Saludo con efecto
-                  TweenAnimationBuilder<double>(
+                  Flexible(
+                    child: TweenAnimationBuilder<double>(
                     tween: Tween(begin: 0, end: 1),
                     duration: const Duration(milliseconds: 800),
                     builder: (context, value, child) {
@@ -410,7 +411,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  ),
                 ],
               ),
             ),

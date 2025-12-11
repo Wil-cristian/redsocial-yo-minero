@@ -358,7 +358,6 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
           
           // PRECIO Y ACCIONES
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Precio
               Container(
@@ -378,41 +377,47 @@ class _Premium3DProductCarouselState extends State<Premium3DProductCarousel>
                 ),
               ),
               
-              const Spacer(),
+              const SizedBox(width: 8),
               
               // ACCIONES - likes, comentarios, guardar, compartir
-              Row(
-                children: [
-                  // Like
-                  _buildActionButton(
-                    Icons.favorite_border,
-                    widget.likes?.toString() ?? '0',
-                    widget.onLike,
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      // Like
+                      _buildActionButton(
+                        Icons.favorite_border,
+                        widget.likes?.toString() ?? '0',
+                        widget.onLike,
+                      ),
+                      const SizedBox(width: 12),
+                      // Comentarios
+                      _buildActionButton(
+                        Icons.chat_bubble_outline,
+                        widget.comments?.toString() ?? '0',
+                        widget.onComment,
+                      ),
+                      const SizedBox(width: 12),
+                      // Guardar
+                      if (widget.onSave != null)
+                        _buildActionButton(
+                          widget.isSaved == true ? Icons.bookmark : Icons.bookmark_border,
+                          '',
+                          widget.onSave,
+                        ),
+                      if (widget.onSave != null)
+                        const SizedBox(width: 12),
+                      // Compartir
+                      _buildActionButton(
+                        Icons.share_outlined,
+                        '',
+                        widget.onShare,
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 16),
-                  // Comentarios
-                  _buildActionButton(
-                    Icons.chat_bubble_outline,
-                    widget.comments?.toString() ?? '0',
-                    widget.onComment,
-                  ),
-                  const SizedBox(width: 16),
-                  // Guardar
-                  if (widget.onSave != null)
-                    _buildActionButton(
-                      widget.isSaved == true ? Icons.bookmark : Icons.bookmark_border,
-                      '',
-                      widget.onSave,
-                    ),
-                  if (widget.onSave != null)
-                    const SizedBox(width: 16),
-                  // Compartir
-                  _buildActionButton(
-                    Icons.share_outlined,
-                    '',
-                    widget.onShare,
-                  ),
-                ],
+                ),
               ),
             ],
           ),

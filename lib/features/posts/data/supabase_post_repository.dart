@@ -288,7 +288,7 @@ class SupabasePostRepository implements PostRepository {
     final postType = _parsePostType(json['post_type'] as String? ?? json['type'] as String?);
     
     // 🔍 DEBUG: Ver qué tipo se parsea
-    debugPrint('🏷️ Parseando post ${json['id']}: type_raw=${json['post_type']}, type=${postType}');
+    debugPrint('🏷️ Parseando post ${json['id']}: type_raw=${json['post_type']}, type=$postType');
     
     // Extraer images de la columna TEXT[]
     final images = json['images'] != null 

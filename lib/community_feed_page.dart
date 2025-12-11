@@ -2009,7 +2009,7 @@ class _PollInteractiveCTAState extends State<_PollInteractiveCTA> {
                       Icon(Icons.how_to_vote_rounded, size: 14, color: AppColorsUnified.companyBlue),
                       const SizedBox(width: 6),
                       Text(
-                        '${_totalVotes} ${_totalVotes == 1 ? "voto" : "votos"}',
+                        '$_totalVotes ${_totalVotes == 1 ? "voto" : "votos"}',
                         style: const TextStyle(
                           fontSize: 12,
                           color: AppColorsUnified.textSecondary,
