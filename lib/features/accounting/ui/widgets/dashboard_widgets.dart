@@ -156,7 +156,7 @@ class QuickMetricCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -166,7 +166,7 @@ class QuickMetricCard extends StatelessWidget {
             color.withOpacity(0.03),
           ],
         ),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: color.withOpacity(0.15),
           width: 1,
@@ -177,56 +177,61 @@ class QuickMetricCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           // Header row con icono y trend
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Icono circular pequeño
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(8),
+          SizedBox(
+            height: 16,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Icono circular pequeño
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Icon(icon, color: color, size: 12),
                 ),
-                child: Icon(icon, color: color, size: 14),
-              ),
-              // Trend indicator
-              if (trend != null)
-                Icon(
-                  isPositiveTrend ? Icons.north_east : Icons.south_east,
-                  size: 12,
-                  color: isPositiveTrend 
-                      ? AppColorsUnified.success 
-                      : AppColorsUnified.error,
-                ),
-            ],
+                // Trend indicator
+                if (trend != null)
+                  Icon(
+                    isPositiveTrend ? Icons.north_east : Icons.south_east,
+                    size: 10,
+                    color: isPositiveTrend 
+                        ? AppColorsUnified.success 
+                        : AppColorsUnified.error,
+                  ),
+              ],
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 6),
           
-          // Valor grande
+          // Valor grande - muy compacto
           Text(
             value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w700,
               color: color,
-              letterSpacing: -0.5,
-              height: 1,
+              letterSpacing: -0.3,
+              height: 1.1,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           
           // Label pequeño
           Text(
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 11,
+              fontSize: 10,
               fontWeight: FontWeight.w500,
               color: AppColorsUnified.textSecondary,
-              letterSpacing: 0.2,
+              letterSpacing: 0.1,
+              height: 1,
             ),
           ),
         ],
